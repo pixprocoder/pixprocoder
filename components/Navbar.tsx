@@ -6,7 +6,7 @@ import Button from "./Button";
 
 const Navbar = () => {
   return (
-    <header className="py-8">
+    <header className="py-8 hidden">
       <nav className="flex justify-between items-center font-montserrat">
         <div>
           <Link href="/">
