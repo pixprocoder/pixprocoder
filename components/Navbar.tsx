@@ -2,10 +2,11 @@ import Image from "next/image";
 import logo from "@/public/vertical-logo.png";
 import { navLinks } from "@/constants";
 import Link from "next/link";
+import Button from "./Button";
 
 const Navbar = () => {
   return (
-    <header className="py-6">
+    <header className="py-8">
       <nav className="flex justify-between items-center font-montserrat">
         <div>
           <Link href="/">
@@ -25,9 +26,7 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-        <button className="nav-item py-2 px-4 bg-[#0084FF] hover:bg-[#2f6aff] rounded-md">
-          Hire Me
-        </button>
+        <Button bgColor="bg-[#0084FF]" title="Hire Me" />
       </nav>
     </header>
   );

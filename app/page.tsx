@@ -1,7 +1,9 @@
+import Hero from "@/components/Hero";
+
 export default function Home() {
   return (
     <section className=" text-white">
-      <h1>Home</h1>
+      <Hero />
       <h1>About</h1>
       <h1>Portfolio</h1>
       <h1>Services</h1>
