@@ -10,11 +10,11 @@ export const navLinks = [
 export const skills = [];
 
 export const portfolioMenu = [
-  { id: 1, value: "All" },
-  { id: 2, value: "Full Stack" },
-  { id: 3, value: "Graphic Design" },
-  { id: 4, value: "Angular" },
-  { id: 5, value: "Node" },
+  { href: "/", id: 1, value: "All" },
+  { href: "/", id: 2, value: "Full Stack" },
+  { href: "/", id: 3, value: "Graphic Design" },
+  { href: "/", id: 4, value: "Angular" },
+  { href: "/", id: 5, value: "Node" },
 ];
 
 export const services = [];
@@ -24,7 +24,7 @@ export const projects = [
     id: 1,
     title: "Project 1",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://picsum.photos/200/300",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
   },
@@ -32,7 +32,7 @@ export const projects = [
     id: 2,
     title: "Project 2",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://picsum.photos/200/300",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
   },
@@ -40,7 +40,7 @@ export const projects = [
     id: 1,
     title: "Project 3",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://picsum.photos/200/300",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
   },

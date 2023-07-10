@@ -1,6 +1,7 @@
 import { portfolioMenu, projects } from "@/constants";
 import React from "react";
 import PortfolioCard from "./PortfolioCard";
+import Link from "next/link";
 
 const Portfolio = () => {
   return (
@@ -8,14 +9,18 @@ const Portfolio = () => {
       <h1 className=" text-center text-5xl font-montserrat font-bold">
         Portfolio
       </h1>
-      <div className="lg:flex hidden justify-center items-center   gap-4 mt-10">
+      <div className="flex flex-wrap justify-center items-center   gap-4 mt-10">
         {portfolioMenu.map((item) => (
-          <button key={item.id} className="btn btn-sm   btn-outline-primary">
+          <Link
+            href={item.href}
+            key={item.id}
+            className="hover:font-bold  nav-item  hover:text-[#0084FF]"
+          >
             {item.value}
-          </button>
+          </Link>
         ))}
       </div>
-      <div className="grid lg:grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4 mt-10">
         {projects.map((p) => (
           <PortfolioCard
             key={p.id}

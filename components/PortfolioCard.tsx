@@ -18,7 +18,7 @@ const PortfolioCard = ({
   liveLink,
 }: Props) => {
   return (
-    <div className="card card-compact  bg-base-100 shadow-xl">
+    <div className="card card-compact  bg-base-100 shadow-xl mx-">
       <figure>
         <img src={image} alt="Shoes" />
       </figure>
@@ -26,12 +26,10 @@ const PortfolioCard = ({
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>
         <div className="card-actions justify-start">
-          <Button title="Github">
+          <Button href={gitHubLink} value="gitHubLink">
             <Link href={gitHubLink}></Link>
           </Button>
-          <Button title="LiveLink">
-            <Link href={liveLink}></Link>
-          </Button>
+          <Button href={liveLink} value="LiveLink"></Button>
         </div>
       </div>
     </div>

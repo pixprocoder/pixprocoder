@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { MouseEventHandler } from "react";
 
 type Props = {
   children?: React.ReactNode;
-  title: string;
+  title?: string;
   leftIcon?: string | null;
   rightIcon?: string | null;
   handleClick?: MouseEventHandler;
@@ -11,6 +12,8 @@ type Props = {
   type?: "button" | "submit" | "reset" | undefined;
   bgColor?: string;
   textColor?: string;
+  href?: string;
+  value?: string;
 };
 
 const Button = ({
@@ -22,6 +25,8 @@ const Button = ({
   type,
   bgColor,
   textColor,
+  href,
+  value,
 }: Props) => {
   return (
     <button
@@ -35,6 +40,7 @@ const Button = ({
     >
       {leftIcon && <Image src={leftIcon} width={14} height={14} alt="left" />}
       {title}
+      {href && <Link href={href}>{value}</Link>}
       {rightIcon && (
         <Image src={rightIcon} width={14} height={14} alt="right" />
       )}
