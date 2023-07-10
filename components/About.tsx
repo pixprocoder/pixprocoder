@@ -8,11 +8,11 @@ const About = () => {
       <h1 className=" text-center text-5xl font-montserrat font-bold">
         About Me
       </h1>
-      <div className="flex gap-6 justify-evenly items-center mt-10">
-        <div className="w-36 h-36">
+      <div className="flex flex-col mx-4 lg:flex-row gap-6 justify-evenly items-center mt-10">
+        <div className="lg:w-36 lg:h-36 ">
           <Image src={profile} alt="" />
         </div>
-        <div className="w-2/4">
+        <div className="">
           <div>
             <h1 className="font-bold text-blue-600 text-4xl">Samsul kobir</h1>
             <h1 className="my-4">

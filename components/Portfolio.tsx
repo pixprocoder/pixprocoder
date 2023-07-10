@@ -8,7 +8,7 @@ const Portfolio = () => {
       <h1 className=" text-center text-5xl font-montserrat font-bold">
         Portfolio
       </h1>
-      <div className="flex justify-center items-center   gap-4 mt-10">
+      <div className="lg:flex hidden justify-center items-center   gap-4 mt-10">
         {portfolioMenu.map((item) => (
           <button key={item.id} className="btn btn-sm   btn-outline-primary">
             {item.value}
