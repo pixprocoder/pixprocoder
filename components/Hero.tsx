@@ -1,5 +1,5 @@
 import Image from "next/image";
-import banner from "../public/banner.png";
+import banner from "../public/images/banner.png";
 import Button from "./Button";
 
 const Hero = () => {
