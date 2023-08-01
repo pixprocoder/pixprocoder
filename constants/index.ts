@@ -1,10 +1,10 @@
 export const navLinks = [
-  { href: "/", key: "Home" },
-  { href: "/", key: "About" },
-  { href: "/", key: "Portfolio" },
-  { href: "/", key: "Services" },
-  { href: "/", key: "Skills" },
-  { href: "/", key: "Contact" },
+  { to: "home", key: "Home" },
+  { to: "about", key: "About" },
+  { to: "portfolio", key: "Portfolio" },
+  { to: "services", key: "Services" },
+  { to: "skills", key: "Skills" },
+  { to: "contact", key: "Contact" },
 ];
 
 export const skills = [];
@@ -21,7 +21,7 @@ export const services = [];
 
 export const projects = [
   {
-    id: 1,
+    id: "1",
     title: "Project 1",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
@@ -29,7 +29,7 @@ export const projects = [
     liveLink: "https://github.com/pixprocoder",
   },
   {
-    id: 2,
+    id: "2",
     title: "Project 2",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
@@ -37,7 +37,31 @@ export const projects = [
     liveLink: "https://github.com/pixprocoder",
   },
   {
-    id: 1,
+    id: "3",
+    title: "Project 3",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    gitHubLink: "https://github.com/pixprocoder",
+    liveLink: "https://github.com/pixprocoder",
+  },
+  {
+    id: "4",
+    title: "Project 3",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    gitHubLink: "https://github.com/pixprocoder",
+    liveLink: "https://github.com/pixprocoder",
+  },
+  {
+    id: "5",
+    title: "Project 3",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    gitHubLink: "https://github.com/pixprocoder",
+    liveLink: "https://github.com/pixprocoder",
+  },
+  {
+    id: "6",
     title: "Project 3",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",

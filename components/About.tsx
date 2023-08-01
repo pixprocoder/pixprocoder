@@ -9,10 +9,10 @@ const About = () => {
         About Me
       </h1>
       <div className="flex flex-col mx-4 lg:flex-row gap-6 justify-evenly items-center mt-10">
-        <div className=" lg:w-36 lg:h-36 ">
-          <Image src={profile} alt="" />
+        <div className=" justify-center items-center flex flex-1 ">
+          <Image width={250} height={250} src={profile} alt="" />
         </div>
-        <div className="">
+        <div className="flex-1">
           <div>
             <h1 className="font-bold text-blue-600 text-4xl">Samsul kobir</h1>
             <h1 className="my-4">

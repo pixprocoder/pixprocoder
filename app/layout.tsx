@@ -1,8 +1,7 @@
+import Navbar from "@/components/shared/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
-
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/shared/Footer";
 
 export const metadata: Metadata = {
   title: "Pixprocoder",
@@ -17,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className="container mx-auto">
-        <Navbar />
         <main>{children}</main>
-        <Footer />
       </body>
     </html>
   );

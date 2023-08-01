@@ -3,10 +3,11 @@ import Image from "next/image";
 import logo from "@/public/vertical-logo.png";
 import { navLinks } from "@/constants";
 import Link from "next/link";
-import Button from "./Button";
+import Button from "../Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
+import { Link as ScrollLink } from "react-scroll";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -20,20 +21,20 @@ const Navbar = () => {
         </div>
 
         <ul
-          className={`absolute lg:static duration-500 z-10  lg:bg-none   ${
+          className={`absolute lg:static duration-500 z-10 lg:bg-none ${
             open
-              ? "top-0 bg-[#101630]  bg-opacity-90 my-6 gap-6 p-6 w-full "
-              : "-top-48 "
+              ? "top-0 bg-[#101630] bg-opacity-90 my-6 gap-6 p-6 w-full"
+              : "-top-48"
           } flex flex-col lg:flex-row nav-item uppercase`}
         >
           {navLinks.map((link) => (
-            <Link
-              className=" hover:font-bold mr-6   hover:text-[#0084FF]"
-              href={link.href}
-              key={link.key}
-            >
-              {link.key}
-            </Link>
+            <li key={link.key}>
+              <Link href={`/components/${link.to}`}>
+                <span className="hover:font-bold mr-6 hover:text-[#0084FF]">
+                  {link.key}
+                </span>
+              </Link>
+            </li>
           ))}
         </ul>
 
