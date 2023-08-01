@@ -15,6 +15,7 @@ export const portfolioMenu = [
   { href: "/", id: 3, value: "Graphic Design" },
   { href: "/", id: 4, value: "Angular" },
   { href: "/", id: 5, value: "Node" },
+  { href: "/", id: 6, value: "React" },
 ];
 
 export const services = [];
@@ -27,6 +28,7 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Full Stack",
   },
   {
     id: "2",
@@ -35,6 +37,7 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Graphic Design",
   },
   {
     id: "3",
@@ -43,6 +46,7 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Graphic Design",
   },
   {
     id: "4",
@@ -51,6 +55,7 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Angular",
   },
   {
     id: "5",
@@ -59,6 +64,7 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Node",
   },
   {
     id: "6",
@@ -67,5 +73,6 @@ export const projects = [
     image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
+    category: "Node",
   },
 ];
