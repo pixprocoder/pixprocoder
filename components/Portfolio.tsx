@@ -2,7 +2,6 @@
 import { portfolioMenu, projects } from "@/constants";
 import React, { useState } from "react";
 import PortfolioCard from "./PortfolioCard";
-import Link from "next/link";
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);
@@ -46,7 +45,7 @@ const Portfolio = () => {
       {isCategoryEmpty ? (
         <>
           <p className="text-3xl text-center h-[40vh] flex mx-2 justify-center items-center">
-            Please Wait Project is coming soon 😊
+            Project is coming soon 😊
           </p>
         </>
       ) : (

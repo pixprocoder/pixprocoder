@@ -3,36 +3,36 @@ import React from "react";
 const Contact = () => {
   return (
     <section className="my-40">
-      <h1 className=" text-center text-5xl font-montserrat font-bold ">
-        Get in touch
+      <h1 className=" mb-10 text-center text-5xl font-montserrat font-bold ">
+        Have you any question?
       </h1>
-      <div className="hero ">
+      <div className=" ">
         <div className="hero-content flex-col lg:flex-row">
           <div className="card  w-full  shadow-2xl bg-base-100">
             <div className="card-body">
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Name</span>
-                </label>
                 <input
                   type="text"
                   placeholder="Your Name"
                   className="input input-bordered"
                 />
               </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
+              <div className="form-control my-2">
                 <input
                   type="email"
                   placeholder="Your Email"
                   className="input input-bordered"
                 />
               </div>
+              <div className="form-control my-2">
+                <textarea
+                  placeholder="Your message"
+                  className="textarea textarea-bordered textarea-md w-full "
+                ></textarea>
+              </div>
 
-              <div className="form-control mt-6">
-                <button className="btn btn-primary">Send</button>
+              <div className="form-control my-3">
+                <button className="btn outline-none bg-blue-500">Send</button>
               </div>
             </div>
           </div>
