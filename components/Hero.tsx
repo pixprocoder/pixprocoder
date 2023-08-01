@@ -19,8 +19,8 @@ const Hero = () => {
         </div>
 
         <div className="flex space-x-4 my-4">
-          <Button title="Explore More" />
-          <Button title="Hire Me" bgColor="bg-gray-800" />
+          <Button bgColor="bg-gray-800" title="Explore More" />
+          <Button title="Hire Me" />
         </div>
       </div>
       <div className="flex-1 hidden lg:block">
