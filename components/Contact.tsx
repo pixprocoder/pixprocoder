@@ -38,12 +38,13 @@ const Contact = () => {
           </div>
           <div className="card  w-full  shadow-2xl bg-base-100">
             <div className="card-body">
-              <div className="form-control">
+              <div className="form-control gap-4 flex-row flex justify-center items-center">
                 <input
                   type="text"
-                  placeholder="Subscribe to newsletter"
-                  className="input input-bordered"
+                  placeholder="Subscribe to Latest Update"
+                  className="input input-bordered w-full "
                 />
+                <button className="btn ">Subscribe</button>
               </div>
             </div>
           </div>
