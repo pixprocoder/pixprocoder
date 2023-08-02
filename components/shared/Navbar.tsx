@@ -31,7 +31,7 @@ const Navbar = () => {
         <ul
           className={`absolute lg:static duration-500 z-10 lg:bg-none ${
             open
-              ? "top-0 bg-[#101630] bg-opacity-90 my-6 gap-6 p-6 w-full"
+              ? "top-0 bg-[#101630] bg-opacity-90 mb-6 gap-6 p-6 w-full"
               : "-top-48"
           } flex flex-col lg:flex-row nav-item uppercase`}
         >
@@ -55,18 +55,6 @@ const Navbar = () => {
                   {link.key}
                 </ScrollLink>
               )}
-              {/* <ScrollLink
-                activeClass="active"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-                to={`#${link.to}`}
-              >
-                {link.key}
-                <span className="hover:font-bold mr-6 hover:text-[#0084FF]">
-                </span>
-              </ScrollLink> */}
             </li>
           ))}
         </ul>
