@@ -16,7 +16,13 @@ import mobile from "../public/assets/mobile.png";
 import backend from "../public/assets/backend.png";
 import creator from "../public/assets/creator.png";
 
-export const navLinks = [
+export type NavLink = {
+  to: string;
+  key: string;
+  external?: boolean; // Make 'external' property optional with '?' to handle internal links.
+};
+
+export const navLinks: NavLink[] = [
   { to: "home", key: "Home" },
   { to: "about", key: "About" },
   { to: "portfolio", key: "Portfolio" },
