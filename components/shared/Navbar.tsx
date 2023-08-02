@@ -50,7 +50,10 @@ const Navbar = () => {
                   smooth={true}
                   offset={-70}
                   duration={1000}
-                  onClick={() => setIsMenuClicked(!false)}
+                  onClick={() => {
+                    setIsMenuClicked(!false);
+                    setOpen(!open);
+                  }}
                 >
                   {link.key}
                 </ScrollLink>
