@@ -12,16 +12,16 @@ import NextLink from "next/link";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [isMenuClicked, setIsMenuClicked] = useState(false);
+  const [isMenuClicked, setIsMenuClicked] = useState(true);
   return (
     <header
-      className={`py-8 ${
+      className={`py-4 ${
         isMenuClicked
-          ? "fixed top-0 left-0 w-full bg-[#101630] bg-opacity-90"
+          ? "fixed top-0 z-10 left-0 w-full bg-[#0f162e] bg-opacity-70"
           : ""
       }`}
     >
-      <nav className="flex justify-between items-center mx-4 font-montserrat">
+      <nav className="container flex justify-between items-center mx-auto font-montserrat">
         <div className="">
           <Link href="/">
             <Image src={logo} width={50} height={50} alt=" logo" />
@@ -50,7 +50,7 @@ const Navbar = () => {
                   smooth={true}
                   offset={-70}
                   duration={1000}
-                  onClick={() => setIsMenuClicked(false)}
+                  onClick={() => setIsMenuClicked(!false)}
                 >
                   {link.key}
                 </ScrollLink>

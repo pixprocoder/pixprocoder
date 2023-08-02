@@ -19,7 +19,7 @@ const Portfolio = () => {
   const isCategoryEmpty = filteredProjects.length === 0;
 
   return (
-    <section id="portfolio" className="my-40">
+    <section id="portfolio" className="pt-8 my-40">
       <h1 className=" text-center text-5xl font-montserrat font-bold ">
         Portfolio
       </h1>

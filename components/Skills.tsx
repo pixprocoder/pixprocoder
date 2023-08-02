@@ -4,7 +4,7 @@ import React from "react";
 
 function Skills() {
   return (
-    <section id="skills-section">
+    <section id="skills-section" className="my-40 pt-8">
       <h1 className=" mb-6 text-center text-5xl font-montserrat font-bold">
         Skills I have
       </h1>

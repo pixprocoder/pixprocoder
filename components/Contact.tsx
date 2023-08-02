@@ -2,7 +2,7 @@ import React from "react";
 
 const Contact = () => {
   return (
-    <section id="contact-section" className="my-40">
+    <section id="contact-section" className="pt-8 my-40">
       <h1 className=" mb-10 text-center text-5xl font-montserrat font-bold ">
         Have you any question?
       </h1>
