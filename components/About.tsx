@@ -9,7 +9,7 @@ const About = () => {
         <h1 className=" text-center text-5xl font-montserrat font-bold">
           About Me
         </h1>
-        <p className="text-center w-[50vw] mx-auto my-4">
+        <p className="text-center w-[80vh] lg:w-[50vw] mx-auto my-4">
           My Name is <span>Samsul Kobir</span>. I am a Full Stack web Developer.
           I am very passionate about building web applications. I love to work
           challenge tasks such as problem solving, Bug fixing et.. I love my
@@ -22,12 +22,13 @@ const About = () => {
         </div>
         <div className="flex-1">
           <div>
-            <h1 className="font-bold text-blue-600 text-4xl">Samsul kobir</h1>
+            <h1 className="font-bold text-blue-600 text-4xl">
+              Programmer | Designer | Developer
+            </h1>
             <h1 className="my-4">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam,
-              ratione ad. Aut sit explicabo aliquam placeat quasi adipisci
-              voluptates, a dolorum alias perspiciatis nisi natus, aliquid odit,
-              doloribus voluptatem in?
+              I am a Full Stack web Developer. I am very passionate about
+              building web applications. I love to work challenge tasks such as
+              problem solving, Bug fixing et.. I love my work :)
             </h1>
           </div>
           <div className=" border rounded-md p-4 gap-10">

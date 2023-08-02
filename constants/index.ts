@@ -11,6 +11,11 @@ import redux from "../public/tech/redux.png";
 import tailwind from "../public/tech/tailwind.png";
 import typescript from "../public/tech/typescript.png";
 
+import web from "../public/assets/web.png";
+import mobile from "../public/assets/mobile.png";
+import backend from "../public/assets/backend.png";
+import creator from "../public/assets/creator.png";
+
 export const navLinks = [
   { to: "home", key: "Home" },
   { to: "about", key: "About" },
@@ -88,24 +93,24 @@ export const projects = [
   },
 ];
 
-// const services = [
-//   {
-//     title: "Web Developer",
-//     icon: web,
-//   },
-//   {
-//     title: "React Native Developer",
-//     icon: mobile,
-//   },
-//   {
-//     title: "Backend Developer",
-//     icon: backend,
-//   },
-//   {
-//     title: "Content Creator",
-//     icon: creator,
-//   },
-// ];
+export const services = [
+  {
+    title: "Web Developer",
+    icon: web,
+  },
+  {
+    title: "React Native Developer",
+    icon: mobile,
+  },
+  {
+    title: "Backend Developer",
+    icon: backend,
+  },
+  {
+    title: "Content Creator",
+    icon: creator,
+  },
+];
 
 export const technologies = [
   {
