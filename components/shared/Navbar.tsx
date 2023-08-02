@@ -2,16 +2,25 @@
 import Image from "next/image";
 import logo from "@/public/vertical-logo.png";
 import { navLinks } from "@/constants";
+import { Link as ScrollLink } from "react-scroll";
 import Link from "next/link";
 import Button from "../Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
+import NextLink from "next/link";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [isMenuClicked, setIsMenuClicked] = useState(false);
   return (
-    <header className="py-8 ">
+    <header
+      className={`py-8 ${
+        isMenuClicked
+          ? "fixed top-0 left-0 w-full bg-[#101630] bg-opacity-90"
+          : ""
+      }`}
+    >
       <nav className="flex justify-between items-center mx-4 font-montserrat">
         <div className="">
           <Link href="/">
@@ -28,11 +37,36 @@ const Navbar = () => {
         >
           {navLinks.map((link) => (
             <li key={link.key}>
-              <Link href={`#${link.to}`}>
-                <span className="hover:font-bold mr-6 hover:text-[#0084FF]">
+              {link.external ? (
+                <NextLink href={link.to} passHref>
+                  <a>{link.key}</a>
+                </NextLink>
+              ) : (
+                <ScrollLink
+                  className="hover:font-bold mr-6 hover:text-[#0084FF] cursor-pointer"
+                  activeClass="active"
+                  to={link.to}
+                  spy={true}
+                  smooth={true}
+                  offset={-70}
+                  duration={1000}
+                  onClick={() => setIsMenuClicked(false)}
+                >
                   {link.key}
+                </ScrollLink>
+              )}
+              {/* <ScrollLink
+                activeClass="active"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}
+                to={`#${link.to}`}
+              >
+                {link.key}
+                <span className="hover:font-bold mr-6 hover:text-[#0084FF]">
                 </span>
-              </Link>
+              </ScrollLink> */}
             </li>
           ))}
         </ul>
