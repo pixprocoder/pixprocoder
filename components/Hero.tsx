@@ -34,7 +34,9 @@ const Hero = () => {
         </div>
 
         <div className="flex space-x-4 my-4">
-          <Button bgColor="bg-gray-800" title="Explore More" />
+          <span>
+            <Button bgColor="bg-gray-800" title="Explore More" />
+          </span>
           <div>
             <span onClick={openModal}>
               <Button bgColor="bg-[#0084FF]" title="Hire Me" />
