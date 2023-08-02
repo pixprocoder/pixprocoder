@@ -23,14 +23,15 @@ const PortfolioCard = ({
   return (
     <div className="card flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl ">
       <Link href={`/portfolio/${id}`}>
-        <div className="overflow-hidden mx-10 rounded-lg">
+        <div className="relative mx-10 rounded-lg flex justify-center overflow-hidden">
           <img
             src={image}
             alt="Image"
-            // layout="fill"
-            // objectFit="cover"
-            className="transform  transition-transform duration-500 hover:scale-125	"
+            className="transform transition-transform duration-500 hover:scale-125"
           />
+          {/* <p className="absolute bottom-0 text-blue-300  ">
+            Click Image to view case study
+          </p> */}
         </div>
       </Link>
       <div className="card-body">
