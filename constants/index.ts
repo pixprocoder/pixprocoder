@@ -21,8 +21,8 @@ export const navLinks = [
   { to: "about", key: "About" },
   { to: "portfolio", key: "Portfolio" },
   { to: "services", key: "Services" },
-  { to: "skills", key: "Skills" },
-  { to: "contact", key: "Contact" },
+  { to: "skills-section", key: "Skills" },
+  { to: "contact-section", key: "Contact" },
 ];
 
 export const skills = [];

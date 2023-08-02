@@ -7,7 +7,6 @@ import Button from "../Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
-import { Link as ScrollLink } from "react-scroll";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -29,7 +28,7 @@ const Navbar = () => {
         >
           {navLinks.map((link) => (
             <li key={link.key}>
-              <Link href={`/components/${link.to}`}>
+              <Link href={`#${link.to}`}>
                 <span className="hover:font-bold mr-6 hover:text-[#0084FF]">
                   {link.key}
                 </span>

@@ -5,7 +5,7 @@ import { services } from "@/constants";
 
 const Services = () => {
   return (
-    <section className="my-40">
+    <section id="services" className="my-40">
       <h1 className=" mb-16 text-center text-5xl font-montserrat font-bold ">
         Services I Provide
       </h1>
