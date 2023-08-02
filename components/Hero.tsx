@@ -1,8 +1,20 @@
+"use client";
 import Image from "next/image";
 import banner from "../public/images/banner.png";
-import Button from "./Button";
+import Button from "./shared/Button";
+import { useState } from "react";
+import HireMeModalPage from "./shared/Modal";
 
 const Hero = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
   return (
     <section
       id="home"
@@ -23,7 +35,12 @@ const Hero = () => {
 
         <div className="flex space-x-4 my-4">
           <Button bgColor="bg-gray-800" title="Explore More" />
-          <Button title="Hire Me" />
+          <div>
+            <span onClick={openModal}>
+              <Button bgColor="bg-[#0084FF]" title="Hire Me" />
+            </span>
+            <HireMeModalPage showModal={showModal} closeModal={closeModal} />
+          </div>
         </div>
       </div>
       <div className="flex-1 hidden lg:block">

@@ -4,15 +4,25 @@ import logo from "@/public/vertical-logo.png";
 import { navLinks } from "@/constants";
 import { Link as ScrollLink } from "react-scroll";
 import Link from "next/link";
-import Button from "../Button";
+import Button from "./Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
 import NextLink from "next/link";
+import HireMeModalPage from "./Modal";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
   return (
     <header
       className={`py-4 ${
@@ -63,7 +73,10 @@ const Navbar = () => {
         </ul>
 
         <div>
-          <Button bgColor="bg-[#0084FF]" title="Hire Me" />
+          <span onClick={openModal}>
+            <Button bgColor="bg-[#0084FF]" title="Hire Me" />
+          </span>
+          <HireMeModalPage showModal={showModal} closeModal={closeModal} />
         </div>
         <div
           className="lg:hidden block z-20 lg:z-0 "
