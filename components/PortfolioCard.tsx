@@ -9,6 +9,7 @@ type Props = {
   image: string;
   gitHubLink: string;
   liveLink: string;
+  tags?: string[] | undefined | null | any;
 };
 
 const PortfolioCard = ({
@@ -18,6 +19,7 @@ const PortfolioCard = ({
   image,
   gitHubLink,
   liveLink,
+  tags,
 }: Props) => {
   return (
     <div className="card flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl ">
@@ -36,6 +38,13 @@ const PortfolioCard = ({
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>
+        <div className="flex gap-2">
+          {tags?.map((t: any) => (
+            <>
+              <span className="text-green-600">#{t?.name}</span>
+            </>
+          ))}
+        </div>
         <div className="card-actions justify-start">
           <Link className="underline text-blue-500" href={gitHubLink}>
             GitHub

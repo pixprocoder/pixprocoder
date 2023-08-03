@@ -50,6 +50,17 @@ export const portfolioMenu = [
  * 
  */
 
+// type IProject = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   image: string;
+//   gitHubLink: string;
+//   liveLink: string;
+//   category: string;
+//   tags?: [] | null;
+// };
+
 export const projects = [
   {
     id: "1",
@@ -67,6 +78,20 @@ export const projects = [
     description:
       "This is an E-commerce website. full stack application. there are so many features are in this website ",
     image: "https://i.ibb.co/Zzxcbfc/Asset-2-3x.png",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "Next.js",
+        color: "green-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "pink-text-gradient",
+      },
+    ],
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Full Stack",
@@ -77,6 +102,20 @@ export const projects = [
     description:
       "Problem solving website. This website has functionality such us calculation. visit for more info :) ",
     image: "https://i.ibb.co/Krh5RCR/Asset-3-3x.png",
+    tags: [
+      {
+        name: "node.js",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "bootstrap",
+        color: "green-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "pink-text-gradient",
+      },
+    ],
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Graphic Design",
@@ -104,6 +143,20 @@ export const projects = [
   {
     id: "6",
     title: "Project 3",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "restapi",
+        color: "green-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "pink-text-gradient",
+      },
+    ],
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
     image: "https://i.ibb.co/Zzxcbfc/Asset-2-3x.png",
     gitHubLink: "https://github.com/pixprocoder",

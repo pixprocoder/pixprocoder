@@ -59,6 +59,7 @@ const Portfolio = () => {
               image={p.image}
               gitHubLink={p.gitHubLink}
               liveLink={p.liveLink}
+              tags={p.tags}
             />
           ))}
         </div>
