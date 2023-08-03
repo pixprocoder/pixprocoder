@@ -41,49 +41,62 @@ export const portfolioMenu = [
   { href: "/", id: 5, value: "Node" },
   { href: "/", id: 6, value: "React" },
 ];
+/**
+ * 
+
+
+
+
+ * 
+ */
 
 export const projects = [
   {
     id: "1",
-    title: "Project 1",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    title: "Blog Hub",
+    description:
+      "In This website users can read blog posts. and they can Track how much time is required to read specific blog post",
+    image: "https://i.ibb.co/kqTZcPF/Asset-1-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Full Stack",
   },
   {
     id: "2",
-    title: "Project 2",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    title: "Ema john",
+    description:
+      "This is an E-commerce website. full stack application. there are so many features are in this website ",
+    image: "https://i.ibb.co/Zzxcbfc/Asset-2-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
-    category: "Graphic Design",
+    category: "Full Stack",
   },
   {
     id: "3",
-    title: "Project 3",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    title: "Geometry Genius",
+    description:
+      "Problem solving website. This website has functionality such us calculation. visit for more info :) ",
+    image: "https://i.ibb.co/Krh5RCR/Asset-3-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Graphic Design",
   },
   {
     id: "4",
-    title: "Project 3",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    title: "AI Universe Hub",
+    description:
+      "This website is for data fetching. how to read data and implement them and show them in the ui. ",
+    image: "https://i.ibb.co/xHRWwrC/Asset-4-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Angular",
   },
   {
     id: "5",
-    title: "Project 3",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    title: "Quiz Hero",
+    description:
+      "Quiz Hero is an website were users can learn and paly with quiz. they can be able to see their result and much more ",
+    image: "https://i.ibb.co/ccY5JL1/Asset-5-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Node",
@@ -92,7 +105,7 @@ export const projects = [
     id: "6",
     title: "Project 3",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/c62w716/analog-watch-g91b90204f-640.jpg",
+    image: "https://i.ibb.co/Zzxcbfc/Asset-2-3x.png",
     gitHubLink: "https://github.com/pixprocoder",
     liveLink: "https://github.com/pixprocoder",
     category: "Node",
