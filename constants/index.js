@@ -16,13 +16,7 @@ import mobile from "../public/assets/mobile.png";
 import backend from "../public/assets/backend.png";
 import creator from "../public/assets/creator.png";
 
-export type NavLink = {
-  to: string;
-  key: string;
-  external?: boolean; // Make 'external' property optional with '?' to handle internal links.
-};
-
-export const navLinks: NavLink[] = [
+export const navLinks = [
   { to: "home", key: "Home" },
   { to: "about", key: "About" },
   { to: "portfolio", key: "Portfolio" },
@@ -43,6 +37,29 @@ export const portfolioMenu = [
   { href: "/", id: 6, value: "Node" },
   { href: "/", id: 7, value: "Graphic Design" },
 ];
+
+export const faqItems = [
+  {
+    question:
+      "What is your approach to designing and developing a website or project?",
+    answer:
+      " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
+  },
+  {
+    question:
+      "How do you handle responsive design to ensure a seamless user experience across devices?",
+    answer:
+      " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
+  },
+  {
+    question:
+      "How do you ensure that your web development projects are secure and optimized for performance?",
+    answer:
+      "Security and performance are paramount in every project I undertake. To ensure a secure environment, I follow best practices in web development, implementing robust authentication mechanisms, data encryption, and regular security audits. Additionally, I optimize performance by meticulously optimizing code, compressing assets, and leveraging caching techniques. By prioritizing security and performance, I guarantee that your website not only looks exceptional but also operates seamlessly and safely for all users.",
+  },
+  // Add more FAQ items here
+];
+
 /**
  * 
 

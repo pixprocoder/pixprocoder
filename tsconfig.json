@@ -29,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "constants/index.tss",
-    "app/(with-layout)/layout.tsx"
+    "app/(with-layout)/layout.tsx",
+    "constants/index.js"
   ],
   "exclude": ["node_modules"]
 }
