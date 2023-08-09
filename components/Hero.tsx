@@ -27,6 +27,7 @@ const Hero = () => {
         <h1 className="text-5xl lg:text-7xl font-bold">
           <span className="text-[#0084FF]">SAMSUL</span> KOBIR
         </h1>
+
         <div className="my-8 text-xl space-y-3 lg:text-3xl border-l-2 px-2 border-cyan-600">
           <p className="">Programmer</p>
           <p className="">Graphic Designer</p>

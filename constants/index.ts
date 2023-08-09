@@ -36,10 +36,12 @@ export const skills = [];
 export const portfolioMenu = [
   { href: "/", id: 1, value: "All" },
   { href: "/", id: 2, value: "Full Stack" },
-  { href: "/", id: 3, value: "Graphic Design" },
-  { href: "/", id: 4, value: "Angular" },
-  { href: "/", id: 5, value: "Node" },
-  { href: "/", id: 6, value: "React" },
+  { href: "/", id: 3, value: "HTML/CSS/JS" },
+  { href: "/", id: 8, value: "Next" },
+  { href: "/", id: 4, value: "React" },
+  { href: "/", id: 5, value: "Angular" },
+  { href: "/", id: 6, value: "Node" },
+  { href: "/", id: 7, value: "Graphic Design" },
 ];
 /**
  * 
@@ -68,9 +70,9 @@ export const projects = [
     description:
       "In This website users can read blog posts. and they can Track how much time is required to read specific blog post",
     image: "https://i.ibb.co/kqTZcPF/Asset-1-3x.png",
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
-    category: "Full Stack",
+    gitHubLink: "https://github.com/pixprocoder/blog-hub",
+    liveLink: "https://my-quiz-hero.netlify.app/",
+    category: "React",
   },
   {
     id: "2",
@@ -92,8 +94,8 @@ export const projects = [
         color: "pink-text-gradient",
       },
     ],
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
+    gitHubLink: "https://github.com/pixprocoder/ema-john-with-auth",
+    liveLink: "https://ema-john-with-auth-5014f.web.app/",
     category: "Full Stack",
   },
   {
@@ -116,9 +118,9 @@ export const projects = [
         color: "pink-text-gradient",
       },
     ],
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
-    category: "Graphic Design",
+    gitHubLink: "https://github.com/pixprocoder/geometry-genius",
+    liveLink: "https://js-geometry-genius.netlify.app/",
+    category: "HTML/CSS/JS",
   },
   {
     id: "4",
@@ -126,9 +128,9 @@ export const projects = [
     description:
       "This website is for data fetching. how to read data and implement them and show them in the ui. ",
     image: "https://i.ibb.co/xHRWwrC/Asset-4-3x.png",
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
-    category: "Angular",
+    gitHubLink: "https://github.com/pixprocoder/ai-universe-hub",
+    liveLink: "https://ai-world-hub.netlify.app/",
+    category: "HTML/CSS/JS",
   },
   {
     id: "5",
@@ -136,13 +138,13 @@ export const projects = [
     description:
       "Quiz Hero is an website were users can learn and paly with quiz. they can be able to see their result and much more ",
     image: "https://i.ibb.co/ccY5JL1/Asset-5-3x.png",
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
-    category: "Node",
+    gitHubLink: "https://github.com/pixprocoder/quiz-hero",
+    liveLink: "https://my-quiz-hero.netlify.app/",
+    category: "HTML/CSS/JS",
   },
   {
     id: "6",
-    title: "Project 3",
+    title: "Career Hub",
     tags: [
       {
         name: "react",
@@ -158,10 +160,33 @@ export const projects = [
       },
     ],
     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/Zzxcbfc/Asset-2-3x.png",
-    gitHubLink: "https://github.com/pixprocoder",
-    liveLink: "https://github.com/pixprocoder",
-    category: "Node",
+    image: "https://i.ibb.co/SNJ5TXY/Asset-6-3x.png",
+    gitHubLink: "https://github.com/pixprocoder/career-hub",
+    liveLink: "https://cerulean-pudding-a186f6.netlify.app/",
+    category: "React",
+  },
+  {
+    id: "7",
+    title: "Threads",
+    tags: [
+      {
+        name: "Next.js",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "React",
+        color: "green-text-gradient",
+      },
+      {
+        name: "MongoDB",
+        color: "pink-text-gradient",
+      },
+    ],
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+    image: "https://i.ibb.co/SNJ5TXY/Asset-6-3x.png",
+    gitHubLink: "https://github.com/pixprocoder/career-hub",
+    liveLink: "https://cerulean-pudding-a186f6.netlify.app/",
+    category: "Next",
   },
 ];
 

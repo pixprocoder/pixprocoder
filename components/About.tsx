@@ -23,9 +23,12 @@ const About = () => {
               Programmer | Designer | Developer
             </h1>
             <h1 className="my-4">
-              I am a Full Stack web Developer. I am very passionate about
-              building web applications. I love to work challenge tasks such as
-              problem solving, Bug fixing et.. I love my work :)
+              Hello there, I'm Samsul kobir, a versatile professional with a
+              passion for crafting digital experiences that seamlessly blend
+              innovation and aesthetics. With a background in full-stack web
+              development and a flair for graphic design, I bring a unique blend
+              of technical prowess and creative finesse to every project I
+              undertake.
             </h1>
           </div>
           <div className=" border rounded-md p-4 gap-10">

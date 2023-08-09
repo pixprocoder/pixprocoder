@@ -49,20 +49,22 @@ const Portfolio = () => {
           </p>
         </>
       ) : (
-        <div className="grid lg:grid-cols-3 gap-10 mt-10">
-          {filteredProjects.map((p) => (
-            <PortfolioCard
-              key={p.id}
-              title={p.title}
-              id={p.id}
-              description={p.description}
-              image={p.image}
-              gitHubLink={p.gitHubLink}
-              liveLink={p.liveLink}
-              tags={p.tags}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid lg:grid-cols-3 gap-10 mt-10">
+            {filteredProjects.map((p) => (
+              <PortfolioCard
+                key={p.id}
+                title={p.title}
+                id={p.id}
+                description={p.description}
+                image={p.image}
+                gitHubLink={p.gitHubLink}
+                liveLink={p.liveLink}
+                tags={p.tags}
+              />
+            ))}
+          </div>
+        </>
       )}
     </section>
   );
