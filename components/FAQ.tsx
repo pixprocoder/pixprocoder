@@ -39,7 +39,7 @@ function FAQPage() {
                   onChange={() => handleToggle(index)}
                 />
                 <div
-                  className={`collapse-title text-xl  font-medium ${
+                  className={`collapse-title text-xl font-montserrat font-medium ${
                     activeIndex === index
                       ? "text-white bg-blue-500"
                       : "text-blue-500"
@@ -49,7 +49,7 @@ function FAQPage() {
                 </div>
                 {activeIndex === index && (
                   <div className="collapse-content">
-                    <p className={`mt-3 `}>{item.answer}</p>
+                    <p className={`mt-3 font-raleway`}>{item.answer}</p>
                   </div>
                 )}
               </div>

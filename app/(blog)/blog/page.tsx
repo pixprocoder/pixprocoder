@@ -1,7 +1,7 @@
 import React from "react";
 
 function BlogPage() {
-  return <div>This is blog page</div>;
+  return <section className="pt-8">This is blog page</section>;
 }
 
 export default BlogPage;
