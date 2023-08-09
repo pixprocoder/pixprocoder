@@ -25,21 +25,21 @@ function FAQPage() {
           <Image src={faq} alt="faq" />
         </div>
         <div className="flex-1">
-          <div className="join join-vertical gap-2 w-full">
+          <div className="join join-vertical  gap-2 w-full">
             {faqItems.map((item, index) => (
               <div
-                className={`collapse collapse-arrow join-item  ${
+                className={`collapse collapse-plus join-item  ${
                   activeIndex === index ? "active" : ""
                 } transition ease-in-out duration-300`}
                 key={index}
               >
                 <input
                   type="radio"
-                  name="my-accordion-4"
+                  name="my-accordion-3"
                   onChange={() => handleToggle(index)}
                 />
                 <div
-                  className={`collapse-title text-xl font-medium ${
+                  className={`collapse-title text-xl  font-medium ${
                     activeIndex === index
                       ? "text-white bg-blue-500"
                       : "text-blue-500"

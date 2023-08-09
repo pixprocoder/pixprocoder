@@ -4,6 +4,7 @@ import banner from "../public/images/banner.png";
 import Button from "./shared/Button";
 import { useState } from "react";
 import HireMeModalPage from "./shared/Modal";
+import { Link as ScrollLink } from "react-scroll";
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false);
@@ -35,9 +36,15 @@ const Hero = () => {
         </div>
 
         <div className="flex space-x-4 my-4">
-          <span>
-            <Button bgColor="bg-gray-800" title="Explore More" />
-          </span>
+          <ScrollLink
+            spy={true}
+            smooth={true}
+            offset={-70}
+            duration={1000}
+            to="portfolio"
+          >
+            <Button bgColor="bg-gray-800" title="Projects" />
+          </ScrollLink>
           <div>
             <span onClick={openModal}>
               <Button bgColor="bg-[#0084FF]" title="Hire Me" />
