@@ -1,6 +1,16 @@
+"use client";
 import React from "react";
-
+import { useForm } from "react-hook-form";
 const Contact = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <section id="contact-section" className="pt-8 my-40">
       <h1 className=" mb-10 text-center text-5xl font-montserrat font-bold ">
@@ -9,9 +19,10 @@ const Contact = () => {
       <div className=" ">
         <div className="hero-content flex-col lg:flex-row">
           <div className="card  w-full  shadow-2xl bg-base-100">
-            <div className="card-body">
+            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                 <input
+                  {...register("name", { required: true })}
                   type="text"
                   placeholder="Your Name"
                   className="input input-bordered"
@@ -19,22 +30,25 @@ const Contact = () => {
               </div>
               <div className="form-control my-2">
                 <input
-                  type="email"
-                  placeholder="Your Email"
+                  {...register("subject", { required: true })}
+                  type="text"
+                  placeholder="subject"
                   className="input input-bordered"
                 />
               </div>
               <div className="form-control my-2">
                 <textarea
+                  {...register("message", { required: true })}
                   placeholder="Your message"
                   className="textarea textarea-bordered textarea-md w-full "
                 ></textarea>
               </div>
-
               <div className="form-control my-3">
-                <button className="btn outline-none bg-blue-500">Send</button>
+                <button type="submit" className="btn outline-none bg-blue-500">
+                  Send
+                </button>
               </div>
-            </div>
+            </form>
           </div>
           <div className="card  w-full  shadow-2xl bg-base-100">
             <div className="card-body">
@@ -55,3 +69,6 @@ const Contact = () => {
 };
 
 export default Contact;
+function resetForm() {
+  throw new Error("Function not implemented.");
+}

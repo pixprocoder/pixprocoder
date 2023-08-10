@@ -26,9 +26,8 @@ const Portfolio = () => {
       <div className="flex flex-wrap justify-center items-center   gap-4 mt-10">
         <div className="tabs flex gap-y-2 justify-center items-center ">
           {portfolioMenu.map((item) => (
-            <>
+            <div key={item.id}>
               <span
-                key={item.id}
                 className={`tab transition tab-lifted  ${
                   activeTab === item.id
                     ? " duration-200 tab-active text-blue-600 "
@@ -38,7 +37,7 @@ const Portfolio = () => {
               >
                 {item.value}
               </span>
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -51,9 +50,9 @@ const Portfolio = () => {
       ) : (
         <>
           <div className="grid lg:grid-cols-3 gap-10 mt-10">
-            {filteredProjects.map((p) => (
+            {filteredProjects.map((p, i) => (
               <PortfolioCard
-                key={p.id}
+                key={i}
                 title={p.title}
                 id={p.id}
                 description={p.description}

@@ -39,10 +39,10 @@ const PortfolioCard = ({
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>
         <div className="flex gap-2">
-          {tags?.map((t: any) => (
-            <>
+          {tags?.map((t: any, i: number) => (
+            <div key={i}>
               <span className="text-green-600">#{t?.name}</span>
-            </>
+            </div>
           ))}
         </div>
         <div className="card-actions justify-start">
