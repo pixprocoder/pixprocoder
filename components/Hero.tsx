@@ -5,6 +5,7 @@ import Button from "./shared/Button";
 import { useState } from "react";
 import HireMeModalPage from "./shared/Modal";
 import { Link as ScrollLink } from "react-scroll";
+import TypedText from "./shared/TypedText";
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false);
@@ -29,10 +30,8 @@ const Hero = () => {
           <span className="text-[#0084FF]">SAMSUL</span> KOBIR
         </h1>
 
-        <div className="my-8 text-xl space-y-3 lg:text-3xl border-l-2 px-2 border-cyan-600">
-          <p className="">Programmer</p>
-          <p className="">Graphic Designer</p>
-          <p className="">Full-Stack Web Developer</p>
+        <div className="my-8 flex gap-2 text-blue-600 text-xl items-center space-y-3 lg:text-3xl border-l-2 px-2 border-cyan-600">
+          💻 <TypedText />
         </div>
 
         <div className="flex space-x-4 my-4">

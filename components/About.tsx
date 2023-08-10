@@ -19,9 +19,7 @@ const About = () => {
         </div>
         <div className="flex-1">
           <div>
-            <h1 className="font-bold text-blue-600 text-4xl">
-              Programmer | Designer | Developer
-            </h1>
+            <h1 className="font-bold text-blue-600 text-4xl">🧑🏼‍💻</h1>
             <h1 className="my-4">
               Hello there, I'm Samsul kobir, a versatile professional with a
               passion for crafting digital experiences that seamlessly blend
