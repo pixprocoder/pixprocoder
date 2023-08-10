@@ -28,9 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "constants/index.tss",
-    "app/(with-layout)/layout.tsx",
-    "constants/index.js"
+    "constants/index.ts", // Fix the file extension here
+    "app/(with-layout)/layout.tsx"
   ],
   "exclude": ["node_modules"]
 }

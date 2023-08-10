@@ -8,21 +8,11 @@ import Button from "./Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
-import NextLink from "next/link";
-import HireMeModalPage from "./Modal";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(true);
-  const [showModal, setShowModal] = useState(false);
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
   return (
     <header
       className={`py-4 ${
@@ -38,7 +28,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <ul
+        <div
           className={`absolute lg:static duration-500 z-10 lg:bg-none ${
             open
               ? "top-0 bg-[#101630] bg-opacity-90 mb-6 gap-6 p-6 w-full"
@@ -46,37 +36,30 @@ const Navbar = () => {
           } flex flex-col lg:flex-row nav-item uppercase`}
         >
           {navLinks.map((link) => (
-            <li key={link.key}>
-              {link.external ? (
-                <NextLink href={link.to} passHref>
-                  <a>{link.key}</a>
-                </NextLink>
-              ) : (
-                <ScrollLink
-                  className="hover:font-bold mr-6 hover:text-[#0084FF] cursor-pointer"
-                  activeClass="active"
-                  to={link.to}
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={1000}
-                  onClick={() => {
-                    setIsMenuClicked(!false);
-                    setOpen(!open);
-                  }}
-                >
-                  {link.key}
-                </ScrollLink>
-              )}
-            </li>
+            <span key={link.key}>
+              <ScrollLink
+                className="hover:font-bold mr-6 hover:text-[#0084FF] cursor-pointer"
+                activeClass="active"
+                to={link.to}
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={1000}
+                onClick={() => {
+                  setIsMenuClicked(!false);
+                  setOpen(!open);
+                }}
+              >
+                {link.key}
+              </ScrollLink>
+            </span>
           ))}
-        </ul>
+        </div>
 
         <div>
-          <span onClick={openModal}>
-            <Button bgColor="bg-[#0084FF]" title="Hire Me" />
-          </span>
-          <HireMeModalPage showModal={showModal} closeModal={closeModal} />
+          <Link href="/blog">
+            <Button bgColor="bg-[#0084FF]" title="Blog" />
+          </Link>
         </div>
         <div
           className="lg:hidden block z-20 lg:z-0 "
