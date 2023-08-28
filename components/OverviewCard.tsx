@@ -1,4 +1,12 @@
+"use client";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 export const OverviewCard = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   const data = [
     {
       id: 1,
@@ -22,7 +30,17 @@ export const OverviewCard = () => {
     },
   ];
   return (
-    <div className="bg-[#0b0e1d] rounded-lg mx-4 lg:m-0">
+    <div
+      data-aos="fade-up"
+      data-aos-offset="100"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-mirror="true"
+      data-aos-once="false"
+      data-aos-anchor-placement="top-center"
+      className="bg-[#0b0e1d] rounded-lg mx-4 lg:m-0"
+    >
       <div className="flex flex-col lg:flex-row  justify-around ">
         {data.map((el) => (
           <div

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 import Link from "next/link";
 
@@ -21,8 +23,16 @@ const PortfolioCard = ({
   liveLink,
   tags,
 }: Props) => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
-    <div className="card flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl ">
+    <div
+      data-aos="fade-up"
+      data-aos-duration="500"
+      className="card flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl "
+    >
       <Link href={`/portfolio/${id}`}>
         <div className="relative mx-10 rounded-lg flex justify-center overflow-hidden">
           <img
