@@ -14,7 +14,7 @@ const Contact = () => {
   return (
     <section id="contact-section" className="pt-8 my-40">
       <h1 className=" mb-10 text-center text-5xl font-montserrat font-bold ">
-        Have you any question?
+        Get in touch with me?
       </h1>
       <div className=" ">
         <div className="hero-content flex-col lg:flex-row">

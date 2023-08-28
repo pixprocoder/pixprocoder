@@ -10,7 +10,6 @@ import reactjs from "../public/tech/reactjs.png";
 import redux from "../public/tech/redux.png";
 import tailwind from "../public/tech/tailwind.png";
 import typescript from "../public/tech/typescript.png";
-
 import web from "../public/assets/web.png";
 import mobile from "../public/assets/mobile.png";
 import backend from "../public/assets/backend.png";
@@ -59,26 +58,6 @@ export const faqItems = [
   },
   // Add more FAQ items here
 ];
-
-/**
- * 
-
-
-
-
- * 
- */
-
-// type IProject = {
-//   id: string;
-//   title: string;
-//   description: string;
-//   image: string;
-//   gitHubLink: string;
-//   liveLink: string;
-//   category: string;
-//   tags?: [] | null;
-// };
 
 export const projects = [
   {
@@ -209,7 +188,7 @@ export const projects = [
 
 export const services = [
   {
-    title: "Web Developer",
+    title: "Front-end web Development",
     icon: web,
   },
   {
@@ -221,7 +200,7 @@ export const services = [
     icon: backend,
   },
   {
-    title: "Content Creator",
+    title: "Graphic Design",
     icon: creator,
   },
 ];

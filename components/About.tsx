@@ -33,7 +33,7 @@ const About = () => {
             <p className="font-bold text-xl ">
               Full Name:{" "}
               <span className="text-blue-500 font-semibold ml-4">
-                samsul kobir
+                Samsul Kobir
               </span>
             </p>
             <p className="font-bold text-xl ">

@@ -10,7 +10,9 @@ const Footer = () => {
   return (
     <footer className="footer text-white items-center py-10">
       <div className="items-center grid-flow-col">
-        <Image width={30} height={30} src={logo} alt="logo" />
+        <Link href="/">
+          <Image width={30} height={30} src={logo} alt="logo" />
+        </Link>
         <p>Copyright © 2023 - All right reserved by Pixprocoder</p>
       </div>
       <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">

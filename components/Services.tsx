@@ -1,5 +1,3 @@
-import React from "react";
-import banner from "../public/images/banner.png";
 import Image from "next/image";
 import { services } from "@/constants";
 

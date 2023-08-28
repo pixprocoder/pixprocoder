@@ -18,7 +18,7 @@ function FAQPage() {
   return (
     <section className="my-40">
       <h1 className=" mb-8 text-center text-5xl font-montserrat font-bold">
-        FAQ
+        Frequently Asked Questions
       </h1>
       <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
         <div className="flex-1">
