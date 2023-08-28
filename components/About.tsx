@@ -1,8 +1,14 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import profile from "../public/images/about-me.png";
 import Image from "next/image";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const About = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
     <section id="about" className="pt-8 my-40">
       <div>
@@ -14,10 +20,13 @@ const About = () => {
         </p>
       </div>
       <div className="flex flex-col mx-4 lg:flex-row gap-6 justify-evenly items-center mt-10">
-        <div className=" justify-center items-center flex flex-1 ">
+        <div
+          data-aos="zoom-in"
+          className=" justify-center items-center flex flex-1 "
+        >
           <Image width={500} height={500} src={profile} alt="" />
         </div>
-        <div className="flex-1">
+        <div data-aos="fade-left" className="flex-1">
           <div>
             <h1 className="font-bold text-blue-600 text-4xl">🧑🏼‍💻</h1>
             <h1 className="my-4">

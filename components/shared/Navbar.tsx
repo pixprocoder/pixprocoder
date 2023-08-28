@@ -12,7 +12,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <ul className="hidden  lg:flex gap-6">
+      <ul className="hidden navItem  lg:flex gap-6">
         <li>Home</li>
         <li>About</li>
         <li>Contact</li>
