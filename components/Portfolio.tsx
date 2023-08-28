@@ -44,7 +44,7 @@ const Portfolio = () => {
       {isCategoryEmpty ? (
         <>
           <p className="text-3xl text-center h-[40vh] flex mx-2 justify-center items-center">
-            Project is coming soon 😊
+            Projects are coming soon 😊
           </p>
         </>
       ) : (
