@@ -7,7 +7,7 @@ import { Link as ScrollLink } from "react-scroll/modules";
 
 const Navbar = () => {
   return (
-    <div className="navbar fixed top-0 container mx-auto z-10 bg-[#101630] shadow-md ">
+    <div className="navbar fixed top-0 container mx-auto z-10 bg-[#000000] shadow-md ">
       <div className="flex-1">
         <Link href="/" className=" font-bold text-xl">
           PIXPROCODER

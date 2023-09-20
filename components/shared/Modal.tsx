@@ -21,7 +21,7 @@ function HireMeModalPage({ showModal, closeModal }: any) {
         className={`modal  ${showModal ? "modal-open" : "modal-closed"}`}
         ref={modalRef}
       >
-        <form method="dialog" className="modal-box bg-[#101630]">
+        <form method="dialog" className="modal-box bg-[#000000]">
           <h3 className="font-bold text-lg">Hii There!!</h3>
           <div className="py-4">
             <p className="my-2">What do you want? let's discuss</p>
