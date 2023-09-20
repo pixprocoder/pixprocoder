@@ -26,7 +26,7 @@ const About = () => {
         >
           <Image width={500} height={500} src={profile} alt="" />
         </div>
-        <div data-aos="fade-left" className="flex-1">
+        <div className="flex-1">
           <div>
             <h1 className="font-bold text-blue-600 text-4xl">🧑🏼‍💻</h1>
             <h1 className="my-4">

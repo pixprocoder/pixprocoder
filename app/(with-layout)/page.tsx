@@ -11,12 +11,12 @@ export default function Home() {
   return (
     <section className=" text-white">
       <Hero />
-      {/* <OverviewCard /> */}
+      <OverviewCard />
       <About />
       <Portfolio />
       <Skills />
       <Services />
-      <FAQPage />
+      {/* <FAQPage /> */}
       <Contact />
     </section>
   );
