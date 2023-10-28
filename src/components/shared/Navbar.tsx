@@ -2,7 +2,6 @@
 import logo from "../../assets/vertical-logo.png";
 import Link from "next/link";
 import { navLinks } from "../../constants";
-import { Link as ScrollLink } from "react-scroll/modules";
 
 const Navbar = () => {
   return (
@@ -15,20 +14,13 @@ const Navbar = () => {
 
       <ul className="hidden navItem  lg:flex gap-6">
         {navLinks.map((el, i) => (
-          <span
+          <Link
             className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
             key={i}
+            href={el.to}
           >
-            <ScrollLink
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={1000}
-              to={el.to}
-            >
-              {el.key}
-            </ScrollLink>
-          </span>
+            {el.key}
+          </Link>
         ))}
       </ul>
     </div>

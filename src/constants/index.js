@@ -16,13 +16,12 @@ import backend from "../assets/backend.png";
 import creator from "../assets/creator.png";
 
 export const navLinks = [
-  { to: "home", key: "Home" },
-  { to: "about", key: "About" },
-  { to: "portfolio", key: "Portfolio" },
-  { to: "skills-section", key: "Skills" },
-  { to: "services", key: "Services" },
-  { to: "contact-section", key: "Contact" },
-  { to: "contact-section", key: "Blog" },
+  { to: "/", key: "Home" },
+  { to: "/blog", key: "Blog" },
+  { to: "/portfolio", key: "Portfolio" },
+  { to: "/skills", key: "Skills" },
+  { to: "/services", key: "Services" },
+  { to: "/contact", key: "Contact" },
 ];
 
 export const skills = [];
