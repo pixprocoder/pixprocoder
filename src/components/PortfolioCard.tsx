@@ -42,9 +42,9 @@ const PortfolioCard = ({
     <section
       data-aos="fade-up"
       data-aos-duration="500"
-      className=" flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl "
+      className=" flex flex-col justify-center items-center "
     >
-      <Card className={cn("w-full")}>
+      <Card className="bg-gray-950 border border-gray-800 w-full ">
         <CardHeader>
           <Link href={`/portfolio/${id}`}>
             <div className="  rounded-lg flex justify-center overflow-hidden">
@@ -55,8 +55,10 @@ const PortfolioCard = ({
               />
             </div>
           </Link>
-          <CardTitle>{title}</CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardTitle className="text-white  font-bold">{title}</CardTitle>
+          <CardDescription className="text-gray-300">
+            {description}
+          </CardDescription>
         </CardHeader>
 
         <CardFooter>

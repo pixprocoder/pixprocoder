@@ -21,7 +21,7 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className="pt-8 my-40">
       <h1 className=" text-center text-5xl font-montserrat font-bold ">
-        Portfolio
+        My Projects
       </h1>
       <div className="flex flex-wrap justify-center items-center   gap-4 mt-10">
         <div className=" flex flex-wrap gap-4 justify-center items-center ">
