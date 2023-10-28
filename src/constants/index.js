@@ -33,9 +33,6 @@ export const portfolioMenu = [
   { href: "/", id: 3, value: "HTML/CSS/JS" },
   { href: "/", id: 8, value: "Next" },
   { href: "/", id: 4, value: "React" },
-  { href: "/", id: 5, value: "Angular" },
-  { href: "/", id: 6, value: "Node" },
-  { href: "/", id: 7, value: "Graphic Design" },
 ];
 
 export const faqItems = [

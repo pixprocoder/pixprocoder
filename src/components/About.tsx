@@ -26,7 +26,7 @@ const About = () => {
         >
           <Image width={500} height={500} src={profile} alt="" />
         </div>
-        <div data-aos="fade-left" className="flex-1">
+        <div className="flex-1">
           <div>
             <h1 className="font-bold text-blue-600 text-4xl">🧑🏼‍💻</h1>
             <h1 className="my-4">
@@ -38,7 +38,7 @@ const About = () => {
               undertake.
             </h1>
           </div>
-          <div className=" border rounded-md p-4 gap-10">
+          {/* <div className=" border rounded-md p-4 gap-10">
             <p className="font-bold text-xl ">
               Full Name:{" "}
               <span className="text-blue-500 font-semibold ml-4">
@@ -63,7 +63,7 @@ const About = () => {
                 Bucharest, Romania{" "}
               </span>{" "}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
