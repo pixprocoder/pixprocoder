@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+body {
+  background-color: #000000;
+  color: white;
+}
+
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+.font-raleway {
+  font-family: "Raleway", sans-serif;
+}
+
+.nav-item {
+  color: #e9e9e9;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.btn {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.main-headline {
+  font-size: 40px;
+  font-weight: 700;
+  color: #e9e9e9;
+}
+.category-headline {
+  font-size: 30px;
+  font-weight: 700;
+  color: #e9e9e9;
+}
+
+.sub-headline {
+  font-size: 18px;
+  font-weight: 500;
+  color: #e9e9e9;
+}
+.body-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #e9e9e9;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
