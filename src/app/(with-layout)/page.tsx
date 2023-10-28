@@ -8,7 +8,7 @@ import Skills from "@/src/components/Skills";
 
 export default function Home() {
   return (
-    <section className=" text-white">
+    <section className="container mx-auto text-white">
       <Hero />
       {/* <OverviewCard /> */}
       <About />
@@ -16,7 +16,7 @@ export default function Home() {
       <Skills />
       <Services />
       <FAQPage />
-      <Contact />
+      {/* <Contact /> */}
     </section>
   );
 }

@@ -2,7 +2,7 @@
 
 ![Image Description](/public/GitHub-Banner-image.jpg)
 
-I'm a Full Stack web Developer. I have a firm grip on both Front-end and Back-end with modern technologies such as Next.ja React.js Typescript Tailwind css Express.js MongoDB PostgreSQL etc... I enjoy coding very much.
+I'm a Full Stack web Developer. I am comfortable on both Front-end and Back-end with modern technologies such as Next.ja React.js Typescript Tailwind css Express.js MongoDB PostgreSQL etc... I enjoy coding very much.
 
 ## Find me around the web 🌎: <a href="https://pixprocoder.vercel.app/"><img src="/public/vertical-logo.png" alt="Image Description" width="20" height="20">
 

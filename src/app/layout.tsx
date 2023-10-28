@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className="container mx-auto">
+      <body suppressHydrationWarning={true} className="">
         <main>{children}</main>
       </body>
     </html>

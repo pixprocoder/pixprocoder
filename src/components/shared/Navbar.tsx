@@ -30,11 +30,6 @@ const Navbar = () => {
             </ScrollLink>
           </span>
         ))}
-        {/* <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>Services</li>
-        <li>Blog</li> */}
       </ul>
     </div>
   );

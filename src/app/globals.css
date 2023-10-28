@@ -51,6 +51,17 @@ body {
   color: #e9e9e9;
 }
 
+/* background Image */
+.banner-footer {
+  /* background-image: url("../public/images/bannerImg.jpg"); */
+  background-image: url("../assets/footer-bg.png");
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* width: 100vw; */
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

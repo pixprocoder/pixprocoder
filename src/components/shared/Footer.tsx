@@ -1,30 +1,136 @@
-import Image from "next/image";
-import logo from "../../assets/vertical-logo.png";
+import Facebook from "../../assets/icons/Facebook.svg";
+import Instagram from "../../assets/icons/Instagram.svg";
+import Twitter from "../../assets/icons/Twitter.svg";
+import Linkedin from "../../assets/icons/Linkedin.svg";
 import Link from "next/link";
-import {
-  AiOutlineBehanceSquare,
-  AiFillLinkedin,
-  AiFillGithub,
-} from "react-icons/ai";
+import Image from "next/image";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+
 const Footer = () => {
   return (
-    <footer className="footer text-white items-center py-10">
-      <div className="items-center grid-flow-col">
-        <Link href="/">
-          <Image width={30} height={30} src={logo} alt="logo" />
-        </Link>
-        <p>Copyright © 2023 - All right reserved by Pixprocoder</p>
-      </div>
-      <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <Link href="https://linkedin.com/in/pixprocoder">
-          <AiFillLinkedin className="text-4xl hover:text-blue-500 transition-all duration-200"></AiFillLinkedin>
-        </Link>
-        <Link href="https://behance.net/pixprocoder">
-          <AiOutlineBehanceSquare className="text-4xl hover:text-blue-500 transition-all duration-200"></AiOutlineBehanceSquare>
-        </Link>
-        <Link href="https://github.com/pixprocoder">
-          <AiFillGithub className="text-4xl hover:text-blue-500 transition-all duration-200"></AiFillGithub>
-        </Link>
+    <footer className="banner-footer  lg:h-[400px] bg-[#15213C] bg-opacity-50">
+      <div className="container mx-auto ">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 text-white pt-24">
+          <div>
+            <h3 className="text-xl font-bold  my-2 lg:mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Book
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold  my-2 lg:mb-4">Features</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Early Access
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Online payment
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Security
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-blue-600 transition-all duration-200"
+                  href="/"
+                >
+                  Support
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold  my-2 lg:mb-4">Follow Me</h3>
+            <ul className="space-y-2 text-sm">
+              <li>Connect me on social</li>
+              <ul className="flex gap-4">
+                <li>
+                  <Link href="/">
+                    <Image src={Facebook} alt="facebook" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/">
+                    <Image src={Instagram} alt="Instagram" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/">
+                    <Image src={Twitter} alt="Twitter" />
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/">
+                    <Image src={Linkedin} alt="Linkedin" />
+                  </Link>
+                </li>
+              </ul>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold  my-2 lg:mb-4">Newsletter</h3>
+            <ul className="space-y-2 text-sm">
+              <li>Stay update with our latest</li>
+              <li>
+                <div className="flex w-full max-w-sm items-center space-x-2 text-[#1ECB15]">
+                  <Input type="email" placeholder="Email" />
+                  <Button type="submit">Subscribe</Button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p className="text-center text-white mt-14 text-xs ">
+          Copyright ©2023 All rights reserved |{" "}
+          <b className="text-blue-500">Samsul Kobir 💙</b>
+        </p>
       </div>
     </footer>
   );

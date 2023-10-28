@@ -3,6 +3,12 @@ import Image from "next/image";
 import faq from "../assets/faq.svg";
 import { useState } from "react";
 import { faqItems } from "../constants";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
 
 function FAQPage() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -26,7 +32,19 @@ function FAQPage() {
         </div>
         <div className="flex-1">
           <div className="join join-vertical  gap-2 w-full">
-            {faqItems.map((item, index) => (
+            <Accordion type="single" collapsible>
+              {faqItems.map((item, index) => (
+                // @ts-ignore
+                <AccordionItem value={item.value}>
+                  <AccordionTrigger>{item.question}</AccordionTrigger>
+                  <AccordionContent>
+                    <p className="text-gray-300">{item.answer}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+
+            {/* {faqItems.map((item, index) => (
               <div
                 className={`collapse collapse-plus join-item  ${
                   activeIndex === index ? "active" : ""
@@ -53,7 +71,7 @@ function FAQPage() {
                   </div>
                 )}
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
