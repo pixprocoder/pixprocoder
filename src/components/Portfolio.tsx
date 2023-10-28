@@ -28,9 +28,9 @@ const Portfolio = () => {
           {portfolioMenu.map((item) => (
             <div key={item.id}>
               <span
-                className={`tab transition tab-lifted  ${
+                className={`tab transition tab-lifted mr-4 cursor-pointer border p-2 rounded-md  ${
                   activeTab === item.id
-                    ? " duration-200 tab-active text-blue-600 "
+                    ? " duration-200 tab-active border-blue-600 text-blue-600 "
                     : ""
                 }`}
                 onClick={() => handleMenuClick(item.id)}

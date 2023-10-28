@@ -13,7 +13,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <ul className=" navItem  lg:flex gap-6">
+      <ul className="hidden navItem  lg:flex gap-6">
         {navLinks.map((el, i) => (
           <span
             className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
