@@ -24,20 +24,21 @@ const Portfolio = () => {
         Portfolio
       </h1>
       <div className="flex flex-wrap justify-center items-center   gap-4 mt-10">
-        <div className="tabs flex gap-y-2 justify-center items-center ">
+        <div className=" flex flex-wrap gap-4 justify-center items-center ">
           {portfolioMenu.map((item) => (
-            <div key={item.id}>
+            <>
               <span
-                className={`tab transition tab-lifted mr-4 cursor-pointer border p-2 rounded-md  ${
+                key={item.id}
+                className={`tab transition tab-lifted  cursor-pointer border p-2 rounded-md  ${
                   activeTab === item.id
-                    ? " duration-200 tab-active border-blue-600 text-blue-600 "
+                    ? " duration-200 tab-active border-blue-600  text-blue-600 "
                     : ""
                 }`}
                 onClick={() => handleMenuClick(item.id)}
               >
                 {item.value}
               </span>
-            </div>
+            </>
           ))}
         </div>
       </div>
