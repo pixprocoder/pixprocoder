@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
@@ -17,7 +18,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.12.18",
-    "lucide-react": "^0.279.0",
+    "lucide-react": "^0.290.0",
     "next": "13.4.9",
     "postcss": "8.4.25",
     "react": "18.2.0",
