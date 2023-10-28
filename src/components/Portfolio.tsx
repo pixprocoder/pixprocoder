@@ -49,7 +49,7 @@ const Portfolio = () => {
         </>
       ) : (
         <>
-          <div className="grid lg:grid-cols-3 gap-10 mt-10">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10 mt-10">
             {filteredProjects.map((p, i) => (
               <PortfolioCard
                 key={i}

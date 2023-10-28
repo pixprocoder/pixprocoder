@@ -35,7 +35,7 @@ const PortfolioCard = ({
       className="card flex flex-col justify-center items-center   shadow-xl hover:shadow-2xl "
     >
       <Link href={`/portfolio/${id}`}>
-        <div className="relative mx-10 rounded-lg flex justify-center overflow-hidden">
+        <div className=" mx-10 rounded-lg flex justify-center overflow-hidden">
           <img
             src={image}
             alt="Image"
@@ -57,10 +57,16 @@ const PortfolioCard = ({
           ))}
         </div>
         <div className="card-actions justify-start">
-          <Link className="underline text-blue-500" href={gitHubLink}>
+          <Link
+            className="p-2 underline border border-blue-500 rounded-md text-blue-500"
+            href={gitHubLink}
+          >
             GitHub
           </Link>
-          <Link className="underline text-blue-500" href={liveLink}>
+          <Link
+            className="p-2 border border-blue-500 underline text-blue-500 rounded-md"
+            href={liveLink}
+          >
             Live Link
           </Link>
         </div>
