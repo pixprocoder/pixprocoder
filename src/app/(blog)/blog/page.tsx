@@ -10,15 +10,17 @@ import {
 } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { blogs } from "@/src/constants";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/src/components/ui/avatar";
 
 function BlogPage() {
   return (
     <section className=" py-14 container mx-auto">
-      <div className=" flex justify-around">
-        <Link href="/">
-          <Image src={logo} width={50} height={50} alt=" logo" />
-        </Link>
-        <p>Blog is coming soon</p>
+      <div className="">
+        <p className="text-2xl font-bold mb-4 ">Enjoy Blogs</p>
       </div>
       <div className="grid gap-4">
         {blogs.map((blog) => (
@@ -27,20 +29,23 @@ function BlogPage() {
             className="bg-gray-950 border border-gray-800 w-full "
           >
             <CardHeader>
-              <Link href={`/portfolio/`}>
-                <div className="  rounded-lg flex justify-center overflow-hidden">
-                  {/* <img
-                  src={image}
-                  alt="Image"
-                  className="transform transition-transform duration-500 hover:scale-125"
-                /> */}
-                  img
-                </div>
-              </Link>
-              <CardTitle className="text-white  font-bold">
+              <CardTitle className="text-white mb-2 font-bold">
                 {blog.title}
               </CardTitle>
-              <CardDescription className="text-gray-300">
+              <div className="flex gap-3 items-center">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+
+                <div className="flex  gap-2">
+                  <p className="text-white font-bold text-base">
+                    {blog.author}
+                  </p>
+                  <p className="text-white">{blog.published_date}</p>
+                </div>
+              </div>
+              <CardDescription className="text-gray-300 mt-2">
                 {blog.description}
               </CardDescription>
             </CardHeader>
