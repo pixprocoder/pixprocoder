@@ -404,3 +404,32 @@ export const technologies = [
 //     source_code_link: "https://github.com/",
 //   },
 // ];
+
+// Blog
+
+export const blogs = [
+  {
+    id: 1,
+    author: "John",
+    published_date: "2015-3-1",
+    title: "How Algorithmic Trading Systems Work",
+    description:
+      "In India, the popularity of online trading has helped transform the financial landscape. This has led to over 20% of all trading is now done via mobile through trading apps. In line with this, another development many traders have highlighted is the use of algorithmic trading systems to take advantage of ever-changing market opportunities. To date, algorithmic trading systems are used in up to 60% of all trading volume.",
+  },
+  {
+    id: 2,
+    author: "Jhanker mahbub",
+    published_date: "2019-7-1",
+    title: "Build an Email Validator with HTML, CSS, and JavaScript",
+    description:
+      "Learn how to create a responsive Email Validator using HTML, CSS, and JavaScript. This step-by-step guide walks you through integrating the Email Validation API to validate email addresses effectively. Perfect for beginners and experts alike!",
+  },
+  {
+    id: 3,
+    author: "Kabir Sing",
+    published_date: "2017-8-10",
+    title: "How to find the Python Installation Path on Windows?",
+    description:
+      "Discover how to locate the Python installation path on your Windows system using two effective methods: the traditional Command Prompt and the modern Terminal. Whether you're troubleshooting or setting up environment variables, this guide provides clear, step-by-step instructions with visuals to help you find the information you need. Explore now!",
+  },
+];
