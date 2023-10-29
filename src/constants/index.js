@@ -161,29 +161,6 @@ export const projects = [
     liveLink: "https://cerulean-pudding-a186f6.netlify.app/",
     category: "React",
   },
-  {
-    id: "7",
-    title: "Threads",
-    tags: [
-      {
-        name: "Next.js",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "React",
-        color: "green-text-gradient",
-      },
-      {
-        name: "MongoDB",
-        color: "pink-text-gradient",
-      },
-    ],
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
-    image: "https://i.ibb.co/SNJ5TXY/Asset-6-3x.png",
-    gitHubLink: "https://github.com/pixprocoder/career-hub",
-    liveLink: "https://cerulean-pudding-a186f6.netlify.app/",
-    category: "Next",
-  },
 ];
 
 export const services = [
