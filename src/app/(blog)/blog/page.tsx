@@ -20,7 +20,9 @@ function BlogPage() {
   return (
     <section className=" py-14 container mx-auto">
       <div className="">
-        <p className="text-2xl font-bold mb-4 ">Enjoy Blogs</p>
+        <Link href="/"> 🔙 </Link>
+
+        <p className="text-2xl font-bold my-4 ">Enjoy Blogs</p>
       </div>
       <div className="grid gap-4">
         {blogs.map((blog) => (

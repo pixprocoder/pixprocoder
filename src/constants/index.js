@@ -432,4 +432,20 @@ export const blogs = [
     description:
       "Discover how to locate the Python installation path on your Windows system using two effective methods: the traditional Command Prompt and the modern Terminal. Whether you're troubleshooting or setting up environment variables, this guide provides clear, step-by-step instructions with visuals to help you find the information you need. Explore now!",
   },
+  {
+    id: 4,
+    author: "Nazmul Hasan",
+    published_date: "2017-8-10",
+    title: "How to Check if Keys Exist in JavaScript Objects",
+    description:
+      "Learn how to check if keys exist in JavaScript objects using two popular methods: the 'in' operator and the hasOwnProperty() method. This comprehensive guide provides syntax, examples, and insights to help you navigate object properties in JavaScript",
+  },
+  {
+    id: 5,
+    author: "Shakib Khan",
+    published_date: "2010-8-10",
+    title: "How to Open the Terminal in Visual Studio Code",
+    description:
+      "Learn how to open the terminal in Visual Studio Code (VS Code) using various methods, such as the menu bar, keyboard shortcuts, command palette, and sidebar icon. This guide also covers customizing the terminal and working with multiple terminals within VS Code.",
+  },
 ];
