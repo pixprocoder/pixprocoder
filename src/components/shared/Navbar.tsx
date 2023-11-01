@@ -2,11 +2,14 @@
 import logo from "../../assets/vertical-logo.png";
 import Link from "next/link";
 import { navLinks } from "../../constants";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,7 +27,7 @@ const Navbar = () => {
         <ul className=" navItem  flex flex-col  justify-center items-center z-10 gap-6">
           {navLinks.map((el, i) => (
             <Link
-              className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
+              className={`  mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
               key={i}
               href={el.to}
             >
@@ -40,7 +43,7 @@ const Navbar = () => {
       <ul className="hidden navItem  lg:flex gap-6">
         {navLinks.map((el, i) => (
           <Link
-            className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
+            className={` mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
             key={i}
             href={el.to}
           >
