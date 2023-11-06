@@ -13,7 +13,7 @@ body {
 }
 .dashboard-container {
   display: grid;
-  grid-template-columns: 88px auto 306px;
+  grid-template-columns: 10% auto 25%;
 }
 
 .font-montserrat {
