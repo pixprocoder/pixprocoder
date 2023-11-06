@@ -98,7 +98,16 @@ const DashboardPage = () => {
                 </div>
               </div>
               {/* tutorial bottom */}
-              <div></div>
+              <div className="grid grid-cols-4 gap-5">
+                <div className="grid gap-5">
+                  <Button className="w-full h-auto">Popular</Button>
+
+                  <Button className="w-full h-auto">Latest</Button>
+                </div>
+                <div className="h-36 rounded-2xl p-5 bg-red-200">2</div>
+                <div className="h-36 rounded-2xl p-5 bg-red-200">3</div>
+                <div className="h-36 rounded-2xl p-5 bg-red-200">4</div>
+              </div>
             </div>
           </main>
         </div>
