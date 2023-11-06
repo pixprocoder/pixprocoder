@@ -121,6 +121,21 @@ const DashboardPage = () => {
 
             {/*course card  */}
             <div className="mt-10">
+              <div>
+                <h1>Filter by:</h1>
+                <div className="flex justify-between items-center my-5 ">
+                  <div className="flex gap-4">
+                    <Button>Tutor</Button>
+                    <Button>Price</Button>
+                    <Button>All Level</Button>
+                    <Button>Reset</Button>
+                  </div>
+                  <div>
+                    <Button>Most Popular</Button>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-5">
                 <SingleCourseCardPage />
                 <SingleCourseCardPage />
