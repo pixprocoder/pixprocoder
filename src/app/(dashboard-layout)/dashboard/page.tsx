@@ -102,11 +102,19 @@ const DashboardPage = () => {
                 <div className="grid gap-5">
                   <Button className="w-full h-auto">Popular</Button>
 
-                  <Button className="w-full h-auto">Latest</Button>
+                  <Button className="w-full h-auto bg-blue-400 hover:bg-blue-500">
+                    Latest
+                  </Button>
                 </div>
-                <div className="h-36 rounded-2xl p-5 bg-red-200">2</div>
-                <div className="h-36 rounded-2xl p-5 bg-red-200">3</div>
-                <div className="h-36 rounded-2xl p-5 bg-red-200">4</div>
+                <div className="h-36 dashboard-card-bg rounded-2xl p-5">
+                  Content is coming
+                </div>
+                <div className="h-36 dashboard-card-bg rounded-2xl p-5">
+                  Content is coming
+                </div>
+                <div className="h-36 dashboard-card-bg rounded-2xl p-5">
+                  Content is coming
+                </div>
               </div>
             </div>
           </main>
