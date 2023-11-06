@@ -54,7 +54,9 @@ function BlogPage() {
 
             <CardFooter>
               <div>
-                <Button className="w-full">Read More</Button>
+                <Link href={`/blog/${blog.id}`}>
+                  <Button className="w-full">Read More</Button>
+                </Link>
               </div>
             </CardFooter>
           </Card>
