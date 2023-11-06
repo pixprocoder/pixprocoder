@@ -15,6 +15,10 @@ body {
   display: grid;
   grid-template-columns: 10% auto 25%;
 }
+.dashboard-aside {
+  display: grid;
+  grid-template-rows: auto 75%;
+}
 
 .font-montserrat {
   font-family: "Montserrat", sans-serif;

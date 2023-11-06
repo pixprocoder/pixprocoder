@@ -6,8 +6,8 @@ const DashboardPage = () => {
     <section className="max-w-[1280px] mx-auto">
       <div className="dashboard-container  gap-5">
         {/* Left side bar */}
-        <div className="dashboard-card-bg  ">
-          <div className="flex flex-col justify-between h-screen  p-2 text-sm">
+        <div className="  ">
+          <div className="flex flex-col justify-between h-screen dashboard-card-bg  p-2 text-sm">
             <div>
               <Button className="w-full">
                 <Link href="/">Kobir</Link>
@@ -56,9 +56,15 @@ const DashboardPage = () => {
         </div>
         {/* Middle bar */}
 
-        <div className="dashboard-card-bg">Middle</div>
+        <div className="">Middle</div>
+
         {/* Right bar */}
-        <div className="dashboard-card-bg">Right</div>
+        <div className="">
+          <aside className="dashboard-aside  gap-5 h-screen ">
+            <div className="dashboard-card-bg rounded-2xl p-2">Top</div>
+            <div className="dashboard-card-bg rounded-2xl p-2">Bottom</div>
+          </aside>
+        </div>
       </div>
     </section>
   );
