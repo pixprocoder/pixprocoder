@@ -62,7 +62,9 @@ const PortfolioCard = ({
         </CardHeader>
 
         <CardFooter>
-          <Button className="w-full">Read Case Study</Button>
+          <Link className="w-full" href={`/portfolio/${id}`}>
+            <Button className="w-full">Read Case Study</Button>
+          </Link>
         </CardFooter>
       </Card>
     </section>

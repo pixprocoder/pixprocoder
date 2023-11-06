@@ -5,16 +5,19 @@ import Hero from "@/src/components/Hero";
 import Portfolio from "@/src/components/Portfolio";
 import Services from "@/src/components/Services";
 import Skills from "@/src/components/Skills";
+import BlogPage from "../(blog)/blog/page";
+import { OverviewCard } from "@/src/components/OverviewCard";
 
 export default function Home() {
   return (
     <section className="container mx-auto text-white">
       <Hero />
-      {/* <OverviewCard /> */}
+      <OverviewCard />
+      {/* <BlogPage /> */}
       <About />
       <Portfolio />
       <Skills />
-      <Services />
+      {/* <Services /> */}
       <FAQPage />
       {/* <Contact /> */}
     </section>

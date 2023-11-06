@@ -10,13 +10,13 @@ export const OverviewCard = () => {
   const data = [
     {
       id: 1,
-      title: "33+",
-      desc: "Users",
+      title: "10+",
+      desc: "Clients",
     },
     {
       id: 2,
-      title: "10+",
-      desc: "Downloads",
+      title: "20+",
+      desc: "Projects",
     },
     {
       id: 3,
@@ -25,8 +25,8 @@ export const OverviewCard = () => {
     },
     {
       id: 4,
-      title: "14k",
-      desc: "Clients",
+      title: "50+",
+      desc: "Blogs",
     },
   ];
   return (
