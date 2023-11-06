@@ -8,6 +8,17 @@ body {
   background-color: #000000;
   color: white;
 }
+.dashboard-card-bg {
+  background-color: #1d212d;
+}
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 10% auto 25%;
+}
+.dashboard-aside {
+  display: grid;
+  grid-template-rows: auto 75%;
+}
 
 .font-montserrat {
   font-family: "Montserrat", sans-serif;
