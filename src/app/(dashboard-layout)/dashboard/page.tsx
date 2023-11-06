@@ -84,6 +84,22 @@ const DashboardPage = () => {
                 <Button>Most Popular</Button>
               </div>
             </div>
+
+            {/*  Tutorials */}
+            <div>
+              {/* Tutorials top bar */}
+              <div className="flex justify-between my-6">
+                <div>
+                  <h1 className="font-bold text-xl">Find Tutorial</h1>
+                  <p>110 Results</p>
+                </div>
+                <div>
+                  <p>See All</p>
+                </div>
+              </div>
+              {/* tutorial bottom */}
+              <div></div>
+            </div>
           </main>
         </div>
 
