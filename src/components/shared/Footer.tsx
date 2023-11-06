@@ -26,25 +26,25 @@ const Footer = () => {
               <li>
                 <Link
                   className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
+                  href="/blog"
                 >
-                  Book
+                  Blog
                 </Link>
               </li>
               <li>
                 <Link
                   className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
+                  href="/portfolio"
                 >
-                  About
+                  Portfolio
                 </Link>
               </li>
               <li>
                 <Link
                   className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
+                  href="/contact"
                 >
-                  Contact Us
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -57,7 +57,7 @@ const Footer = () => {
                   className="hover:text-blue-600 transition-all duration-200"
                   href="/"
                 >
-                  Early Access
+                  Read Blogs
                 </Link>
               </li>
               <li>
@@ -65,7 +65,7 @@ const Footer = () => {
                   className="hover:text-blue-600 transition-all duration-200"
                   href="/"
                 >
-                  Online payment
+                  Terms
                 </Link>
               </li>
               <li>
@@ -119,8 +119,12 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>Stay update with our latest</li>
               <li>
-                <div className="flex w-full max-w-sm items-center space-x-2 text-[#1ECB15]">
-                  <Input type="email" placeholder="Email" />
+                <div className="flex w-full max-w-sm items-center space-x-2 text-blue-500">
+                  <Input
+                    className="text-blue-500"
+                    type="email"
+                    placeholder="Email"
+                  />
                   <Button type="submit">Subscribe</Button>
                 </div>
               </li>
@@ -128,7 +132,7 @@ const Footer = () => {
           </div>
         </div>
         <p className="text-center text-white mt-14 text-xs ">
-          Copyright ©2023 All rights reserved |{" "}
+          Copyright ©2023 All rights reserved by |{" "}
           <b className="text-blue-500">Samsul Kobir 💙</b>
         </p>
       </div>
