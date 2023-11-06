@@ -4,7 +4,7 @@ import SingleCourseCardPage from "./card/singleCard";
 
 const DashboardPage = () => {
   return (
-    <section className="max-w-[1280px] mx-auto">
+    <section className="max-w-[1600px] mx-auto">
       <div className="dashboard-container  gap-5">
         {/* Left side bar */}
         <div className="  ">
@@ -92,10 +92,12 @@ const DashboardPage = () => {
               <div className="flex justify-between my-6">
                 <div>
                   <h1 className="font-bold text-xl">Find Tutorial</h1>
-                  <p>110 Results</p>
+                  <small className="text-sm text-gray-300">110 Results</small>
                 </div>
                 <div>
-                  <p>See All</p>
+                  <Link href="/" className="underline text-sm text-gray-300">
+                    See All
+                  </Link>
                 </div>
               </div>
               {/* tutorial bottom */}
@@ -125,7 +127,7 @@ const DashboardPage = () => {
                 <h1>Filter by:</h1>
                 <div className="flex justify-between items-center my-5 ">
                   <div className="flex gap-4">
-                    <Button>Tutor</Button>
+                    <Button>Tutor </Button>
                     <Button>Price</Button>
                     <Button>All Level</Button>
                     <Button>Reset</Button>
