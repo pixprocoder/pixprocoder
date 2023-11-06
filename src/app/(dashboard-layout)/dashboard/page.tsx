@@ -1,5 +1,6 @@
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import SingleCourseCardPage from "./card/singleCard";
 
 const DashboardPage = () => {
   return (
@@ -115,6 +116,16 @@ const DashboardPage = () => {
                 <div className="h-36 dashboard-card-bg rounded-2xl p-5">
                   Content is coming
                 </div>
+              </div>
+            </div>
+
+            {/*course card  */}
+            <div className="mt-10">
+              <div className="grid grid-cols-2 gap-5">
+                <SingleCourseCardPage />
+                <SingleCourseCardPage />
+                <SingleCourseCardPage />
+                <SingleCourseCardPage />
               </div>
             </div>
           </main>
