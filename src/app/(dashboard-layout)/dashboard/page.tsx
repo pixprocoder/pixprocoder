@@ -56,7 +56,36 @@ const DashboardPage = () => {
         </div>
         {/* Middle bar */}
 
-        <div className="">Middle</div>
+        <div className="">
+          <main>
+            {/* top bar */}
+            <div className="flex justify-between items-center mt-2">
+              <div className="flex gap-4">
+                <Link
+                  className="font-semibold hover:font-bold text-gray-50 hover:text-white"
+                  href="/"
+                >
+                  Library
+                </Link>
+                <Link
+                  className="font-semibold hover:font-bold text-gray-50 hover:text-white"
+                  href="/"
+                >
+                  Trending
+                </Link>
+                <Link
+                  className="font-semibold hover:font-bold text-gray-50 hover:text-white"
+                  href="/"
+                >
+                  My Resources
+                </Link>
+              </div>
+              <div>
+                <Button>Most Popular</Button>
+              </div>
+            </div>
+          </main>
+        </div>
 
         {/* Right bar */}
         <div className="">
