@@ -1,7 +1,7 @@
 import React from "react";
 
-function SingleBlog({ params }: any) {
-  return <div>The blog has Id: {params.id}</div>;
-}
+const SingleBlogPage = ({ params }: any) => {
+  return <div>blog is {params.id}</div>;
+};
 
-export default SingleBlog;
+export default SingleBlogPage;
