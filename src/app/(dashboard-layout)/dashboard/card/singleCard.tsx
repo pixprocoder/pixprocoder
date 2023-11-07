@@ -28,6 +28,7 @@ const SingleCourseCardPage = () => {
               <p>⭐ 4.2(760 ratings)</p>
             </div>
           </div>
+
           <div className="">
             <Button> Details</Button>
           </div>
