@@ -15,14 +15,16 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
+import SelectCategoryPage from "@/src/components/shared/SelectCategory";
 
 function BlogPage() {
   return (
     <section className=" py-14 container mx-auto">
-      <div className="">
-        <Link href="/"> 🔙 </Link>
-
+      <div className="flex justify-between">
         <p className="text-2xl font-bold my-4 ">Enjoy Blogs</p>
+        <div>
+          <SelectCategoryPage />
+        </div>
       </div>
       <div className="grid gap-4">
         {blogs.map((blog) => (
@@ -54,7 +56,9 @@ function BlogPage() {
 
             <CardFooter>
               <div>
-                <Button className="w-full">Read More</Button>
+                <Link href={`/blog/${blog.id}`}>
+                  <Button className="w-full">Read More</Button>
+                </Link>
               </div>
             </CardFooter>
           </Card>

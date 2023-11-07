@@ -1,7 +1,11 @@
 import React from "react";
 
-function SingleBlog({ params }: any) {
-  return <div>The blog has Id: {params.id}</div>;
-}
+const SingleBlogPage = ({ params }: any) => {
+  return (
+    <section className="container mx-auto">
+      <div>This is blog {params.id}</div>
+    </section>
+  );
+};
 
-export default SingleBlog;
+export default SingleBlogPage;
