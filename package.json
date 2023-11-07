@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.5.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-select": "^2.0.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
-    "@types/react-scroll": "^1.8.7"
+    "@types/react-scroll": "^1.8.7",
+    "prisma": "^5.5.2"
   }
 }
