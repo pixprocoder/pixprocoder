@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import banner from "../assets/images/banner.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HireMeModalPage from "./shared/Modal";
 import { Link as ScrollLink } from "react-scroll";
 import TypedText from "./shared/TypedText";
@@ -42,7 +42,9 @@ const Hero = () => {
           <div>
             <span onClick={openModal}>
               <Link href="/blog">
-                <Button>Explore Blog</Button>
+                <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+                  Explore Blog
+                </Button>
               </Link>
             </span>
             <HireMeModalPage showModal={showModal} closeModal={closeModal} />

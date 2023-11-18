@@ -26,13 +26,15 @@ const Navbar = () => {
       {isOpen && (
         <ul className=" navItem  flex flex-col  justify-center items-center z-10 gap-6">
           {navLinks.map((el, i) => (
-            <Link
-              className={`  mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
-              key={i}
-              href={el.to}
-            >
-              {el.key}
-            </Link>
+            <>
+              <Link
+                className={`  mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
+                key={i}
+                href={el.to}
+              >
+                {el.key}
+              </Link>
+            </>
           ))}
         </ul>
       )}
@@ -40,16 +42,21 @@ const Navbar = () => {
         Menu
       </Button>
 
-      <ul className="hidden navItem  lg:flex gap-6">
+      <ul className="hidden navItem  lg:flex gap-6 justify-center items-center">
         {navLinks.map((el, i) => (
-          <Link
-            className={` mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
-            key={i}
-            href={el.to}
-          >
-            {el.key}
-          </Link>
+          <>
+            <Link
+              className={` bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all duration-100`}
+              key={i}
+              href={el.to}
+            >
+              {el.key}
+            </Link>
+          </>
         ))}
+        <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+          SIGN UP
+        </Button>
       </ul>
     </div>
   );
