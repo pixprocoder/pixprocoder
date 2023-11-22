@@ -1,6 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import logo from "@/public/vertical-logo.png";
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardDescription,
@@ -16,20 +17,29 @@ import {
   AvatarImage,
 } from "@/src/components/ui/avatar";
 import SelectCategoryPage from "@/src/components/shared/SelectCategory";
+import Link from "next/link";
 
 function BlogPage() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios("http://localhost:3003/api/v1/posts/").then((res) =>
+      setData(res.data?.data)
+    );
+  }, []);
+
   return (
     <section className=" py-14 container mx-auto">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <p className="text-2xl font-bold my-4 ">Enjoy Blogs</p>
         <div>
           <SelectCategoryPage />
         </div>
       </div>
       <div className="grid gap-4">
-        {blogs.map((blog) => (
+        {data.map((blog) => (
           <Card
-            key={blog.id}
+            key={blog?.id}
             className="bg-gray-950 border border-gray-800 w-full "
           >
             <CardHeader>
@@ -38,19 +48,17 @@ function BlogPage() {
               </CardTitle>
               <div className="flex gap-3 items-center">
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarImage src={blog.image} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
 
                 <div className="flex  gap-2">
-                  <p className="text-white font-bold text-base">
-                    {blog.author}
-                  </p>
-                  <p className="text-white">{blog.published_date}</p>
+                  <p className="text-white font-bold text-base">Kobir</p>
+                  <p className="text-white">{blog.createdAt}</p>
                 </div>
               </div>
               <CardDescription className="text-gray-300 mt-2">
-                {blog.description}
+                {blog.content}
               </CardDescription>
             </CardHeader>
 

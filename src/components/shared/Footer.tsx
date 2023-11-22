@@ -92,22 +92,22 @@ const Footer = () => {
               <li>Connect me on social</li>
               <ul className="flex gap-4">
                 <li>
-                  <Link href="/">
+                  <Link href="https://www.facebook.com/skpixeel">
                     <Image src={Facebook} alt="facebook" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/">
+                  <Link href="https://www.instagram.com/pixprocoder/">
                     <Image src={Instagram} alt="Instagram" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/">
+                  <Link href="https://twitter.com/pixprocoder">
                     <Image src={Twitter} alt="Twitter" />
                   </Link>
                 </li>
                 <li>
-                  <Link href="/">
+                  <Link href="https://www.linkedin.com/in/pixprocoder/">
                     <Image src={Linkedin} alt="Linkedin" />
                   </Link>
                 </li>
