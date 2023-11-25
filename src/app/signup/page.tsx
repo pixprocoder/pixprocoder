@@ -24,7 +24,7 @@ const SignupPage = () => {
         <h1 className="text-3xl font-bold mb-2 center">Please Sign up </h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-full">
-            <CardHeader className="pb-0">
+            <CardHeader className="">
               <div>
                 <div className="grid w-full max-w-sm items-center ">
                   <Label className="text-white mb-1" htmlFor="name">
