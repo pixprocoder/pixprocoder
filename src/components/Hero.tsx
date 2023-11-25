@@ -40,6 +40,9 @@ const Hero = () => {
             <Button>Portfolio</Button>
           </Link>
           <div>
+            <div className="w-20 box h-20 "></div>
+            <div className=" box-2 h-20 "></div>
+            <div className=" box-3 h-20 "></div>
             <span onClick={openModal}>
               <Link href="/blog">
                 <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">

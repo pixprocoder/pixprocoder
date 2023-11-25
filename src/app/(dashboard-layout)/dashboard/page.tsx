@@ -138,7 +138,7 @@ const DashboardPage = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <SingleCourseCardPage />
                 <SingleCourseCardPage />
                 <SingleCourseCardPage />
@@ -149,12 +149,12 @@ const DashboardPage = () => {
         </div>
 
         {/* Right bar */}
-        <div className="">
+        {/* <div className="">
           <aside className="dashboard-aside  gap-5 h-screen ">
             <div className="dashboard-card-bg rounded-2xl p-2">Top</div>
             <div className="dashboard-card-bg rounded-2xl p-2">Bottom</div>
           </aside>
-        </div>
+        </div> */}
       </div>
     </section>
   );
