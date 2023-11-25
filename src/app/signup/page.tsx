@@ -1,12 +1,7 @@
+"use client";
 import { Button } from "@/src/components/ui/button";
 import loginImg from "../../assets/login.svg";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
+import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +13,10 @@ import { Separator } from "@/src/components/ui/separator";
 import { Checkbox } from "@/src/components/ui/checkbox";
 
 const SignupPage = () => {
+  const handleChecked = (e: string) => {
+    console.log(e);
+  };
+
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="">
@@ -51,15 +50,12 @@ const SignupPage = () => {
                 </div>
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox className="border  border-white" id="terms" />
-                      <label
-                        htmlFor="terms"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-white"
-                      >
-                        Accept terms and conditions
-                      </label>
-                    </div>
+                    <span className="text-white">
+                      Already have an account{" "}
+                      <Link className="text-blue-500 underline" href="/login">
+                        Login
+                      </Link>
+                    </span>
                     <Button className="bg-blue-500 hover:bg-blue-600">
                       Signup
                     </Button>
