@@ -19,7 +19,7 @@ const About = () => {
           My Name is <span>Samsul Kobir</span>. I am a Full Stack web Developer.
         </p>
       </div>
-      <div className="flex flex-col mx-4 lg:flex-row gap-6 justify-evenly items-center mt-10">
+      <div className="flex flex-col  lg:flex-row gap-6 justify-evenly items-center mt-10">
         <div
           data-aos="zoom-in"
           className=" justify-center items-center flex flex-1 "

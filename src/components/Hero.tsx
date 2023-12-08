@@ -27,7 +27,7 @@ const Hero = () => {
         <h1 className="text-4xl hidden lg:block font-semibold font-montserrat ">
           HI, <span className="text-[#0084FF]">I'm</span>
         </h1>
-        <h1 className="text-5xl lg:text-7xl font-bold">
+        <h1 className="text-3xl lg:text-7xl font-bold">
           <span className="text-[#0084FF]">SAMSUL</span> KOBIR
         </h1>
 
@@ -44,10 +44,6 @@ const Hero = () => {
               <Link href="/blog">
                 <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
                   Explore Blog
-                  <HireMeModalPage
-                    showModal={showModal}
-                    closeModal={closeModal}
-                  />
                 </Button>
               </Link>
             </span>

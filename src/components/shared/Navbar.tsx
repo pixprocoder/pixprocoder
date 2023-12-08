@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar flex justify-between py-4 container mx-auto z-10 bg-[#000000] shadow-md  ">
+    <div className="navbar flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] shadow-md  ">
       <div className="flex-1">
         <Link href="/" className=" font-bold text-xl">
           PIXPROCODER

@@ -29,10 +29,12 @@ const SingleBlogPage = ({ params }: any) => {
 
   return (
     <section className="container mx-auto">
-      <div className="w-2/4 mx-auto">
-        <h1 className="text-center text-5xl font-bold my-6">{post?.title}</h1>
+      <div className="w-full lg:w-2/4 mx-auto">
+        <h1 className="text-left lg:text-center text-3xl lg:text-5xl font-bold  my-6">
+          {post?.title}
+        </h1>
         {/* Avatar */}
-        <div className="flex gap-3 items-center my-4">
+        <div className="flex gap-3 items-center mb-4">
           <Avatar>
             <AvatarImage src={post.image} />
             <AvatarFallback>CN</AvatarFallback>
@@ -45,6 +47,7 @@ const SingleBlogPage = ({ params }: any) => {
             </p>
           </div>
         </div>
+
         <div className="">
           <Image
             className="w-full rounded-lg"

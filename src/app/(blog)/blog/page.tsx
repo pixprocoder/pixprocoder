@@ -17,6 +17,7 @@ import {
 } from "@/src/components/ui/avatar";
 import SelectCategoryPage from "@/src/components/shared/SelectCategory";
 import Link from "next/link";
+import { format } from "date-fns";
 
 function BlogPage() {
   const [data, setData] = useState([]);
@@ -27,6 +28,12 @@ function BlogPage() {
     );
   }, []);
 
+  // Date format
+  const formatDateString = (dateString: any) => {
+    const date = new Date(dateString);
+    return format(date, "yy/MM/dd");
+  };
+
   return (
     <section className=" py-14 container mx-auto">
       <div className="flex justify-between items-center">
@@ -35,7 +42,7 @@ function BlogPage() {
           <SelectCategoryPage />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {data.map((blog: any) => (
           <Card
             key={blog?.id}
@@ -53,7 +60,9 @@ function BlogPage() {
 
                 <div className="flex  gap-2">
                   <p className="text-white font-bold text-base">Kobir</p>
-                  <p className="text-white">{blog.createdAt}</p>
+                  <p className="text-white">
+                    {blog.createdAt && formatDateString(blog.createdAt)}
+                  </p>
                 </div>
               </div>
               <CardDescription className="text-gray-300 mt-2">

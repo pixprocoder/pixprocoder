@@ -36,7 +36,7 @@ export const OverviewCard = () => {
       data-aos-mirror="true"
       data-aos-once="false"
       data-aos-anchor-placement="top-center"
-      className="bg-[#0b0e1d] rounded-lg mx-4 lg:m-0"
+      className="bg-[#0b0e1d] rounded-lg  lg:m-0"
     >
       <div className="flex flex-col lg:flex-row  justify-around ">
         {data.map((el) => (
