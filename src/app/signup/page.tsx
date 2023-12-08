@@ -18,7 +18,7 @@ const SignupPage = () => {
   };
 
   return (
-    <section className="min-h-screen flex justify-center items-center">
+    <section className="min-h-screen flex justify-center items-center flex-row-reverse">
       <div className="">
         <h1 className="text-3xl font-bold mb-2 center">Please Sign up </h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">

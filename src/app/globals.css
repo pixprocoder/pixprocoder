@@ -5,40 +5,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
-/* TODO: testing purpose */
-.box {
-  background-image: linear-gradient(-45deg, #86b91a60 30%, #edd53260);
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  filter: blur(2px);
-}
-.box-2 {
-  background-image: linear-gradient(-45deg, #66910a60 30%, #6432ed60);
-  position: absolute;
-  top: 20%;
-  left: 20%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  filter: blur(2px);
-}
-.box-3 {
-  background-image: linear-gradient(-45deg, #86b91a60 30%, #edd53260);
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  filter: blur(2px);
-}
 body {
   background-color: #000000;
   color: white;

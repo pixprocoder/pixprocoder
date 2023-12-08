@@ -1,7 +1,10 @@
 import React from "react";
 
 function PortfolioPage() {
-  return <div>PortfolioPage</div>;
+  return <section>
+	This is Portfolio Page
+  Hello I am editing form ubuntu
+  PortfolioPage</section>;
 }
 
 export default PortfolioPage;

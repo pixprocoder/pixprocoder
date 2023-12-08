@@ -35,8 +35,8 @@ function BlogPage() {
           <SelectCategoryPage />
         </div>
       </div>
-      <div className="grid gap-4">
-        {data.map((blog) => (
+      <div className="grid grid-cols-2 gap-4">
+        {data.map((blog: any) => (
           <Card
             key={blog?.id}
             className="bg-gray-950 border border-gray-800 w-full "

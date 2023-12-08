@@ -43,7 +43,7 @@ const LoginPage = () => {
                       </Link>
                     </span>
                     <Button className="bg-blue-500 hover:bg-blue-600">
-                      Login
+                     Login
                     </Button>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ const LoginPage = () => {
             </div>
             <CardFooter className="flex flex-col w-full gap-2">
               <Button className="w-full">
-                <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
+                <SiGoogle className="mr-2 h-4 w-4" />  Login with Googles
               </Button>
               <Button className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
@@ -73,3 +73,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
