@@ -6,7 +6,7 @@ import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Mail } from "lucide-react";
+
 import { SiGithub, SiGoogle } from "react-icons/si";
 import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
@@ -71,6 +71,7 @@ const SignupPage = () => {
             <CardFooter className="flex flex-col w-full gap-2">
               <Button className="w-full">
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
+                {/* <UserButton afterSignOutUrl="/" /> */}
               </Button>
               <Button className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
