@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["i.ibb.co"],
+    domains: ["i.ibb.co", "d2devwt40at1e2.cloudfront.net"],
   },
 };
 

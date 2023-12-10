@@ -32,10 +32,10 @@ const SignupPage = () => {
                   <Input type="text" id="name" placeholder="Your name" />
                 </div>
                 <div className="grid w-full max-w-sm items-center my-4">
-                  <Label className="text-white mb-1" htmlFor="name">
+                  <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
-                  <Input type="email" id="Email" placeholder="Your Email" />
+                  <Input type="email" id="email" placeholder="Your Email" />
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">

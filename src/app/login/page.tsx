@@ -18,10 +18,10 @@ const LoginPage = () => {
             <CardHeader className="">
               <div>
                 <div className="grid w-full max-w-sm items-center my-4">
-                  <Label className="text-white mb-1" htmlFor="name">
+                  <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
-                  <Input type="email" id="Email" placeholder="Your Email" />
+                  <Input type="email" id="email" placeholder="Your Email" />
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">
@@ -43,7 +43,7 @@ const LoginPage = () => {
                       </Link>
                     </span>
                     <Button className="bg-blue-500 hover:bg-blue-600">
-                     Login
+                      Login
                     </Button>
                   </div>
                 </div>
@@ -56,7 +56,7 @@ const LoginPage = () => {
             </div>
             <CardFooter className="flex flex-col w-full gap-2">
               <Button className="w-full">
-                <SiGoogle className="mr-2 h-4 w-4" />  Login with Googles
+                <SiGoogle className="mr-2 h-4 w-4" /> Login with Googles
               </Button>
               <Button className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
@@ -73,4 +73,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
