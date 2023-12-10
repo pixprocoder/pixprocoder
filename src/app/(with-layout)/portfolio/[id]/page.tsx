@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { projects } from "../../../constants";
+import { projects } from "../../../../constants";
 import Link from "next/link";
 
 function PortfolioDetailPage({ params }: any) {
