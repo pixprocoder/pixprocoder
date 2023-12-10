@@ -1,16 +1,14 @@
 "use client";
 import { Button } from "@/src/components/ui/button";
-import loginImg from "../../assets/login.svg";
 import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import loginImg from "../../../assets/login.svg";
 
-import { SiGithub, SiGoogle } from "react-icons/si";
 import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
-import { Checkbox } from "@/src/components/ui/checkbox";
+import { SiGithub, SiGoogle } from "react-icons/si";
 
 const SignupPage = () => {
   const handleChecked = (e: string) => {

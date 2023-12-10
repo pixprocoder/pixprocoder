@@ -1,5 +1,5 @@
 import { Button } from "@/src/components/ui/button";
-import loginImg from "../../assets/login.svg";
+import loginImg from "../../../assets/login.svg";
 import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
