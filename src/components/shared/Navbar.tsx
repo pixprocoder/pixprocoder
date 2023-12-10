@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b  ">
+    <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900  ">
       <div className="flex-1 ">
         <Link href="/" className=" font-bold text-xl">
           PIXPROCODER
