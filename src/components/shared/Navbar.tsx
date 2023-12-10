@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900  ">
+    <div className=" navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900  ">
       <div className="flex-1 ">
         <Link href="/" className=" font-bold text-xl">
           PIXPROCODER
@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <ul className=" navItem  flex flex-col  justify-center items-center z-10 gap-6">
+        <ul className=" navItem flex flex-col  justify-center items-center absolute z-10 top-16 left-0 w-full bg-gray-600  gap-4">
           {navLinks.map((el, i) => (
             <>
               <Link
@@ -36,6 +36,11 @@ const Navbar = () => {
               </Link>
             </>
           ))}
+          <Link href="/signup">
+            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+              SIGN UP
+            </Button>
+          </Link>
         </ul>
       )}
       <Button onClick={toggleMenu} className="lg:hidden ">
