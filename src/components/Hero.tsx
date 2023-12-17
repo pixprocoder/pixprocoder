@@ -36,16 +36,14 @@ const Hero = () => {
         </div>
 
         <div className="flex space-x-4 my-4">
-          <Link href="/portfolio">
-            <Button>Portfolio</Button>
+          <Link href="/blog">
+            <Button>Explore Blog</Button>
           </Link>
           <div>
             <span onClick={openModal}>
-              <Link href="/blog">
-                <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-                  Explore Blog
-                </Button>
-              </Link>
+              <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+                Hire Me
+              </Button>
             </span>
           </div>
         </div>

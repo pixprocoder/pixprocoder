@@ -5,3 +5,18 @@
  * */
 
 // Icons for: https://lucide.dev/icons/arrow-down-to-dot
+
+/**
+ * ----------- For Form useful Libraries ----------
+ * react-hook-form hookform-resolvers zod sooner
+ *
+ * ------------ For CMS ------------
+ * Payload
+ *
+ * ------------  typesafe APIs --------------
+ * tRPC (https://trpc.io/)
+ *
+ * -------- for email send ------------
+ * resend
+ * nodemailer
+ */
