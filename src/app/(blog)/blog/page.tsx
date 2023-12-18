@@ -23,9 +23,9 @@ function BlogPage() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios("http://localhost:3003/api/v1/posts/").then((res) =>
-      setData(res.data?.data)
-    );
+    axios(
+      "https://pixprocoder-backend-pixprocoder.vercel.app/api/v1/posts/"
+    ).then((res) => setData(res.data?.data));
   }, []);
 
   // Date format
