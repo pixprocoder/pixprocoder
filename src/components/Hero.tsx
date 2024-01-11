@@ -15,6 +15,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { TbBrandFiverr } from "react-icons/tb";
+import { SiUpwork } from "react-icons/si";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false);
@@ -48,19 +52,62 @@ const Hero = () => {
             <Button>Explore Blog</Button>
           </Link>
           <div>
-            <span onClick={openModal}>
-              <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-                Hire Me
-              </Button>
-            </span>
             <Dialog>
-              <DialogTrigger>Open</DialogTrigger>
-              <DialogContent>
+              <DialogTrigger>
+                <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+                  Hire Me
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-black border-gray-800">
                 <DialogHeader>
-                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogTitle className="font-bold text-lg">
+                    Hii There!! 👋
+                  </DialogTitle>
                   <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
+                    <div className="py-4">
+                      <p className="my-2">What do you want? let's discuss</p>
+
+                      <Input
+                        type="text"
+                        placeholder="Your Name"
+                        className="input input-bordered input-accent w-full "
+                      />
+
+                      <Textarea
+                        name="message"
+                        className="textarea textarea-info w-full my-2"
+                        placeholder="Message"
+                      />
+                      <div>
+                        <p className="text-sm text-green-600 my-2">
+                          For Freelance Work
+                        </p>
+                        <div className=" flex gap-4 text-2xl  items-center">
+                          <Link
+                            className="text-green-500 hover:text-blue-600"
+                            href="https://www.fiverr.com/pixprocoder"
+                            target="_blank"
+                          >
+                            <TbBrandFiverr></TbBrandFiverr>
+                          </Link>
+                          <Link
+                            className="text-green-500 hover:text-blue-600"
+                            href="https://www.fiverr.com/pixprocoder"
+                            target="_blank"
+                          >
+                            <SiUpwork></SiUpwork>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-action">
+                      <Button
+                        type="submit"
+                        className=" px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md text-xl"
+                      >
+                        Send
+                      </Button>
+                    </div>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>

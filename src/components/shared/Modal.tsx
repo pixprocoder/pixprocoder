@@ -2,8 +2,17 @@ import { useRef } from "react";
 import { TbBrandFiverr } from "react-icons/tb";
 import { SiUpwork } from "react-icons/si";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { DialogContent } from "@radix-ui/react-dialog";
 
 function HireMeModalPage({ showModal, closeModal }: any) {
+  console.log(showModal);
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const handleSubmit = (e: any) => {
