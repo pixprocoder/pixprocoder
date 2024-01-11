@@ -13,16 +13,8 @@ function ContactPage() {
   }, []);
   return (
     <section className="min-h-screen container mx-auto">
-      <h1 className="text-center">
-        Contact
-        <span style={{ color: "#fff" }}> Me</span>
-      </h1>
+      <h1 className="text-center">Contact Me</h1>
       <div className="flex justify-center items-center">
-        <div className="sectionHeading">
-          <div className="sectionLine"></div>
-        </div>
-        {/* Contact */}
-
         <div className="flex mt-[55px] mx-3">
           <div className=" flex-1 hidden lg:block">
             <Image
@@ -39,21 +31,21 @@ function ContactPage() {
           >
             <form className="flex flex-col">
               <Input
-                className="text-white"
+                className=""
                 type="text"
                 name=""
                 id=""
                 placeholder="Subject"
               />
               <Input
-                className="text-white my-4"
+                className=" my-4"
                 type="email"
                 name=""
                 id=""
                 placeholder="Email"
               />
               <Textarea
-                className="text-white"
+                className=""
                 rows={6}
                 cols={20}
                 name=""
