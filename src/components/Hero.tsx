@@ -7,6 +7,14 @@ import { Link as ScrollLink } from "react-scroll";
 import TypedText from "./shared/TypedText";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false);
@@ -45,6 +53,18 @@ const Hero = () => {
                 Hire Me
               </Button>
             </span>
+            <Dialog>
+              <DialogTrigger>Open</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
