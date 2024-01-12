@@ -1,8 +1,22 @@
+"use client";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 import SingleCourseCardPage from "./card/singleCard";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/src/providers/AuthProviders";
+import { useRouter } from "next/navigation";
 
 const DashboardPage = () => {
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <p>Loading..</p>;
+  }
+
+  const router = useRouter();
+
+  user?.email ? router.push("/dashboard") : router.push("/login");
+
   return (
     <section className="max-w-[1600px] mx-auto">
       <div className="dashboard-container  gap-5">
