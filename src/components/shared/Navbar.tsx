@@ -9,8 +9,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState<null | number>(null);
 
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleSignOut = () => {
+    logOut()
+      .then((res) => {})
+      .catch((error) => {});
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -62,11 +67,20 @@ const Navbar = () => {
             </Link>
           </>
         ))}
-        <Link href="/signup">
-          <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-            SIGN UP
+        {user ? (
+          <Button
+            onClick={handleSignOut}
+            className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
+          >
+            LOGOUT
           </Button>
-        </Link>
+        ) : (
+          <Link href="/signup">
+            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+              SIGN UP
+            </Button>
+          </Link>
+        )}
       </ul>
     </div>
   );
