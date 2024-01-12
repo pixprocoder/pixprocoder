@@ -12,7 +12,8 @@ import { useContext, useRef } from "react";
 import { AuthContext } from "@/src/providers/AuthProviders";
 
 const LoginPage = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, signInWithGoogle, signInWithGitHub } =
+    useContext(AuthContext);
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -22,11 +23,24 @@ const LoginPage = () => {
     const password = passwordRef.current.value;
 
     signIn(email, password)
+      .then((res) => {})
+      .catch((error) => {});
+  };
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
       .then((res) => {
         const user = res.user;
         console.log(user);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {});
+  };
+  const handleGitHubSignIn = () => {
+    signInWithGitHub()
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -86,10 +100,10 @@ const LoginPage = () => {
               <Separator className="my-4" />
             </div>
             <CardFooter className="flex flex-col w-full gap-2">
-              <Button className="w-full">
-                <SiGoogle className="mr-2 h-4 w-4" /> Login with Googles
+              <Button onClick={handleGoogleSignIn} className="w-full">
+                <SiGoogle className="mr-2 h-4 w-4" /> Login with Google
               </Button>
-              <Button className="w-full">
+              <Button onClick={handleGitHubSignIn} className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
             </CardFooter>
