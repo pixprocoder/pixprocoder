@@ -39,7 +39,7 @@ const LoginPage = () => {
                     <span className="text-white">
                       Don't have account{" "}
                       <Link className="text-blue-500 underline" href="/signup">
-                        Signup
+                        Sign up
                       </Link>
                     </span>
                     <Button className="bg-blue-500 hover:bg-blue-600">

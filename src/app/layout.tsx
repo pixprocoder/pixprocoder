@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AuthProviders from "../providers/AuthProviders";
 
 export const metadata: Metadata = {
   title: "Pixprocoder",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className="">
-        <main>{children}</main>
+        <AuthProviders>
+          <main>{children}</main>
+        </AuthProviders>
       </body>
     </html>
   );

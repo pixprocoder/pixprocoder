@@ -9,10 +9,28 @@ import loginImg from "../../../assets/login.svg";
 import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
 import { SiGithub, SiGoogle } from "react-icons/si";
+import { useContext, useRef } from "react";
+import { AuthContext } from "@/src/providers/AuthProviders";
 
 const SignupPage = () => {
-  const handleChecked = (e: string) => {
-    console.log(e);
+  const { createUser } = useContext(AuthContext);
+
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const handleSubmit = () => {
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    createUser(email, password)
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -27,13 +45,24 @@ const SignupPage = () => {
                   <Label className="text-white mb-1" htmlFor="name">
                     Name
                   </Label>
-                  <Input type="text" id="name" placeholder="Your name" />
+                  <Input
+                    ref={nameRef}
+                    type="text"
+                    id="name"
+                    placeholder="Your name"
+                  />
                 </div>
                 <div className="grid w-full max-w-sm items-center my-4">
                   <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
-                  <Input type="email" id="email" placeholder="Your Email" />
+                  <Input
+                    ref={emailRef}
+                    type="email"
+                    required
+                    id="email"
+                    placeholder="Your Email"
+                  />
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">
@@ -41,6 +70,8 @@ const SignupPage = () => {
                     Password
                   </Label>
                   <Input
+                    ref={passwordRef}
+                    required
                     type="password"
                     id="password"
                     placeholder="Your password"
@@ -54,7 +85,10 @@ const SignupPage = () => {
                         Login
                       </Link>
                     </span>
-                    <Button className="bg-blue-500 hover:bg-blue-600">
+                    <Button
+                      onClick={handleSubmit}
+                      className="bg-blue-500 hover:bg-blue-600"
+                    >
                       Signup
                     </Button>
                   </div>

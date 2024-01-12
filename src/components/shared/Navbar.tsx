@@ -1,12 +1,16 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { navLinks } from "../../constants";
 import { Button } from "../ui/button";
+import { AuthContext } from "@/src/providers/AuthProviders";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState<null | number>(null);
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
