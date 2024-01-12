@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/src/components/ui/button";
 import loginImg from "../../../assets/login.svg";
 import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
@@ -7,8 +8,27 @@ import { Separator } from "@/src/components/ui/separator";
 import Image from "next/image";
 import { SiGithub, SiGoogle } from "react-icons/si";
 import Link from "next/link";
+import { useContext, useRef } from "react";
+import { AuthContext } from "@/src/providers/AuthProviders";
 
 const LoginPage = () => {
+  const { signIn } = useContext(AuthContext);
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const handleLogin = () => {
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+
+    signIn(email, password)
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="">
@@ -21,7 +41,13 @@ const LoginPage = () => {
                   <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
-                  <Input type="email" id="email" placeholder="Your Email" />
+                  <Input
+                    required
+                    ref={emailRef}
+                    type="email"
+                    id="email"
+                    placeholder="Your Email"
+                  />
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">
@@ -29,6 +55,8 @@ const LoginPage = () => {
                     Password
                   </Label>
                   <Input
+                    ref={passwordRef}
+                    required
                     type="password"
                     id="password"
                     placeholder="Your password"
@@ -42,7 +70,10 @@ const LoginPage = () => {
                         Sign up
                       </Link>
                     </span>
-                    <Button className="bg-blue-500 hover:bg-blue-600">
+                    <Button
+                      onClick={handleLogin}
+                      className="bg-blue-500 hover:bg-blue-600"
+                    >
                       Login
                     </Button>
                   </div>
