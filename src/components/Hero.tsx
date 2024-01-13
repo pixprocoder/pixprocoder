@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import banner from "../assets/images/banner.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HireMeModalPage from "./shared/Modal";
 import { Link as ScrollLink } from "react-scroll";
 import TypedText from "./shared/TypedText";
@@ -19,9 +19,36 @@ import { TbBrandFiverr } from "react-icons/tb";
 import { SiUpwork } from "react-icons/si";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { RocketIcon, Terminal } from "lucide-react";
+import { useToast } from "./ui/use-toast";
 
 const Hero = () => {
+  const { toast } = useToast();
+
   const [showModal, setShowModal] = useState(false);
+  const [error1, setError1] = useState("");
+  const projectRef = useRef();
+  const messageRef = useRef();
+
+  const handleMessage = () => {
+    const projectName = projectRef.current.value;
+    const message = messageRef.current.value;
+
+    if (!projectName || !message) {
+      alert("Please fill the field");
+    } else {
+      toast({
+        title: "Thanks",
+        description: "Your Message has been sent!!",
+      });
+    }
+    // else {
+    // }
+
+    projectRef.current.value = "";
+    messageRef.current.value = "";
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -65,21 +92,27 @@ const Hero = () => {
                   </DialogTitle>
                   <DialogDescription>
                     <div className="py-4">
-                      <p className="my-2">What do you want? let's discuss</p>
+                      <p className="my-2 text-left">
+                        What's in your mind? let's discuss
+                      </p>
 
                       <Input
                         type="text"
-                        placeholder="Your Name"
+                        placeholder="Project Name"
+                        ref={projectRef}
+                        required
                         className="input input-bordered input-accent w-full "
                       />
 
                       <Textarea
                         name="message"
+                        ref={messageRef}
                         className="textarea textarea-info w-full my-2"
                         placeholder="Message"
+                        required
                       />
                       <div>
-                        <p className="text-sm text-green-600 my-2">
+                        <p className="text-sm text-green-600 my-2 text-left">
                           For Freelance Work
                         </p>
                         <div className=" flex gap-4 text-2xl  items-center">
@@ -91,7 +124,7 @@ const Hero = () => {
                             <TbBrandFiverr></TbBrandFiverr>
                           </Link>
                           <Link
-                            className="text-green-500 hover:text-blue-600"
+                            className="text-green-500 hover:text-blue-600 text-left"
                             href="https://www.fiverr.com/pixprocoder"
                             target="_blank"
                           >
@@ -100,10 +133,11 @@ const Hero = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="modal-action">
+                    <div className="flex ">
                       <Button
+                        onClick={handleMessage}
                         type="submit"
-                        className=" px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md text-xl"
+                        className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md text-xl"
                       >
                         Send
                       </Button>

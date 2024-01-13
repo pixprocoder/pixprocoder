@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AuthProviders from "../providers/AuthProviders";
+import { Toaster } from "../components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Pixprocoder",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className="">
         <AuthProviders>
           <main>{children}</main>
+          <Toaster />
         </AuthProviders>
       </body>
     </html>
