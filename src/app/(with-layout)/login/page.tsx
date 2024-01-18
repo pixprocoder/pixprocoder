@@ -8,7 +8,7 @@ import { Separator } from "@/src/components/ui/separator";
 import Image from "next/image";
 import { SiGithub, SiGoogle } from "react-icons/si";
 import Link from "next/link";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "@/src/providers/AuthProviders";
 
 const LoginPage = () => {

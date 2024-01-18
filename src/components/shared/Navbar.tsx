@@ -4,10 +4,15 @@ import { useContext, useState } from "react";
 import { navLinks } from "../../constants";
 import { Button } from "../ui/button";
 import { AuthContext } from "@/src/providers/AuthProviders";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState<null | number>(null);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleResponsiveMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   const { user, logOut } = useContext(AuthContext);
 
@@ -15,10 +20,6 @@ const Navbar = () => {
     logOut()
       .then((res) => {})
       .catch((error) => {});
-  };
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
   };
 
   return (
@@ -51,9 +52,11 @@ const Navbar = () => {
           </Link>
         </ul>
       )}
-      <Button onClick={toggleMenu} className="lg:hidden ">
-        Menu
-      </Button>
+
+      <GiHamburgerMenu
+        onClick={handleResponsiveMenu}
+        className="text-white text-2xl lg:hidden cursor-pointer z-30"
+      />
 
       <ul className="hidden navItem  lg:flex gap-6 justify-center items-center">
         {navLinks.map((el, i) => (
