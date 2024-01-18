@@ -8,12 +8,16 @@ function PortfolioDetailPage({ params }: any) {
 
   return (
     <div className="container mx-auto">
+      <h1 className="text-2xl my-2">{singleProject?.title}</h1>
       <div className="w-2/4 mx-auto">
         <Image width={640} height={640} src={singleProject?.image} alt="img" />
       </div>
-      <h1 className="text-2xl">{singleProject?.title}</h1>
+
       <div>
         <p>{singleProject?.description}</p>
+      </div>
+      <div>
+        <p className="text-xl my-4 underline">Features</p>
         <ul className="my-4">
           <li>👉 User can login</li>
           <li>👉 User can Sign up</li>
