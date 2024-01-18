@@ -110,7 +110,7 @@ const SignupPage = () => {
               </Button>
             </CardFooter>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 hidden lg:flex">
             <Image src={loginImg} alt="login" />
           </div>
         </Card>

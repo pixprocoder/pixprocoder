@@ -17,7 +17,7 @@ function PortfolioDetailPage({ params }: any) {
         <p>{singleProject?.description}</p>
       </div>
       <div>
-        <p className="text-xl my-4 underline">Features</p>
+        <p className="text-xl my-4 underline ">Features</p>
         <ul className="my-4">
           <li>👉 User can login</li>
           <li>👉 User can Sign up</li>

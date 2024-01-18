@@ -101,14 +101,14 @@ const LoginPage = () => {
             </div>
             <CardFooter className="flex flex-col w-full gap-2">
               <Button onClick={handleGoogleSignIn} className="w-full">
-                <SiGoogle className="mr-2 h-4 w-4" /> Login with Google
+                <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
               </Button>
               <Button onClick={handleGitHubSignIn} className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
             </CardFooter>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 hidden lg:flex">
             <Image src={loginImg} alt="login" />
           </div>
         </Card>
