@@ -18,8 +18,8 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     logOut()
-      .then((res) => {})
-      .catch((error) => {});
+      .then((res: any) => {})
+      .catch((error: any) => {});
   };
 
   return (
