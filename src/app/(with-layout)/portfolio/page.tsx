@@ -1,5 +1,3 @@
-import React from "react";
-
 function PortfolioPage() {
   return (
     <section className="min-h-screen container mx-auto">
