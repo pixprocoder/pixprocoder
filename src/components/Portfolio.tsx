@@ -21,13 +21,13 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className="pt-8 my-40">
       <h1 className="  font-montserrat font-bold ">Recent Projects</h1>
-      <div className="flex flex-wrap justify-center items-center   gap-4 mt-10">
+      <div className="flex flex-wrap gap-4 mt-10">
         <div className=" flex flex-wrap gap-4 justify-center items-center ">
           {portfolioMenu.map((item) => (
             <>
               <span
                 key={item.id}
-                className={`tab transition tab-lifted  cursor-pointer border p-2 rounded-md  ${
+                className={`tab transition tab-lifted  cursor-pointer border p-2 text-sm rounded-md  ${
                   activeTab === item.id
                     ? " duration-200 tab-active border-blue-600  text-blue-600 "
                     : ""
