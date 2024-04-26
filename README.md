@@ -1,4 +1,4 @@
-# Hi, I'm Samsul Kobir 👨‍💻
+Samsul Kobir 👨‍💻
 
 ![Image Description](/public/GitHub-Banner-image.jpg)
 hi 👋 
