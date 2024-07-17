@@ -21,11 +21,12 @@ import { format } from "date-fns";
 
 function BlogPage() {
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    axios(
-      "https://pixprocoder-backend-pixprocoder.vercel.app/api/v1/posts/"
-    ).then((res) => setData(res.data?.data));
+  //localhost:3003/api/v1/posts
+  // https://pixprocoder-backend-pixprocoder.vercel.app/api/v1/posts/
+  http: useEffect(() => {
+    axios("http://localhost:3003/api/v1/posts").then((res) =>
+      setData(res.data?.data)
+    );
   }, []);
 
   // Date format
