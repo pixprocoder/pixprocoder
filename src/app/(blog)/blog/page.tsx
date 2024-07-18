@@ -18,6 +18,7 @@ import {
 import SelectCategoryPage from "@/src/components/shared/SelectCategory";
 import Link from "next/link";
 import { format } from "date-fns";
+import SectionBanner from "@/src/components/shared/SectionBanner";
 
 function BlogPage() {
   const [data, setData] = useState([]);
@@ -39,6 +40,7 @@ function BlogPage() {
 
   return (
     <section className=" min-h-screen py-14 container mx-auto">
+      <SectionBanner>Blog</SectionBanner>
       <div className="flex justify-between items-center">
         <p className="text-2xl font-bold my-4 ">Enjoy Blogs</p>
         <div>
