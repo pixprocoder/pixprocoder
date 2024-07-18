@@ -14,9 +14,7 @@ const SingleBlogPage = ({ params }: any) => {
   console.log(post);
 
   useEffect(() => {
-    axios(
-      "https://pixprocoder-backend-pixprocoder.vercel.app/api/v1/posts/"
-    ).then((res) => {
+    axios("http://localhost:3003/api/v1/posts").then((res) => {
       const postData = res.data?.data.filter(
         (d: any) => d.id === Number(params.id)
       );
@@ -26,8 +24,14 @@ const SingleBlogPage = ({ params }: any) => {
 
   const formatDateString = (dateString: any) => {
     const date = new Date(dateString);
-    return format(date, "yy/MM/dd");
+    const formattedDate = format(date, "yy/MM/dd");
+    const formattedTime = format(date, "H:mm:ss");
+    return { formattedDate, formattedTime };
   };
+
+  const { formattedDate, formattedTime } = post.createdAt
+    ? formatDateString(post.createdAt)
+    : { formattedDate: "", formattedTime: "" };
 
   return (
     <section className="container mx-auto">
@@ -44,8 +48,9 @@ const SingleBlogPage = ({ params }: any) => {
 
           <div className="flex  gap-2">
             <p className="text-white font-bold text-base">Kobir</p>
-            <p className="text-white">
-              {post.createdAt && formatDateString(post.createdAt)}
+            <p className="text-white flex gap-2">
+              {formattedDate}
+              <small>{formattedTime}</small>
             </p>
           </div>
         </div>
