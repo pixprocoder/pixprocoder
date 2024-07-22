@@ -6,14 +6,27 @@ import { useEffect } from "react";
 import contact from "../../../assets/login.svg";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
+import { SubmitHandler, useForm } from "react-hook-form";
+import SectionBanner from "@/src/components/shared/SectionBanner";
 
 function ContactPage() {
   useEffect(() => {
     Aos.init();
   }, []);
+
+  // Handling from
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<any>();
+  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
+
   return (
-    <section className="min-h-screen container mx-auto">
-      <h1 className="text-center">Contact Me</h1>
+    <section className=" container mx-auto">
+      <SectionBanner>Contact Me</SectionBanner>
       <div className="flex  justify-center items-center">
         <div className="flex mt-[55px] ">
           <div className=" flex-1 hidden lg:block">
@@ -29,32 +42,30 @@ function ContactPage() {
             data-aos="zoom-in"
             className="flex-1 w-full lg:ml-8"
           >
-            <form className="flex flex-col">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
               <Input
+                {...register("email", { required: true })}
                 className="text-purple-800"
+                type="email"
+                placeholder="Your Email"
+              />
+              <Input
+                {...register("subject", { required: true })}
+                className="text-purple-800 my-4"
                 type="text"
-                name=""
-                id=""
                 placeholder="Subject"
               />
-              <Input
-                className="text-purple-800 my-4"
-                type="email"
-                name=""
-                id=""
-                placeholder="Email"
-              />
+
               <Textarea
+                {...register("message", { required: true })}
                 className="text-purple-800"
                 rows={6}
                 cols={20}
-                name=""
-                id=""
                 placeholder="Message"
               />
-              <div className="mt-2">
-                <Button>Send</Button>
-              </div>
+              <Button className="mt-4">
+                <input className="cursor-pointer" type="submit" />
+              </Button>
             </form>
           </div>
         </div>

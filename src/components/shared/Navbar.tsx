@@ -60,7 +60,7 @@ const Navbar = () => {
 
       <ul className="hidden navItem  lg:flex gap-6 justify-center items-center">
         {navLinks.map((el, i) => (
-          <>
+          <div key={i}>
             <Link
               className={` bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all duration-100`}
               key={i}
@@ -68,7 +68,7 @@ const Navbar = () => {
             >
               {el.key}
             </Link>
-          </>
+          </div>
         ))}
         {user ? (
           <Button
