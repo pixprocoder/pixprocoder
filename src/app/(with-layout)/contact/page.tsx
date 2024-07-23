@@ -37,7 +37,7 @@ function ContactPage() {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to send message");
+      // alert("Failed to send message");
     }
   };
 
@@ -62,24 +62,44 @@ function ContactPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
               <Input
                 {...register("email", { required: true })}
+                aria-invalid={errors.email ? "true" : "false"}
                 className="text-purple-800"
                 type="email"
                 placeholder="Your Email"
               />
-              <Input
-                {...register("subject", { required: true })}
-                className="text-purple-800 my-4"
-                type="text"
-                placeholder="Subject"
-              />
+              {errors.email?.type === "required" && (
+                <p className="text-sm text-red-700" role="alert">
+                  Email is required
+                </p>
+              )}
+              <div className="my-4">
+                <Input
+                  {...register("subject", { required: true })}
+                  aria-invalid={errors.subject ? "true" : "false"}
+                  className="text-purple-800 "
+                  type="text"
+                  placeholder="Subject"
+                />
+                {errors.subject?.type === "required" && (
+                  <p className="text-sm text-red-700" role="alert">
+                    Subject is required
+                  </p>
+                )}
+              </div>
 
               <Textarea
                 {...register("message", { required: true })}
+                aria-invalid={errors.message ? "true" : "false"}
                 className="text-purple-800"
                 rows={6}
                 cols={20}
                 placeholder="Message"
               />
+              {errors.message?.type === "required" && (
+                <p className="text-sm text-red-700" role="alert">
+                  Message is required
+                </p>
+              )}
               <Button className="mt-4">
                 <input className="cursor-pointer" type="submit" />
               </Button>
