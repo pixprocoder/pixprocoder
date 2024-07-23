@@ -8,6 +8,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SectionBanner from "@/src/components/shared/SectionBanner";
+import axios from "axios";
 
 function ContactPage() {
   useEffect(() => {
@@ -19,10 +20,26 @@ function ContactPage() {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm<any>();
-  const onSubmit: SubmitHandler<any> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3003/api/v1/contact",
+        data
+      );
+
+      if (res.status === 200) {
+        reset();
+      } else {
+        alert("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to send message");
+    }
+  };
 
   return (
     <section className=" container mx-auto">
