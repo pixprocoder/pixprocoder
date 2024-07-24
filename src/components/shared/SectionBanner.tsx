@@ -9,14 +9,14 @@ const SectionBanner = ({ children }: any) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundColor: "#0c0c0c",
-        height: "40vh",
+        height: "300px",
         width: "100%",
         marginTop: "-100px",
         marginBottom: "50px",
         borderRadius: "0 0 10px 10px",
       }}
     >
-      <div className="max-w-[1400px] mx-auto flex justify-center items-center ">
+      <div className="max-w-[1400px] mx-auto flex  ">
         <h1 className=" text-6xl font-black">{children}</h1>
       </div>
     </div>

@@ -26,7 +26,7 @@ function ContactPage() {
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       const res = await axios.post(
-        "http://localhost:3003/api/v1/contact",
+        "https://pixprocoder-backend.vercel.app/api/v1/contact",
         data
       );
 
@@ -43,7 +43,6 @@ function ContactPage() {
 
   return (
     <section className=" container mx-auto">
-      <SectionBanner>Contact Me</SectionBanner>
       <div className="flex  justify-center items-center">
         <div className="flex mt-[55px] ">
           <div className=" flex-1 hidden lg:block">
