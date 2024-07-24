@@ -14,10 +14,8 @@ const SingleBlogPage = ({ params }: any) => {
   console.log(post);
 
   useEffect(() => {
-    axios("http://localhost:3003/api/v1/posts").then((res) => {
-      const postData = res.data?.data.filter(
-        (d: any) => d.id === Number(params.id)
-      );
+    axios("https://pixprocoder-backend.vercel.app/api/v1/posts").then((res) => {
+      const postData = res.data?.data.filter((d: any) => d.id === params.id);
       setPost(postData[0]);
     });
   }, []);

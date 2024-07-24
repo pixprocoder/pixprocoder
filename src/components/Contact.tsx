@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { useForm } from "react-hook-form";
 const Contact = () => {
   const {
@@ -8,8 +7,10 @@ const Contact = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => {
-    console.log(data);
+    console.log("the data is", data);
   };
+
+  console.log("here I am");
 
   return (
     <section id="contact-section" className="pt-8 my-40">
