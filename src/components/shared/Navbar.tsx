@@ -36,9 +36,7 @@ const Navbar = () => {
 
       {isOpen && (
         <ul
-          className={`navItem flex flex-col justify-center items-center absolute z-10 top-14 left-0 w-full bg-black bg-opacity-95 h-[90vh] gap-4 transition-transform duration-300 ease-in-out ${
-            isOpen ? "transform translate-y-0" : "transform -translate-y-full"
-          } lg:hidden`}
+          className={`navItem flex flex-col justify-center items-center absolute z-10 top-14 left-0 w-full bg-black bg-opacity-95 h-[90vh] gap-4  lg:hidden`}
         >
           {navLinks.map((el, i) => {
             return (
