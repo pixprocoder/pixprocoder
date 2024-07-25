@@ -14,6 +14,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   const { user, logOut } = useContext(AuthContext);
 
   const handleSignOut = () => {
@@ -31,25 +35,39 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <ul className=" navItem flex flex-col  justify-center items-center absolute z-10 top-16 left-0 w-full bg-gray-600  gap-4">
+        <ul
+          className={`navItem flex flex-col justify-center items-center absolute z-10 top-14 left-0 w-full bg-black bg-opacity-95 h-[90vh] gap-4 transition-transform duration-300 ease-in-out ${
+            isOpen ? "transform translate-y-0" : "transform -translate-y-full"
+          } lg:hidden`}
+        >
           {navLinks.map((el, i) => {
             return (
-              <>
+              <div key={i}>
                 <Link
-                  className={`   mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
+                  className={`   mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100  border-b-2 `}
                   key={i}
                   href={el.to}
+                  onClick={handleLinkClick}
                 >
                   {el.key}
                 </Link>
-              </>
+              </div>
             );
           })}
-          <Link className="mb-2" href="/signup">
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-              SIGN UP
+          {user ? (
+            <Button
+              onClick={handleSignOut}
+              className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
+            >
+              LOGOUT
             </Button>
-          </Link>
+          ) : (
+            <Link href="/signup">
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+                SIGN UP
+              </Button>
+            </Link>
+          )}
         </ul>
       )}
 
