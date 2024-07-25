@@ -9,6 +9,7 @@ import { Textarea } from "@/src/components/ui/textarea";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SectionBanner from "@/src/components/shared/SectionBanner";
 import axios from "axios";
+import { getBaseURL } from "@/src/utils";
 
 function ContactPage() {
   useEffect(() => {
@@ -25,10 +26,7 @@ function ContactPage() {
   } = useForm<any>();
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
-      const res = await axios.post(
-        "https://pixprocoder-backend.vercel.app/api/v1/contact",
-        data
-      );
+      const res = await axios.post(`${getBaseURL()}/contact`, data);
 
       if (res.status === 200) {
         reset();
