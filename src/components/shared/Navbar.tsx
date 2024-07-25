@@ -14,6 +14,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   const { user, logOut } = useContext(AuthContext);
 
   const handleSignOut = () => {
