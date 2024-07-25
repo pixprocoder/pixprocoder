@@ -14,6 +14,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   const { user, logOut } = useContext(AuthContext);
 
   const handleSignOut = () => {
@@ -34,15 +38,16 @@ const Navbar = () => {
         <ul className=" navItem flex flex-col  justify-center items-center absolute z-10 top-16 left-0 w-full bg-gray-600  gap-4">
           {navLinks.map((el, i) => {
             return (
-              <>
+              <div key={i}>
                 <Link
                   className={`   mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100`}
                   key={i}
                   href={el.to}
+                  onClick={handleLinkClick}
                 >
                   {el.key}
                 </Link>
-              </>
+              </div>
             );
           })}
           <Link className="mb-2" href="/signup">
