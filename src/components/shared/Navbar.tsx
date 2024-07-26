@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { AuthContext } from "@/src/providers/AuthProviders";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,8 +22,8 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     logOut()
-      .then((res: any) => { })
-      .catch((error: any) => { });
+      .then((res: any) => {})
+      .catch((error: any) => {});
   };
 
   return (
@@ -35,12 +35,15 @@ const Navbar = () => {
       </div>
 
       <motion.div
-        initial={{ x: '100%' }}
-        animate={{ x: isOpen ? 0 : '100%' }}
+        initial={{ x: "100%" }}
+        animate={{ x: isOpen ? 0 : "100%" }}
         transition={{ duration: 0.3 }}
         className="fixed rounded-l-3xl top-0 right-0 w-2/3 h-full bg-gray-600 shadow-md p-4 z-50 md:hidden"
       >
-        <div className="lg:hidden absolute right-4 text-right cursor-pointer z-30" onClick={handleResponsiveMenu}>
+        <div
+          className="lg:hidden absolute right-4 text-right cursor-pointer z-30"
+          onClick={handleResponsiveMenu}
+        >
           {isOpen ? (
             <AiOutlineClose className="text-white text-2xl" />
           ) : (
@@ -68,7 +71,10 @@ const Navbar = () => {
         </ul>
       </motion.div>
 
-      <div className="lg:hidden cursor-pointer z-30" onClick={handleResponsiveMenu}>
+      <div
+        className="lg:hidden cursor-pointer z-30"
+        onClick={handleResponsiveMenu}
+      >
         {isOpen ? (
           <AiOutlineClose className="text-white text-2xl" />
         ) : (
