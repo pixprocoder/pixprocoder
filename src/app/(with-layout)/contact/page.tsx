@@ -27,6 +27,7 @@ function ContactPage() {
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       const res = await axios.post(`${getBaseURL()}/contact`, data);
+      console.log(process.env.NEXT_PUBLIC_API_URL);
 
       if (res.status === 200) {
         reset();

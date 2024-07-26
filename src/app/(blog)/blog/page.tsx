@@ -19,14 +19,13 @@ import SelectCategoryPage from "@/src/components/shared/SelectCategory";
 import Link from "next/link";
 import { format } from "date-fns";
 import SectionBanner from "@/src/components/shared/SectionBanner";
+import { getBaseURL } from "@/src/utils";
 
 function BlogPage() {
   const [data, setData] = useState([]);
 
   http: useEffect(() => {
-    axios("https://pixprocoder-backend.vercel.app/api/v1/posts").then((res) =>
-      setData(res.data?.data)
-    );
+    axios(`${getBaseURL()}/posts`).then((res) => setData(res.data?.data));
   }, []);
 
   // Date format
