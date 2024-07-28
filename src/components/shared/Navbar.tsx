@@ -68,11 +68,9 @@ const Navbar = () => {
             </li>
           ))}
           <li>
-            <Link href="/signup">
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+              <Button onClick={() => handleMobileNav('/signup')} className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
                 SIGN UP
               </Button>
-            </Link>
           </li>
         </ul>
       </motion.div>
