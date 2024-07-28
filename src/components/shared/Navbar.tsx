@@ -7,9 +7,11 @@ import { AuthContext } from "@/src/providers/AuthProviders";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter()
   const handleResponsiveMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -22,9 +24,14 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     logOut()
-      .then((res: any) => {})
-      .catch((error: any) => {});
+      .then((res: any) => { })
+      .catch((error: any) => { });
   };
+
+  const handleMobileNav = (link: string) => {
+    router.push(link)
+    setIsOpen(false)
+  }
 
   return (
     <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900">
@@ -53,12 +60,11 @@ const Navbar = () => {
         <ul className="space-y-4 pt-12 flex flex-col justify-center items-center">
           {navLinks.map((el, i) => (
             <li key={i}>
-              <Link
+              <span onClick={() => handleMobileNav(el.to)}
                 className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
-                href={el.to}
               >
                 {el.key}
-              </Link>
+              </span>
             </li>
           ))}
           <li>
