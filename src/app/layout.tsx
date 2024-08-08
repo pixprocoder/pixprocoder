@@ -24,3 +24,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+/**
+ * now we are going to code the entire website so stick with me now it's working that is fine
+ * 
+*/

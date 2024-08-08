@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 import { useForm } from "react-hook-form";
 const Contact = () => {
   const {

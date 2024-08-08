@@ -1,7 +1,7 @@
 function LoadingPage() {
   return (
     <div className=" min-h-screen flex justify-center items-center ">
-      The page is loading...
+      <h1>Loading... please wait </h1>
     </div>
   );
 }

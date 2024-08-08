@@ -48,7 +48,7 @@ const LoginPage = () => {
       <div className="">
         <h1 className="text-3xl font-bold mb-2 center">Please Login </h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
-          <div className="flex-1 w-full">
+          <div className="flex-1 w-[90vw] md:w-full">
             <CardHeader className="">
               <div>
                 <div className="grid w-full max-w-sm items-center my-4">
@@ -78,7 +78,7 @@ const LoginPage = () => {
                 </div>
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-white">
+                    <span className="text-white text-sm md:text-base">
                       Don't have account{" "}
                       <Link className="text-blue-500 underline" href="/signup">
                         Sign up

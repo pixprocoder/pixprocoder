@@ -1,3 +1,5 @@
+"use client";
+
 import Facebook from "../../assets/icons/Facebook.svg";
 import Instagram from "../../assets/icons/Instagram.svg";
 import Twitter from "../../assets/icons/Twitter.svg";
@@ -6,8 +8,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useRef } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const Footer = () => {
+ 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<any>();
+
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    console.log(data);
+    reset();
+  };
+
   return (
     <footer className="banner-footer  lg:h-[400px] bg-[#15213C] bg-opacity-50">
       <div className="container mx-auto ">
@@ -119,20 +136,30 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>Stay update with our latest</li>
               <li>
-                <div className="flex w-full max-w-sm items-center space-x-2 text-blue-500">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="flex w-full max-w-sm items-center space-x-2 text-blue-500"
+                >
                   <Input
+                    {...register("email", { required: true })}
                     className="text-blue-500"
                     type="email"
+                    aria-invalid={errors.subject ? "true" : "false"}
                     placeholder="Email"
                   />
+                  {errors.subject?.type === "required" && (
+                    <p className="text-sm text-red-700" role="alert">
+                      Email is required
+                    </p>
+                  )} 
                   <Button type="submit">Subscribe</Button>
-                </div>
+                </form>
               </li>
             </ul>
           </div>
         </div>
         <p className="text-center text-white mt-14 text-xs ">
-          Copyright ©2023 All rights reserved by |{" "}
+          Copyright ©2024 All rights reserved by |{" "}
           <b className="text-blue-500">Samsul Kobir 💙</b>
         </p>
       </div>

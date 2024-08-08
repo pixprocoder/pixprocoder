@@ -42,8 +42,8 @@ function ContactPage() {
 
   return (
     <section className=" container mx-auto">
-      <div className="flex  justify-center items-center">
-        <div className="flex mt-[55px] ">
+      <div className="flex  justify-center items-center  min-h-screen">
+        <div className="flex mt-[55px] md:my-0 my-20 ">
           <div className=" flex-1 hidden lg:block">
             <Image
               data-aos-duration="1000"
@@ -56,8 +56,10 @@ function ContactPage() {
             data-aos-duration="1000"
             data-aos="zoom-in"
             className="flex-1 w-full lg:ml-8"
+
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+            <h1 className="text-2xl my-4 block md:hidden">Contact with me</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex w-[90vw] md:w-full flex-col">
               <Input
                 {...register("email", { required: true })}
                 aria-invalid={errors.email ? "true" : "false"}
@@ -98,7 +100,9 @@ function ContactPage() {
                   Message is required
                 </p>
               )}
-              <Button className="mt-4">
+              <Button
+              
+              className="mt-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
                 <input className="cursor-pointer" type="submit" />
               </Button>
             </form>
