@@ -18,6 +18,8 @@ const LoginPage = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+   // TODO: Implement React hooks form
+
   const handleLogin = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;

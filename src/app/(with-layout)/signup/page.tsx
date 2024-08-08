@@ -19,6 +19,8 @@ const SignupPage = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  // TODO: Implement React hooks form
+
   const handleSubmit = () => {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
