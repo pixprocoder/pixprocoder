@@ -24,9 +24,13 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 
 function BlogPage() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   http: useEffect(() => {
-    axios(`${getBaseURL()}/posts`).then((res) => setData(res.data?.data));
+    axios(`${getBaseURL()}/posts`).then((res) => {
+      setData(res.data?.data);
+      setLoading(false);
+    });
   }, []);
 
   // Date format
@@ -47,131 +51,70 @@ function BlogPage() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {data.map((blog: any) => {
-          const { formattedDate, formattedTime } = formatDateString(
-            blog.createdAt
-          );
-          return (
-           <>
-            {
-              blog.id ? <Card
-              key={blog?.id}
-              className="bg-gray-950 border border-gray-800 w-full"
-            >
-              <CardHeader>
-                <CardTitle className="text-white mb-2 font-bold">
-                  {blog ? (
-                    blog.title
-                  ) : (
+        {loading
+          ? Array.from({ length: data.length || 1 }).map((_, index) => (
+              <Card
+                key={index}
+                className="bg-gray-950 border border-gray-800 w-full"
+              >
+                <CardHeader>
+                  <CardTitle className="mb-2">
                     <Skeleton className="h-6 w-3/4 bg-gray-800" />
-                  )}
-                </CardTitle>
-                <div className="flex gap-3 items-center">
-                  <Avatar>
-                    {blog ? (
-                      <AvatarImage src={blog.image} />
-                    ) : (
-                      <Skeleton className="h-10 w-10 rounded-full bg-gray-800" />
-                    )}
-
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-
-                  <div className="flex gap-2">
-                    <p className="text-white font-bold text-base">
-                      {blog ? (
-                        "Kobir"
-                      ) : (
-                        <Skeleton className="h-4 w-16 bg-gray-800" />
-                      )}
-                    </p>
-                    <p className="text-white flex gap-2">
-                      {blog ? (
-                        formattedDate
-                      ) : (
-                        <Skeleton className="h-4 w-12 bg-gray-800" />
-                      )}
-                      {blog ? (
-                        <small>{formattedTime}</small>
-                      ) : (
-                        <Skeleton className="h-4 w-8 bg-gray-800" />
-                      )}
-                    </p>
+                  </CardTitle>
+                  <div className="flex gap-3 items-center">
+                    <Skeleton className="h-10 w-10 rounded-full bg-gray-800" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-4 w-16 bg-gray-800" />
+                      <Skeleton className="h-4 w-12 bg-gray-800" />
+                    </div>
                   </div>
-                </div>
-                <CardDescription className="text-gray-300 mt-2">
-                  {blog ? (
-                    blog.content
-                  ) : (
+                  <CardDescription className="mt-2">
                     <Skeleton className="h-20 w-full bg-gray-800" />
-                  )}
-                </CardDescription>
-              </CardHeader>
-
-              <CardFooter>
-                <div>
-                  {blog ? (
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter>
+                  <Skeleton className="h-10 w-full bg-gray-800" />
+                </CardFooter>
+              </Card>
+            ))
+          : data.map((blog: any) => {
+              const { formattedDate, formattedTime } = formatDateString(
+                blog.createdAt
+              );
+              return (
+                <Card
+                  key={blog.id}
+                  className="bg-gray-950 border border-gray-800 w-full"
+                >
+                  <CardHeader>
+                    <CardTitle className="text-white mb-2 font-bold">
+                      {blog.title}
+                    </CardTitle>
+                    <div className="flex gap-3 items-center">
+                      <Avatar>
+                        <AvatarImage src={blog.image} />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="flex gap-2">
+                        <p className="text-white font-bold text-base">Kobir</p>
+                        <p className="text-white flex gap-2">
+                          {formattedDate}
+                          <small>{formattedTime}</small>
+                        </p>
+                      </div>
+                    </div>
+                    <CardDescription className="text-gray-300 mt-2">
+                      {blog.content}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter>
                     <Link href={`/blog/${blog.id}`}>
                       <Button className="w-full">Read More</Button>
                     </Link>
-                  ) : (
-                    <Skeleton className="h-10 w-full bg-gray-800" />
-                  )}
-                </div>
-              </CardFooter>
-            </Card> : 
-            <Skeleton
-            
-            className="bg-gray-950 border border-gray-800 w-full"
-          >
-            <CardHeader>
-              <CardTitle className="text-white mb-2 font-bold">
-                
-                <Skeleton className="h-6 w-3/4 bg-gray-800" />
-              </CardTitle>
-              <div className="flex gap-3 items-center">
-                <Avatar>
-                 
-                  <Skeleton className="h-10 w-10 rounded-full bg-gray-800" />
-
-                 
-                </Avatar>
-
-                <div className="flex gap-2">
-                  <p className="text-white font-bold text-base">
-                   
-                    <Skeleton className="h-4 w-16 bg-gray-800" />
-                  </p>
-                  <p className="text-white flex gap-2">
-                    
-                    <Skeleton className="h-4 w-12 bg-gray-800" />
-                   
-                    <Skeleton className="h-4 w-8 bg-gray-800" />
-                  </p>
-                </div>
-              </div>
-              <CardDescription className="text-gray-300 mt-2">
-                
-                <Skeleton className="h-20 w-full bg-gray-800" />
-              </CardDescription>
-            </CardHeader>
-
-            <CardFooter>
-              <div>
-                {blog ? (
-                  <Link href={`/blog/${blog.id}`}>
-                    <Button className="w-full">....</Button>
-                  </Link>
-                ) : (
-                  <Skeleton className="h-10 w-full bg-gray-800" />
-                )}
-              </div>
-            </CardFooter>
-          </Skeleton>
-            }
-           </>
-          );
-        })}
+                  </CardFooter>
+                </Card>
+              );
+            })}
       </div>
     </section>
   );
