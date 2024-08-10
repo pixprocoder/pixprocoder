@@ -8,10 +8,19 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "../ui/dropdown-menu";
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const handleResponsiveMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -24,14 +33,14 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     logOut()
-      .then((res: any) => { })
-      .catch((error: any) => { });
+      .then((res: any) => {})
+      .catch((error: any) => {});
   };
 
   const handleMobileNav = (link: string) => {
-    router.push(link)
-    setIsOpen(false)
-  }
+    router.push(link);
+    setIsOpen(false);
+  };
 
   return (
     <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900">
@@ -60,7 +69,8 @@ const Navbar = () => {
         <ul className="space-y-4 pt-12 flex flex-col justify-center items-center">
           {navLinks.map((el, i) => (
             <li key={i}>
-              <span onClick={() => handleMobileNav(el.to)}
+              <span
+                onClick={() => handleMobileNav(el.to)}
                 className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
               >
                 {el.key}
@@ -68,9 +78,12 @@ const Navbar = () => {
             </li>
           ))}
           <li>
-              <Button onClick={() => handleMobileNav('/signup')} className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-                SIGN UP
-              </Button>
+            <Button
+              onClick={() => handleMobileNav("/signup")}
+              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
+            >
+              SIGN UP
+            </Button>
           </li>
         </ul>
       </motion.div>
@@ -98,12 +111,24 @@ const Navbar = () => {
           </li>
         ))}
         {user ? (
-          <Button
-            onClick={handleSignOut}
-            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
-          >
-            LOGOUT
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-black text-white">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSignOut}>
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <Link href="/signup">
             <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
