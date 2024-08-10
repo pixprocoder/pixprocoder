@@ -40,19 +40,18 @@ function BlogPage() {
     const formattedTime = format(date, "H:mm:ss");
     return { formattedDate, formattedTime };
   };
+  // skeleton length count to show on the ui
 
   return (
     <section className=" min-h-screen py-14 container mx-auto">
-      <SectionBanner>Blog</SectionBanner>
+      {/* <SectionBanner>Blog</SectionBanner>
       <div className="flex justify-between items-center">
         <p className="text-2xl font-bold my-4 ">Enjoy Blogs</p>
-        <div>
-          <SelectCategoryPage />
-        </div>
-      </div>
+        <div><SelectCategoryPage /></div>
+      </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading
-          ? Array.from({ length: data.length || 1 }).map((_, index) => (
+          ? Array.from({ length: data?.length || 2 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full"
