@@ -20,17 +20,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const handleResponsiveMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const handleLinkClick = () => {
-    setIsOpen(false);
-  };
-
-  const { user, logOut } = useContext(AuthContext);
 
   const handleSignOut = () => {
     logOut()
