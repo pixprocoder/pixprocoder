@@ -17,6 +17,7 @@ import {
 } from "../ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,8 +46,9 @@ const Navbar = () => {
   return (
     <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900">
       <div className="flex-1">
-        <Link href="/" className="font-bold text-xl">
-          PIXPROCODER
+        <Link href="/" className="font-bold text-xl flex gap-2  items-center">
+          <Image width={30} height={30} src="/vertical-logo.png" alt="logo" />
+          <p>PIXPROCODER</p>
         </Link>
       </div>
 
