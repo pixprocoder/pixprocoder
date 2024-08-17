@@ -35,7 +35,7 @@ function FAQPage() {
             <Accordion type="single" collapsible>
               {faqItems.map((item, index) => (
                 // @ts-ignore
-                <AccordionItem value={item.value}>
+                <AccordionItem key={index} value={item.value}>
                   <AccordionTrigger>{item.question}</AccordionTrigger>
                   <AccordionContent>
                     <p className="text-gray-300">{item.answer}</p>
