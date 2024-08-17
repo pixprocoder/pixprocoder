@@ -5,7 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main>{children}</main>
+      <main className="w-[1400px] mx-auto">{children}</main>
     </>
   );
 }
