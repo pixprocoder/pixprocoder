@@ -1,6 +1,6 @@
 function LoadingPage() {
   return (
-    <div className=" min-h-screen flex justify-center items-center ">
+    <div className=" min-h-screen flex justify-center items-center gap-4 ">
       <div role="status">
         <svg
           aria-hidden="true"
@@ -18,7 +18,6 @@ function LoadingPage() {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
       </div>
     </div>
   );
