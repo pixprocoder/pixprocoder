@@ -111,14 +111,28 @@ const Navbar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                {user?.photoURL ? (
+                  <AvatarImage src={user?.photoURL} />
+                ) : (
+                  <AvatarFallback className="text-black">
+                    {user?.displayName
+                      ? user?.displayName
+                          ?.split(" ")
+                          .map((word: any[]) => word[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2)
+                      : "CN"}
+                  </AvatarFallback>
+                )}
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-black text-white">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuItem>Team</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
