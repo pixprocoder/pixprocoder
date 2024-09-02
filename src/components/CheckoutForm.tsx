@@ -12,6 +12,7 @@ const CheckoutForm = () => {
   const { user } = useContext(AuthContext);
   const { setTransactionId } = useContext(TransactionContext);
   const [clientSecret, setClientSecret] = useState<string>("");
+  const [paymentError, setPaymentError] = useState<string>("");
 
   const router = useRouter();
   const stripe = useStripe();
@@ -58,8 +59,9 @@ const CheckoutForm = () => {
 
     if (error) {
       console.error("payment error", error);
+      setPaymentError(error?.message!);
     } else {
-      console.log(paymentMethod);
+      //   console.log(paymentMethod);
     }
 
     // confirm card payment
@@ -109,6 +111,7 @@ const CheckoutForm = () => {
       >
         Pay
       </Button>
+      {paymentError && <p className="text-red-500 text-xs">{paymentError}</p>}
     </form>
   );
 };
