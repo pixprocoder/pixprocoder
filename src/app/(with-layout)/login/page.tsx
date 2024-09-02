@@ -34,8 +34,7 @@ const LoginPage = () => {
 
     signIn(email, password)
       .then((res: any) => {
-        console.log(res.user);
-        reset;
+        reset();
         router.push("/");
         toast({
           variant: "outline",
@@ -43,35 +42,37 @@ const LoginPage = () => {
         });
       })
       .catch((err: any) => {
-        console.log(err.message);
         setError(err.message);
       });
   };
 
-  // const handleLogin = () => {
-  //   const email = emailRef.current.value;
-  //   const password = passwordRef.current.value;
-
-  //   signIn(email, password)
-  //     .then((res) => {})
-  //     .catch((error) => {});
-  // };
-  // const handleGoogleSignIn = () => {
-  //   signInWithGoogle()
-  //     .then((res) => {
-  //       const user = res.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {});
-  // };
-  // const handleGitHubSignIn = () => {
-  //   signInWithGitHub()
-  //     .then((res) => {
-  //       const user = res.user;
-  //       console.log(user);
-  //     })
-  //     .catch((error) => {});
-  // };
+  // Handling Social login
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res: any) => {
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Login successful",
+        });
+      })
+      .catch((error: any) => {
+        setError(error.message);
+      });
+  };
+  const handleGitHubSignIn = () => {
+    signInWithGitHub()
+      .then((res: any) => {
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Login successful",
+        });
+      })
+      .catch((error: any) => {
+        setError(error.message);
+      });
+  };
 
   return (
     <section className="min-h-screen flex justify-center items-center">
@@ -140,14 +141,14 @@ const LoginPage = () => {
               <span className="text-white mx-2">OR</span>
               <Separator className="my-4" />
             </div>
-            {/* <CardFooter className="flex flex-col w-full gap-2">
+            <CardFooter className="flex flex-col w-full gap-2">
               <Button onClick={handleGoogleSignIn} className="w-full">
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
               </Button>
               <Button onClick={handleGitHubSignIn} className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
-            </CardFooter> */}
+            </CardFooter>
           </div>
           <div className="flex-1 hidden lg:flex">
             <Image src={loginImg} alt="login" />
