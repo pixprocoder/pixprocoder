@@ -35,11 +35,11 @@ const SignupPage = () => {
       .then((res: any) => {
         // console.log(res.user);
         reset();
-        toast({
-          title: "Welcome to Pixprocoder",
-          description: "You have successfully Signup",
-        });
         router.push("/");
+        toast({
+          variant: "outline",
+          description: "Signup Successful",
+        });
       })
       .catch((err: any) => {
         setError(err.message);
