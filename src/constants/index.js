@@ -19,6 +19,7 @@ export const navLinks = [
   { to: "/", key: "Home" },
   { to: "/blog", key: "Blog" },
   { to: "/course", key: "Courses" },
+  { to: "/shop", key: "Shop" },
   { to: "/portfolio", key: "Portfolio" },
   { to: "/services", key: "Services" },
   { to: "/contact", key: "Contact" },

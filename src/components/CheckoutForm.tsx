@@ -21,12 +21,10 @@ const CheckoutForm = () => {
             method: 'post',
             url: `${getBaseURL()}/payment/create-checkout-session`,
             data: {
-                price: price, // Send the price as part of the request body
+                price: price,
             }
         })
             .then((response) => {
-
-                // Set clientSecret if it is available in the response
                 if (response.data && response.data.data.clientSecret) {
                     setClientSecret(response.data.data.clientSecret);
                 } else {
@@ -34,8 +32,6 @@ const CheckoutForm = () => {
                 }
             })
             .catch((error) => {
-                // Log and handle errors
-                console.error('Error:', error);
                 alert('An error occurred while creating the checkout session. Please try again.');
             });
     }, []);
