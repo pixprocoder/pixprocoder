@@ -76,10 +76,10 @@ const Navbar = () => {
           ))}
           <li>
             <Button
-              onClick={() => handleMobileNav("/signup")}
+              onClick={() => handleMobileNav("/login")}
               className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
             >
-              SIGN UP
+              LOGIN
             </Button>
           </li>
         </ul>
@@ -141,9 +141,9 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Link href="/signup">
+          <Link href="/login">
             <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-              SIGN UP
+              LOGIN
             </Button>
           </Link>
         )}
