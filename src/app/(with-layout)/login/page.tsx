@@ -10,40 +10,68 @@ import { SiGithub, SiGoogle } from "react-icons/si";
 import Link from "next/link";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "@/src/providers/AuthProviders";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/src/components/ui/use-toast";
 
 const LoginPage = () => {
   const { signIn, signInWithGoogle, signInWithGitHub } =
     useContext(AuthContext);
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [error, setError] = useState("");
 
-   // TODO: Implement React hooks form
-
-  const handleLogin = () => {
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    const email = data.userEmail;
+    const password = data.userPassword;
 
     signIn(email, password)
-      .then((res) => {})
-      .catch((error) => {});
-  };
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((res) => {
-        const user = res.user;
-        console.log(user);
+      .then((res: any) => {
+        console.log(res.user);
+        reset;
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Login successful",
+        });
       })
-      .catch((error) => {});
+      .catch((err: any) => {
+        console.log(err.message);
+        setError(err.message);
+      });
   };
-  const handleGitHubSignIn = () => {
-    signInWithGitHub()
-      .then((res) => {
-        const user = res.user;
-        console.log(user);
-      })
-      .catch((error) => {});
-  };
+
+  // const handleLogin = () => {
+  //   const email = emailRef.current.value;
+  //   const password = passwordRef.current.value;
+
+  //   signIn(email, password)
+  //     .then((res) => {})
+  //     .catch((error) => {});
+  // };
+  // const handleGoogleSignIn = () => {
+  //   signInWithGoogle()
+  //     .then((res) => {
+  //       const user = res.user;
+  //       console.log(user);
+  //     })
+  //     .catch((error) => {});
+  // };
+  // const handleGitHubSignIn = () => {
+  //   signInWithGitHub()
+  //     .then((res) => {
+  //       const user = res.user;
+  //       console.log(user);
+  //     })
+  //     .catch((error) => {});
+  // };
 
   return (
     <section className="min-h-screen flex justify-center items-center">
@@ -52,18 +80,23 @@ const LoginPage = () => {
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-[90vw] md:w-full">
             <CardHeader className="">
-              <div>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid w-full max-w-sm items-center my-4">
                   <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
                   <Input
-                    required
-                    ref={emailRef}
+                    {...register("userEmail", { required: true })}
+                    aria-invalid={errors.userEmail ? "true" : "false"}
                     type="email"
                     id="email"
                     placeholder="Your Email"
                   />
+                  {errors.userEmail && (
+                    <p className="text-red-500 text-xs" role="alert">
+                      Email is Required
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">
@@ -71,12 +104,17 @@ const LoginPage = () => {
                     Password
                   </Label>
                   <Input
-                    ref={passwordRef}
-                    required
+                    {...register("userPassword", { required: true })}
+                    aria-invalid={errors?.userPassword ? "true" : "false"}
                     type="password"
                     id="password"
                     placeholder="Your password"
                   />
+                  {errors.userPassword && (
+                    <p className="text-red-500 text-xs" role="alert">
+                      Password is Required
+                    </p>
+                  )}
                 </div>
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
@@ -87,28 +125,29 @@ const LoginPage = () => {
                       </Link>
                     </span>
                     <Button
-                      onClick={handleLogin}
+                      type="submit"
                       className="bg-blue-500 hover:bg-blue-600"
                     >
                       Login
                     </Button>
                   </div>
                 </div>
-              </div>
+              </form>
+              {error && <p className="text-red-500 text-xs">{error}</p>}
             </CardHeader>
             <div className="flex w-28 justify-center items-centers mx-auto">
               <Separator className="my-4" />
               <span className="text-white mx-2">OR</span>
               <Separator className="my-4" />
             </div>
-            <CardFooter className="flex flex-col w-full gap-2">
+            {/* <CardFooter className="flex flex-col w-full gap-2">
               <Button onClick={handleGoogleSignIn} className="w-full">
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
               </Button>
               <Button onClick={handleGitHubSignIn} className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
-            </CardFooter>
+            </CardFooter> */}
           </div>
           <div className="flex-1 hidden lg:flex">
             <Image src={loginImg} alt="login" />

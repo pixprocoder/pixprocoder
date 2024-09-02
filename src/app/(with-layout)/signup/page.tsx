@@ -9,29 +9,40 @@ import loginImg from "../../../assets/login.svg";
 import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
 import { SiGithub, SiGoogle } from "react-icons/si";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "@/src/providers/AuthProviders";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/src/components/ui/use-toast";
 
 const SignupPage = () => {
   const { createUser } = useContext(AuthContext);
+  const { toast } = useToast();
+  const router = useRouter();
 
-  const nameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [error, setError] = useState("");
 
-  // TODO: Implement React hooks form
-
-  const handleSubmit = () => {
-    const name = nameRef.current.value;
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    const email = data.userEmail;
+    const password = data.userPassword;
     createUser(email, password)
-      .then((res) => {
-        const user = res.user;
-        console.log(user);
+      .then((res: any) => {
+        // console.log(res.user);
+        reset();
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Signup Successful",
+        });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((err: any) => {
+        setError(err.message);
       });
   };
 
@@ -42,29 +53,40 @@ const SignupPage = () => {
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-[90vw] md:w-full">
             <CardHeader className="">
-              <div>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid w-full max-w-sm items-center ">
                   <Label className="text-white mb-1" htmlFor="name">
                     Name
                   </Label>
                   <Input
-                    ref={nameRef}
+                    {...register("userName", { required: true })}
+                    aria-invalid={errors.userName ? "true" : "false"}
                     type="text"
                     id="name"
-                    placeholder="Your name"
+                    placeholder="Type Your Name"
                   />
+                  {errors.userName?.type === "required" && (
+                    <p className="text-red-500 text-xs" role="alert">
+                      Name is required
+                    </p>
+                  )}
                 </div>
                 <div className="grid w-full max-w-sm items-center my-4">
                   <Label className="text-white mb-1" htmlFor="email">
                     Email
                   </Label>
                   <Input
-                    ref={emailRef}
+                    {...register("userEmail", { required: true })}
+                    aria-invalid={errors.userEmail ? "true" : "false"}
                     type="email"
-                    required
                     id="email"
-                    placeholder="Your Email"
+                    placeholder="Type Your Email"
                   />
+                  {errors.userEmail?.type === "required" && (
+                    <p className="text-red-500 text-xs" role="alert">
+                      Email is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid w-full max-w-sm items-center ">
@@ -72,12 +94,17 @@ const SignupPage = () => {
                     Password
                   </Label>
                   <Input
-                    ref={passwordRef}
-                    required
+                    {...register("userPassword", { required: true })}
+                    aria-invalid={errors.userPassword ? "true" : "false"}
                     type="password"
                     id="password"
                     placeholder="Your password"
                   />
+                  {errors.userPassword?.type === "required" && (
+                    <p className="text-red-500 text-xs" role="alert">
+                      Password is required
+                    </p>
+                  )}
                 </div>
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
@@ -88,14 +115,15 @@ const SignupPage = () => {
                       </Link>
                     </span>
                     <Button
-                      onClick={handleSubmit}
+                      type="submit"
                       className="bg-blue-500 hover:bg-blue-600"
                     >
                       Signup
                     </Button>
                   </div>
                 </div>
-              </div>
+              </form>
+              {error && <p className="text-red-500 text-xs">{error}</p>}
             </CardHeader>
             <div className="flex w-28 justify-center items-centers mx-auto">
               <Separator className="my-4" />
