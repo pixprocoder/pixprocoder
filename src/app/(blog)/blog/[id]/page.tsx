@@ -8,13 +8,14 @@ import {
   AvatarImage,
 } from "@/src/components/ui/avatar";
 import { format } from "date-fns";
+import {getBaseURL} from "@/src/utils";
 
 const SingleBlogPage = ({ params }: any) => {
   const [post, setPost] = useState({});
-  console.log(post);
+
 
   useEffect(() => {
-    axios("https://pixprocoder-backend.vercel.app/api/v1/posts").then((res) => {
+    axios(`${getBaseURL()}/posts`).then((res) => {
       const postData = res.data?.data.filter((d: any) => d.id === params.id);
       setPost(postData[0]);
     });

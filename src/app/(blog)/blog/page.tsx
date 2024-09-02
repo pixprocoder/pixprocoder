@@ -26,7 +26,7 @@ function BlogPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  http: useEffect(() => {
+useEffect(() => {
     axios(`${getBaseURL()}/posts`).then((res) => {
       setData(res.data?.data);
       setLoading(false);
