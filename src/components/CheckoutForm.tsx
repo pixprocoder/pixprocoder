@@ -1,15 +1,15 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import {Button} from "@/src/components/ui/button";
 import axios from "axios";
 import {getBaseURL} from "@/src/utils";
 import {useRouter} from "next/navigation";
+import {TransactionContext} from "@/src/providers/OtherProviders";
 
 const CheckoutForm = () => {
-
+    const { setTransactionId} = useContext(TransactionContext);
     const [clientSecret,  setClientSecret] = useState<string>("");
-    const [transactionId, setTransactionId] = useState<string>("");
 
     const router =useRouter()
     const stripe = useStripe();
