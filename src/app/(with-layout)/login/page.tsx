@@ -74,17 +74,6 @@ const LoginPage = () => {
       });
   };
 
-  // const handleLogin = () => {
-  //   const email = emailRef.current.value;
-  //   const password = passwordRef.current.value;
-
-  //   signIn(email, password)
-  //     .then((res) => {})
-  //     .catch((error) => {});
-  // };
-
-  // };
-
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="">

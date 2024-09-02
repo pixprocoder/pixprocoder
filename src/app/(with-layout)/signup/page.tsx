@@ -16,7 +16,8 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/src/components/ui/use-toast";
 
 const SignupPage = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, signInWithGoogle, signInWithGitHub } =
+    useContext(AuthContext);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -43,6 +44,34 @@ const SignupPage = () => {
       })
       .catch((err: any) => {
         setError(err.message);
+      });
+  };
+
+  // Handling Social login
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res: any) => {
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Signup successful",
+        });
+      })
+      .catch((error: any) => {
+        setError(error.message);
+      });
+  };
+  const handleGitHubSignIn = () => {
+    signInWithGitHub()
+      .then((res: any) => {
+        router.push("/");
+        toast({
+          variant: "outline",
+          description: "Signup successful",
+        });
+      })
+      .catch((error: any) => {
+        setError(error.message);
       });
   };
 
@@ -130,12 +159,14 @@ const SignupPage = () => {
               <span className="text-white mx-2">OR</span>
               <Separator className="my-4" />
             </div>
-            <CardFooter className="flex flex-col w-full gap-2">
+            <CardFooter
+              onClick={handleGoogleSignIn}
+              className="flex flex-col w-full gap-2"
+            >
               <Button className="w-full">
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
-                {/* <UserButton afterSignOutUrl="/" /> */}
               </Button>
-              <Button className="w-full">
+              <Button onClick={handleGitHubSignIn} className="w-full">
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
             </CardFooter>
