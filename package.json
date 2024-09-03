@@ -34,6 +34,7 @@
     "firebase": "^10.7.1",
     "follow-redirects": "1.15.6",
     "framer-motion": "^10.12.18",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.290.0",
     "next": "13.4.9",
     "postcss": "8.4.31",
