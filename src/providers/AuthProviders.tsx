@@ -12,6 +12,8 @@ import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
 import axios from "axios";
 import { getBaseURL } from "../utils";
+import { getFromLocalStorage, setToLocalStorage } from "../utils/local-storage";
+import { authKey } from "../constants/storageKey";
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();
@@ -47,7 +49,7 @@ const AuthProviders = ({ children }: any) => {
       const userInfo = { email: currentUser?.email };
 
       if (userInfo.email) {
-        const storedToken = localStorage.getItem("accessToken");
+        const storedToken = getFromLocalStorage(authKey);
 
         try {
           const response = await axios.post(`${getBaseURL()}/jwt`, {
@@ -57,14 +59,13 @@ const AuthProviders = ({ children }: any) => {
 
           // Access the response data properly
           if (response.data?.data?.token) {
-            localStorage.setItem("accessToken", response.data?.data?.token);
-            console.log("Token:", response.data?.data?.token);
+            setToLocalStorage(authKey, response.data?.data?.token);
           } else {
-            localStorage.removeItem("accessToken");
+            localStorage.removeItem(authKey);
           }
         } catch (error) {
           console.log("user error", error);
-          localStorage.removeItem("accessToken");
+          localStorage.removeItem(authKey);
         }
       } else {
         localStorage.removeItem("accessToken");
