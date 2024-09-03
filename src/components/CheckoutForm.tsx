@@ -82,6 +82,34 @@ const CheckoutForm = () => {
       if (paymentIntent?.status === "succeeded") {
         setTransactionId(paymentIntent.id);
         router.push("/payment/success");
+
+        // Send and save to db
+        const payment = {
+          email: user?.email,
+          totalPrice: price,
+          date: new Date(),
+          status: paymentIntent.status,
+          transactionId: paymentIntent.id,
+        };
+        axios({
+          method: "post",
+          url: `${getBaseURL()}/payment`,
+          data: {
+            payment: payment,
+          },
+        })
+          .then((response) => {
+            if (response.data) {
+              console.log("payment success history data", response.data);
+            } else {
+              console.warn("Client secret is missing in the response.");
+            }
+          })
+          .catch((error) => {
+            alert(
+              "An error occurred while creating the checkout session. Please try again."
+            );
+          });
       }
     }
   };

@@ -25,7 +25,7 @@ const DashboardPage = () => {
           <div className="flex flex-col justify-between h-screen dashboard-card-bg  p-2 text-sm">
             <div>
               <Button className="w-full">
-                <Link href="/">Kobir</Link>
+                <Link href="/">MY Dashboard</Link>
               </Button>
             </div>
             <div>
@@ -33,31 +33,6 @@ const DashboardPage = () => {
                 <li>
                   <Button className="w-full">
                     <Link href="/">Home</Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className="w-full">
-                    <Link href="/">Blog</Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className="w-full">
-                    <Link href="/">Facebook</Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className="w-full">
-                    <Link href="/">Instagram</Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className="w-full">
-                    <Link href="/">Twitter</Link>
-                  </Button>
-                </li>
-                <li>
-                  <Button className="w-full">
-                    <Link href="/">LinkedIn</Link>
                   </Button>
                 </li>
               </ul>

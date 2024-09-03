@@ -10,8 +10,8 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebase/firebase.init";
-
-
+import axios from "axios";
+import { getBaseURL } from "../utils";
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();
@@ -41,10 +41,41 @@ const AuthProviders = ({ children }: any) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const fetchData = async () => {
+      const currentUser = auth.currentUser;
       setUser(currentUser);
+      const userInfo = { email: currentUser?.email };
+
+      if (userInfo.email) {
+        const storedToken = localStorage.getItem("accessToken");
+
+        try {
+          const response = await axios.post(`${getBaseURL()}/jwt`, {
+            email: userInfo.email,
+            token: storedToken,
+          });
+
+          // Access the response data properly
+          if (response.data?.data?.token) {
+            localStorage.setItem("accessToken", response.data?.data?.token);
+            console.log("Token:", response.data?.data?.token);
+          } else {
+            localStorage.removeItem("accessToken");
+          }
+        } catch (error) {
+          console.log("user error", error);
+          localStorage.removeItem("accessToken");
+        }
+      } else {
+        localStorage.removeItem("accessToken");
+      }
+
       setLoading(false);
-    });
+    };
+
+    // Call fetchData function
+    const unsubscribe = onAuthStateChanged(auth, fetchData);
+
     return () => unsubscribe();
   }, []);
 
