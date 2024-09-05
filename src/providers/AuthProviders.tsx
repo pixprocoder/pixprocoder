@@ -14,6 +14,7 @@ import axios from "axios";
 import { getBaseURL } from "../utils";
 import { getFromLocalStorage, setToLocalStorage } from "../utils/local-storage";
 import { authKey } from "../constants/storageKey";
+import { removeUserInfo } from "../helpers/auth.helper";
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();
@@ -61,14 +62,14 @@ const AuthProviders = ({ children }: any) => {
           if (response.data?.data?.token) {
             setToLocalStorage(authKey, response.data?.data?.token);
           } else {
-            localStorage.removeItem(authKey);
+            removeUserInfo(authKey);
           }
         } catch (error) {
           console.log("user error", error);
           localStorage.removeItem(authKey);
         }
       } else {
-        localStorage.removeItem("accessToken");
+        removeUserInfo(authKey);
       }
 
       setLoading(false);

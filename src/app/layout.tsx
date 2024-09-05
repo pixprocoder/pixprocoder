@@ -3,6 +3,7 @@ import "./globals.css";
 import AuthProviders from "../providers/AuthProviders";
 import { Toaster } from "../components/ui/toaster";
 import OtherProviders from "@/src/providers/OtherProviders";
+import TanStackQueryProvider from "../providers/TanStackQueryProvider";
 
 export const metadata: Metadata = {
   title: "Pixprocoder",
@@ -17,12 +18,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className="">
-        <AuthProviders>
-          <OtherProviders>
-            <main>{children}</main>
-            <Toaster/>
-          </OtherProviders>
-        </AuthProviders>
+        <TanStackQueryProvider>
+          <AuthProviders>
+            <OtherProviders>
+              <main>{children}</main>
+              <Toaster />
+            </OtherProviders>
+          </AuthProviders>
+        </TanStackQueryProvider>
       </body>
     </html>
   );
@@ -30,5 +33,5 @@ export default function RootLayout({
 
 /**
  * now we are going to code the entire website so stick with me now it's working that is fine
- * 
-*/
+ *
+ */
