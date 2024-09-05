@@ -24,18 +24,8 @@ import { Skeleton } from "@/src/components/ui/skeleton";
 import { useGetPostsQuery } from "@/src/redux/api/posts/PostApiSlice";
 
 function BlogPage() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const { data: posts } = useGetPostsQuery({});
-  console.log("blgo posts using RTK", posts);
-
-  useEffect(() => {
-    axios(`${getBaseURL()}/posts`).then((res) => {
-      setData(res.data?.data);
-      setLoading(false);
-    });
-  }, []);
+  const { data: posts, isLoading } = useGetPostsQuery({});
+  console.log("blgo posts using RTK", posts?.data);
 
   // Date format
   const formatDateString = (dateString: any) => {
@@ -54,8 +44,8 @@ function BlogPage() {
         <div><SelectCategoryPage /></div>
       </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {loading
-          ? Array.from({ length: data?.length || 2 }).map((_, index) => (
+        {isLoading
+          ? Array.from({ length: posts?.data?.length || 2 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full"
@@ -80,7 +70,7 @@ function BlogPage() {
                 </CardFooter>
               </Card>
             ))
-          : data.map((blog: any) => {
+          : posts?.data?.map((blog: any) => {
               const { formattedDate, formattedTime } = formatDateString(
                 blog.createdAt
               );
