@@ -12,7 +12,7 @@ import { getBaseURL } from "@/src/utils";
 import CommentBox from "../../_components/CommentBox";
 
 const SingleBlogPage = ({ params }: any) => {
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState<any>({});
 
   useEffect(() => {
     axios(`${getBaseURL()}/posts`).then((res) => {
