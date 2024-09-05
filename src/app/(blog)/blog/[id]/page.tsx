@@ -8,11 +8,10 @@ import {
   AvatarImage,
 } from "@/src/components/ui/avatar";
 import { format } from "date-fns";
-import {getBaseURL} from "@/src/utils";
+import { getBaseURL } from "@/src/utils";
 
 const SingleBlogPage = ({ params }: any) => {
   const [post, setPost] = useState({});
-
 
   useEffect(() => {
     axios(`${getBaseURL()}/posts`).then((res) => {
@@ -55,7 +54,7 @@ const SingleBlogPage = ({ params }: any) => {
         </div>
 
         <div className="">
-          <Image
+          <img
             className="w-full rounded-lg"
             width={500}
             height={500}

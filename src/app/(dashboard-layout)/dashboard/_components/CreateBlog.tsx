@@ -10,6 +10,8 @@ import {
   SelectValue,
 } from "@/src/components/ui/select";
 import { Textarea } from "@/src/components/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,6 +27,27 @@ function CreateBlog() {
     formState: { errors },
   } = useForm();
 
+  const mutation = useMutation({
+    mutationFn: (postData) => {
+      return axios.post(
+        "http://localhost:3003/api/v1/posts/create-post",
+        postData,
+        {
+          headers: {
+            "Content-Type": "application/json", // Ensure content type is JSON
+          },
+        }
+      );
+    },
+    onSuccess: (res) => {
+      console.log("Post created successfully!", res.data);
+      reset();
+    },
+    onError: (error) => {
+      console.error("Error creating post:", error);
+    },
+  });
+
   const onSubmit = (data: any) => {
     if (!selectedValue) {
       setSelectedValueError("This field is required");
@@ -32,6 +55,24 @@ function CreateBlog() {
     } else {
       setSelectedValueError("");
     }
+
+    // converting str to boolean
+
+    const isPublished = (str: string) => {
+      if (str.toLowerCase() === "true") return true;
+      else if (str.toLowerCase() === "false") return false;
+      return null; // Or handle invalid input as needed
+    };
+    const postData: any = {
+      title: data?.title,
+      content: data?.content,
+      image: data?.imageURL,
+      published: isPublished(selectedValue),
+      // Assume `published` is a form field or custom value
+    };
+
+    // Call the mutation to send data to the backend
+    mutation.mutate(postData);
   };
 
   return (
