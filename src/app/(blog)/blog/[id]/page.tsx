@@ -9,6 +9,7 @@ import {
 } from "@/src/components/ui/avatar";
 import { format } from "date-fns";
 import { getBaseURL } from "@/src/utils";
+import CommentBox from "../../_components/CommentBox";
 
 const SingleBlogPage = ({ params }: any) => {
   const [post, setPost] = useState({});
@@ -65,30 +66,12 @@ const SingleBlogPage = ({ params }: any) => {
 
         {/* Content */}
         <div className="mt-4">
-          <p className="text-gray-400 font-light">
-            {post.content}
-            As of my last knowledge update in September 2021, Figma's keyboard
-            shortcuts can change with updates to the software. However, as of
-            that time, there wasn't a default keyboard shortcut to specifically
-            show or hide the grid in Figma. To manipulate the grid visibility,
-            you might need to use the menus or manually set the grid properties
-            in the right sidebar. Here's how you can do it without a keyboard
-            shortcut: Show Grid: Go to the "View" menu at the top. Hover over
-            "Layout Grids". Click on the type of grid you want to show (Column,
-            Row, etc.). Hide Grid: Go to the "View" menu at the top. Hover over
-            "Layout Grids". Click on the type of grid that is currently selected
-            to toggle it off. Remember that keyboard shortcuts can change with
-            software updates, so it's a good idea to check Figma's official
-            documentation or the software's settings to see if there have been
-            any changes or if you can customize shortcuts based on your
-            preferences. As of my last knowledge update in September 2021,
-            Figma's keyboard shortcuts can change with updates to the software.
-            However, as of that time, there wasn't a default keyboard shortcut
-            to specifically show or hide the grid in Figma. To manipulate the
-            grid visibility, you might need to use the menus or manually set the
-            grid properties in the right sidebar. Here's how you can do it
-            without a keyboard shortcut:
-          </p>
+          <p className="text-gray-400 font-light">{post.content}</p>
+        </div>
+        <hr className=" my-2" />
+        <div className="mt-4">
+          <h1>Write Comment</h1>
+          <CommentBox />
         </div>
       </div>
     </section>
