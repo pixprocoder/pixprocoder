@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/src/components/ui/select";
 import { Textarea } from "@/src/components/ui/textarea";
+import { useToast } from "@/src/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -19,6 +20,7 @@ import { useForm } from "react-hook-form";
 function CreateBlog() {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedValueError, setSelectedValueError] = useState("");
+  const { toast } = useToast();
 
   const {
     register,
@@ -40,8 +42,14 @@ function CreateBlog() {
       );
     },
     onSuccess: (res) => {
-      console.log("Post created successfully!", res.data);
-      reset();
+      if (res?.data?.statusCode) {
+        setSelectedValue("");
+        reset();
+        toast({
+          variant: "outline",
+          description: "WOW! Blog Created successful 🚀",
+        });
+      }
     },
     onError: (error) => {
       console.error("Error creating post:", error);
