@@ -2,6 +2,9 @@
 import { portfolioMenu, projects } from "../constants";
 import React, { useState } from "react";
 import PortfolioCard from "./PortfolioCard";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
+import { Button } from "./ui/button";
+import { increment } from "../redux/features/CounterSlice";
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);
