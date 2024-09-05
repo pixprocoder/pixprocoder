@@ -21,12 +21,16 @@ import { format } from "date-fns";
 import SectionBanner from "@/src/components/shared/SectionBanner";
 import { getBaseURL } from "@/src/utils";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import { useGetPostsQuery } from "@/src/redux/api/posts/PostApiSlice";
 
 function BlogPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
+  const { data: posts } = useGetPostsQuery({});
+  console.log("blgo posts using RTK", posts);
+
+  useEffect(() => {
     axios(`${getBaseURL()}/posts`).then((res) => {
       setData(res.data?.data);
       setLoading(false);
