@@ -100,7 +100,7 @@ const SingleBlogPage = ({ params }: any) => {
                 {comment?.content}
               </p>
               <div className="ml-8">
-                <Button className="  w-12 h-8 text-xs  rounded-md bg-purple-600 text-white">
+                <Button className="  w-12 h-8 text-xs   bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
                   Reply
                 </Button>
               </div>
