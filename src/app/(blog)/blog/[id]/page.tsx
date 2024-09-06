@@ -4,31 +4,21 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
-import { useGetSinglePostQuery } from "@/src/redux/api/posts/PostApiSlice";
-import { format } from "date-fns";
-import CommentBox from "../../_components/CommentBox";
-import { useGetCommentQuery } from "@/src/redux/api/posts/PostApiSlice";
-import { useContext } from "react";
-import { AuthContext } from "@/src/providers/AuthProviders";
 import { Button } from "@/src/components/ui/button";
+import { AuthContext } from "@/src/providers/AuthProviders";
+import {
+  useGetCommentQuery,
+  useGetSinglePostQuery,
+} from "@/src/redux/api/posts/PostApiSlice";
+import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
+import { useContext } from "react";
+import CommentBox from "../../_components/CommentBox";
 
 const SingleBlogPage = ({ params }: any) => {
   const { user } = useContext(AuthContext);
   const { data: post } = useGetSinglePostQuery(params.id);
   const { data: comments } = useGetCommentQuery(params.id);
-  console.log("comments", comments);
-
-  //todo: format data with date fns
-  const formatDateString = (dateString: any) => {
-    const date = new Date(dateString);
-    const formattedDate = format(date, "yy/MM/dd");
-    const formattedTime = format(date, "H:mm:ss");
-    return { formattedDate, formattedTime };
-  };
-
-  const { formattedDate, formattedTime } = post?.data?.createdAt
-    ? formatDateString(post?.data?.createdAt)
-    : { formattedDate: "", formattedTime: "" };
+  console.log(post);
 
   return (
     <section className="container mx-auto">
@@ -45,9 +35,13 @@ const SingleBlogPage = ({ params }: any) => {
 
           <div className="flex  gap-2">
             <p className="text-white font-bold text-base">Kobir</p>
-            <p className="text-white flex gap-2">
-              {formattedDate}
-              <small>{formattedTime}</small>
+            <p className="text-gray-300 text-sm flex gap-2 items-center">
+              {post?.data?.createdAt && formatDateToUTC(post?.data?.createdAt)}{" "}
+              <small className="text-xs">at</small>
+              <small>
+                {post?.data?.createdAt &&
+                  formatTimeToUTC(post?.data?.createdAt)}
+              </small>
             </p>
           </div>
         </div>
@@ -81,7 +75,7 @@ const SingleBlogPage = ({ params }: any) => {
         <div className="flex flex-col gap-2">
           {comments?.data?.map((comment: any) => (
             <div
-              key={comment._id}
+              key={comment.postId}
               className="bg-gray-800 rounded-lg flex flex-col p-2 gap-4"
             >
               <div className="flex gap-2 items-center">
@@ -92,7 +86,7 @@ const SingleBlogPage = ({ params }: any) => {
                 <div className="flex flex-col">
                   <p className="text-sm">{comment?.author}</p>
                   <small className="text-gray-400 text-xs flex gap-2">
-                    {formattedDate}
+                    {formatDateToUTC(comment?.createdAt)}
                   </small>
                 </div>
               </div>
