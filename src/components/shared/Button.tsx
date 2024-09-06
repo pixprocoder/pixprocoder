@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MouseEventHandler } from "react";
+import { Button } from "../ui/button";
 
 type Props = {
   children?: React.ReactNode;
@@ -16,7 +17,7 @@ type Props = {
   value?: string;
 };
 
-const Button = ({
+const ButtonComponent = ({
   title,
   leftIcon,
   rightIcon,
@@ -29,7 +30,7 @@ const Button = ({
   value,
 }: Props) => {
   return (
-    <button
+    <Button
       type={type || "button"}
       disabled={isSubmitting}
       onClick={handleClick}
@@ -44,8 +45,8 @@ const Button = ({
       {rightIcon && (
         <Image src={rightIcon} width={14} height={14} alt="right" />
       )}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default ButtonComponent;

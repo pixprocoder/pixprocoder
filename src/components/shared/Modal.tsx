@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { DialogContent } from "@radix-ui/react-dialog";
+import { Button } from "../ui/button";
 
 function HireMeModalPage({ showModal, closeModal }: any) {
   console.log(showModal);
@@ -66,19 +67,19 @@ function HireMeModalPage({ showModal, closeModal }: any) {
           </div>
           <div className="modal-action">
             {/* Close the modal by calling the closeModal function */}
-            <button
+            <Button
               className="px-3 py-2 bg-red-600 rounded-md text-xl"
               onClick={closeModal}
             >
               Close
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={handleSubmit}
               type="submit"
               className="px-3 py-2 bg-blue-600 rounded-md text-xl"
             >
               Send
-            </button>
+            </Button>
           </div>
         </form>
       </dialog>

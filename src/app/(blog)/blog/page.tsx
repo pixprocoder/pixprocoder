@@ -1,6 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/src/components/ui/avatar";
+import { Button } from "@/src/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -8,31 +12,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
-import { Button } from "@/src/components/ui/button";
-import { blogs } from "@/src/constants";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/src/components/ui/avatar";
-import SelectCategoryPage from "@/src/components/shared/SelectCategory";
-import Link from "next/link";
-import { format } from "date-fns";
-import SectionBanner from "@/src/components/shared/SectionBanner";
-import { getBaseURL } from "@/src/utils";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import { useGetPostsQuery } from "@/src/redux/api/posts/PostApiSlice";
+import { format } from "date-fns";
+import Link from "next/link";
 
 function BlogPage() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: posts, isLoading } = useGetPostsQuery({});
 
-useEffect(() => {
-    axios(`${getBaseURL()}/posts`).then((res) => {
-      setData(res.data?.data);
-      setLoading(false);
-    });
-  }, []);
-
+  //todo: Format Date with datefns
   // Date format
   const formatDateString = (dateString: any) => {
     const date = new Date(dateString);
@@ -50,8 +38,9 @@ useEffect(() => {
         <div><SelectCategoryPage /></div>
       </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {loading
-          ? Array.from({ length: data?.length || 2 }).map((_, index) => (
+        {isLoading
+          ? //@ts-ignore
+            Array.from({ length: posts?.data?.length || 2 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full"
@@ -76,7 +65,7 @@ useEffect(() => {
                 </CardFooter>
               </Card>
             ))
-          : data.map((blog: any) => {
+          : posts?.data?.map((blog: any) => {
               const { formattedDate, formattedTime } = formatDateString(
                 blog.createdAt
               );

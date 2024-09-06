@@ -1,5 +1,6 @@
-  "use client";
+"use client";
 import { useForm } from "react-hook-form";
+import { Button } from "./ui/button";
 const Contact = () => {
   const {
     register,
@@ -45,9 +46,9 @@ const Contact = () => {
                 ></textarea>
               </div>
               <div className="form-control my-3">
-                <button type="submit" className="btn outline-none bg-blue-500">
+                <Button type="submit" className="btn outline-none bg-blue-500">
                   Send
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -59,7 +60,7 @@ const Contact = () => {
                   placeholder="Subscribe to Latest Update"
                   className="input input-bordered w-full "
                 />
-                <button className="btn ">Subscribe</button>
+                <Button className="btn ">Subscribe</Button>
               </div>
             </div>
           </div>

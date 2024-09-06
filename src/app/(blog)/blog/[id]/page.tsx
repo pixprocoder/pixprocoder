@@ -1,26 +1,24 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Image from "next/image";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
+import { useGetSinglePostQuery } from "@/src/redux/api/posts/PostApiSlice";
 import { format } from "date-fns";
-import {getBaseURL} from "@/src/utils";
+import CommentBox from "../../_components/CommentBox";
+import { useGetCommentQuery } from "@/src/redux/api/posts/PostApiSlice";
+import { useContext } from "react";
+import { AuthContext } from "@/src/providers/AuthProviders";
+import { Button } from "@/src/components/ui/button";
 
 const SingleBlogPage = ({ params }: any) => {
-  const [post, setPost] = useState({});
+  const { user } = useContext(AuthContext);
+  const { data: post } = useGetSinglePostQuery(params.id);
+  const { data: comments } = useGetCommentQuery(params.id);
+  console.log("comments", comments);
 
-
-  useEffect(() => {
-    axios(`${getBaseURL()}/posts`).then((res) => {
-      const postData = res.data?.data.filter((d: any) => d.id === params.id);
-      setPost(postData[0]);
-    });
-  }, []);
-
+  //todo: format data with date fns
   const formatDateString = (dateString: any) => {
     const date = new Date(dateString);
     const formattedDate = format(date, "yy/MM/dd");
@@ -28,20 +26,20 @@ const SingleBlogPage = ({ params }: any) => {
     return { formattedDate, formattedTime };
   };
 
-  const { formattedDate, formattedTime } = post.createdAt
-    ? formatDateString(post.createdAt)
+  const { formattedDate, formattedTime } = post?.data?.createdAt
+    ? formatDateString(post?.data?.createdAt)
     : { formattedDate: "", formattedTime: "" };
 
   return (
     <section className="container mx-auto">
       <div className="w-full lg:w-2/4 mx-auto">
         <h1 className="text-left lg:text-center text-3xl lg:text-5xl font-bold  my-6">
-          {post?.title}
+          {post?.data?.title}
         </h1>
         {/* Avatar */}
         <div className="flex gap-3 items-center mb-4">
           <Avatar>
-            <AvatarImage src={post.image} />
+            <AvatarImage src={post?.data?.image} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
 
@@ -55,41 +53,59 @@ const SingleBlogPage = ({ params }: any) => {
         </div>
 
         <div className="">
-          <Image
+          <img
             className="w-full rounded-lg"
             width={500}
             height={500}
-            src={post.image}
+            src={post?.data?.image}
             alt="img"
           />
         </div>
 
         {/* Content */}
         <div className="mt-4">
-          <p className="text-gray-400 font-light">
-            {post.content}
-            As of my last knowledge update in September 2021, Figma's keyboard
-            shortcuts can change with updates to the software. However, as of
-            that time, there wasn't a default keyboard shortcut to specifically
-            show or hide the grid in Figma. To manipulate the grid visibility,
-            you might need to use the menus or manually set the grid properties
-            in the right sidebar. Here's how you can do it without a keyboard
-            shortcut: Show Grid: Go to the "View" menu at the top. Hover over
-            "Layout Grids". Click on the type of grid you want to show (Column,
-            Row, etc.). Hide Grid: Go to the "View" menu at the top. Hover over
-            "Layout Grids". Click on the type of grid that is currently selected
-            to toggle it off. Remember that keyboard shortcuts can change with
-            software updates, so it's a good idea to check Figma's official
-            documentation or the software's settings to see if there have been
-            any changes or if you can customize shortcuts based on your
-            preferences. As of my last knowledge update in September 2021,
-            Figma's keyboard shortcuts can change with updates to the software.
-            However, as of that time, there wasn't a default keyboard shortcut
-            to specifically show or hide the grid in Figma. To manipulate the
-            grid visibility, you might need to use the menus or manually set the
-            grid properties in the right sidebar. Here's how you can do it
-            without a keyboard shortcut:
-          </p>
+          <p className="text-gray-400 font-light">{post?.data?.content}</p>
+        </div>
+        <hr className=" my-2" />
+        <div className="mt-4 bg-gray-700 rounded-lg p-4">
+          <h1 className="text-lg text-gray-100 ">Leave A Comment</h1>
+          <CommentBox id={params.id} />
+        </div>
+        {/* Show comments */}
+        <p className="text-sm mt-4">
+          <span>{comments?.data?.length > 1 ? "Comments" : "Comment"}</span>: (
+          {comments?.data?.length ? comments?.data?.length : "No Comment Found"}
+          ){" "}
+        </p>
+        <hr className="mb-4" />
+        <div className="flex flex-col gap-2">
+          {comments?.data?.map((comment: any) => (
+            <div
+              key={comment._id}
+              className="bg-gray-800 rounded-lg flex flex-col p-2 gap-4"
+            >
+              <div className="flex gap-2 items-center">
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src={user?.photoURL} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <p className="text-sm">{comment?.author}</p>
+                  <small className="text-gray-400 text-xs flex gap-2">
+                    {formattedDate}
+                  </small>
+                </div>
+              </div>
+              <p className="text-xs ml-6 border-l-2 border-gray-600  px-2 ">
+                {comment?.content}
+              </p>
+              <div className="ml-8">
+                <Button className="  w-12 h-8 text-xs   bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+                  Reply
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
