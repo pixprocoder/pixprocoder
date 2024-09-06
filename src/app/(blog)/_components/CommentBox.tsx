@@ -3,16 +3,15 @@ import { Button } from "@/src/components/ui/button";
 import { Textarea } from "@/src/components/ui/textarea";
 import { useToast } from "@/src/components/ui/use-toast";
 import { AuthContext } from "@/src/providers/AuthProviders";
-import { usePostCommentMutation } from "@/src/redux/api/comment/CommentApiSlice";
-import { useRouter } from "next/navigation";
-import React, { useContext, useRef, useState } from "react";
+import { usePostCommentMutation } from "@/src/redux/api/posts/PostApiSlice";
+import { useContext, useState } from "react";
 
 function CommentBox({ id }: { id: string }) {
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
   const [comment, setComment] = useState("");
 
-  const [postComment] = usePostCommentMutation();
+  const [postComment, { isSuccess, isError }] = usePostCommentMutation();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -22,6 +21,8 @@ function CommentBox({ id }: { id: string }) {
         title: "Uh oh! Something went wrong.",
         description: "You Must Need To Login!",
       });
+
+      setComment("");
       return;
     }
     if (comment === "") {
@@ -41,6 +42,12 @@ function CommentBox({ id }: { id: string }) {
     };
 
     postComment({ id: postId, data: options });
+    setTimeout(() => {
+      toast({
+        title: "Congratulations 🎉",
+        description: "Post Added Successfully 🚀",
+      });
+    }, 1000);
 
     setComment("");
   };

@@ -14,21 +14,12 @@ import {
 } from "@/src/components/ui/card";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { useGetPostsQuery } from "@/src/redux/api/posts/PostApiSlice";
+import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
 import { format } from "date-fns";
 import Link from "next/link";
 
 function BlogPage() {
   const { data: posts, isLoading } = useGetPostsQuery({});
-
-  //todo: Format Date with datefns
-  // Date format
-  const formatDateString = (dateString: any) => {
-    const date = new Date(dateString);
-    const formattedDate = format(date, "yy/MM/dd");
-    const formattedTime = format(date, "H:mm:ss");
-    return { formattedDate, formattedTime };
-  };
-  // skeleton length count to show on the ui
 
   return (
     <section className=" min-h-screen py-14 container mx-auto">
@@ -66,9 +57,6 @@ function BlogPage() {
               </Card>
             ))
           : posts?.data?.map((blog: any) => {
-              const { formattedDate, formattedTime } = formatDateString(
-                blog.createdAt
-              );
               return (
                 <Card
                   key={blog.id}
@@ -83,11 +71,14 @@ function BlogPage() {
                         <AvatarImage src={blog.image} />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
-                      <div className="flex gap-2">
-                        <p className="text-white font-bold text-base">Kobir</p>
-                        <p className="text-white flex gap-2">
-                          {formattedDate}
-                          <small>{formattedTime}</small>
+                      <div className="flex flex-col">
+                        <p className="text-white font-bold text-base">
+                          Samsul Kobir
+                        </p>
+                        <p className="text-gray-300 text-sm flex gap-2 items-center">
+                          {formatDateToUTC(blog?.createdAt)}{" "}
+                          <small className="text-xs">at</small>
+                          <small>{formatTimeToUTC(blog?.createdAt)}</small>
                         </p>
                       </div>
                     </div>
