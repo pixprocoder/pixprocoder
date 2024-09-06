@@ -10,7 +10,11 @@ export const PostApiSlice = createApi({
     getSinglePost: builder.query({
       query: (id) => `/posts/${id}`,
     }),
+    getComment: builder.query({
+      query: (id) => `/posts/comment/${id}`,
+    }),
   }),
 });
 
-export const { useGetPostsQuery, useGetSinglePostQuery } = PostApiSlice;
+export const { useGetPostsQuery, useGetSinglePostQuery, useGetCommentQuery } =
+  PostApiSlice;

@@ -39,7 +39,8 @@ function BlogPage() {
       </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isLoading
-          ? Array.from({ length: posts?.data?.length || 2 }).map((_, index) => (
+          ? //@ts-ignore
+            Array.from({ length: posts?.data?.length || 2 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full"

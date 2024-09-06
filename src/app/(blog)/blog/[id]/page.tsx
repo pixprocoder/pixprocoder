@@ -1,20 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Image from "next/image";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
-import { format } from "date-fns";
-import { getBaseURL } from "@/src/utils";
-import CommentBox from "../../_components/CommentBox";
 import { useGetSinglePostQuery } from "@/src/redux/api/posts/PostApiSlice";
+import { format } from "date-fns";
+import CommentBox from "../../_components/CommentBox";
+import { useGetCommentQuery } from "@/src/redux/api/posts/PostApiSlice";
 
 const SingleBlogPage = ({ params }: any) => {
   const { data: post } = useGetSinglePostQuery(params.id);
+  const { data: comments } = useGetCommentQuery(params.id);
+  console.log("comments", comments);
 
+  //todo: format data with date fns
   const formatDateString = (dateString: any) => {
     const date = new Date(dateString);
     const formattedDate = format(date, "yy/MM/dd");
@@ -65,7 +65,22 @@ const SingleBlogPage = ({ params }: any) => {
         <hr className=" my-2" />
         <div className="mt-4">
           <h1 className="text-lg text-gray-300">Leave A Comment</h1>
-          <CommentBox />
+          <CommentBox id={params.id} />
+        </div>
+        {/* Show comments */}
+        <div className="flex flex-col gap-2">
+          {comments?.data?.map((comment) => (
+            <div className="bg-gray-800 rounded-lg flex flex-col p-2 gap-4">
+              <div className="flex gap-2 items-center">
+                <Avatar className="w-6 h-6">
+                  <AvatarImage src={post?.data?.image} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <p className="text-sm">{comment?.author}</p>
+              </div>
+              <p className="text-xs ">{comment?.content}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

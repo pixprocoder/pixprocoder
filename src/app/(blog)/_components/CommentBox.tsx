@@ -3,15 +3,16 @@ import { Button } from "@/src/components/ui/button";
 import { Textarea } from "@/src/components/ui/textarea";
 import { useToast } from "@/src/components/ui/use-toast";
 import { AuthContext } from "@/src/providers/AuthProviders";
+import { usePostCommentMutation } from "@/src/redux/api/comment/CommentApiSlice";
 import { useRouter } from "next/navigation";
 import React, { useContext, useRef, useState } from "react";
 
-function CommentBox() {
+function CommentBox({ id }: { id: string }) {
   const { user } = useContext(AuthContext);
-  console.log(user);
-  // const router = useRouter();
-  const [comment, setComment] = useState("");
   const { toast } = useToast();
+  const [comment, setComment] = useState("");
+
+  const [postComment] = usePostCommentMutation();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -31,6 +32,16 @@ function CommentBox() {
       });
       return;
     }
+
+    const postId = id;
+    const options = {
+      postId,
+      author: "kobir",
+      content: comment,
+    };
+
+    postComment({ id: postId, data: options });
+
     setComment("");
   };
 
