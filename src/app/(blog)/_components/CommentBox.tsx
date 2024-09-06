@@ -36,7 +36,7 @@ function CommentBox({ id }: { id: string }) {
     const postId = id;
     const options = {
       postId,
-      author: "kobir",
+      author: user?.displayName || user?.email,
       content: comment,
     };
 
@@ -50,10 +50,14 @@ function CommentBox({ id }: { id: string }) {
       <Textarea
         onChange={(e: any) => setComment(e.target.value)}
         value={comment}
-        className="text-gray-600 mb-2 bg-gray-900"
+        className="text-white mb-2 bg-gray-900"
         placeholder="Write Your Thought"
       />
-      <Button type="submit">Post</Button>
+      <div className="flex justify-start">
+        <Button className="" type="submit">
+          Post
+        </Button>
+      </div>
     </form>
   );
 }
