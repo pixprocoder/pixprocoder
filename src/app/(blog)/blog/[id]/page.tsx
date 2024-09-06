@@ -10,16 +10,10 @@ import {
 import { format } from "date-fns";
 import { getBaseURL } from "@/src/utils";
 import CommentBox from "../../_components/CommentBox";
+import { useGetSinglePostQuery } from "@/src/redux/api/posts/PostApiSlice";
 
 const SingleBlogPage = ({ params }: any) => {
-  const [post, setPost] = useState<any>({});
-
-  useEffect(() => {
-    axios(`${getBaseURL()}/posts`).then((res) => {
-      const postData = res.data?.data.filter((d: any) => d.id === params.id);
-      setPost(postData[0]);
-    });
-  }, []);
+  const { data: post } = useGetSinglePostQuery(params.id);
 
   const formatDateString = (dateString: any) => {
     const date = new Date(dateString);
@@ -28,20 +22,20 @@ const SingleBlogPage = ({ params }: any) => {
     return { formattedDate, formattedTime };
   };
 
-  const { formattedDate, formattedTime } = post.createdAt
-    ? formatDateString(post.createdAt)
+  const { formattedDate, formattedTime } = post?.data?.createdAt
+    ? formatDateString(post?.data?.createdAt)
     : { formattedDate: "", formattedTime: "" };
 
   return (
     <section className="container mx-auto">
       <div className="w-full lg:w-2/4 mx-auto">
         <h1 className="text-left lg:text-center text-3xl lg:text-5xl font-bold  my-6">
-          {post?.title}
+          {post?.data?.title}
         </h1>
         {/* Avatar */}
         <div className="flex gap-3 items-center mb-4">
           <Avatar>
-            <AvatarImage src={post.image} />
+            <AvatarImage src={post?.data?.image} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
 
@@ -59,18 +53,18 @@ const SingleBlogPage = ({ params }: any) => {
             className="w-full rounded-lg"
             width={500}
             height={500}
-            src={post.image}
+            src={post?.data?.image}
             alt="img"
           />
         </div>
 
         {/* Content */}
         <div className="mt-4">
-          <p className="text-gray-400 font-light">{post.content}</p>
+          <p className="text-gray-400 font-light">{post?.data?.content}</p>
         </div>
         <hr className=" my-2" />
         <div className="mt-4">
-          <h1>Write Comment</h1>
+          <h1 className="text-lg text-gray-300">Leave A Comment</h1>
           <CommentBox />
         </div>
       </div>

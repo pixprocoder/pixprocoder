@@ -2,14 +2,27 @@
 import { Button } from "@/src/components/ui/button";
 import { Textarea } from "@/src/components/ui/textarea";
 import { useToast } from "@/src/components/ui/use-toast";
-import React, { useRef, useState } from "react";
+import { AuthContext } from "@/src/providers/AuthProviders";
+import { useRouter } from "next/navigation";
+import React, { useContext, useRef, useState } from "react";
 
 function CommentBox() {
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  // const router = useRouter();
   const [comment, setComment] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    if (!user?.email) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "You Must Need To Login!",
+      });
+      return;
+    }
     if (comment === "") {
       toast({
         variant: "destructive",
