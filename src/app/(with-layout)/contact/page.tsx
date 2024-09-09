@@ -27,6 +27,7 @@ function ContactPage() {
   const onSubmit: SubmitHandler<any> = async (data) => {
     try {
       const res = await axios.post(`${getBaseURL()}/contact`, data);
+      console.log(res?.data);
       console.log(process.env.NEXT_PUBLIC_API_URL);
 
       if (res.status === 200) {
@@ -56,10 +57,12 @@ function ContactPage() {
             data-aos-duration="1000"
             data-aos="zoom-in"
             className="flex-1 w-full lg:ml-8"
-
           >
             <h1 className="text-2xl my-4 block md:hidden">Contact with me</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex w-[90vw] md:w-full flex-col">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex w-[90vw] md:w-full flex-col"
+            >
               <Input
                 {...register("email", { required: true })}
                 aria-invalid={errors.email ? "true" : "false"}
@@ -100,9 +103,7 @@ function ContactPage() {
                   Message is required
                 </p>
               )}
-              <Button
-              
-              className="mt-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+              <Button className="mt-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
                 <input className="cursor-pointer" type="submit" />
               </Button>
             </form>
