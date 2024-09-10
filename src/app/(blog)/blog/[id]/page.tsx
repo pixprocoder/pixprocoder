@@ -16,28 +16,43 @@ import { motion } from "framer-motion";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CommentBox from "../../_components/CommentBox";
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks/hooks";
+import { toggleLike, setLike } from "@/src/redux/features/post/LikeSlice";
+import { useToast } from "@/src/components/ui/use-toast";
+import LoadingPage from "../../loading";
 
 const SingleBlogPage = ({ params }: any) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const dispatch = useAppDispatch();
   const { user } = useContext(AuthContext);
+  const { toast } = useToast();
+  const { isLiked } = useAppSelector((state) => state.like);
   const { data: post } = useGetSinglePostQuery(params.id);
   const { data: comments } = useGetCommentQuery(params.id);
   const { data: totalLikeCount } = useGetPostLikeQuery(params.id);
-  const [postLike, { isLoading }] = usePostLikeMutation({});
-  // console.log(isLoading);
+  const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
 
-  const handleLikeToggle = async () => {
+  // Handling Like
+  const handleLike = async () => {
     try {
-      if (user?.email) {
-        postLike({
+      if (user?.uid) {
+        const result = await postLike({
           id: params.id,
           data: { liked: !isLiked, userId: user.uid },
         });
-        setIsLiked(!isLiked);
+
+        const updatedLike = result?.data?.data?.data?.isLiked;
+        if (updatedLike !== undefined) {
+          dispatch(setLike(updatedLike));
+        } else {
+          dispatch(toggleLike(params.id));
+        }
       } else {
-        alert("you Must login to like");
+        toast({
+          variant: "outline",
+          description: "Please Login First",
+        });
         return;
       }
     } catch (error) {
@@ -88,7 +103,7 @@ const SingleBlogPage = ({ params }: any) => {
 
         {/* like feature */}
         <div className="flex items-center gap-3 justify-center mt-2">
-          <Button onClick={handleLikeToggle}>
+          <Button onClick={handleLike}>
             {isLiked ? (
               <>
                 <motion.div
@@ -113,9 +128,14 @@ const SingleBlogPage = ({ params }: any) => {
               </motion.div>
             )}
           </Button>
-          <p>
-            {totalLikeCount?.data?.likes} <span>Like</span>
-          </p>
+          {isLoading ? (
+            "...."
+          ) : (
+            <p>
+              {totalLikeCount?.data?.likes}{" "}
+              <span>{totalLikeCount?.data?.likes <= 1 ? "Like" : "Likes"}</span>
+            </p>
+          )}
         </div>
         <hr className=" my-2" />
 
