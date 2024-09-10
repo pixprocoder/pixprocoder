@@ -8,10 +8,12 @@ import { Button } from "@/src/components/ui/button";
 import { AuthContext } from "@/src/providers/AuthProviders";
 import {
   useGetCommentQuery,
+  useGetPostLikeQuery,
   useGetSinglePostQuery,
+  usePostLikeMutation,
 } from "@/src/redux/api/posts/PostApiSlice";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
 import { useContext, useState } from "react";
@@ -19,11 +21,29 @@ import CommentBox from "../../_components/CommentBox";
 
 const SingleBlogPage = ({ params }: any) => {
   const [isLiked, setIsLiked] = useState(false);
-  console.log(isLiked);
   const { user } = useContext(AuthContext);
   const { data: post } = useGetSinglePostQuery(params.id);
   const { data: comments } = useGetCommentQuery(params.id);
-  // console.log(post);
+  const { data: totalLikeCount } = useGetPostLikeQuery(params.id);
+  const [postLike, { isLoading }] = usePostLikeMutation({});
+  // console.log(isLoading);
+
+  const handleLikeToggle = async () => {
+    try {
+      if (user?.email) {
+        postLike({
+          id: params.id,
+          data: { liked: !isLiked, userId: user.uid },
+        });
+        setIsLiked(!isLiked);
+      } else {
+        alert("you Must login to like");
+        return;
+      }
+    } catch (error) {
+      console.error("Error updating like status", error);
+    }
+  };
 
   return (
     <section className="container mx-auto">
@@ -68,7 +88,7 @@ const SingleBlogPage = ({ params }: any) => {
 
         {/* like feature */}
         <div className="flex items-center gap-3 justify-center mt-2">
-          <Button onClick={() => setIsLiked(!isLiked)}>
+          <Button onClick={handleLikeToggle}>
             {isLiked ? (
               <>
                 <motion.div
@@ -94,7 +114,7 @@ const SingleBlogPage = ({ params }: any) => {
             )}
           </Button>
           <p>
-            {post?.data?.likes} <span>Like</span>
+            {totalLikeCount?.data?.likes} <span>Like</span>
           </p>
         </div>
         <hr className=" my-2" />
