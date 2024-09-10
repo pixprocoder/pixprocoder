@@ -46,30 +46,38 @@ const AuthProviders = ({ children }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const currentUser = auth.currentUser;
-      setUser(currentUser);
-      const userInfo = { email: currentUser?.email };
 
-      if (userInfo.email) {
+      // Check if the user is logged in
+      if (currentUser) {
+        setUser(currentUser); // Set the user in state for global use
+        const userInfo = {
+          uid: currentUser.uid,
+          email: currentUser.email,
+        };
         const storedToken = getFromLocalStorage(authKey);
 
+        // Send user info to your backend
         try {
-          const response = await axios.post(`${getBaseURL()}/jwt`, {
+          // Post to your backend endpoint to save or update the user in the DB
+          const userResponse = await axios.post(`${getBaseURL()}/jwt`, {
+            uid: userInfo.uid,
             email: userInfo.email,
             token: storedToken,
           });
 
-          // Access the response data properly
-          if (response.data?.data?.token) {
-            setToLocalStorage(authKey, response.data?.data?.token);
+          // Handle the response - assume your backend returns a JWT
+          if (userResponse?.data?.data?.token) {
+            setToLocalStorage(authKey, userResponse?.data?.data?.token); // Save the JWT to local storage
           } else {
             removeUserInfo(authKey);
           }
         } catch (error) {
-          console.log("user error", error);
-          localStorage.removeItem(authKey);
+          console.log("Error saving user to the backend:", error);
+          removeUserInfo(authKey);
         }
       } else {
         removeUserInfo(authKey);
+        setUser(null);
       }
 
       setLoading(false);

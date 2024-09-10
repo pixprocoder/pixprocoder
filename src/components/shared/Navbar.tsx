@@ -47,6 +47,50 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* // only for mobile  */}
+      <div className="mr-4 flex md:hidden">
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar className="border">
+                {user?.photoURL ? (
+                  <AvatarImage src={user?.photoURL} />
+                ) : (
+                  <AvatarFallback className="text-black">
+                    {user?.displayName
+                      ? user?.displayName
+                          ?.split(" ")
+                          .map((word: any[]) => word[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2)
+                      : "CN"}
+                  </AvatarFallback>
+                )}
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-black text-white">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSignOut}>
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link href="/login">
+            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+              LOGIN
+            </Button>
+          </Link>
+        )}
+      </div>
+
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: isOpen ? 0 : "100%" }}
@@ -74,14 +118,6 @@ const Navbar = () => {
               </span>
             </li>
           ))}
-          <li>
-            <Button
-              onClick={() => handleMobileNav("/login")}
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
-            >
-              LOGIN
-            </Button>
-          </li>
         </ul>
       </motion.div>
 
