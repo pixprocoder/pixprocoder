@@ -10,15 +10,20 @@ import {
   useGetCommentQuery,
   useGetSinglePostQuery,
 } from "@/src/redux/api/posts/PostApiSlice";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { motion } from "framer-motion";
+
 import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CommentBox from "../../_components/CommentBox";
 
 const SingleBlogPage = ({ params }: any) => {
+  const [isLiked, setIsLiked] = useState(false);
+  console.log(isLiked);
   const { user } = useContext(AuthContext);
   const { data: post } = useGetSinglePostQuery(params.id);
   const { data: comments } = useGetCommentQuery(params.id);
-  console.log(post);
+  // console.log(post);
 
   return (
     <section className="container mx-auto">
@@ -60,11 +65,45 @@ const SingleBlogPage = ({ params }: any) => {
         <div className="mt-4">
           <p className="text-gray-400 font-light">{post?.data?.content}</p>
         </div>
+
+        {/* like feature */}
+        <div className="flex items-center gap-3 justify-center mt-2">
+          <Button onClick={() => setIsLiked(!isLiked)}>
+            {isLiked ? (
+              <>
+                <motion.div
+                  className="flex gap-2 items-center"
+                  initial={{ scale: 1 }}
+                  animate={{ scale: [1, 1.2, 1] }} // Pulse effect
+                  transition={{ duration: 0.3 }}
+                >
+                  <FaHeart className="text-red-500" />
+                  <span>Liked</span>
+                </motion.div>
+              </>
+            ) : (
+              <motion.div
+                className="flex gap-2 items-center "
+                initial={{ scale: 1 }}
+                animate={{ scale: [1.2, 1] }} // Shrink effect when unliked
+                transition={{ duration: 0.3 }}
+              >
+                <FaRegHeart />
+                <span>Like</span>
+              </motion.div>
+            )}
+          </Button>
+          <p>
+            {post?.data?.likes} <span>Like</span>
+          </p>
+        </div>
         <hr className=" my-2" />
+
         <div className="mt-4 bg-gray-700 rounded-lg p-4">
           <h1 className="text-lg text-gray-100 ">Leave A Comment</h1>
           <CommentBox id={params.id} />
         </div>
+
         {/* Show comments */}
         <p className="text-sm mt-4">
           <span>{comments?.data?.length > 1 ? "Comments" : "Comment"}</span>: (
@@ -75,7 +114,7 @@ const SingleBlogPage = ({ params }: any) => {
         <div className="flex flex-col gap-2">
           {comments?.data?.map((comment: any) => (
             <div
-              key={comment.postId}
+              key={comment._id}
               className="bg-gray-800 rounded-lg flex flex-col p-2 gap-4"
             >
               <div className="flex gap-2 items-center">

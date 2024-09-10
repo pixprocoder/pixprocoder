@@ -46,11 +46,13 @@ const Navbar = () => {
           <p>PIXPROCODER</p>
         </Link>
       </div>
+
+      {/* // only for mobile  */}
       <div className="mr-4 flex md:hidden">
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar>
+              <Avatar className="border">
                 {user?.photoURL ? (
                   <AvatarImage src={user?.photoURL} />
                 ) : (
