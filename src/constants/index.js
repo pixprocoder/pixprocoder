@@ -18,7 +18,7 @@ import creator from "../assets/creator.png";
 export const navLinks = [
   { to: "/", key: "Home" },
   { to: "/blog", key: "Blog" },
-  { to: "/course", key: "Courses" },
+  { to: "/courses", key: "Courses" },
   { to: "/shop", key: "Shop" },
   { to: "/portfolio", key: "Portfolio" },
   { to: "/services", key: "Services" },

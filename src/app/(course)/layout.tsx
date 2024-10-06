@@ -1,3 +1,6 @@
+import Footer from "@/src/components/shared/Footer";
+import Navbar from "@/src/components/shared/Navbar";
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main className="w-[1400px] mx-auto">{children}</main>
+      <Navbar />
+      <main className="max-w-[1200px] mx-auto">{children}</main>
+      <Footer />
     </>
   );
 }
