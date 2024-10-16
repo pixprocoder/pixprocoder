@@ -14,7 +14,7 @@ export default function AlertBanner({}) {
 
             <AlertTitle className="text-yellow-500 dark:text-yellow-300 text-xl font-semibold flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5"/>
-                I need your support
+                I appreciate your Contribution
             </AlertTitle>
             <AlertDescription className="text-yellow-500 dark:text-yellow-400 mt-1 flex flex-col items-center">
                 <p className="flex items-center gap-2">

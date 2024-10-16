@@ -23,3 +23,9 @@ export default function Home() {
     </section>
   );
 }
+
+
+/**
+ * what is programmingF?
+ * an everyt
+ * */
