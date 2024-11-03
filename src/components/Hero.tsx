@@ -70,8 +70,8 @@ const Hero = () => {
           <span className="text-[#0084FF]">SAMSUL</span> KOBIR
         </h1>
 
-        <div className="my-8 flex gap-2 text-blue-600 text-xl items-center space-y-3 lg:text-3xl border-l-2 px-2 border-cyan-600">
-          💻 <TypedText />
+        <div className="my-8   border-l-2 px-2 border-cyan-600">
+          <div className="lg:text-xl flex gap-2  items-center space-y-3">💻 Software Engineer with: <TypedText /></div>
         </div>
 
         <div className="flex space-x-4 my-4">
