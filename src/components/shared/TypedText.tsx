@@ -5,14 +5,20 @@ const TypedText = () => {
   const typingRef = useRef(null);
 
   useEffect(() => {
-    const options = {
+    const options1 = {
+      strings: ["Next.js", "Node.js", "PostgreSQL", "MongoDB", "GraphQL", "Prisma", "Docker"],
+      typeSpeed: 40,
+      backSpeed: 20,
+      loop: true,
+    };
+    const options2 = {
       strings: ["Programmer", "Full-stack Developer", "Graphic Designer"],
       typeSpeed: 40,
       backSpeed: 20,
       loop: true,
     };
 
-    const typed = new Typed(typingRef.current, options);
+    const typed = new Typed(typingRef.current, options1);
 
     return () => {
       typed.destroy();
@@ -24,7 +30,7 @@ const TypedText = () => {
       display: "inline-block",
       opacity: 1,
       transition: "opacity 0.3s ease-in-out, transform 0.3s ease-in-out",
-      color: "white", // Initial color is blue
+      color: "#0084FF", // Initial color is blue
     },
   };
 
