@@ -1,12 +1,10 @@
-"use client";
-import Image from "next/image";
-import banner from "../assets/images/banner.png";
-import { useEffect, useRef, useState } from "react";
-import HireMeModalPage from "./shared/Modal";
-import { Link as ScrollLink } from "react-scroll";
-import TypedText from "./shared/TypedText";
-import { Button } from "./ui/button";
-import Link from "next/link";
+'use client';
+import Image from 'next/image';
+import banner from '../assets/images/banner.png';
+import { useRef, useState } from 'react';
+import TypedText from './shared/TypedText';
+import { Button } from './ui/button';
+import Link from 'next/link';
 import {
   Dialog,
   DialogContent,
@@ -14,20 +12,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { TbBrandFiverr } from "react-icons/tb";
-import { SiUpwork } from "react-icons/si";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { RocketIcon, Terminal } from "lucide-react";
-import { useToast } from "./ui/use-toast";
+} from './ui/dialog';
+import { TbBrandFiverr } from 'react-icons/tb';
+import { SiUpwork } from 'react-icons/si';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { useToast } from './ui/use-toast';
 
 const Hero = () => {
   const { toast } = useToast();
 
   const [showModal, setShowModal] = useState(false);
-  const [error1, setError1] = useState("");
+  const [error1, setError1] = useState('');
   const projectRef = useRef();
   const messageRef = useRef();
 
@@ -36,18 +32,18 @@ const Hero = () => {
     const message = messageRef.current.value;
 
     if (!projectName || !message) {
-      alert("Please fill the field");
+      alert('Please fill the field');
     } else {
       toast({
-        title: "Thanks",
-        description: "Your Message has been sent!!",
+        title: 'Thanks',
+        description: 'Your Message has been sent!!',
       });
     }
     // else {
     // }
 
-    projectRef.current.value = "";
-    messageRef.current.value = "";
+    projectRef.current.value = '';
+    messageRef.current.value = '';
   };
 
   const openModal = () => {
@@ -71,7 +67,9 @@ const Hero = () => {
         </h1>
 
         <div className="my-8   border-l-2 px-2 border-cyan-600">
-          <div className="lg:text-xl flex gap-2  items-center space-y-3">💻 Software Engineer with: <TypedText /></div>
+          <div className="lg:text-xl flex gap-2  items-center space-y-3">
+            💻 Software Engineer with: <TypedText />
+          </div>
         </div>
 
         <div className="flex space-x-4 my-4">
