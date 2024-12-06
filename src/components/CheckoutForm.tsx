@@ -1,18 +1,18 @@
-"use client";
-import React, { useContext, useEffect, useState } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Button } from "@/src/components/ui/button";
-import axios from "axios";
-import { getBaseURL } from "@/src/utils";
-import { useRouter } from "next/navigation";
-import { TransactionContext } from "@/src/providers/OtherProviders";
-import { AuthContext } from "../providers/AuthProviders";
+'use client';
+import React, { useContext, useEffect, useState } from 'react';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { Button } from '@/src/components/ui/button';
+import axios from 'axios';
+import { getBaseURL } from '@/src/utils';
+import { useRouter } from 'next/navigation';
+import { TransactionContext } from '@/src/providers/OtherProviders';
+import { AuthContext } from '../providers/AuthProviders';
 
 const CheckoutForm = () => {
   const { user } = useContext(AuthContext);
   const { setTransactionId } = useContext(TransactionContext);
-  const [clientSecret, setClientSecret] = useState<string>("");
-  const [paymentError, setPaymentError] = useState<string>("");
+  const [clientSecret, setClientSecret] = useState<string>('');
+  const [paymentError, setPaymentError] = useState<string>('');
 
   const router = useRouter();
   const stripe = useStripe();
@@ -21,7 +21,7 @@ const CheckoutForm = () => {
 
   useEffect(() => {
     axios({
-      method: "post",
+      method: 'post',
       url: `${getBaseURL()}/payment/create-checkout-session`,
       data: {
         price: price,
@@ -31,12 +31,12 @@ const CheckoutForm = () => {
         if (response.data && response.data.data.clientSecret) {
           setClientSecret(response.data.data.clientSecret);
         } else {
-          console.warn("Client secret is missing in the response.");
+          console.warn('Client secret is missing in the response.');
         }
       })
       .catch((error) => {
         alert(
-          "An error occurred while creating the checkout session. Please try again."
+          'An error occurred while creating the checkout session. Please try again.',
         );
       });
   }, []);
@@ -53,35 +53,34 @@ const CheckoutForm = () => {
     }
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
+      type: 'card',
       card,
     });
 
     if (error) {
-      console.error("payment error", error);
+      console.error('payment error', error);
       setPaymentError(error?.message!);
     } else {
       //   console.log(paymentMethod);
     }
 
-    // confirm card payment
-    console.log(clientSecret);
     const { paymentIntent, error: confirmError } =
       await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
           billing_details: {
-            name: user?.displayName || "gust",
-            email: user?.email || "unknown",
+            name: user?.displayName || 'gust',
+            email: user?.email || 'unknown',
           },
         },
       });
     if (confirmError) {
-      console.log("confirmError", confirmError);
+      console.log('confirmError', confirmError);
+      router.push('/payment/failed');
     } else {
-      if (paymentIntent?.status === "succeeded") {
+      if (paymentIntent?.status === 'succeeded') {
         setTransactionId(paymentIntent.id);
-        router.push("/payment/success");
+        router.push('/payment/success');
 
         // Send and save to db
         const payment = {
@@ -92,7 +91,7 @@ const CheckoutForm = () => {
           transactionId: paymentIntent.id,
         };
         axios({
-          method: "post",
+          method: 'post',
           url: `${getBaseURL()}/payment`,
           data: {
             payment: payment,
@@ -100,14 +99,14 @@ const CheckoutForm = () => {
         })
           .then((response) => {
             if (response.data) {
-              console.log("payment success history data", response.data);
+              console.log('payment success history data', response.data);
             } else {
-              console.warn("Client secret is missing in the response.");
+              console.warn('Client secret is missing in the response.');
             }
           })
           .catch((error) => {
             alert(
-              "An error occurred while creating the checkout session. Please try again."
+              'An error occurred while creating the checkout session. Please try again.',
             );
           });
       }
@@ -120,14 +119,14 @@ const CheckoutForm = () => {
         options={{
           style: {
             base: {
-              fontSize: "16px",
-              color: "#424770",
-              "::placeholder": {
-                color: "#aab7c4",
+              fontSize: '16px',
+              color: '#424770',
+              '::placeholder': {
+                color: '#aab7c4',
               },
             },
             invalid: {
-              color: "#9e2146",
+              color: '#9e2146',
             },
           },
         }}
