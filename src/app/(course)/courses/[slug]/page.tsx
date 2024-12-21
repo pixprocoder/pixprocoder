@@ -1,73 +1,72 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import {
   FaChevronLeft,
   FaChevronRight,
   FaShoppingCart,
   FaInfoCircle,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
 const ProductDetailsPage = ({ params }: { params: any }) => {
-  console.log("slug", params?.slug);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [expandedSection, setExpandedSection] = useState(null);
 
   const productImages = [
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    "https://images.unsplash.com/photo-1526498460520-4c246339dccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    "https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+    'https://images.unsplash.com/photo-1526498460520-4c246339dccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+    'https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
   ];
 
   const productDetails = {
-    name: "Digital Marketing Course",
-    price: "$99.99",
+    name: 'Digital Marketing Course',
+    price: '$99.99',
     description:
-      "Master the art of digital marketing with our comprehensive course. Learn SEO, social media marketing, content creation, and more!",
+      'Master the art of digital marketing with our comprehensive course. Learn SEO, social media marketing, content creation, and more!',
     features: [
-      "50+ hours of video content",
-      "Lifetime access",
-      "Certificate upon completion",
-      "Interactive quizzes and assignments",
-      "Expert instructor support",
+      '50+ hours of video content',
+      'Lifetime access',
+      'Certificate upon completion',
+      'Interactive quizzes and assignments',
+      'Expert instructor support',
     ],
     specifications: [
-      { label: "Course Duration", value: "8 weeks" },
-      { label: "Difficulty Level", value: "Intermediate" },
-      { label: "Language", value: "English" },
-      { label: "Subtitles", value: "Multiple languages available" },
+      { label: 'Course Duration', value: '8 weeks' },
+      { label: 'Difficulty Level', value: 'Intermediate' },
+      { label: 'Language', value: 'English' },
+      { label: 'Subtitles', value: 'Multiple languages available' },
     ],
     faqs: [
       {
-        question: "Is this course suitable for beginners?",
+        question: 'Is this course suitable for beginners?',
         answer:
-          "Yes, this course is designed for both beginners and intermediate learners.",
+          'Yes, this course is designed for both beginners and intermediate learners.',
       },
       {
-        question: "Will I receive a certificate?",
+        question: 'Will I receive a certificate?',
         answer:
-          "Yes, upon successful completion of the course, you will receive a digital certificate.",
+          'Yes, upon successful completion of the course, you will receive a digital certificate.',
       },
       {
-        question: "Can I access the course on mobile devices?",
+        question: 'Can I access the course on mobile devices?',
         answer:
-          "Absolutely! The course is fully responsive and can be accessed on any device.",
+          'Absolutely! The course is fully responsive and can be accessed on any device.',
       },
     ],
   };
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === productImages.length - 1 ? 0 : prevIndex + 1
+      prevIndex === productImages.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? productImages.length - 1 : prevIndex - 1
+      prevIndex === 0 ? productImages.length - 1 : prevIndex - 1,
     );
   };
 
-  const toggleSection = (section) => {
+  const toggleSection = (section: any) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
@@ -102,7 +101,7 @@ const ProductDetailsPage = ({ params }: { params: any }) => {
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
                 className={`w-3 h-3 rounded-full mx-1 ${
-                  currentImageIndex === index ? "bg-blue-500" : "bg-gray-300"
+                  currentImageIndex === index ? 'bg-blue-500' : 'bg-gray-300'
                 }`}
                 aria-label={`Go to image ${index + 1}`}
               ></button>
@@ -138,19 +137,19 @@ const ProductDetailsPage = ({ params }: { params: any }) => {
       <div className="mt-12">
         <div className="border-t border-gray-200 pt-6">
           <button
-            onClick={() => toggleSection("specifications")}
+            onClick={() => toggleSection('specifications')}
             className="flex justify-between items-center w-full text-left font-semibold text-lg mb-2"
           >
             <span>Specifications</span>
             <span className="text-blue-500">
-              {expandedSection === "specifications" ? "-" : "+"}
+              {expandedSection === 'specifications' ? '-' : '+'}
             </span>
           </button>
-          {expandedSection === "specifications" && (
+          {expandedSection === 'specifications' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               {productDetails.specifications.map((spec, index) => (
                 <div key={index} className="bg-gray-100 p-4 rounded-lg">
-                  <span className="font-medium">{spec.label}:</span>{" "}
+                  <span className="font-medium">{spec.label}:</span>{' '}
                   {spec.value}
                 </div>
               ))}
@@ -160,15 +159,15 @@ const ProductDetailsPage = ({ params }: { params: any }) => {
 
         <div className="border-t border-gray-200 pt-6 mt-6">
           <button
-            onClick={() => toggleSection("faqs")}
+            onClick={() => toggleSection('faqs')}
             className="flex justify-between items-center w-full text-left font-semibold text-lg mb-2"
           >
             <span>FAQs</span>
             <span className="text-blue-500">
-              {expandedSection === "faqs" ? "-" : "+"}
+              {expandedSection === 'faqs' ? '-' : '+'}
             </span>
           </button>
-          {expandedSection === "faqs" && (
+          {expandedSection === 'faqs' && (
             <div className="mt-4 space-y-4">
               {productDetails.faqs.map((faq, index) => (
                 <div key={index} className="bg-gray-100 p-4 rounded-lg">
