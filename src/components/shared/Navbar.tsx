@@ -1,23 +1,36 @@
-"use client";
-import Link from "next/link";
-import { useContext, useState } from "react";
-import { navLinks } from "../../constants";
-import { Button } from "../ui/button";
-import { AuthContext } from "@/src/providers/AuthProviders";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+'use client';
+import Link from 'next/link';
+import { useContext, useState } from 'react';
+import { navLinks } from '../../constants';
+import { Button } from '../ui/button';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { AiOutlineClose } from 'react-icons/ai';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { IoBagAddOutline } from 'react-icons/io5';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "../ui/dropdown-menu";
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Image from "next/image";
+} from '../ui/dropdown-menu';
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import Image from 'next/image';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/src/components/ui/sheet';
+import CartSheet from '@/src/components/cart/CartSheet';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -59,12 +72,12 @@ const Navbar = () => {
                   <AvatarFallback className="text-black">
                     {user?.displayName
                       ? user?.displayName
-                          ?.split(" ")
+                          ?.split(' ')
                           .map((word: any[]) => word[0])
-                          .join("")
+                          .join('')
                           .toUpperCase()
                           .slice(0, 2)
-                      : "CN"}
+                      : 'CN'}
                   </AvatarFallback>
                 )}
               </Avatar>
@@ -92,8 +105,8 @@ const Navbar = () => {
       </div>
 
       <motion.div
-        initial={{ x: "100%" }}
-        animate={{ x: isOpen ? 0 : "100%" }}
+        initial={{ x: '100%' }}
+        animate={{ x: isOpen ? 0 : '100%' }}
         transition={{ duration: 0.3 }}
         className="fixed rounded-l-3xl top-0 right-0 w-2/3 h-full bg-gray-600 shadow-md p-4 z-50 md:hidden"
       >
@@ -136,13 +149,28 @@ const Navbar = () => {
         {navLinks.map((el, i) => (
           <li key={i}>
             <Link
-              className="bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all duration-100"
+              className="bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all hover:border-b-2 hover:border-b-purple-500 pb-4  duration-100"
               href={el.to}
             >
               {el.key}
             </Link>
           </li>
         ))}
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="relative">
+              <IoBagAddOutline className=" text-white text-2xl mr-4 cursor-pointer hover:text-blue-500 transition-all duration-100"></IoBagAddOutline>
+              <span className="absolute -top-4 -left-2 p-1 text-xs text-purple-500 ">
+                02
+              </span>
+            </div>
+          </SheetTrigger>
+          <SheetContent className="bg-black border-0">
+            <CartSheet />
+          </SheetContent>
+        </Sheet>
+
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -153,12 +181,12 @@ const Navbar = () => {
                   <AvatarFallback className="text-black">
                     {user?.displayName
                       ? user?.displayName
-                          ?.split(" ")
+                          ?.split(' ')
                           .map((word: any[]) => word[0])
-                          .join("")
+                          .join('')
                           .toUpperCase()
                           .slice(0, 2)
-                      : "CN"}
+                      : 'CN'}
                   </AvatarFallback>
                 )}
               </Avatar>

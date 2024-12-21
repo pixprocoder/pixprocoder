@@ -28,7 +28,9 @@ const Hero = () => {
   const messageRef = useRef();
 
   const handleMessage = () => {
+    // @ts-ignore
     const projectName = projectRef.current.value;
+    // @ts-ignore
     const message = messageRef.current.value;
 
     if (!projectName || !message) {
@@ -53,6 +55,7 @@ const Hero = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+  // @ts-ignore
   return (
     <section
       id="home"
@@ -80,7 +83,7 @@ const Hero = () => {
             <Dialog>
               <DialogTrigger>
                 <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-                  Hire Me
+                  Get A Quote
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-black border-gray-800">
