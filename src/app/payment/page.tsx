@@ -1,18 +1,17 @@
-"use client"
+'use client';
 import React from 'react';
-import Payment from "@/src/components/Payment";
+import Payment from '@/src/components/Payment';
 
 const Payments = () => {
-    return (
-        <div className="bg-gray-800 w-2/4 mx-auto p-5">
-            <Payment/>
-        </div>
-    );
+  return (
+    <div className="bg-gray-800 w-2/4 mx-auto p-5">
+      {/* todo: checkout */}
+      <Payment />
+    </div>
+  );
 };
 
 export default Payments;
-
-
 
 /**
  * Wow that is crazy!!

@@ -7,20 +7,30 @@ import {
   SheetTitle,
 } from '@/src/components/ui/sheet';
 import { Button } from '@/src/components/ui/button';
+import { TiMinus } from 'react-icons/ti';
+import { FaPlus } from 'react-icons/fa';
 
 function CartSheet() {
   return (
     <div>
       <SheetHeader>
-        <SheetTitle>Edit profile</SheetTitle>
+        <SheetTitle className="text-gray-100">MY CART</SheetTitle>
         <SheetDescription>
-          Make changes to your profile here. Click save when you're done.
+          <div className="bg-gray-800 rounded-md flex justify-between items-center p-4 my-2">
+            <p>Image</p>
+            <h2>Name</h2>
+            <span>01</span>
+            <div className="flex gap-2">
+              <FaPlus className="text-lg cursor-pointer text-white bg-blue-500 rounded-full p-1" />
+              <TiMinus className="text-lg cursor-pointer text-white bg-red-500 rounded-full p-1" />
+            </div>
+          </div>
         </SheetDescription>
       </SheetHeader>
 
       <SheetFooter>
         <SheetClose asChild>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit">Checkout</Button>
         </SheetClose>
       </SheetFooter>
     </div>
