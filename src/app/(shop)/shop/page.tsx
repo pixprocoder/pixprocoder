@@ -14,7 +14,7 @@ const Shop = () => {
       <h1 className="text-3xl text-center my-4">Shop from my store</h1>
       <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4  ">
         {items.map((item, index) => (
-          <ShopCard key={item.id} item={item}></ShopCard>
+          <ShopCard key={index} item={item}></ShopCard>
         ))}
       </div>
     </div>

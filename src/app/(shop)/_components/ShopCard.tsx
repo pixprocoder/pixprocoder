@@ -5,8 +5,6 @@ import { FaCartPlus } from 'react-icons/fa';
 import { FaRegStar } from 'react-icons/fa';
 
 const ShopCard = ({ item }: any) => {
-  console.log(item);
-
   return (
     <Link
       href={`/shop/${item.id}`}
