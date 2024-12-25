@@ -1,29 +1,37 @@
-"use client";
+'use client';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/src/components/ui/avatar";
-import { Button } from "@/src/components/ui/button";
-import { AuthContext } from "@/src/providers/AuthProviders";
+} from '@/src/components/ui/avatar';
+import { Button } from '@/src/components/ui/button';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentQuery,
   useGetPostLikeQuery,
   useGetSinglePostQuery,
   usePostLikeMutation,
-} from "@/src/redux/api/posts/PostApiSlice";
-import { motion } from "framer-motion";
-import { FaHeart, FaRegHeart } from "react-icons/fa6";
+} from '@/src/redux/api/posts/PostApiSlice';
+import { motion } from 'framer-motion';
+import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 
-import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
-import { useContext, useEffect, useState } from "react";
-import CommentBox from "../../_components/CommentBox";
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks/hooks";
-import { toggleLike, setLike } from "@/src/redux/features/post/LikeSlice";
-import { useToast } from "@/src/components/ui/use-toast";
-import LoadingPage from "../../loading";
+import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
+import { useContext, useEffect, useState } from 'react';
+import CommentBox from '../../_components/CommentBox';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { toggleLike, setLike } from '@/src/redux/features/post/LikeSlice';
+import { useToast } from '@/src/components/ui/use-toast';
+import LoadingPage from '../../loading';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/src/components/ui/select';
 
 const SingleBlogPage = ({ params }: any) => {
+  const [selectedValue, setSelectedValue] = useState('newest');
   const dispatch = useAppDispatch();
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
@@ -50,13 +58,13 @@ const SingleBlogPage = ({ params }: any) => {
         }
       } else {
         toast({
-          variant: "outline",
-          description: "Please Login First",
+          variant: 'outline',
+          description: 'Please Login First',
         });
         return;
       }
     } catch (error) {
-      console.error("Error updating like status", error);
+      console.error('Error updating like status', error);
     }
   };
 
@@ -76,7 +84,7 @@ const SingleBlogPage = ({ params }: any) => {
           <div className="flex  gap-2">
             <p className="text-white font-bold text-base">Kobir</p>
             <p className="text-gray-300 text-sm flex gap-2 items-center">
-              {post?.data?.createdAt && formatDateToUTC(post?.data?.createdAt)}{" "}
+              {post?.data?.createdAt && formatDateToUTC(post?.data?.createdAt)}{' '}
               <small className="text-xs">at</small>
               <small>
                 {post?.data?.createdAt &&
@@ -129,11 +137,11 @@ const SingleBlogPage = ({ params }: any) => {
             )}
           </Button>
           {isLoading ? (
-            "...."
+            '....'
           ) : (
             <p>
-              {totalLikeCount?.data?.likes}{" "}
-              <span>{totalLikeCount?.data?.likes <= 1 ? "Like" : "Likes"}</span>
+              {totalLikeCount?.data?.likes}{' '}
+              <span>{totalLikeCount?.data?.likes <= 1 ? 'Like' : 'Likes'}</span>
             </p>
           )}
         </div>
@@ -145,11 +153,32 @@ const SingleBlogPage = ({ params }: any) => {
         </div>
 
         {/* Show comments */}
-        <p className="text-sm mt-4">
-          <span>{comments?.data?.length > 1 ? "Comments" : "Comment"}</span>: (
-          {comments?.data?.length ? comments?.data?.length : "No Comment Found"}
-          ){" "}
-        </p>
+        <div className="flex justify-between items-center my-4">
+          <p className="text-sm ">
+            <span>{comments?.data?.length > 1 ? 'Comments' : 'Comment'}</span>:
+            (
+            {comments?.data?.length ? (
+              <span className="text-purple-500">{comments?.data?.length}</span>
+            ) : (
+              'No Comment Found'
+            )}
+            ){' '}
+          </p>
+          <Select value={selectedValue} onValueChange={setSelectedValue}>
+            <SelectTrigger className=" w-auto border-none  ">
+              <div className="flex justify-center items-center gap-2">
+                <span className="text-purple-500 text-sm">Sort By:</span>{' '}
+                <span className="text-xs">
+                  <SelectValue />
+                </span>
+              </div>
+            </SelectTrigger>
+            <SelectContent className="bg-gray-900 border-none text-white">
+              <SelectItem value="allComments">All Comments</SelectItem>
+              <SelectItem value="newest">Newest</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <hr className="mb-4" />
         <div className="flex flex-col gap-2">
           {comments?.data?.map((comment: any) => (
