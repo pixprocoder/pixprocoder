@@ -29,6 +29,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+} from '@/src/components/ui/pagination';
+import Link from 'next/link';
 
 const SingleBlogPage = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState('newest');
@@ -40,6 +49,12 @@ const SingleBlogPage = ({ params }: any) => {
   const { data: comments } = useGetCommentQuery(params.id);
   const { data: totalLikeCount } = useGetPostLikeQuery(params.id);
   const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
+  const [currentPage, setCurrentPage] = useState(2); // Default to page 2
+
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+    // Logic to fetch new data based on the page number
+  };
 
   // Handling Like
   const handleLike = async () => {
@@ -208,6 +223,57 @@ const SingleBlogPage = ({ params }: any) => {
               </div>
             </div>
           ))}
+        </div>
+        {/* // pagination */}
+        <div className="my-4">
+          <Pagination>
+            <PaginationContent className="flex justify-around w-full">
+              <PaginationItem>
+                <PaginationPrevious
+                  className="border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </PaginationPrevious>
+              </PaginationItem>
+              <PaginationItem>
+                <Link href="#" passHref>
+                  <PaginationLink
+                    size="sm" // Add the size prop here
+                    onClick={() => handlePageChange(1)}
+                    isActive={currentPage === 1}
+                  >
+                    1
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+              <PaginationItem>
+                <Link href="#" passHref>
+                  <PaginationLink
+                    size="sm"
+                    onClick={() => handlePageChange(2)}
+                    isActive={currentPage === 2}
+                  >
+                    2
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+
+              <PaginationItem>
+                {/* Use PaginationLink for "Next" */}
+                <Link href="#" passHref>
+                  <PaginationLink
+                    className="border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
+                    size="sm" // Add the size prop here
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </section>
