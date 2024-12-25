@@ -9,6 +9,7 @@ import {
 import { Button } from '@/src/components/ui/button';
 import { TiMinus } from 'react-icons/ti';
 import { FaPlus } from 'react-icons/fa';
+import Link from 'next/link';
 
 function CartSheet() {
   return (
@@ -29,9 +30,12 @@ function CartSheet() {
       </SheetHeader>
 
       <SheetFooter>
-        <SheetClose asChild>
-          <Button type="submit">Checkout</Button>
-        </SheetClose>
+        <Button>
+          <Link href="/shop">Continue Shopping 🛍️</Link>
+        </Button>
+        <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+          <Link href="/cart-details">See Cart 👀</Link>
+        </Button>
       </SheetFooter>
     </div>
   );
