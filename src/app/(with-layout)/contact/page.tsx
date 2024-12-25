@@ -1,15 +1,15 @@
-"use client";
-import { Button } from "@/src/components/ui/button";
-import Aos from "aos";
-import Image from "next/image";
-import { useEffect } from "react";
-import contact from "../../../assets/login.svg";
-import { Input } from "@/src/components/ui/input";
-import { Textarea } from "@/src/components/ui/textarea";
-import { SubmitHandler, useForm } from "react-hook-form";
-import SectionBanner from "@/src/components/shared/SectionBanner";
-import axios from "axios";
-import { getBaseURL } from "@/src/utils";
+'use client';
+import { Button } from '@/src/components/ui/button';
+import Aos from 'aos';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import contact from '../../../assets/login.svg';
+import { Input } from '@/src/components/ui/input';
+import { Textarea } from '@/src/components/ui/textarea';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import SectionBanner from '@/src/components/shared/SectionBanner';
+import axios from 'axios';
+import { getBaseURL } from '@/src/utils';
 
 function ContactPage() {
   useEffect(() => {
@@ -32,11 +32,12 @@ function ContactPage() {
 
       if (res.status === 200) {
         reset();
+        alert('Message sent successfully');
       } else {
-        alert("Failed to send message");
+        alert('Failed to send message');
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
       // alert("Failed to send message");
     }
   };
@@ -64,26 +65,26 @@ function ContactPage() {
               className="flex w-[90vw] md:w-full flex-col"
             >
               <Input
-                {...register("email", { required: true })}
-                aria-invalid={errors.email ? "true" : "false"}
+                {...register('email', { required: true })}
+                aria-invalid={errors.email ? 'true' : 'false'}
                 className="text-purple-800"
                 type="email"
                 placeholder="Your Email"
               />
-              {errors.email?.type === "required" && (
+              {errors.email?.type === 'required' && (
                 <p className="text-sm text-red-700" role="alert">
                   Email is required
                 </p>
               )}
               <div className="my-4">
                 <Input
-                  {...register("subject", { required: true })}
-                  aria-invalid={errors.subject ? "true" : "false"}
+                  {...register('subject', { required: true })}
+                  aria-invalid={errors.subject ? 'true' : 'false'}
                   className="text-purple-800 "
                   type="text"
                   placeholder="Subject"
                 />
-                {errors.subject?.type === "required" && (
+                {errors.subject?.type === 'required' && (
                   <p className="text-sm text-red-700" role="alert">
                     Subject is required
                   </p>
@@ -91,14 +92,14 @@ function ContactPage() {
               </div>
 
               <Textarea
-                {...register("message", { required: true })}
-                aria-invalid={errors.message ? "true" : "false"}
+                {...register('message', { required: true })}
+                aria-invalid={errors.message ? 'true' : 'false'}
                 className="text-purple-800"
                 rows={6}
                 cols={20}
                 placeholder="Message"
               />
-              {errors.message?.type === "required" && (
+              {errors.message?.type === 'required' && (
                 <p className="text-sm text-red-700" role="alert">
                   Message is required
                 </p>

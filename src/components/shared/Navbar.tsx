@@ -149,7 +149,7 @@ const Navbar = () => {
         {navLinks.map((el, i) => (
           <li key={i}>
             <Link
-              className="bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all hover:border-b-3 hover:border-b-purple-500 pb-4   duration-100"
+              className="bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all hover:border-b-2  hover:border-b-purple-500 pb-4   duration-100"
               href={el.to}
             >
               {el.key}
