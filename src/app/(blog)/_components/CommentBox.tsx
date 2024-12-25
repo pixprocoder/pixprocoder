@@ -1,15 +1,15 @@
-"use client";
-import { Button } from "@/src/components/ui/button";
-import { Textarea } from "@/src/components/ui/textarea";
-import { useToast } from "@/src/components/ui/use-toast";
-import { AuthContext } from "@/src/providers/AuthProviders";
-import { usePostCommentMutation } from "@/src/redux/api/posts/PostApiSlice";
-import { useContext, useState } from "react";
+'use client';
+import { Button } from '@/src/components/ui/button';
+import { Textarea } from '@/src/components/ui/textarea';
+import { useToast } from '@/src/components/ui/use-toast';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { usePostCommentMutation } from '@/src/redux/api/posts/PostApiSlice';
+import { useContext, useState } from 'react';
 
 function CommentBox({ id }: { id: string }) {
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   const [postComment, { isSuccess, isError }] = usePostCommentMutation();
 
@@ -17,19 +17,18 @@ function CommentBox({ id }: { id: string }) {
     e.preventDefault();
     if (!user?.email) {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "You Must Need To Login!",
+        title: 'Uh oh! Something went wrong.',
+        description: 'You Must Need To Login!',
+        className: `toast-error`, // Apply the custom class
       });
 
-      setComment("");
+      setComment('');
       return;
     }
-    if (comment === "") {
+    if (comment === '') {
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "You Must Write Something :(",
+        description: 'This field is cannot be Empty ∅',
+        className: `toast-error`, // Apply the custom class
       });
       return;
     }
@@ -44,12 +43,13 @@ function CommentBox({ id }: { id: string }) {
     postComment({ id: postId, data: options });
     setTimeout(() => {
       toast({
-        title: "Congratulations 🎉",
-        description: "Post Added Successfully 🚀",
+        title: 'Congratulations 🎉',
+        description: 'Post Added Successfully 🚀',
+        className: `toast-success`, // Apply the custom class
       });
     }, 1000);
 
-    setComment("");
+    setComment('');
   };
 
   return (

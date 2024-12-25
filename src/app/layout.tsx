@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import AuthProviders from "../providers/AuthProviders";
-import { Toaster } from "../components/ui/toaster";
-import OtherProviders from "@/src/providers/OtherProviders";
-import TanStackQueryProvider from "../providers/TanStackQueryProvider";
-import ReduxProvider from "../providers/ReduxProvider";
+import type { Metadata } from 'next';
+import './globals.css';
+import AuthProviders from '../providers/AuthProviders';
+import { Toaster } from '../components/ui/toaster';
+import OtherProviders from '@/src/providers/OtherProviders';
+import TanStackQueryProvider from '../providers/TanStackQueryProvider';
+import ReduxProvider from '../providers/ReduxProvider';
 
 export const metadata: Metadata = {
-  title: "Pixprocoder",
-  description: "My personal website",
+  title: 'Pixprocoder',
+  description: 'My personal website',
 };
 
 export default function RootLayout({
