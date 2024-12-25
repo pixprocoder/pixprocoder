@@ -15,13 +15,13 @@ import {
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 
-import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
-import { useContext, useEffect, useState } from 'react';
-import CommentBox from '../../_components/CommentBox';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
-import { toggleLike, setLike } from '@/src/redux/features/post/LikeSlice';
-import { useToast } from '@/src/components/ui/use-toast';
-import LoadingPage from '../../loading';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+} from '@/src/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -29,6 +29,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
+import { useToast } from '@/src/components/ui/use-toast';
+import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
+import Link from 'next/link';
+import { useContext, useState } from 'react';
+import CommentBox from '../../_components/CommentBox';
 
 const SingleBlogPage = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState('newest');
@@ -40,6 +47,12 @@ const SingleBlogPage = ({ params }: any) => {
   const { data: comments } = useGetCommentQuery(params.id);
   const { data: totalLikeCount } = useGetPostLikeQuery(params.id);
   const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
+  const [currentPage, setCurrentPage] = useState(2); // Default to page 2
+
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+    // Logic to fetch new data based on the page number
+  };
 
   // Handling Like
   const handleLike = async () => {
@@ -208,6 +221,57 @@ const SingleBlogPage = ({ params }: any) => {
               </div>
             </div>
           ))}
+        </div>
+        {/* // pagination */}
+        <div className="my-4">
+          <Pagination>
+            <PaginationContent className="flex justify-around w-full">
+              <PaginationItem>
+                <PaginationPrevious
+                  className="cursor-pointer border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </PaginationPrevious>
+              </PaginationItem>
+              <PaginationItem>
+                <Link href="#" passHref>
+                  <PaginationLink
+                    size="sm" // Add the size prop here
+                    onClick={() => handlePageChange(1)}
+                    isActive={currentPage === 1}
+                  >
+                    1
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+              <PaginationItem>
+                <Link href="#" passHref>
+                  <PaginationLink
+                    size="sm"
+                    onClick={() => handlePageChange(2)}
+                    isActive={currentPage === 2}
+                  >
+                    2
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+
+              <PaginationItem>
+                {/* Use PaginationLink for "Next" */}
+                <Link href="#" passHref>
+                  <PaginationLink
+                    className="border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
+                    size="sm" // Add the size prop here
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </PaginationLink>
+                </Link>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </div>
     </section>

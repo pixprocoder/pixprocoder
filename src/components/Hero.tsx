@@ -136,9 +136,9 @@ const Hero = () => {
                       <div className="flex ">
                         <Button
                           type="submit"
-                          className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md text-xl"
+                          className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md "
                         >
-                          Send
+                          Deliver 🚀
                         </Button>
                       </div>
                     </form>
