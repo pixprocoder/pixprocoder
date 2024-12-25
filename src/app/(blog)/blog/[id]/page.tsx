@@ -15,13 +15,13 @@ import {
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 
-import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
-import { useContext, useEffect, useState } from 'react';
-import CommentBox from '../../_components/CommentBox';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
-import { toggleLike, setLike } from '@/src/redux/features/post/LikeSlice';
-import { useToast } from '@/src/components/ui/use-toast';
-import LoadingPage from '../../loading';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+} from '@/src/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -29,15 +29,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-} from '@/src/components/ui/pagination';
+import { useToast } from '@/src/components/ui/use-toast';
+import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
+import { useContext, useState } from 'react';
+import CommentBox from '../../_components/CommentBox';
 
 const SingleBlogPage = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState('newest');
@@ -230,7 +228,7 @@ const SingleBlogPage = ({ params }: any) => {
             <PaginationContent className="flex justify-around w-full">
               <PaginationItem>
                 <PaginationPrevious
-                  className="border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
+                  className="cursor-pointer border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
                   size="sm"
                   onClick={() => handlePageChange(currentPage - 1)}
                 >
