@@ -8,7 +8,7 @@ export default function DraggableCartIcon() {
   });
   const [dragging, setDragging] = useState(false);
 
-  const handleDrag = (e) => {
+  const handleDrag = (e: any) => {
     e.preventDefault(); // Prevent default browser behavior
     const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
@@ -38,7 +38,7 @@ export default function DraggableCartIcon() {
     document.removeEventListener('touchend', handleDragEnd);
   };
 
-  const startDrag = (e) => {
+  const startDrag = (e: any) => {
     e.preventDefault(); // Prevent default touch behavior
     setDragging(true);
 
