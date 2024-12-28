@@ -5,6 +5,7 @@ import { Toaster } from '../components/ui/toaster';
 import OtherProviders from '@/src/providers/OtherProviders';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
 import ReduxProvider from '../providers/ReduxProvider';
+import CartIcon from '../components/cart/CartIcon';
 
 export const metadata: Metadata = {
   title: 'Pixprocoder',
@@ -25,6 +26,7 @@ export default function RootLayout({
               <OtherProviders>
                 <main>{children}</main>
                 <Toaster />
+                <CartIcon />
               </OtherProviders>
             </AuthProviders>
           </TanStackQueryProvider>
