@@ -18,11 +18,11 @@ function page() {
       <div className="flex justify-between gap-4">
         <div className="flex-[2]">
           <div>
-            <h3 className="mb-2 text-gray-100">Shipping Address</h3>
+            <h3 className="mb-2 text-gray-100">Shipping Address Details</h3>
             <div>add shipping address form here</div>
           </div>
           <div>
-            <h3 className="mb-2 text-gray-100">Item Details</h3>
+            <h3 className="mb-2 text-gray-100">Item Details goes here</h3>
             <div>All Items here</div>
           </div>
           <div>

@@ -20,16 +20,7 @@ import {
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Image from 'next/image';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/src/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/src/components/ui/sheet';
 import CartSheet from '@/src/components/cart/CartSheet';
 
 const Navbar = () => {

@@ -27,5 +27,17 @@ export default function Home() {
 
 /**
  * what is programmingF?
+ * Yes that is pretty cool :)
+ * I do love this
  * an everyt
+ * */
+
+/**
+ *
+ * Oh my goodness that is pretty cool.
+ * I can write code on neovim.
+ * I do love to write code in neovim.
+ * I have to be more productive.
+ * I can code more effeciently.
+ * so that is really cool
  * */
