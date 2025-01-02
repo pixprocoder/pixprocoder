@@ -2,6 +2,8 @@
 /**
  *
  * Hi this is insert mood
+ * i - insert mood
+ * a - append mood
  * $ - move to the end of the line
  * 0 - move to the start of the line.
  * ^ - move to the first non-blank character.
@@ -56,6 +58,16 @@
  * . - to repeat last changes in the file
  * r - replace
  * x - delete a single char
+ * y - copy
+ * p - past
+ * ~ - switch current char case
+ *
+ * ----- -------
+ *  v - visual mood
+ *  gU - change uppercase
+ *  gu - change lowercase
+ *  diw - delete inside word
+ *  dip - delete a paragraph
  *
  *
  *
