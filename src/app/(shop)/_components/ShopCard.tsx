@@ -1,7 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@/src/components/ui/button';
-import { FaCartPlus } from 'react-icons/fa';
 import { FaRegStar } from 'react-icons/fa';
 
 const ShopCard = ({ item }: any) => {

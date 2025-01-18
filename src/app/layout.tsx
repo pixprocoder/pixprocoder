@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import './globals.css';
 import AuthProviders from '../providers/AuthProviders';
@@ -5,13 +6,14 @@ import { Toaster } from '../components/ui/toaster';
 import OtherProviders from '@/src/providers/OtherProviders';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
 import ReduxProvider from '../providers/ReduxProvider';
-import CartIcon from '../components/cart/CartIcon';
 
 export const metadata: Metadata = {
   title: 'Pixprocoder',
   description: 'My personal website',
+  other: {
+    'google-adsense-account': process.env.NEXT_PUBLIC_ADSENSE_ID,
+  }, // Add this line for AdSense
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +28,7 @@ export default function RootLayout({
               <OtherProviders>
                 <main>{children}</main>
                 <Toaster />
-                <CartIcon />
+                {/*   <CartIcon /> */}
               </OtherProviders>
             </AuthProviders>
           </TanStackQueryProvider>

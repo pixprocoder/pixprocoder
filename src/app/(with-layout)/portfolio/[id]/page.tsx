@@ -1,13 +1,16 @@
-import Image from "next/image";
-import { projects } from "../../../../constants";
-import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
+import React from 'react';
+import Image from 'next/image';
+import { projects } from '../../../../constants';
+import Link from 'next/link';
+import { Button } from '@/src/components/ui/button';
+import GoogleAdsense from '../../../../components/GoogleAdSense.tsx';
 
 function PortfolioDetailPage({ params }: any) {
   const singleProject = projects.find((p) => p.id === params?.id);
 
   return (
     <div className="container mx-auto">
+      <GoogleAdsense />
       <h1 className="text-2xl my-2 text-center text-blue-500 font-bold ">
         {singleProject?.title}
       </h1>
@@ -47,6 +50,7 @@ function PortfolioDetailPage({ params }: any) {
         <div>
           <p className="text-xl my-4 underline ">Features</p>
           <ul className="my-4">
+            <p>This section will be dynamic</p>
             <li>👉 User can login</li>
             <li>👉 User can Sign up</li>
             <li>👉 User can Test</li>
