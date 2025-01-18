@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     "constants/index.ts", // Fix the file extension here
     "app/(with-layout)/layout.tsx"
-  ],
+, "eslintrc.json"  ],
   "exclude": ["node_modules"]
 }

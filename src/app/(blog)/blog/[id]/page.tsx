@@ -36,6 +36,7 @@ import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import CommentBox from '../../_components/CommentBox';
+import GoogleAdsense from '../../../../components/GoogleAdSense.tsx';
 
 const SingleBlogPage = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState('newest');
@@ -84,6 +85,7 @@ const SingleBlogPage = ({ params }: any) => {
   return (
     <section className="container mx-auto">
       <div className="w-full lg:w-2/4 mx-auto">
+        <GoogleAdsense />
         <h1 className="text-left lg:text-center text-3xl lg:text-5xl font-bold  my-6">
           {post?.data?.title}
         </h1>

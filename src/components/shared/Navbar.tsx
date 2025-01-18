@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { navLinks } from '../../constants';
 import { Button } from '../ui/button';
 import { AuthContext } from '@/src/providers/AuthProviders';
