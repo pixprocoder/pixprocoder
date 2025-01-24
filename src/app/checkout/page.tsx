@@ -1,9 +1,6 @@
 import { Button } from '@/src/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import { FaPlus, FaRegTrashAlt } from 'react-icons/fa';
-import { TiMinus } from 'react-icons/ti';
 
 function page() {
   return (

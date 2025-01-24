@@ -4,7 +4,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ["i.ibb.co", "d2devwt40at1e2.cloudfront.net", "miro.medium.com", "lh3.googleusercontent.com"],
+    domains: [
+      'i.ibb.co',
+      'd2devwt40at1e2.cloudfront.net',
+      'miro.medium.com',
+      'lh3.googleusercontent.com',
+    ],
   },
 };
 
