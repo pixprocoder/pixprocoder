@@ -2,6 +2,9 @@
 import { portfolioMenu, projects } from "../constants";
 import React, { useState } from "react";
 import PortfolioCard from "./PortfolioCard";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
+import { Button } from "./ui/button";
+import { increment } from "../redux/features/CounterSlice";
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);
@@ -24,9 +27,8 @@ const Portfolio = () => {
       <div className="flex flex-wrap gap-4 mt-10">
         <div className=" flex flex-wrap gap-4 justify-center items-center ">
           {portfolioMenu.map((item) => (
-            <>
+            <div key={item.id}>
               <span
-                key={item.id}
                 className={`tab transition tab-lifted  cursor-pointer border p-2 text-sm rounded-md  ${
                   activeTab === item.id
                     ? " duration-200 tab-active border-blue-600  text-blue-600 "
@@ -36,7 +38,7 @@ const Portfolio = () => {
               >
                 {item.value}
               </span>
-            </>
+            </div>
           ))}
         </div>
       </div>

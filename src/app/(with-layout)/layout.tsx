@@ -1,5 +1,6 @@
 import Footer from "@/src/components/shared/Footer";
 import Navbar from "@/src/components/shared/Navbar";
+import AlertBanner from "@/src/components/shared/AlertBanner";
 
 export default function RootLayout({
   children,
@@ -8,6 +9,7 @@ export default function RootLayout({
 }) {
   return (
     <>
+        <AlertBanner/>
       <Navbar />
       {children}
       <Footer />

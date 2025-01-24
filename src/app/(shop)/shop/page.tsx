@@ -1,32 +1,24 @@
-"use client"
-import { Button } from "@/src/components/ui/button";
-import Confetti from 'react-confetti'
-import { useState } from "react";
+'use client';
 
+import GoogleAdsense from '../../../components/GoogleAdSense.tsx';
+import ShopCard from '../_components/ShopCard';
+import { useState } from 'react';
 
 const Shop = () => {
-    const [isConfettiVisible, setConfettiVisible] = useState(false);
+  const [items, setItems] = useState([]);
+  fetch('https://fakestoreapi.com/products')
+    .then((res) => res.json())
+    .then((data) => setItems(data));
 
-    const handleClick = () => {
-      setConfettiVisible(true);
-      setTimeout(() => {
-        setConfettiVisible(false);
-      }, 4000); // Confetti lasts for 3 seconds
-    };
   return (
-    
-    <div className="w-[1400px] mx-auto flex justify-center items-center min-h-screen">
-     
-      {/* <h1>Hello from shop page</h1> */}
-      <Button onClick={handleClick}>Click</Button>
-      {isConfettiVisible && (
-      <Confetti
-        width={window.innerWidth}
-        height={window.innerHeight}
-        numberOfPieces={200}
-        gravity={0.1}
-      />
-    )}
+    <div className="lg:w-[1200px] min-h-screen mx-auto">
+      <h1 className="text-3xl text-center my-4">Shop from my store</h1>
+      <GoogleAdsense />
+      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4  ">
+        {items.map((item, index) => (
+          <ShopCard key={index} item={item}></ShopCard>
+        ))}
+      </div>
     </div>
   );
 };

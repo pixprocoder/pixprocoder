@@ -1,12 +1,12 @@
-"use client";
-import Image from "next/image";
-import banner from "../assets/images/banner.png";
-import { useEffect, useRef, useState } from "react";
-import HireMeModalPage from "./shared/Modal";
-import { Link as ScrollLink } from "react-scroll";
-import TypedText from "./shared/TypedText";
-import { Button } from "./ui/button";
-import Link from "next/link";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { SiUpwork } from 'react-icons/si';
+import { TbBrandFiverr } from 'react-icons/tb';
+import banner from '../assets/images/banner.png';
+import TypedText from './shared/TypedText';
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
@@ -14,49 +14,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { TbBrandFiverr } from "react-icons/tb";
-import { SiUpwork } from "react-icons/si";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { RocketIcon, Terminal } from "lucide-react";
-import { useToast } from "./ui/use-toast";
+} from './ui/dialog';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { useToast } from './ui/use-toast';
 
 const Hero = () => {
   const { toast } = useToast();
 
-  const [showModal, setShowModal] = useState(false);
-  const [error1, setError1] = useState("");
-  const projectRef = useRef();
-  const messageRef = useRef();
-
-  const handleMessage = () => {
-    const projectName = projectRef.current.value;
-    const message = messageRef.current.value;
-
-    if (!projectName || !message) {
-      alert("Please fill the field");
-    } else {
-      toast({
-        title: "Thanks",
-        description: "Your Message has been sent!!",
-      });
-    }
-    // else {
-    // }
-
-    projectRef.current.value = "";
-    messageRef.current.value = "";
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    const { email, projectName, message } = data;
+    console.log(email, projectName, message);
+    toast({
+      title: 'Email Sent',
+      description: 'I will get back to you soon.',
+      status: 'success',
+    });
   };
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
   return (
     <section
       id="home"
@@ -70,8 +51,10 @@ const Hero = () => {
           <span className="text-[#0084FF]">SAMSUL</span> KOBIR
         </h1>
 
-        <div className="my-8 flex gap-2 text-blue-600 text-xl items-center space-y-3 lg:text-3xl border-l-2 px-2 border-cyan-600">
-          💻 <TypedText />
+        <div className="my-8   border-l-2 px-2 border-cyan-600">
+          <div className="lg:text-xl flex gap-2  items-center space-y-3">
+            💻 Software Engineer with: <TypedText />
+          </div>
         </div>
 
         <div className="flex space-x-4 my-4">
@@ -82,7 +65,7 @@ const Hero = () => {
             <Dialog>
               <DialogTrigger>
                 <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-                  Hire Me
+                  Get A Quote
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-black border-gray-800">
@@ -91,57 +74,74 @@ const Hero = () => {
                     Hii There!! 👋
                   </DialogTitle>
                   <DialogDescription>
-                    <div className="py-4">
-                      <p className="my-2 text-left">
-                        What's in your mind? let's discuss
-                      </p>
-
-                      <Input
-                        type="text"
-                        placeholder="Project Name"
-                        ref={projectRef}
-                        required
-                        className="input input-bordered input-accent w-full "
-                      />
-
-                      <Textarea
-                        name="message"
-                        ref={messageRef}
-                        className="textarea textarea-info w-full my-2"
-                        placeholder="Message"
-                        required
-                      />
-                      <div>
-                        <p className="text-sm text-green-600 my-2 text-left">
-                          For Freelance Work
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className="py-4">
+                        <p className="my-2 text-left">
+                          What's in your mind? send me an Email. 📩
                         </p>
-                        <div className=" flex gap-4 text-2xl  items-center">
-                          <Link
-                            className="text-green-500 hover:text-blue-600"
-                            href="https://www.fiverr.com/pixprocoder"
-                            target="_blank"
-                          >
-                            <TbBrandFiverr></TbBrandFiverr>
-                          </Link>
-                          <Link
-                            className="text-green-500 hover:text-blue-600 text-left"
-                            href="https://www.fiverr.com/pixprocoder"
-                            target="_blank"
-                          >
-                            <SiUpwork></SiUpwork>
-                          </Link>
+                        <Input
+                          type="email"
+                          placeholder="Your Email"
+                          className="input input-bordered input-accent w-full "
+                          {...register('email', { required: true })}
+                        />{' '}
+                        {errors.email && (
+                          <span className="text-xs text-red-500">
+                            Email field is required
+                          </span>
+                        )}
+                        <Input
+                          type="text"
+                          placeholder="Project Name"
+                          {...register('projectName', { required: true })}
+                          className="input input-bordered mt-2 input-accent w-full "
+                        />{' '}
+                        {errors.projectName && (
+                          <span className="text-xs text-red-500">
+                            This field is required
+                          </span>
+                        )}
+                        <Textarea
+                          {...register('message', { required: true })}
+                          className="textarea textarea-info w-full my-2"
+                          placeholder="Message"
+                        />
+                        {errors.message && (
+                          <span className="text-xs text-red-500">
+                            Message field is required
+                          </span>
+                        )}
+                        <div>
+                          <p className="text-sm text-green-600 my-2 text-left">
+                            For Freelance Work
+                          </p>
+                          <div className=" flex gap-4 text-2xl  items-center">
+                            <Link
+                              className="text-green-500 hover:text-blue-600"
+                              href="https://www.fiverr.com/pixprocoder"
+                              target="_blank"
+                            >
+                              <TbBrandFiverr></TbBrandFiverr>
+                            </Link>
+                            <Link
+                              className="text-green-500 hover:text-blue-600 text-left"
+                              href="https://www.fiverr.com/pixprocoder"
+                              target="_blank"
+                            >
+                              <SiUpwork></SiUpwork>
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex ">
-                      <Button
-                        onClick={handleMessage}
-                        type="submit"
-                        className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md text-xl"
-                      >
-                        Send
-                      </Button>
-                    </div>
+                      <div className="flex ">
+                        <Button
+                          type="submit"
+                          className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md "
+                        >
+                          Deliver 🚀
+                        </Button>
+                      </div>
+                    </form>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>

@@ -1,9 +1,9 @@
-"use client";
-import React, { useEffect } from "react";
-import profile from "../assets/images/about-me.png";
-import Image from "next/image";
-import AOS from "aos";
-import "aos/dist/aos.css";
+'use client';
+import React, { useEffect } from 'react';
+import profile from '../assets/images/about-me.png';
+import Image from 'next/image';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const About = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const About = () => {
   return (
     <section id="about" className="pt-8 my-40">
       <div>
-        <h1 className=" text-center text-5xl font-montserrat font-bold">
+        <h1 className="text-purple-500 text-center text-5xl font-montserrat font-bold">
           About Me
         </h1>
         <p className="text-center hidden lg:block   mx-auto my-4">
