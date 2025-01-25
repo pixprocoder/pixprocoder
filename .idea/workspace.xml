@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5a7b6b4e-051d-42ab-b8b3-481d27ff381c" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pixprocoder&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/pixprocoder/pixprocoder.git&quot;,
+    &quot;accountId&quot;: &quot;6f2ffd66-e96f-42ef-863d-a28c6e635a6b&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2ko0SL165mbaswwdt3melio2dDG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/pixprocoder/Documents/Code/pixprocoder&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;/Users/pixprocoder/Documents/Code/pixprocoder/node_modules/prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/pixprocoder/Documents/Code/pixprocoder/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/payment" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5a7b6b4e-051d-42ab-b8b3-481d27ff381c" name="Changes" comment="" />
+      <created>1723934620772</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723934620772</updated>
+      <workItem from="1723934622520" duration="147000" />
+      <workItem from="1724187108278" duration="2405000" />
+      <workItem from="1724261140831" duration="2000" />
+      <workItem from="1724263695492" duration="88000" />
+      <workItem from="1724711953012" duration="294000" />
+      <workItem from="1725114680954" duration="1594000" />
+      <workItem from="1725138816740" duration="3730000" />
+      <workItem from="1725149451169" duration="1239000" />
+      <workItem from="1725205771062" duration="4481000" />
+      <workItem from="1725211576582" duration="686000" />
+      <workItem from="1725212278902" duration="1576000" />
+      <workItem from="1725213875463" duration="3104000" />
+      <workItem from="1725285268086" duration="7054000" />
+      <workItem from="1726316280817" duration="705000" />
+      <workItem from="1726666728661" duration="1990000" />
+      <workItem from="1727014685553" duration="834000" />
+      <workItem from="1727126939590" duration="612000" />
+      <workItem from="1727186469670" duration="439000" />
+      <workItem from="1727186948329" duration="39000" />
+      <workItem from="1728224246612" duration="3086000" />
+      <workItem from="1728244870131" duration="3891000" />
+      <workItem from="1729094203335" duration="295000" />
+      <workItem from="1730632890143" duration="861000" />
+      <workItem from="1731096587332" duration="598000" />
+      <workItem from="1733177053428" duration="73000" />
+      <workItem from="1733177192334" duration="740000" />
+      <workItem from="1733177939927" duration="126000" />
+      <workItem from="1733178072879" duration="771000" />
+      <workItem from="1733356021835" duration="2538000" />
+      <workItem from="1733443702224" duration="2353000" />
+      <workItem from="1733861383358" duration="628000" />
+      <workItem from="1734777055795" duration="4051000" />
+      <workItem from="1734783035822" duration="3867000" />
+      <workItem from="1735046577848" duration="8429000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/CheckoutForm.tsx</url>
+          <line>112</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/(with-layout)/signup/page.tsx</url>
+          <line>85</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/(with-layout)/layout.tsx</url>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Hero.tsx</url>
+          <line>108</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
