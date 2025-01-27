@@ -1,10 +1,7 @@
-"use client";
-import { portfolioMenu, projects } from "../constants";
-import React, { useState } from "react";
-import PortfolioCard from "./PortfolioCard";
-import { useAppDispatch, useAppSelector } from "../redux/hooks/hooks";
-import { Button } from "./ui/button";
-import { increment } from "../redux/features/CounterSlice";
+'use client';
+import { useState } from 'react';
+import { portfolioMenu, projects } from '../constants';
+import PortfolioCard from './PortfolioCard';
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);
@@ -13,9 +10,9 @@ const Portfolio = () => {
   };
 
   const selectedTabItem = portfolioMenu.find((item) => item.id === activeTab);
-  const selectedCategory = selectedTabItem?.value || "All";
+  const selectedCategory = selectedTabItem?.value || 'All';
   const filteredProjects =
-    selectedCategory === "All"
+    selectedCategory === 'All'
       ? projects
       : projects.filter((p) => p.category === selectedCategory);
 
@@ -31,8 +28,8 @@ const Portfolio = () => {
               <span
                 className={`tab transition tab-lifted  cursor-pointer border p-2 text-sm rounded-md  ${
                   activeTab === item.id
-                    ? " duration-200 tab-active border-blue-600  text-blue-600 "
-                    : ""
+                    ? ' duration-200 tab-active border-blue-600  text-blue-600 '
+                    : ''
                 }`}
                 onClick={() => handleMenuClick(item.id)}
               >
