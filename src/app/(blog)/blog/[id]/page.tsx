@@ -34,19 +34,23 @@ import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { use, useContext, useState } from 'react';
 import CommentBox from '../../_components/CommentBox';
 import GoogleAdsense from '../../../../components/GoogleAdSense.tsx';
 
+// ------------- import end --------------
+
 const SingleBlogPage = ({ params }: any) => {
+  const { id } = use(params);
+  console.log(id);
   const [selectedValue, setSelectedValue] = useState('newest');
   const dispatch = useAppDispatch();
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
   const { isLiked } = useAppSelector((state) => state.like);
-  const { data: post } = useGetSinglePostQuery(params.id);
-  const { data: comments } = useGetCommentQuery(params.id);
-  const { data: totalLikeCount } = useGetPostLikeQuery(params.id);
+  const { data: post } = useGetSinglePostQuery(id);
+  const { data: comments } = useGetCommentQuery(id);
+  const { data: totalLikeCount } = useGetPostLikeQuery(id);
   const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
   const [currentPage, setCurrentPage] = useState(2); // Default to page 2
 
@@ -60,7 +64,7 @@ const SingleBlogPage = ({ params }: any) => {
     try {
       if (user?.uid) {
         const result = await postLike({
-          id: params.id,
+          id: id,
           data: { liked: !isLiked, userId: user.uid },
         });
 
@@ -68,7 +72,7 @@ const SingleBlogPage = ({ params }: any) => {
         if (updatedLike !== undefined) {
           dispatch(setLike(updatedLike));
         } else {
-          dispatch(toggleLike(params.id));
+          dispatch(toggleLike(id));
         }
       } else {
         toast({
@@ -164,7 +168,7 @@ const SingleBlogPage = ({ params }: any) => {
 
         <div className="mt-4 bg-gray-700 rounded-lg p-4">
           <h1 className="text-lg text-gray-100 ">Leave A Comment</h1>
-          <CommentBox id={params.id} />
+          <CommentBox id={id} />
         </div>
 
         {/* Show comments */}
