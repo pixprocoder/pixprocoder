@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-function Product({ params }) {
+function page({ params }) {
   return <div>id: {params.id}</div>;
 }
 
-export default Product;
+export default page;

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-import createMDX from '@next/mdx';
+// import createMDX from '@next/mdx';s
 const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ['cheerio'],
+  },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   typescript: {
     ignoreBuildErrors: true,
@@ -14,6 +17,6 @@ const nextConfig = {
     ],
   },
 };
-const withMDX = createMDX({});
+// const withMDX = createMDX({});
 
-export default withMDX(nextConfig);
+export default nextConfig;
