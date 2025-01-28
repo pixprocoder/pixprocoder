@@ -7,7 +7,7 @@ function ShopDetailsPage({ item }) {
   const { id, description, image, price, title, rating, category } = item;
   return (
     <div>
-      <div className="flex justify-between gap-4">
+      <div className="flex flex-col md:flex-row justify-between gap-4">
         <div className="flex-1 justify-center items-start flex">
           {image && <Image src={image} alt="image" width={400} height={400} />}
         </div>
