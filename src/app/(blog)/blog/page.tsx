@@ -1,22 +1,21 @@
-"use client";
+'use client';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/src/components/ui/avatar";
-import { Button } from "@/src/components/ui/button";
+} from '@/src/components/ui/avatar';
+import { Button } from '@/src/components/ui/button';
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/src/components/ui/card";
-import { Skeleton } from "@/src/components/ui/skeleton";
-import { useGetPostsQuery } from "@/src/redux/api/posts/PostApiSlice";
-import { formatDateToUTC, formatTimeToUTC } from "@/src/utils/FormatDate";
-import { format } from "date-fns";
-import Link from "next/link";
+} from '@/src/components/ui/card';
+import { Skeleton } from '@/src/components/ui/skeleton';
+import { useGetPostsQuery } from '@/src/redux/api/posts/PostApiSlice';
+import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
+import Link from 'next/link';
 
 function BlogPage() {
   const { data: posts, isLoading } = useGetPostsQuery({});
@@ -76,7 +75,7 @@ function BlogPage() {
                           Samsul Kobir
                         </p>
                         <p className="text-gray-300 text-sm flex gap-2 items-center">
-                          {formatDateToUTC(blog?.createdAt)}{" "}
+                          {formatDateToUTC(blog?.createdAt)}{' '}
                           <small className="text-xs">at</small>
                           <small>{formatTimeToUTC(blog?.createdAt)}</small>
                         </p>
