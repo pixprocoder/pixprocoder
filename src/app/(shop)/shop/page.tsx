@@ -2,13 +2,15 @@
 
 import GoogleAdsense from '../../../components/GoogleAdSense.tsx';
 import ShopCard from '../_components/ShopCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Shop = () => {
   const [items, setItems] = useState([]);
-  fetch('https://fakestoreapi.com/products')
-    .then((res) => res.json())
-    .then((data) => setItems(data));
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, [items]);
 
   return (
     <div className="lg:w-[1200px] min-h-screen mx-auto">

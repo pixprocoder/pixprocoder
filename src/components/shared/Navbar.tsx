@@ -57,7 +57,24 @@ const Navbar = () => {
       </div>
 
       {/* // only for mobile  */}
-      <div className="mr-4 flex md:hidden">
+      <div className="mr-4 flex items-center md:hidden">
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="relative">
+              <IoBagAddOutline className=" text-white text-2xl mr-4 cursor-pointer hover:text-blue-500 transition-all duration-100"></IoBagAddOutline>
+              <span className="absolute -top-4 -left-2 p-1 text-xs text-purple-500 ">
+                {items?.length < 10 ? (
+                  <span>0{items?.length}</span>
+                ) : (
+                  items?.length
+                )}
+              </span>
+            </div>
+          </SheetTrigger>
+          <SheetContent className="bg-black border-0">
+            <CartSheet />
+          </SheetContent>
+        </Sheet>
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -92,11 +109,13 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <Link href="/login">
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-              LOGIN
-            </Button>
-          </Link>
+          <>
+            <Link href="/login">
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
+                LOGIN
+              </Button>
+            </Link>
+          </>
         )}
       </div>
 

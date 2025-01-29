@@ -87,7 +87,7 @@ function BlogPage() {
                   </CardHeader>
                   <CardFooter>
                     <Link href={`/blog/${blog.id}`}>
-                      <Button className="w-full">Read More</Button>
+                      <Button className="w-full primary-btn">Read More</Button>
                     </Link>
                   </CardFooter>
                 </Card>

@@ -63,7 +63,7 @@ const Hero = () => {
           </Link>
           <div>
             <Dialog>
-              <DialogTrigger>
+              <DialogTrigger asChild>
                 <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
                   Get A Quote
                 </Button>
@@ -73,12 +73,12 @@ const Hero = () => {
                   <DialogTitle className="font-bold text-lg">
                     Hii There!! 👋
                   </DialogTitle>
-                  <DialogDescription>
+                  <DialogDescription asChild>
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div className="py-4">
-                        <p className="my-2 text-left">
+                        <span className="my-2 text-left">
                           What's in your mind? send me an Email. 📩
-                        </p>
+                        </span>
                         <Input
                           type="email"
                           placeholder="Your Email"
@@ -112,9 +112,9 @@ const Hero = () => {
                           </span>
                         )}
                         <div>
-                          <p className="text-sm text-green-600 my-2 text-left">
+                          <span className="text-sm text-green-600 my-2 text-left">
                             For Freelance Work
-                          </p>
+                          </span>
                           <div className=" flex gap-4 text-2xl  items-center">
                             <Link
                               className="text-green-500 hover:text-blue-600"
