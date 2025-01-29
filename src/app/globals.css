@@ -6,6 +6,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
 
+:root {
+  --primary: 220 100% 50%; /* Blue color in HSL */
+  --primary-foreground: 0 0% 100%; /* White text for contrast */
+}
+
+.dark {
+  --primary: 220 100% 60%; /* Lighter blue for dark mode */
+  --primary-foreground: 0 0% 100%; /* White text for contrast */
+}
 body {
   background-color: #000000;
   color: white;
@@ -195,6 +204,11 @@ body {
   transform: translateX(-50%);
 }
 
+@layer components {
+  .primary-btn {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
+  }
+}
 @layer base {
   * {
     @apply border-border;

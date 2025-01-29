@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-// import createMDX from '@next/mdx';s
+import createMDX from '@next/mdx';
 const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['cheerio'],
@@ -13,10 +13,11 @@ const nextConfig = {
       'i.ibb.co',
       'd2devwt40at1e2.cloudfront.net',
       'miro.medium.com',
+      'fakestoreapi.com',
       'lh3.googleusercontent.com',
     ],
   },
 };
-// const withMDX = createMDX({});
+const withMDX = createMDX({});
 
-export default nextConfig;
+export default withMDX(nextConfig);

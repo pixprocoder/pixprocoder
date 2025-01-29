@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.1.0",
+    "@mdx-js/react": "^3.1.0",
+    "@next/mdx": "^15.1.6",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -40,6 +43,7 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.290.0",
     "next": "^15.1.6",
+    "next-mdx-remote": "^5.0.0",
     "postcss": "8.4.31",
     "react": "^19.0.0",
     "react-confetti": "^6.1.0",
