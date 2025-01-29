@@ -11,14 +11,19 @@ import { Button } from '@/src/components/ui/button';
 import { TiMinus } from 'react-icons/ti';
 import { FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
-import { useAppSelector } from '@/src/redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { Key } from 'lucide-react';
 import Image from 'next/image';
+import {
+  decrementQuantity,
+  incrementQuantity,
+} from '@/src/redux/features/cart/CartSlice';
 
 // Component start
 
 function CartSheet() {
   const { items } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
   console.log('inside cart sheet', items);
   return (
     <div>
@@ -50,8 +55,14 @@ function CartSheet() {
                     <span className="text-white">{item?.quantity}</span>
                   </div>
                   <div className="flex gap-2">
-                    <FaPlus className="text-lg cursor-pointer text-white bg-blue-500 rounded-full p-1" />
-                    <TiMinus className="text-lg cursor-pointer text-white bg-red-500 rounded-full p-1" />
+                    <FaPlus
+                      onClick={() => dispatch(incrementQuantity(item))}
+                      className="text-lg cursor-pointer text-white bg-blue-500 rounded-full p-1"
+                    />
+                    <TiMinus
+                      onClick={() => dispatch(decrementQuantity(item))}
+                      className="text-lg cursor-pointer text-white bg-red-500 rounded-full p-1"
+                    />
                   </div>
                 </div>
               </div>

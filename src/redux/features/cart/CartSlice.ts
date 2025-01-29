@@ -54,9 +54,31 @@ const CartSlice = createSlice({
       }
       saveCartState(state);
     },
+    // Increment the quantity of an item in the cart
+    incrementQuantity: (state, action: PayloadAction<CartItem>) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.quantity += 1;
+        saveCartState(state);
+      }
+    },
+
+    // Decrement the quantity of an item in the cart
+    decrementQuantity: (state, action: PayloadAction<CartItem>) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item) {
+        if (item.quantity > 1) {
+          item.quantity -= 1;
+        } else {
+          state.items = state.items.filter((i) => i.id !== action.payload.id);
+        }
+        saveCartState(state);
+      }
+    },
   },
 });
 
-export const { addToCart } = CartSlice.actions;
+export const { addToCart, incrementQuantity, decrementQuantity } =
+  CartSlice.actions;
 
 export default CartSlice.reducer;
