@@ -24,7 +24,7 @@ function CartSheet() {
     <div>
       <SheetHeader>
         <SheetTitle className="text-gray-100">MY CART</SheetTitle>
-        <SheetDescription>
+        <SheetDescription className="max-h-[60vh] overflow-y-auto">
           {items?.map((item: any) => {
             return (
               <div key={item?.id}>
@@ -60,7 +60,7 @@ function CartSheet() {
         </SheetDescription>
       </SheetHeader>
 
-      <SheetFooter>
+      <SheetFooter className="mt-2">
         <Button className="" asChild>
           <Link href="/shop">Continue Shopping 🛍️</Link>
         </Button>
