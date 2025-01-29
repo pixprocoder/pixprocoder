@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+
 import React, { useContext, useState } from 'react';
 import { navLinks } from '../../constants';
 import { Button } from '../ui/button';
@@ -22,9 +23,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Image from 'next/image';
 import { Sheet, SheetContent, SheetTrigger } from '@/src/components/ui/sheet';
 import CartSheet from '@/src/components/cart/CartSheet';
+import { useAppSelector } from '@/src/redux/hooks/hooks';
 
+// component start here
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const { items } = useAppSelector((state) => state.cart);
+  console.log(items);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleResponsiveMenu = () => {
@@ -153,7 +158,11 @@ const Navbar = () => {
             <div className="relative">
               <IoBagAddOutline className=" text-white text-2xl mr-4 cursor-pointer hover:text-blue-500 transition-all duration-100"></IoBagAddOutline>
               <span className="absolute -top-4 -left-2 p-1 text-xs text-purple-500 ">
-                02
+                {items?.length < 10 ? (
+                  <span>0{items?.length}</span>
+                ) : (
+                  items?.length
+                )}
               </span>
             </div>
           </SheetTrigger>

@@ -1,9 +1,10 @@
 import { Button } from '@/src/components/ui/button';
+import { addToCart } from '@/src/redux/features/cart/CartSlice';
+import { useAppDispatch } from '@/src/redux/hooks/hooks';
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 
-function ShopDetailsPage({ item }) {
+function ShopDetailsPage({ item }: { item: any }) {
+  const dispatch = useAppDispatch();
   const { id, description, image, price, title, rating, category } = item;
   return (
     <div>
@@ -23,7 +24,12 @@ function ShopDetailsPage({ item }) {
               {price}
             </span>{' '}
           </p>
-          <Button className="primary-btn">Add To Cart</Button>
+          <Button
+            onClick={() => dispatch(addToCart(item))}
+            className="primary-btn"
+          >
+            Add To Cart
+          </Button>
         </div>
       </div>
       {/* TODO: add rating */}
