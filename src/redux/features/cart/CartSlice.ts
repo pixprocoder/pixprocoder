@@ -7,23 +7,32 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface CartItem {
   id: number;
   quantity: number;
+  price: number;
+  itemTotalPrice: number;
 }
 
 interface CartState {
   items: CartItem[];
+  totalPrice: number;
 }
+
+// Helper function to calculate the total price
+const calculateTotalPrice = (items: CartItem[]): number => {
+  const total = items.reduce((sum, item) => sum + item.itemTotalPrice, 0);
+  return parseFloat(total.toFixed(2));
+};
 
 // Load cart state from local storage
 const loadCartState = (): CartState => {
   try {
     const serializedState = getFromLocalStorage('cart');
     if (serializedState === null) {
-      return { items: [] }; // Return initial state if no saved state exists
+      return { items: [], totalPrice: 0 }; // Return initial state if no saved state exists
     }
     return JSON.parse(serializedState); // Parse the saved state
   } catch (error) {
     console.error('Failed to load cart state from local storage:', error);
-    return { items: [] }; // Fallback to initial state on error
+    return { items: [], totalPrice: 0 }; // Fallback to initial state on error
   }
 };
 
@@ -44,34 +53,56 @@ const CartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
+      if (!state.items) state.items = [];
+
       const existingItem = state?.items?.find(
+        (item) => item.id === action.payload.id,
+      );
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+        existingItem.itemTotalPrice =
+          existingItem.quantity * existingItem.price;
+      } else {
+        state.items.push({
+          ...action.payload,
+          quantity: 1,
+          itemTotalPrice: action.payload.price,
+        });
+      }
+      // calculate total price and save to local storage
+      state.totalPrice = calculateTotalPrice(state.items);
+      saveCartState(state);
+    },
+
+    // Increment the quantity of an item in the cart
+    incrementQuantity: (state, action: PayloadAction<CartItem>) => {
+      const existingItem = state.items.find(
         (item) => item.id === action.payload.id,
       );
       if (existingItem) {
         existingItem.quantity += 1;
-      } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        existingItem.itemTotalPrice =
+          existingItem.quantity * existingItem.price;
       }
+      state.totalPrice = calculateTotalPrice(state.items);
       saveCartState(state);
-    },
-    // Increment the quantity of an item in the cart
-    incrementQuantity: (state, action: PayloadAction<CartItem>) => {
-      const item = state.items.find((item) => item.id === action.payload.id);
-      if (item) {
-        item.quantity += 1;
-        saveCartState(state);
-      }
     },
 
     // Decrement the quantity of an item in the cart
     decrementQuantity: (state, action: PayloadAction<CartItem>) => {
-      const item = state.items.find((item) => item.id === action.payload.id);
-      if (item) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id,
+      );
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
+          existingItem.itemTotalPrice =
+            existingItem.quantity * existingItem.price;
         } else {
           state.items = state.items.filter((i) => i.id !== action.payload.id);
         }
+        state.totalPrice = calculateTotalPrice(state.items);
         saveCartState(state);
       }
     },
