@@ -60,8 +60,8 @@ function CartSheet() {
         </SheetDescription>
       </SheetHeader>
 
-      <SheetFooter className="mt-2">
-        <Button className="" asChild>
+      <SheetFooter className="mt-2 gap-2">
+        <Button variant="secondary" className="" asChild>
           <Link href="/shop">Continue Shopping 🛍️</Link>
         </Button>
         <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
