@@ -30,8 +30,8 @@ function page() {
         <h1 className="text-sm text-green-600"> 🔒 All Data Are encrypted</h1>
       </div>
       <hr className="border border-gray-600 my-4" />
-      <div className="flex justify-between gap-4">
-        <div className="flex-[2]">
+      <div className="flex flex-col md:flex-row justify-between gap-4">
+        <div className="flex-[2] px-4">
           <div className="flex justify-between items-center">
             <h3 className=" text-purple-500 text-xl">My Items</h3>
             <h2 className="mr-2">
@@ -118,7 +118,7 @@ function page() {
             })}
           </div>
         </div>
-        <div className="flex-[1]">
+        <div className="flex-[1] px-4">
           <h1 className=" text-gray-100"> Order Summary</h1>
           <hr className="border border-gray-600 my-4" />
           <div>
