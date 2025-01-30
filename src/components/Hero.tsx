@@ -5,20 +5,12 @@ import { useForm } from 'react-hook-form';
 import { SiUpwork } from 'react-icons/si';
 import { TbBrandFiverr } from 'react-icons/tb';
 import banner from '../assets/images/banner.png';
+import Modal from './shared/Modal';
 import TypedText from './shared/TypedText';
 import { Button } from './ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useToast } from './ui/use-toast';
-import Modal from './shared/Modal';
 
 const Hero = () => {
   const { toast } = useToast();
