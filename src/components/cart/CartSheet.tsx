@@ -37,7 +37,7 @@ function CartSheet() {
           </p>
         </div>
         <hr className="border-gray-500" />
-        <SheetDescription className="max-h-[60vh] overflow-y-auto">
+        <SheetDescription className="max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700">
           {items?.length! > 0 ? (
             items?.map((item: any) => {
               return (

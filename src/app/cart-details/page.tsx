@@ -41,7 +41,7 @@ function page() {
               {items.length > 1 ? 'items' : 'item'}
             </h2>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 max-h-[60vh] overflow-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700">
             {items?.map((item: any) => {
               return (
                 <div
