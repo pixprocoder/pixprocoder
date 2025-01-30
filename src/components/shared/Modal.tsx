@@ -62,7 +62,7 @@ const Modal = ({
           )}
           {onConfirm && (
             <Button
-              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-blue-500 hover:to-purple-500"
+              className="bg-red-500 hover:bg-red-600"
               onClick={handleConfirm}
             >
               {confirmText}

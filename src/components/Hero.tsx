@@ -27,7 +27,6 @@ const Hero = () => {
     toast({
       title: 'Email Sent',
       description: 'I will get back to you soon.',
-      status: 'success',
     });
   };
 

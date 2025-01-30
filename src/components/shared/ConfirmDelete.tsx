@@ -1,7 +1,13 @@
 import { Button } from '../ui/button';
 import Modal from './Modal';
 
-const ConfirmDelete = ({ onConfirm, onTrigger, id }) => {
+interface ConfirmDeleteProps {
+  onConfirm: (id: string) => void;
+  onTrigger: React.ReactNode;
+  id: any;
+}
+
+const ConfirmDelete = ({ onConfirm, onTrigger, id }: ConfirmDeleteProps) => {
   console.log('id', id);
   return (
     <Modal
