@@ -51,7 +51,7 @@ const Hero = () => {
 
         <div className="flex space-x-4 my-4">
           <Link href="/blog">
-            <Button>Explore Blog</Button>
+            <Button className="secondary-btn">Explore Blog</Button>
           </Link>
           <div>
             <Modal

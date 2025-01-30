@@ -1,23 +1,20 @@
 'use client';
-import React from 'react';
+import { Button } from '@/src/components/ui/button';
 import {
-  SheetClose,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
 } from '@/src/components/ui/sheet';
-import { Button } from '@/src/components/ui/button';
-import { TiMinus } from 'react-icons/ti';
-import { FaPlus } from 'react-icons/fa';
-import Link from 'next/link';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
-import { Key } from 'lucide-react';
-import Image from 'next/image';
 import {
   decrementQuantity,
   incrementQuantity,
 } from '@/src/redux/features/cart/CartSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaPlus } from 'react-icons/fa';
+import { TiMinus } from 'react-icons/ti';
 import emptyCartImage from '../../assets/images/empty-cart.svg';
 
 // Component start
@@ -100,7 +97,7 @@ function CartSheet() {
       </SheetHeader>
 
       <SheetFooter className="mt-2 gap-2">
-        <Button variant="secondary" className="" asChild>
+        <Button className="secondary-btn" asChild>
           <Link href="/shop">Continue Shopping 🛍️</Link>
         </Button>
         <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
