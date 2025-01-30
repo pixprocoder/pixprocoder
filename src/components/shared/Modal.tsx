@@ -8,17 +8,27 @@ import {
   DialogDescription,
 } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
-import { useState } from 'react';
+import React, { useState } from 'react';
+
+interface ModalProps {
+  trigger: React.ReactNode;
+  title?: string;
+  children: React.ReactNode;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  confirmText?: string;
+  cancelText?: string;
+}
 
 const Modal = ({
   trigger,
-  title = 'Modal Title',
+  title,
   children,
   onConfirm,
   onCancel,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
-}) => {
+  confirmText,
+  cancelText,
+}: ModalProps) => {
   const [open, setOpen] = useState(false);
 
   const handleConfirm = () => {

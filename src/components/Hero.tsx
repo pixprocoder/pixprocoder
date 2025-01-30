@@ -18,6 +18,7 @@ import {
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useToast } from './ui/use-toast';
+import Modal from './shared/Modal';
 
 const Hero = () => {
   const { toast } = useToast();
@@ -62,90 +63,79 @@ const Hero = () => {
             <Button>Explore Blog</Button>
           </Link>
           <div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-                  Get A Quote
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-black border-gray-800">
-                <DialogHeader>
-                  <DialogTitle className="font-bold text-lg">
-                    Hii There!! 👋
-                  </DialogTitle>
-                  <DialogDescription asChild>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="py-4">
-                        <span className="my-2 text-left">
-                          What's in your mind? send me an Email. 📩
-                        </span>
-                        <Input
-                          type="email"
-                          placeholder="Your Email"
-                          className="input input-bordered input-accent w-full "
-                          {...register('email', { required: true })}
-                        />{' '}
-                        {errors.email && (
-                          <span className="text-xs text-red-500">
-                            Email field is required
-                          </span>
-                        )}
-                        <Input
-                          type="text"
-                          placeholder="Project Name"
-                          {...register('projectName', { required: true })}
-                          className="input input-bordered mt-2 input-accent w-full "
-                        />{' '}
-                        {errors.projectName && (
-                          <span className="text-xs text-red-500">
-                            This field is required
-                          </span>
-                        )}
-                        <Textarea
-                          {...register('message', { required: true })}
-                          className="textarea textarea-info w-full my-2"
-                          placeholder="Message"
-                        />
-                        {errors.message && (
-                          <span className="text-xs text-red-500">
-                            Message field is required
-                          </span>
-                        )}
-                        <div>
-                          <span className="text-sm text-green-600 my-2 text-left">
-                            For Freelance Work
-                          </span>
-                          <div className=" flex gap-4 text-2xl  items-center">
-                            <Link
-                              className="text-green-500 hover:text-blue-600"
-                              href="https://www.fiverr.com/pixprocoder"
-                              target="_blank"
-                            >
-                              <TbBrandFiverr></TbBrandFiverr>
-                            </Link>
-                            <Link
-                              className="text-green-500 hover:text-blue-600 text-left"
-                              href="https://www.fiverr.com/pixprocoder"
-                              target="_blank"
-                            >
-                              <SiUpwork></SiUpwork>
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex ">
-                        <Button
-                          type="submit"
-                          className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md "
-                        >
-                          Deliver 🚀
-                        </Button>
-                      </div>
-                    </form>
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <Modal
+              trigger={<Button className="primary-btn">Get A Quote</Button>}
+              title="👋 Hi there,"
+            >
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="py-4">
+                  <span className="my-2 text-gray-300 text-left">
+                    What's in your mind? send me an Email. 📩
+                  </span>
+                  <Input
+                    type="email"
+                    placeholder="Your Email"
+                    className="input input-bordered input-accent w-full "
+                    {...register('email', { required: true })}
+                  />{' '}
+                  {errors.email && (
+                    <span className="text-xs text-red-500">
+                      Email field is required
+                    </span>
+                  )}
+                  <Input
+                    type="text"
+                    placeholder="Project Name"
+                    {...register('projectName', { required: true })}
+                    className="input input-bordered mt-2 input-accent w-full "
+                  />{' '}
+                  {errors.projectName && (
+                    <span className="text-xs text-red-500">
+                      This field is required
+                    </span>
+                  )}
+                  <Textarea
+                    {...register('message', { required: true })}
+                    className="textarea textarea-info w-full my-2"
+                    placeholder="Message"
+                  />
+                  {errors.message && (
+                    <span className="text-xs text-red-500">
+                      Message field is required
+                    </span>
+                  )}
+                  <div>
+                    <span className="text-sm text-green-600 my-2 text-left">
+                      For Freelance Work
+                    </span>
+                    <div className=" flex gap-4 text-2xl  items-center">
+                      <Link
+                        className="text-green-500 hover:text-blue-600"
+                        href="https://www.fiverr.com/pixprocoder"
+                        target="_blank"
+                      >
+                        <TbBrandFiverr></TbBrandFiverr>
+                      </Link>
+                      <Link
+                        className="text-green-500 hover:text-blue-600 text-left"
+                        href="https://www.fiverr.com/pixprocoder"
+                        target="_blank"
+                      >
+                        <SiUpwork></SiUpwork>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex ">
+                  <Button
+                    type="submit"
+                    className="  px-3 py-2 bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-md "
+                  >
+                    Deliver 🚀
+                  </Button>
+                </div>
+              </form>
+            </Modal>
           </div>
         </div>
       </div>
