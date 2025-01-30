@@ -4,9 +4,11 @@ import { useAppSelector } from '@/src/redux/hooks/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegEdit } from 'react-icons/fa';
+import { CiCreditCard1 } from 'react-icons/ci';
+import { GrPaypal } from 'react-icons/gr';
 
 function page() {
-  const { items } = useAppSelector((state) => state.cart);
+  const { items, totalPrice } = useAppSelector((state) => state.cart);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -17,7 +19,7 @@ function page() {
         <h1 className="text-sm text-green-600"> 🔒 All Data Are encrypted</h1>
       </div>
       <hr className="border border-gray-600 my-4" />
-      <div className="flex justify-between gap-4">
+      <div className="flex flex-col md:flex-row justify-between gap-4 px-2">
         <div className="flex-[2]">
           {/* Shipping Address */}
           <div>
@@ -39,7 +41,7 @@ function page() {
                 </div>
                 <FaRegEdit className="text-xl" />
               </div>
-              <div className="flex-1">
+              <div className="hidden md:flex flex-col flex-1">
                 <p className="text-sm text-gray-300">
                   Delivery
                   <span className="pl-3">FREE</span>
@@ -95,29 +97,48 @@ function page() {
 
           {/* payment  */}
           <div>
-            <h3 className="mb-2 text-gray-100">Payment Method</h3>
-            <div>Payment Method here</div>
+            <h3 className="mb-2 text-gray-300">Payment Method </h3>
+            <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-2 items-center cursor-pointers">
+                  <CiCreditCard1 className="text-2xl text-purple-500" />
+                  <p className="text-sm cursor-pointer underline decoration-purple-500">
+                    Mastercard
+                  </p>
+                </div>
+                <div className="flex gap-2 items-center cursor-pointer">
+                  <GrPaypal className="text-purple-500 text-2xl" />
+                  <p className=" text-sm underline decoration-purple-500 cursor-pointer">
+                    PayPal
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Right */}
         <div className="flex-[1]">
-          <h1 className="mb-2 text-gray-100"> Order Summary</h1>
+          <h1 className="mb-2 text-gray-300"> Order Summary</h1>
           <div>
             <div className="flex justify-between">
               <h1 className="text-sm text-gray-300">Items total:</h1>
-              <span>$33.00</span>
+              <span className="text-purple-500 text-xl font-bold">
+                $ {totalPrice}
+              </span>
             </div>
             <div className="flex justify-between">
               <h1 className="text-sm text-gray-300">Shipping</h1>
-              <span>FREE</span>
+              <span className="text-green-500 font-bold">FREE</span>
             </div>
           </div>
           <hr className="border border-gray-600 my-4" />
           <div>
             <div className="flex justify-between">
               <h1 className="text-sm">Total:</h1>
-              <span>$33.00</span>
+              <span className="text-purple-500 text-xl font-bold">
+                $ {totalPrice}
+              </span>
             </div>
           </div>
           <div>
