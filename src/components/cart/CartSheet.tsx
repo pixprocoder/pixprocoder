@@ -26,7 +26,6 @@ function CartSheet() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
 
   const dispatch = useAppDispatch();
-  console.log('inside cart sheet', items);
   return (
     <div>
       <SheetHeader>
