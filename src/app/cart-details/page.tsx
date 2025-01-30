@@ -93,7 +93,7 @@ function page() {
                         onTrigger={
                           <FaRegTrashAlt className="text-xl cursor-pointer text-white bg-red-500 rounded-full p-1" />
                         }
-                      ></ConfirmDelete>
+                      />
 
                       {/* <Modal
                         onCancel={

@@ -29,7 +29,6 @@ import { useAppSelector } from '@/src/redux/hooks/hooks';
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const { items } = useAppSelector((state) => state.cart);
-  console.log(items);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleResponsiveMenu = () => {

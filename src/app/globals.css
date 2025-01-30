@@ -193,6 +193,9 @@ body {
 .toast-success {
   @apply bg-green-700 text-white border-green-500;
 }
+.toast-warning {
+  @apply bg-yellow-500 text-white border-yellow-100;
+}
 
 .toast-error {
   @apply bg-red-500 text-white border-red-500;
