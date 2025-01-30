@@ -1,8 +1,11 @@
 'use client';
+import ConfirmDelete from '@/src/components/shared/ConfirmDelete';
+import Modal from '@/src/components/shared/Modal';
 import { Button } from '@/src/components/ui/button';
 import {
   decrementQuantity,
   incrementQuantity,
+  removeFromCart,
 } from '@/src/redux/features/cart/CartSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import Image from 'next/image';
@@ -14,6 +17,9 @@ import { TiMinus } from 'react-icons/ti';
 function page() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const handleDelete = (item: any) => {
+    dispatch(removeFromCart(item));
+  };
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -81,7 +87,30 @@ function page() {
                         onClick={() => dispatch(decrementQuantity(item))}
                         className="text-xl cursor-pointer text-white bg-red-500 rounded-full p-1"
                       />
-                      <FaRegTrashAlt className="text-xl cursor-pointer text-white bg-red-500 rounded-full p-1" />
+                      <ConfirmDelete
+                        id={item}
+                        onConfirm={handleDelete}
+                        onTrigger={
+                          <FaRegTrashAlt className="text-xl cursor-pointer text-white bg-red-500 rounded-full p-1" />
+                        }
+                      ></ConfirmDelete>
+
+                      {/* <Modal
+                        onCancel={
+                          <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500"></Button>
+                        }
+                        onConfirm={
+                          <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500"></Button>
+                        }
+                        trigger={
+                          <FaRegTrashAlt className="text-xl cursor-pointer text-white bg-red-500 rounded-full p-1" />
+                        }
+                        title="Are You Sure To Remove?"
+                      >
+                        <span className="my-2">
+                          The Product will be removed from the cart
+                        </span>
+                      </Modal> */}
                     </div>
                   </div>
                 </div>
