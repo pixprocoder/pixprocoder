@@ -1,11 +1,33 @@
 import { Button } from '@/src/components/ui/button';
+import { useToast } from '@/src/components/ui/use-toast';
 import { addToCart } from '@/src/redux/features/cart/CartSlice';
-import { useAppDispatch } from '@/src/redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import Image from 'next/image';
 
 function ShopDetailsPage({ item }: { item: any }) {
+  const { items } = useAppSelector((state) => state.cart);
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { id, description, image, price, title, rating, category } = item;
+
+  // handle addToCart
+  const handleAddToCart = (item) => {
+    const isItemExist = items.find((i) => i.id === item.id);
+    if (isItemExist) {
+      toast({
+        title: 'Item AlreadyExist',
+        description: 'If You want to update the quantity go to cart',
+        className: `toast-warning`, // Apply the custom class
+      });
+    } else {
+      dispatch(addToCart(item));
+      toast({
+        title: 'WOW 🎉',
+        description: 'Item Added Successfully 🚀',
+        className: 'toast-success',
+      });
+    }
+  };
   return (
     <div>
       <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -24,10 +46,7 @@ function ShopDetailsPage({ item }: { item: any }) {
               {price}
             </span>{' '}
           </p>
-          <Button
-            onClick={() => dispatch(addToCart(item))}
-            className="primary-btn"
-          >
+          <Button onClick={() => handleAddToCart(item)} className="primary-btn">
             Add To Cart
           </Button>
         </div>

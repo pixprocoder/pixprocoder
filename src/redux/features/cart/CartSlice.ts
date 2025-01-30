@@ -106,10 +106,23 @@ const CartSlice = createSlice({
         saveCartState(state);
       }
     },
+
+    // ✅ New Function: Remove an item completely from the cart
+    removeFromCart: (state, action: PayloadAction<CartItem>) => {
+      const itemId = action.payload.id;
+      state.items = state.items.filter((item) => item.id !== itemId);
+      // Recalculate total price after removal
+      state.totalPrice = calculateTotalPrice(state.items);
+      saveCartState(state);
+    },
   },
 });
 
-export const { addToCart, incrementQuantity, decrementQuantity } =
-  CartSlice.actions;
+export const {
+  addToCart,
+  incrementQuantity,
+  decrementQuantity,
+  removeFromCart,
+} = CartSlice.actions;
 
 export default CartSlice.reducer;

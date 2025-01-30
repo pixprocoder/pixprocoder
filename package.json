@@ -62,6 +62,10 @@
   "devDependencies": {
     "@types/aos": "^3.0.4",
     "@types/react-scroll": "^1.8.7",
-    "prettier": "^3.4.1"
+    "eslint": "^9.19.0",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-react": "^7.37.4",
+    "prettier": "^3.4.1",
+    "tailwind-scrollbar": "^3.1.0"
   }
 }

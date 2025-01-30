@@ -1,89 +1,67 @@
-import { useRef } from "react";
-import { TbBrandFiverr } from "react-icons/tb";
-import { SiUpwork } from "react-icons/si";
-import Link from "next/link";
+'use client';
 import {
   Dialog,
-  DialogDescription,
+  DialogTrigger,
+  DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { DialogContent } from "@radix-ui/react-dialog";
-import { Button } from "../ui/button";
+  DialogDescription,
+} from '../../components/ui/dialog';
+import { Button } from '../../components/ui/button';
+import { useState } from 'react';
 
-function HireMeModalPage({ showModal, closeModal }: any) {
-  console.log(showModal);
-  const modalRef = useRef<HTMLDialogElement>(null);
+const Modal = ({
+  trigger,
+  title = 'Modal Title',
+  children,
+  onConfirm,
+  onCancel,
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
+}) => {
+  const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
+  const handleConfirm = () => {
+    if (onConfirm) onConfirm(); // Execute delete logic
+    setOpen(false); // Close modal after confirming
+  };
 
-    closeModal();
+  const handleCancel = () => {
+    if (onCancel) onCancel(); // Handle cancel logic
+    setOpen(false); // Close modal when clicking cancel
   };
 
   return (
-    <>
-      {/* Open the modal by calling the openModal function */}
-
-      <dialog
-        id="my_modal_5"
-        className={`modal  ${showModal ? "modal-open" : "modal-closed"}`}
-        ref={modalRef}
-      >
-        <form method="dialog" className="modal-box bg-[#000000]">
-          <h3 className="font-bold text-lg">Hii There!!</h3>
-          <div className="py-4">
-            <p className="my-2">What do you want? let's discuss</p>
-
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="input input-bordered input-accent w-full "
-            />
-
-            <textarea
-              name="message"
-              className="textarea textarea-info w-full my-2"
-              placeholder="Message"
-            />
-            <div>
-              <p className="text-sm text-green-600 my-2">For Freelance Work</p>
-              <div className=" flex gap-4 text-2xl  items-center">
-                <Link
-                  className="text-green-500 hover:text-blue-600"
-                  href="https://www.fiverr.com/pixprocoder"
-                >
-                  <TbBrandFiverr></TbBrandFiverr>
-                </Link>
-                <Link
-                  className="text-green-500 hover:text-blue-600"
-                  href="https://www.fiverr.com/pixprocoder"
-                >
-                  <SiUpwork></SiUpwork>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="modal-action">
-            {/* Close the modal by calling the closeModal function */}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild onClick={() => setOpen(true)}>
+        {trigger}
+      </DialogTrigger>
+      <DialogContent className="bg-black border-gray-800">
+        <DialogHeader>
+          <DialogTitle className="font-bold text-lg">{title}</DialogTitle>
+          <DialogDescription>{children}</DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-end gap-2 mt-4">
+          {onCancel && (
             <Button
-              className="px-3 py-2 bg-red-600 rounded-md text-xl"
-              onClick={closeModal}
+              className="bg-gray-600 hover:bg-gray-700"
+              onClick={handleCancel}
             >
-              Close
+              {cancelText}
             </Button>
+          )}
+          {onConfirm && (
             <Button
-              onClick={handleSubmit}
-              type="submit"
-              className="px-3 py-2 bg-blue-600 rounded-md text-xl"
+              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-blue-500 hover:to-purple-500"
+              onClick={handleConfirm}
             >
-              Send
+              {confirmText}
             </Button>
-          </div>
-        </form>
-      </dialog>
-    </>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
-}
-export default HireMeModalPage;
+};
+
+export default Modal;
