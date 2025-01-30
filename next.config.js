@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
-import createMDX from '@next/mdx';
+const createMDX = require('@next/mdx');
+
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['cheerio'],
-  },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
   typescript: {
     ignoreBuildErrors: true,
@@ -18,6 +16,6 @@ const nextConfig = {
     ],
   },
 };
-const withMDX = createMDX({});
 
-export default withMDX(nextConfig);
+const withMDX = createMDX();
+module.exports = withMDX(nextConfig);

@@ -1,13 +1,13 @@
-import { getBaseURL } from "@/src/utils";
-import axios from "axios";
+// import { getBaseURL } from "@/src/utils";
+// import axios from "axios";
 
-const MyOrder = () => {
+// const MyOrder = () => {
 
-    axios(`${getBaseURL()}/payment`).then((res) => {
-        
-      });
+//     axios(`${getBaseURL()}/payment`).then((res) => {
 
-  return <h1>User Order</h1>;
-};
+//       });
 
-export default MyOrder;
+//   return <h1>User Order</h1>;
+// };
+
+// export default MyOrder;
