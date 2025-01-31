@@ -10,6 +10,18 @@ import Modal from '@/src/components/shared/Modal';
 
 function page() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
+  const paymentMethods = {
+    card: false,
+    payPal: false,
+  };
+
+  const handlePayment = () => {
+    if (paymentMethods.card || paymentMethods.payPal) {
+      alert('payment successful');
+    } else {
+      alert('You Must select a payment method');
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -68,6 +80,7 @@ function page() {
                 </span>{' '}
                 Items
               </h3>{' '}
+              {/* view all items */}
               <Modal
                 trigger={
                   <span className="text-gray-300 text-sm underline cursor-pointer ">
@@ -148,7 +161,7 @@ function page() {
             <h3 className="mb-2 text-gray-300">Payment Method </h3>
             <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
               <div className="flex flex-col gap-4">
-                {/* card */}
+                {/* card method */}
                 <Modal
                   trigger={
                     <div className="cursor-pointer flex items-center gap-2">
@@ -161,7 +174,7 @@ function page() {
                 >
                   <p>content goes here</p>
                 </Modal>
-                {/* paypal */}
+                {/* paypal method */}
                 <Modal
                   trigger={
                     <div className="cursor-pointer flex items-center gap-2">
@@ -204,7 +217,7 @@ function page() {
             </div>
           </div>
           <div>
-            <Button className="mt-4 bg-gradient-to-r from-purple-500 to-blue-500 w-full  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+            <Button onClick={handlePayment} className="mt-4 w-full primary-btn">
               Order And Pay
             </Button>
           </div>
