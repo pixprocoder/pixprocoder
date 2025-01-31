@@ -1,18 +1,18 @@
-"use client";
-import { Button } from "@/src/components/ui/button";
-import loginImg from "../../../assets/login.svg";
-import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { Separator } from "@/src/components/ui/separator";
-import Image from "next/image";
-import { SiGithub, SiGoogle } from "react-icons/si";
-import Link from "next/link";
-import { useContext, useRef, useState } from "react";
-import { AuthContext } from "@/src/providers/AuthProviders";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/src/components/ui/use-toast";
+'use client';
+import { Button } from '@/src/components/ui/button';
+import loginImg from '../../../assets/login.svg';
+import { Card, CardFooter, CardHeader } from '@/src/components/ui/card';
+import { Input } from '@/src/components/ui/input';
+import { Label } from '@/src/components/ui/label';
+import { Separator } from '@/src/components/ui/separator';
+import Image from 'next/image';
+import { SiGithub, SiGoogle } from 'react-icons/si';
+import Link from 'next/link';
+import { useContext, useRef, useState } from 'react';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/src/components/ui/use-toast';
 
 const LoginPage = () => {
   const { signIn, signInWithGoogle, signInWithGitHub } =
@@ -20,7 +20,7 @@ const LoginPage = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const {
     register,
@@ -35,10 +35,10 @@ const LoginPage = () => {
     signIn(email, password)
       .then((res: any) => {
         reset();
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Login successful",
+          variant: 'outline',
+          description: 'Login successful',
         });
       })
       .catch((err: any) => {
@@ -50,10 +50,10 @@ const LoginPage = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((res: any) => {
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Login successful",
+          variant: 'outline',
+          description: 'Login successful',
         });
       })
       .catch((error: any) => {
@@ -63,10 +63,10 @@ const LoginPage = () => {
   const handleGitHubSignIn = () => {
     signInWithGitHub()
       .then((res: any) => {
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Login successful",
+          variant: 'outline',
+          description: 'Login successful',
         });
       })
       .catch((error: any) => {
@@ -87,8 +87,8 @@ const LoginPage = () => {
                     Email
                   </Label>
                   <Input
-                    {...register("userEmail", { required: true })}
-                    aria-invalid={errors.userEmail ? "true" : "false"}
+                    {...register('userEmail', { required: true })}
+                    aria-invalid={errors.userEmail ? 'true' : 'false'}
                     type="email"
                     id="email"
                     placeholder="Your Email"
@@ -105,8 +105,8 @@ const LoginPage = () => {
                     Password
                   </Label>
                   <Input
-                    {...register("userPassword", { required: true })}
-                    aria-invalid={errors?.userPassword ? "true" : "false"}
+                    {...register('userPassword', { required: true })}
+                    aria-invalid={errors?.userPassword ? 'true' : 'false'}
                     type="password"
                     id="password"
                     placeholder="Your password"
@@ -120,15 +120,12 @@ const LoginPage = () => {
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
                     <span className="text-white text-sm md:text-base">
-                      Don't have account{" "}
+                      Don't have account{' '}
                       <Link className="text-blue-500 underline" href="/signup">
                         Sign up
                       </Link>
                     </span>
-                    <Button
-                      type="submit"
-                      className="bg-blue-500 hover:bg-blue-600"
-                    >
+                    <Button type="submit" className="primary-btn">
                       Login
                     </Button>
                   </div>
@@ -142,10 +139,16 @@ const LoginPage = () => {
               <Separator className="my-4" />
             </div>
             <CardFooter className="flex flex-col w-full gap-2">
-              <Button onClick={handleGoogleSignIn} className="w-full">
+              <Button
+                onClick={handleGoogleSignIn}
+                className="w-full primary-btn"
+              >
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
               </Button>
-              <Button onClick={handleGitHubSignIn} className="w-full">
+              <Button
+                onClick={handleGitHubSignIn}
+                className="w-full secondary-btn"
+              >
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
             </CardFooter>

@@ -1,19 +1,19 @@
-"use client";
-import { Button } from "@/src/components/ui/button";
-import { Card, CardFooter, CardHeader } from "@/src/components/ui/card";
-import { Input } from "@/src/components/ui/input";
-import Image from "next/image";
-import Link from "next/link";
-import loginImg from "../../../assets/login.svg";
+'use client';
+import { Button } from '@/src/components/ui/button';
+import { Card, CardFooter, CardHeader } from '@/src/components/ui/card';
+import { Input } from '@/src/components/ui/input';
+import Image from 'next/image';
+import Link from 'next/link';
+import loginImg from '../../../assets/login.svg';
 
-import { Label } from "@/src/components/ui/label";
-import { Separator } from "@/src/components/ui/separator";
-import { SiGithub, SiGoogle } from "react-icons/si";
-import { useContext, useRef, useState } from "react";
-import { AuthContext } from "@/src/providers/AuthProviders";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/src/components/ui/use-toast";
+import { Label } from '@/src/components/ui/label';
+import { Separator } from '@/src/components/ui/separator';
+import { SiGithub, SiGoogle } from 'react-icons/si';
+import { useContext, useRef, useState } from 'react';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/src/components/ui/use-toast';
 
 const SignupPage = () => {
   const { createUser, signInWithGoogle, signInWithGitHub } =
@@ -21,7 +21,7 @@ const SignupPage = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const {
     register,
@@ -36,10 +36,10 @@ const SignupPage = () => {
       .then((res: any) => {
         // console.log(res.user);
         reset();
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Signup Successful",
+          variant: 'outline',
+          description: 'Signup Successful',
         });
       })
       .catch((err: any) => {
@@ -51,10 +51,10 @@ const SignupPage = () => {
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((res: any) => {
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Signup successful",
+          variant: 'outline',
+          description: 'Signup successful',
         });
       })
       .catch((error: any) => {
@@ -64,10 +64,10 @@ const SignupPage = () => {
   const handleGitHubSignIn = () => {
     signInWithGitHub()
       .then((res: any) => {
-        router.push("/");
+        router.push('/');
         toast({
-          variant: "outline",
-          description: "Signup successful",
+          variant: 'outline',
+          description: 'Signup successful',
         });
       })
       .catch((error: any) => {
@@ -88,13 +88,13 @@ const SignupPage = () => {
                     Name
                   </Label>
                   <Input
-                    {...register("userName", { required: true })}
-                    aria-invalid={errors.userName ? "true" : "false"}
+                    {...register('userName', { required: true })}
+                    aria-invalid={errors.userName ? 'true' : 'false'}
                     type="text"
                     id="name"
                     placeholder="Type Your Name"
                   />
-                  {errors.userName?.type === "required" && (
+                  {errors.userName?.type === 'required' && (
                     <p className="text-red-500 text-xs" role="alert">
                       Name is required
                     </p>
@@ -105,13 +105,13 @@ const SignupPage = () => {
                     Email
                   </Label>
                   <Input
-                    {...register("userEmail", { required: true })}
-                    aria-invalid={errors.userEmail ? "true" : "false"}
+                    {...register('userEmail', { required: true })}
+                    aria-invalid={errors.userEmail ? 'true' : 'false'}
                     type="email"
                     id="email"
                     placeholder="Type Your Email"
                   />
-                  {errors.userEmail?.type === "required" && (
+                  {errors.userEmail?.type === 'required' && (
                     <p className="text-red-500 text-xs" role="alert">
                       Email is required
                     </p>
@@ -123,13 +123,13 @@ const SignupPage = () => {
                     Password
                   </Label>
                   <Input
-                    {...register("userPassword", { required: true })}
-                    aria-invalid={errors.userPassword ? "true" : "false"}
+                    {...register('userPassword', { required: true })}
+                    aria-invalid={errors.userPassword ? 'true' : 'false'}
                     type="password"
                     id="password"
                     placeholder="Your password"
                   />
-                  {errors.userPassword?.type === "required" && (
+                  {errors.userPassword?.type === 'required' && (
                     <p className="text-red-500 text-xs" role="alert">
                       Password is required
                     </p>
@@ -138,15 +138,12 @@ const SignupPage = () => {
                 <div className="mt-2">
                   <div className="flex justify-between items-center">
                     <span className="text-white text-sm md:text-base">
-                      Already have an account{" "}
+                      Already have an account{' '}
                       <Link className="text-blue-500 underline" href="/login">
                         Login
                       </Link>
                     </span>
-                    <Button
-                      type="submit"
-                      className="bg-blue-500 hover:bg-blue-600"
-                    >
+                    <Button type="submit" className="primary-btn">
                       Signup
                     </Button>
                   </div>
@@ -163,10 +160,13 @@ const SignupPage = () => {
               onClick={handleGoogleSignIn}
               className="flex flex-col w-full gap-2"
             >
-              <Button className="w-full">
+              <Button className="w-full primary-btn">
                 <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
               </Button>
-              <Button onClick={handleGitHubSignIn} className="w-full">
+              <Button
+                onClick={handleGitHubSignIn}
+                className="w-full secondary-btn"
+              >
                 <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
               </Button>
             </CardFooter>

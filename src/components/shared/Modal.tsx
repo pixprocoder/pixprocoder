@@ -8,17 +8,27 @@ import {
   DialogDescription,
 } from '../../components/ui/dialog';
 import { Button } from '../../components/ui/button';
-import { useState } from 'react';
+import React, { useState } from 'react';
+
+interface ModalProps {
+  trigger: React.ReactNode;
+  title?: string;
+  children: React.ReactNode;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  confirmText?: string;
+  cancelText?: string;
+}
 
 const Modal = ({
   trigger,
-  title = 'Modal Title',
+  title,
   children,
   onConfirm,
   onCancel,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
-}) => {
+  confirmText,
+  cancelText,
+}: ModalProps) => {
   const [open, setOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -36,7 +46,7 @@ const Modal = ({
       <DialogTrigger asChild onClick={() => setOpen(true)}>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="bg-black border-gray-800">
+      <DialogContent className="bg-black border-gray-800 ">
         <DialogHeader>
           <DialogTitle className="font-bold text-lg">{title}</DialogTitle>
           <DialogDescription>{children}</DialogDescription>
@@ -52,7 +62,7 @@ const Modal = ({
           )}
           {onConfirm && (
             <Button
-              className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-blue-500 hover:to-purple-500"
+              className="bg-red-500 hover:bg-red-600"
               onClick={handleConfirm}
             >
               {confirmText}

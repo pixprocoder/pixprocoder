@@ -1,10 +1,10 @@
-"use client";
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+'use client';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-import Link from "next/link";
-import { cn } from "../lib/utils";
+import Link from 'next/link';
+import { cn } from '../lib/utils';
 import {
   Card,
   CardContent,
@@ -12,8 +12,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Button } from "./ui/button";
+} from './ui/card';
+import { Button } from './ui/button';
 
 type Props = {
   id: string;
@@ -63,7 +63,7 @@ const PortfolioCard = ({
 
         <CardFooter>
           <Link className="w-full" href={`/portfolio/${id}`}>
-            <Button className="w-full">Read More</Button>
+            <Button className="w-full secondary-btns">Read More</Button>
           </Link>
         </CardFooter>
       </Card>
