@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaRegEdit } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { GrPaypal } from 'react-icons/gr';
+import Modal from '@/src/components/shared/Modal';
 
 function page() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
@@ -39,7 +40,11 @@ function page() {
                     București, București 021243, Romania
                   </p>
                 </div>
-                <FaRegEdit className="text-xl" />
+                <Modal
+                  trigger={<FaRegEdit className="text-2xl cursor-pointer" />}
+                >
+                  <p>Content goes here</p>
+                </Modal>
               </div>
               <div className="hidden md:flex flex-col flex-1">
                 <p className="text-sm text-gray-300">
@@ -63,9 +68,52 @@ function page() {
                 </span>{' '}
                 Items
               </h3>{' '}
-              <span className="text-gray-300 text-sm underline cursor-pointer ">
-                View All
-              </span>
+              <Modal
+                trigger={
+                  <span className="text-gray-300 text-sm underline cursor-pointer ">
+                    View All
+                  </span>
+                }
+              >
+                <div className="flex flex-col max-h-[400px] gap-4 overflow-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700 py-3">
+                  {items?.map((item: any) => {
+                    return (
+                      <div className="flex gap-4" key={item.id}>
+                        <div className="flex flex-col cursor-pointer  ">
+                          <div className="w-[100px] overflow-hidden border-gray-800 border-[0.1px] rounded-md h-[100px] flex justify-center items-center">
+                            <Image
+                              src={item?.image}
+                              width={100}
+                              height={100}
+                              alt="product"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <h1 className="text-gray-300">{item.title}</h1>
+                          <h1 className="text-xs">
+                            {item.description
+                              .split(' ')
+                              .slice(0, 20)
+                              .join(' ') + '...'}
+                          </h1>
+                          <div className="flex justify-between items-center">
+                            <h1 className=" text-xl text-purple-500 font-bold mt-2">
+                              $ {item?.price}
+                            </h1>
+                            <p className="pr-4">
+                              Qty:{' '}
+                              <span className="text-purple-500 font-bold">
+                                {item?.quantity}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Modal>
             </div>
 
             <div className="bg-gray-900 rounded-md flex justify-between  px-2 py-4">
