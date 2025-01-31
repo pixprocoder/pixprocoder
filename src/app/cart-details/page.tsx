@@ -145,6 +145,9 @@ function page() {
           </div>
         </div>
       </div>
+      <div className="mt-4">
+        <h1>TODO: Remanded Product will goes here</h1>
+      </div>
     </div>
   );
 }

@@ -63,7 +63,7 @@ const PortfolioCard = ({
 
         <CardFooter>
           <Link className="w-full" href={`/portfolio/${id}`}>
-            <Button className="w-full secondary-btn">Read More</Button>
+            <Button className="w-full secondary-btns">Read More</Button>
           </Link>
         </CardFooter>
       </Card>
