@@ -148,18 +148,32 @@ function page() {
             <h3 className="mb-2 text-gray-300">Payment Method </h3>
             <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
               <div className="flex flex-col gap-4">
-                <div className="flex gap-2 items-center cursor-pointers">
-                  <CiCreditCard1 className="text-2xl text-purple-500" />
-                  <p className="text-sm cursor-pointer underline decoration-purple-500">
-                    Mastercard
-                  </p>
-                </div>
-                <div className="flex gap-2 items-center cursor-pointer">
-                  <GrPaypal className="text-purple-500 text-2xl" />
-                  <p className=" text-sm underline decoration-purple-500 cursor-pointer">
-                    PayPal
-                  </p>
-                </div>
+                {/* card */}
+                <Modal
+                  trigger={
+                    <div className="cursor-pointer flex items-center gap-2">
+                      <CiCreditCard1 className="text-2xl text-purple-500" />
+                      <p className="text-sm  underline decoration-purple-500">
+                        Card
+                      </p>
+                    </div>
+                  }
+                >
+                  <p>content goes here</p>
+                </Modal>
+                {/* paypal */}
+                <Modal
+                  trigger={
+                    <div className="cursor-pointer flex items-center gap-2">
+                      <GrPaypal className="text-purple-500 text-2xl" />
+                      <p className=" text-sm underline decoration-purple-500 cursor-pointer">
+                        PayPal
+                      </p>
+                    </div>
+                  }
+                >
+                  <p>content goes here</p>
+                </Modal>
               </div>
             </div>
           </div>
