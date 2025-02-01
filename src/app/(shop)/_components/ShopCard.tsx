@@ -48,16 +48,6 @@ const ShopCard = ({ item }: any) => {
               (<span className="text-primary">{item?.rating?.count}</span>)
             </p>
           </div>
-          {/* <div className="text-sm text-gray-600 flex gap-1 items-center">
-            <FaRegStar />
-            <FaRegStar />
-            <FaRegStar />
-            <FaRegStar />
-            <FaRegStar />
-            <span className="text-xs text-purple-500">
-              ({item?.rating?.count})
-            </span>
-          </div> */}
         </div>
         <span className="text-purple-500 font-black text-2xl">
           ${item.price}

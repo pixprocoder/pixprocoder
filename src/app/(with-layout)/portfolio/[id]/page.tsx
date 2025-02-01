@@ -10,7 +10,7 @@ function PortfolioDetailPage({ params }: any) {
 
   return (
     <div className="container mx-auto">
-      <GoogleAdsense />
+      {/* <GoogleAdsense /> */}
       <h1 className="text-2xl my-2 text-center text-blue-500 font-bold ">
         {singleProject?.title}
       </h1>
