@@ -214,6 +214,12 @@ body {
   .secondary-btn {
     @apply bg-gradient-to-r from-green-500 to-blue-500 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
   }
+  .text-primary {
+    @apply text-purple-500
+  }
+  .text-success {
+    @apply text-green-500
+  }
 }
 @layer base {
   * {

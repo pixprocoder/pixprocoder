@@ -18,7 +18,7 @@ const ShopCard = ({ item }: any) => {
           {item.title}
         </p>
         <div className="flex flex-row-reverse justify-between my-2">
-          <span className="text-xs text-gray-500">In Stock</span>
+          <span className="text-xs text-success">In Stock</span>
           <div className="text-sm text-gray-600 flex gap-1 items-center">
             {[...Array(5)].map((_, index) => {
               if (index < Math.floor(item?.rating?.rate)) {
@@ -44,9 +44,9 @@ const ShopCard = ({ item }: any) => {
                 );
               }
             })}
-            <span className="text-xs text-purple-500">
-              ({item?.rating?.count})
-            </span>
+            <p className="text-xs ">
+              (<span className="text-primary">{item?.rating?.count}</span>)
+            </p>
           </div>
           {/* <div className="text-sm text-gray-600 flex gap-1 items-center">
             <FaRegStar />
