@@ -2,6 +2,10 @@
   "name": "pixprocoder",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Samsul Kobir",
+    "url": "https://www.pixprocoder.com"
+  },
   "scripts": {
     "dev": "next dev ",
     "build": "next build",
