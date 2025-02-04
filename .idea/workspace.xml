@@ -8,8 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/shared/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/shared/Navbar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/checkout/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/checkout/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/payment/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/payment/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CheckoutForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CheckoutForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +119,7 @@
       <workItem from="1738532238528" duration="1081000" />
       <workItem from="1738533658906" duration="409000" />
       <workItem from="1738535138881" duration="1616000" />
-      <workItem from="1738676789459" duration="1712000" />
+      <workItem from="1738676789459" duration="3942000" />
     </task>
     <servers />
   </component>
@@ -130,7 +131,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/CheckoutForm.tsx</url>
-          <line>112</line>
+          <line>115</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -146,6 +147,12 @@
           <url>file://$PROJECT_DIR$/src/components/Hero.tsx</url>
           <line>108</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/payment/page.tsx</url>
+          <line>1</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

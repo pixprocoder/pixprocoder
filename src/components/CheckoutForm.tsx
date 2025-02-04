@@ -7,8 +7,10 @@ import { getBaseURL } from '@/src/utils';
 import { useRouter } from 'next/navigation';
 import { TransactionContext } from '@/src/providers/OtherProviders';
 import { AuthContext } from '../providers/AuthProviders';
+import { useAppSelector } from '@/src/redux/hooks/hooks';
 
 const CheckoutForm = () => {
+  const { totalPrice } = useAppSelector((state) => state.cart);
   const { user } = useContext(AuthContext);
   const { setTransactionId } = useContext(TransactionContext);
   const [clientSecret, setClientSecret] = useState<string>('');
@@ -17,14 +19,15 @@ const CheckoutForm = () => {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
-  const price = 100.9;
+
+  console.log('inside checkout form', totalPrice);
 
   useEffect(() => {
     axios({
       method: 'post',
       url: `${getBaseURL()}/payment/create-checkout-session`,
       data: {
-        price: price,
+        price: totalPrice,
       },
     })
       .then((response) => {
@@ -85,7 +88,7 @@ const CheckoutForm = () => {
         // Send and save to db
         const payment = {
           email: user?.email,
-          totalPrice: price,
+          totalPrice,
           date: new Date(),
           status: paymentIntent.status,
           transactionId: paymentIntent.id,
@@ -120,6 +123,7 @@ const CheckoutForm = () => {
           style: {
             base: {
               fontSize: '16px',
+
               color: '#424770',
               '::placeholder': {
                 color: '#aab7c4',
