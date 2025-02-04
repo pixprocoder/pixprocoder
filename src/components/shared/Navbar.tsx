@@ -34,6 +34,12 @@ const Navbar = () => {
   const handleResponsiveMenu = () => {
     setIsOpen(!isOpen);
   };
+  const dropdownItems = [
+    { label: 'Dashboard', href: '/dashboard' },
+    { label: 'Billing' },
+    { label: 'Team' },
+    { label: 'Logout' },
+  ];
 
   const handleSignOut = () => {
     logOut()
@@ -100,8 +106,7 @@ const Navbar = () => {
               <DropdownMenuItem>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>My Profile</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
                 Logout
               </DropdownMenuItem>
@@ -192,7 +197,7 @@ const Navbar = () => {
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar>
+              <Avatar className="border">
                 {user?.photoURL ? (
                   <AvatarImage src={user?.photoURL} />
                 ) : (
@@ -215,14 +220,35 @@ const Navbar = () => {
               <DropdownMenuItem>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>My Profile</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
+          // <Dropdown
+          //   trigger={
+          //     <Avatar>
+          //       {user?.photoURL ? (
+          //         <AvatarImage src={user?.photoURL} />
+          //       ) : (
+          //         <AvatarFallback className="text-black">
+          //           {user?.displayName
+          //             ? user?.displayName
+          //                 ?.split(' ')
+          //                 .map((word: any[]) => word[0])
+          //                 .join('')
+          //                 .toUpperCase()
+          //                 .slice(0, 2)
+          //             : 'CN'}
+          //         </AvatarFallback>
+          //       )}
+          //     </Avatar>
+          //   }
+          //   label="My Account"
+          //   items={dropdownItems}
+          // />
           <Link href="/login">
             <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
               LOGIN
