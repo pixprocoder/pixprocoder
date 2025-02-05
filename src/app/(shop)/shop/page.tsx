@@ -1,6 +1,5 @@
 'use client';
 
-import GoogleAdsense from '../../../components/GoogleAdSense.tsx';
 import ShopCard from '../_components/ShopCard';
 import { useEffect, useState } from 'react';
 
