@@ -6,11 +6,35 @@ import { useEffect, useState } from 'react';
 
 const Shop = () => {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
+    // Fetch data from the API
     fetch('https://fakestoreapi.com/products')
-      .then((res) => res.json())
-      .then((data) => setItems(data));
-  }, [items]);
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setItems(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []); // Empty dependency array to run only once
+
+  if (loading) {
+    return <div className="text-center my-4">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center my-4 text-red-500">Error: {error}</div>;
+  }
 
   return (
     <div className="lg:w-[1200px] min-h-screen mx-auto">
