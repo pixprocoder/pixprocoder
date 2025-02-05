@@ -218,9 +218,12 @@ const Navbar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
+                <Link href="/profile/user">MyProfile</Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>My Profile</DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
                 Logout
               </DropdownMenuItem>

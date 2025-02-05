@@ -1,16 +1,30 @@
-"use client";
-import React, { useContext, useEffect, useState } from "react";
-import { TransactionContext } from "@/src/providers/OtherProviders";
-import { Button } from "@/src/components/ui/button";
-import Confetti from "react-confetti";
-import Link from "next/link";
+'use client';
+import React, { useContext, useEffect, useState } from 'react';
+import { TransactionContext } from '@/src/providers/OtherProviders';
+import { Button } from '@/src/components/ui/button';
+import Confetti from 'react-confetti';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const SuccessPage = () => {
+  const router = useRouter();
   const { transactionId } = useContext(TransactionContext);
   const [dimensions, setDimensions] = useState({
     width: 0,
     height: 0,
   });
+
+  // TODO: TRIED TO PREVIENT NOT VISIT SUCCESS PAGE IN NOT SUCCESS PAYMENT
+  //
+  // useEffect(() => {
+  //   const paymentSuccess = localStorage.getItem('paymentSuccess');
+  //
+  //   if (!paymentSuccess) {
+  //     router.push('/');
+  //   } else {
+  //     localStorage.removeItem('paymentSuccess');
+  //   }
+  // }, [router]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,11 +35,11 @@ const SuccessPage = () => {
     };
 
     // Only run the effect in the browser
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       handleResize();
 
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }
   }, []);
 
@@ -43,17 +57,20 @@ const SuccessPage = () => {
           height={dimensions.height}
           numberOfPieces={800}
           recycle={false}
-          colors={["#ff0000", "#00ff00", "#0000ff"]}
+          colors={['#ff0000', '#00ff00', '#0000ff']}
         />
       )}
       <p className="text-white text-center">Success!</p>
       <p className="text-white text-center my-2">
-        Your Transaction id is{" "}
+        Your Transaction id is{' '}
         <span className="text-green-400">{transactionId}</span>
       </p>
-      <Button className="text-purple-500" variant="link">
-        <Link href="/">Back to Home</Link>
-      </Button>
+      <Link className="text-purple-500 underline" href="/">
+        Back to Home
+      </Link>
+      <Link className="text-purple-500 underline" href="/shop">
+        Continue Shooping
+      </Link>
     </div>
   );
 };

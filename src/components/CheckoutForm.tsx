@@ -81,12 +81,7 @@ const CheckoutForm = () => {
       console.log('confirmError', confirmError);
       router.push('/payment/failed');
     } else {
-      console.log('intent', paymentIntent);
       if (paymentIntent?.status === 'succeeded') {
-        setTransactionId(paymentIntent.id);
-        distatch(clearCart());
-        router.push('/payment/success');
-
         // Send and save to db
         const payment = {
           email: user?.email,
@@ -97,6 +92,16 @@ const CheckoutForm = () => {
           status: paymentIntent.status,
           transactionId: paymentIntent.id,
         };
+
+        // TODO: OPTIMIZE WITH HELPER FUNCTION
+        // set status to localStorage
+        // localStorage.setItem('paymentSuccess', 'true');
+
+        setTransactionId(paymentIntent.id);
+        distatch(clearCart());
+
+        router.push('/payment/success');
+
         axios({
           method: 'post',
           url: `${getBaseURL()}/payment`,

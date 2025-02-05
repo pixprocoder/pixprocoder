@@ -107,7 +107,7 @@ const CartSlice = createSlice({
       }
     },
 
-    // ✅ New Function: Remove an item completely from the cart
+    //Remove an item completely from the cart
     removeFromCart: (state, action: PayloadAction<CartItem>) => {
       const itemId = action.payload.id;
       state.items = state.items.filter((item) => item.id !== itemId);
@@ -119,7 +119,6 @@ const CartSlice = createSlice({
     // Clear The cart
     clearCart: (state) => {
       state.items = []; // Reset the items array
-      console.log('clearCart called');
       state.totalPrice = 0; // Reset the total price
       saveCartState(state); // Save the updated state to localStorage
     },
