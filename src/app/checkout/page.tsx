@@ -174,10 +174,17 @@ function page() {
                     </div>
                   }
                 >
-                  <div className="">
-                    <h1>Card</h1>
+                  <div className="border border-purple-500 p-4 rounded-md my-4">
+                    <h1 className="text-gray-200 text-center text-2xl">
+                      Add Card
+                    </h1>
                     {/*Locad checkout*/}
-                    <h1>checkout</h1>
+                    <h1 className="flex justify-between items-center text-gray-200 border-b">
+                      pay
+                      <span className="text-2xl font-bold text-primary">
+                        {totalPrice}
+                      </span>
+                    </h1>
                     <Payments />
                   </div>
                 </Modal>

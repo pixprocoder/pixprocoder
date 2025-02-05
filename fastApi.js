@@ -4,17 +4,18 @@ const countries = ['Romania', 'Spain', 'Bangladesh', 'France', 'Portugal'];
 
 const result = `The result is ${okay} in the ${countries[1]} country`;
 console.log(result);
-console.log("hello world")
-console.log("cool")
+console.log('hello world');
+console.log('cool');
 
-const name = "Hello world"
+const name = 'Hello world';
 // TODO: Ok fine this is a comment
 /**
  * BUG: Yes this things is working too :)
+ *
  * HACK: we need to hack this website :(
- * */ 
-let myRes = `oh my goodness ${  name}`
-  
+ * */
+let myRes = `oh my goodness ${name}`;
+
 const theSummaryIs = `
 do not  paly with me. ok? I can code more and more pricisely. so  ji  is pretty awsome. isn't that awosome. so that I can have more profound production effect on my own hand writting. so because of muy user of hard and speed of the typing I can code more and more effectively Yes I can code more effectively
 whenever I puse for few days I thought I have forgotten to do those stuff.

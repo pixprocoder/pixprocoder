@@ -7,11 +7,13 @@ import { getBaseURL } from '@/src/utils';
 import { useRouter } from 'next/navigation';
 import { TransactionContext } from '@/src/providers/OtherProviders';
 import { AuthContext } from '../providers/AuthProviders';
-import { useAppSelector } from '@/src/redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { clearCart } from '../redux/features/cart/CartSlice';
 
 const CheckoutForm = () => {
-  const { totalPrice } = useAppSelector((state) => state.cart);
+  const { totalPrice, items } = useAppSelector((state) => state.cart);
   const { user } = useContext(AuthContext);
+  const distatch = useAppDispatch();
   const { setTransactionId } = useContext(TransactionContext);
   const [clientSecret, setClientSecret] = useState<string>('');
   const [paymentError, setPaymentError] = useState<string>('');
@@ -19,8 +21,6 @@ const CheckoutForm = () => {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
-
-  console.log('inside checkout form', totalPrice);
 
   useEffect(() => {
     axios({
@@ -81,14 +81,18 @@ const CheckoutForm = () => {
       console.log('confirmError', confirmError);
       router.push('/payment/failed');
     } else {
+      console.log('intent', paymentIntent);
       if (paymentIntent?.status === 'succeeded') {
         setTransactionId(paymentIntent.id);
+        distatch(clearCart());
         router.push('/payment/success');
 
         // Send and save to db
         const payment = {
           email: user?.email,
+          userId: user?.uid,
           totalPrice,
+          items,
           date: new Date(),
           status: paymentIntent.status,
           transactionId: paymentIntent.id,
@@ -123,7 +127,6 @@ const CheckoutForm = () => {
           style: {
             base: {
               fontSize: '16px',
-
               color: '#424770',
               '::placeholder': {
                 color: '#aab7c4',
@@ -136,11 +139,11 @@ const CheckoutForm = () => {
         }}
       />
       <Button
-        disabled={!clientSecret}
-        className="btn btn-sm mt-4"
+        disabled={!user?.uid}
+        className="primary-btn w-full mt-4"
         type="submit"
       >
-        Pay
+        Order and Pay
       </Button>
       {paymentError && <p className="text-red-500 text-xs">{paymentError}</p>}
     </form>

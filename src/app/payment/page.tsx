@@ -4,7 +4,7 @@ import Payment from '@/src/components/Payment';
 
 const Payments = () => {
   return (
-    <div className="border py-6 rounded-md">
+    <div className="p-2 rounded-md">
       {/* TODO: checkout   */}
       <Payment />
     </div>

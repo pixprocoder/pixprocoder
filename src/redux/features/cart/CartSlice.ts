@@ -115,6 +115,14 @@ const CartSlice = createSlice({
       state.totalPrice = calculateTotalPrice(state.items);
       saveCartState(state);
     },
+
+    // Clear The cart
+    clearCart: (state) => {
+      state.items = []; // Reset the items array
+      console.log('clearCart called');
+      state.totalPrice = 0; // Reset the total price
+      saveCartState(state); // Save the updated state to localStorage
+    },
   },
 });
 
@@ -123,6 +131,7 @@ export const {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
+  clearCart,
 } = CartSlice.actions;
 
 export default CartSlice.reducer;

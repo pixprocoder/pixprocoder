@@ -35,7 +35,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   const dropdownItems = [
-    { label: 'Dashboard', href: '/dashboard' },
+    { label: 'Dahboad', href: '/dashboard' },
     { label: 'Billing' },
     { label: 'Team' },
     { label: 'Logout' },

@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a7b6b4e-051d-42ab-b8b3-481d27ff381c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/checkout/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/checkout/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/payment/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/payment/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CheckoutForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CheckoutForm.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="5a7b6b4e-051d-42ab-b8b3-481d27ff381c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,7 +112,8 @@
       <workItem from="1738532238528" duration="1081000" />
       <workItem from="1738533658906" duration="409000" />
       <workItem from="1738535138881" duration="1616000" />
-      <workItem from="1738676789459" duration="3942000" />
+      <workItem from="1738676789459" duration="4291000" />
+      <workItem from="1738712251758" duration="2000" />
     </task>
     <servers />
   </component>
@@ -151,7 +145,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/app/payment/page.tsx</url>
           <line>1</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
