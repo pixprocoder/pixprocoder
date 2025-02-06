@@ -70,6 +70,20 @@ export const projects = [
     gitHubLink: 'https://github.com/pixprocoder/blog-hub',
     liveLink: 'https://my-quiz-hero.netlify.app/',
     category: 'React',
+    tags: [
+      {
+        name: 'react',
+        color: 'text-blue-500',
+      },
+      {
+        name: 'restapi',
+        color: 'text-green-500',
+      },
+      {
+        name: 'scss',
+        color: 'text-red-500',
+      },
+    ],
   },
   {
     id: '2',
@@ -80,15 +94,15 @@ export const projects = [
     tags: [
       {
         name: 'react',
-        color: 'blue-text-gradient',
+        color: 'text-purple-500',
       },
       {
         name: 'Next.js',
-        color: 'green-text-gradient',
+        color: 'text-green-500',
       },
       {
         name: 'scss',
-        color: 'pink-text-gradient',
+        color: 'text-blue-500',
       },
     ],
     gitHubLink: 'https://github.com/pixprocoder/ema-john-with-auth',
@@ -104,15 +118,15 @@ export const projects = [
     tags: [
       {
         name: 'node.js',
-        color: 'blue-text-gradient',
+        color: 'text-green-500',
       },
       {
         name: 'bootstrap',
-        color: 'green-text-gradient',
+        color: 'text-purple-500',
       },
       {
         name: 'scss',
-        color: 'pink-text-gradient',
+        color: 'text-red-500',
       },
     ],
     gitHubLink: 'https://github.com/pixprocoder/geometry-genius',
@@ -125,6 +139,21 @@ export const projects = [
     description:
       'This website is for data fetching. how to read data and implement them and show them in the ui. ',
     image: 'https://i.ibb.co/xHRWwrC/Asset-4-3x.png',
+    tags: [
+      {
+        name: 'node.js',
+        color: 'text-green-500',
+      },
+      {
+        name: 'bootstrap',
+        color: 'text-purple-500',
+      },
+      {
+        name: 'scss',
+        color: 'text-red-500',
+      },
+    ],
+
     gitHubLink: 'https://github.com/pixprocoder/ai-universe-hub',
     liveLink: 'https://ai-world-hub.netlify.app/',
     category: 'HTML/CSS/JS',
@@ -134,6 +163,21 @@ export const projects = [
     title: 'Quiz Hero',
     description:
       'Quiz Hero is an website were users can learn and paly with quiz. they can be able to see their result and much more ',
+    tags: [
+      {
+        name: 'node.js',
+        color: 'text-green-500',
+      },
+      {
+        name: 'bootstrap',
+        color: 'text-purple-500',
+      },
+      {
+        name: 'scss',
+        color: 'text-red-500',
+      },
+    ],
+
     image: 'https://i.ibb.co/ccY5JL1/Asset-5-3x.png',
     gitHubLink: 'https://github.com/pixprocoder/quiz-hero',
     liveLink: 'https://my-quiz-hero.netlify.app/',
@@ -145,15 +189,15 @@ export const projects = [
     tags: [
       {
         name: 'react',
-        color: 'blue-text-gradient',
+        color: 'text-blue-500',
       },
       {
         name: 'restapi',
-        color: 'green-text-gradient',
+        color: 'text-red-500',
       },
       {
         name: 'scss',
-        color: 'pink-text-gradient',
+        color: 'text-purple-500',
       },
     ],
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. ',

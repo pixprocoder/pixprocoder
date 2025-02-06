@@ -97,12 +97,13 @@ function CartSheet() {
       </SheetHeader>
 
       <SheetFooter className="mt-2 gap-2">
-        <Button className="secondary-btn" asChild>
-          <Link href="/shop">Continue Shopping 🛍️</Link>
-        </Button>
-        <Button className="bg-gradient-to-r from-purple-500 to-blue-500  hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
-          <Link href="/cart-details">See Cart 👀</Link>
-        </Button>
+        <Link className="secondary-btn" href="/shop">
+          Continue Shopping 🛍️
+        </Link>
+
+        <Link className="primary-btn" href="/cart-details">
+          See Cart 👀
+        </Link>
       </SheetFooter>
     </div>
   );
