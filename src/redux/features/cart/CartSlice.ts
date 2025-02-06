@@ -107,13 +107,20 @@ const CartSlice = createSlice({
       }
     },
 
-    // ✅ New Function: Remove an item completely from the cart
+    //Remove an item completely from the cart
     removeFromCart: (state, action: PayloadAction<CartItem>) => {
       const itemId = action.payload.id;
       state.items = state.items.filter((item) => item.id !== itemId);
       // Recalculate total price after removal
       state.totalPrice = calculateTotalPrice(state.items);
       saveCartState(state);
+    },
+
+    // Clear The cart
+    clearCart: (state) => {
+      state.items = []; // Reset the items array
+      state.totalPrice = 0; // Reset the total price
+      saveCartState(state); // Save the updated state to localStorage
     },
   },
 });
@@ -123,6 +130,7 @@ export const {
   incrementQuantity,
   decrementQuantity,
   removeFromCart,
+  clearCart,
 } = CartSlice.actions;
 
 export default CartSlice.reducer;

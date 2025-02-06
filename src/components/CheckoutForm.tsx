@@ -7,9 +7,13 @@ import { getBaseURL } from '@/src/utils';
 import { useRouter } from 'next/navigation';
 import { TransactionContext } from '@/src/providers/OtherProviders';
 import { AuthContext } from '../providers/AuthProviders';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { clearCart } from '../redux/features/cart/CartSlice';
 
 const CheckoutForm = () => {
+  const { totalPrice, items } = useAppSelector((state) => state.cart);
   const { user } = useContext(AuthContext);
+  const distatch = useAppDispatch();
   const { setTransactionId } = useContext(TransactionContext);
   const [clientSecret, setClientSecret] = useState<string>('');
   const [paymentError, setPaymentError] = useState<string>('');
@@ -17,14 +21,13 @@ const CheckoutForm = () => {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
-  const price = 100.9;
 
   useEffect(() => {
     axios({
       method: 'post',
       url: `${getBaseURL()}/payment/create-checkout-session`,
       data: {
-        price: price,
+        price: totalPrice,
       },
     })
       .then((response) => {
@@ -79,17 +82,26 @@ const CheckoutForm = () => {
       router.push('/payment/failed');
     } else {
       if (paymentIntent?.status === 'succeeded') {
-        setTransactionId(paymentIntent.id);
-        router.push('/payment/success');
-
         // Send and save to db
         const payment = {
           email: user?.email,
-          totalPrice: price,
+          userId: user?.uid,
+          totalPrice,
+          items,
           date: new Date(),
           status: paymentIntent.status,
           transactionId: paymentIntent.id,
         };
+
+        // TODO: OPTIMIZE WITH HELPER FUNCTION
+        // set status to localStorage
+        // localStorage.setItem('paymentSuccess', 'true');
+
+        setTransactionId(paymentIntent.id);
+        distatch(clearCart());
+
+        router.push('/payment/success');
+
         axios({
           method: 'post',
           url: `${getBaseURL()}/payment`,
@@ -132,11 +144,11 @@ const CheckoutForm = () => {
         }}
       />
       <Button
-        disabled={!clientSecret}
-        className="btn btn-sm mt-4"
+        disabled={!user?.uid}
+        className="primary-btn w-full mt-4"
         type="submit"
       >
-        Pay
+        Order and Pay
       </Button>
       {paymentError && <p className="text-red-500 text-xs">{paymentError}</p>}
     </form>

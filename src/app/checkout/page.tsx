@@ -7,6 +7,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
 import { GrPaypal } from 'react-icons/gr';
 import Modal from '@/src/components/shared/Modal';
+import Payments from '@/src/app/payment/page';
 
 function page() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
@@ -162,6 +163,7 @@ function page() {
             <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
               <div className="flex flex-col gap-4">
                 {/* card method */}
+
                 <Modal
                   trigger={
                     <div className="cursor-pointer flex items-center gap-2">
@@ -172,7 +174,19 @@ function page() {
                     </div>
                   }
                 >
-                  <p>content goes here</p>
+                  <div className="border border-purple-500 p-4 rounded-md my-4">
+                    <h1 className="text-gray-200 text-center text-2xl">
+                      Add Card
+                    </h1>
+                    {/*Locad checkout*/}
+                    <h1 className="flex justify-between items-center text-gray-200 border-b">
+                      pay
+                      <span className="text-2xl font-bold text-primary">
+                        {totalPrice}
+                      </span>
+                    </h1>
+                    <Payments />
+                  </div>
                 </Modal>
                 {/* paypal method */}
                 <Modal

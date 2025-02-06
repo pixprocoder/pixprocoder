@@ -4,9 +4,8 @@ import Payment from '@/src/components/Payment';
 
 const Payments = () => {
   return (
-    <div className="bg-gray-800 w-2/4 mx-auto p-5">
+    <div className="p-2 rounded-md">
       {/* TODO: checkout   */}
-
       <Payment />
     </div>
   );

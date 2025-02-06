@@ -8,7 +8,6 @@ interface ConfirmDeleteProps {
 }
 
 const ConfirmDelete = ({ onConfirm, onTrigger, id }: ConfirmDeleteProps) => {
-  console.log('id', id);
   return (
     <Modal
       trigger={onTrigger}

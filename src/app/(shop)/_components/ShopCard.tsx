@@ -4,7 +4,6 @@ import { FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { FaStar } from 'react-icons/fa';
 
 const ShopCard = ({ item }: any) => {
-  console.log(item);
   return (
     <Link
       href={`/shop/${item.id}`}
