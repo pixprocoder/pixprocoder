@@ -41,14 +41,16 @@ import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 
 const SingleBlogPage = ({ params }: any) => {
   const { id } = use(params);
-  console.log(id);
-  const [selectedValue, setSelectedValue] = useState('newest');
+  const [sortOrder, setSortOrder] = useState('desc');
   const dispatch = useAppDispatch();
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
   const { isLiked } = useAppSelector((state) => state.like);
   const { data: post } = useGetSinglePostQuery(id);
-  const { data: comments } = useGetCommentQuery(id);
+  const { data: comments } = useGetCommentQuery({
+    id,
+    sort: sortOrder,
+  });
   const { data: totalLikeCount } = useGetPostLikeQuery(id);
   const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
   const [currentPage, setCurrentPage] = useState(2); // Default to page 2
@@ -182,7 +184,7 @@ const SingleBlogPage = ({ params }: any) => {
             )}
             ){' '}
           </p>
-          <Select value={selectedValue} onValueChange={setSelectedValue}>
+          <Select value={sortOrder} onValueChange={setSortOrder}>
             <SelectTrigger className=" w-auto border-none  ">
               <div className="flex justify-center items-center gap-2">
                 <span className="text-purple-500 text-sm">Sort By:</span>{' '}
@@ -192,8 +194,8 @@ const SingleBlogPage = ({ params }: any) => {
               </div>
             </SelectTrigger>
             <SelectContent className="bg-gray-900 border-none text-white">
-              <SelectItem value="allComments">All Comments</SelectItem>
-              <SelectItem value="newest">Newest</SelectItem>
+              <SelectItem value="desc">Newest</SelectItem>
+              <SelectItem value="asc">Oldest</SelectItem>
             </SelectContent>
           </Select>
         </div>
