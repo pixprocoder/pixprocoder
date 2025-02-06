@@ -220,7 +220,6 @@ const Navbar = () => {
               <DropdownMenuItem>
                 <Link href="/profile/user">MyProfile</Link>
               </DropdownMenuItem>
-
               <DropdownMenuItem>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
