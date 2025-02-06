@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from './ui/card';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 
 type Props = {
   id: string;
@@ -61,9 +62,24 @@ const PortfolioCard = ({
           </CardDescription>
         </CardHeader>
 
-        <CardFooter>
-          <Link className="w-full" href={`/portfolio/${id}`}>
-            <Button className="w-full secondary-btns">Read More</Button>
+        <CardFooter className="flex items-start flex-col gap-2">
+          <div className="flex gap-2">
+            {tags &&
+              tags.map((t: any, i: number) => (
+                <Badge
+                  key={i}
+                  className={`${t?.color} bg-gray-700 hover:bg-gray-800 `}
+                >
+                  # {t?.name}
+                </Badge>
+              ))}
+          </div>
+
+          <Link
+            className="w-full flex justify-center items-center secondary-btn"
+            href={`/portfolio/${id}`}
+          >
+            View Details
           </Link>
         </CardFooter>
       </Card>
