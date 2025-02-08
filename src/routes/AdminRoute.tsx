@@ -14,7 +14,7 @@ const AdminRoute = ({ children }: { children: any }) => {
     return <h1>Loading...</h1>;
   }
 
-  if (!user || hasAdmin) {
+  if (!user || !hasAdmin) {
     router.push('/login');
     return;
   }
