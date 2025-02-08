@@ -39,6 +39,6 @@ export default function RootLayout({
 }
 
 /**
- * now we are going to code the entire website so stick with me now it's working that is fine
+ * now we are going the entire website so stick with me now it's working that is fine
  *
  */

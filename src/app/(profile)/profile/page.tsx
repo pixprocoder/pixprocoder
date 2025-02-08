@@ -1,7 +1,12 @@
-import React from "react";
+import PrivateRoute from '@/src/routes/PrivateRoute';
+import React from 'react';
 
 const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+  return (
+    <div>
+      <h1>profile page</h1>
+    </div>
+  );
 };
 
 export default ProfilePage;

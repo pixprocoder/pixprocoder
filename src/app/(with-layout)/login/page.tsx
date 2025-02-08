@@ -77,7 +77,7 @@ const LoginPage = () => {
   return (
     <section className="min-h-screen flex justify-center items-center">
       <div className="">
-        <h1 className="text-3xl font-bold mb-2 center">Please Login </h1>
+        <h1 className="text-3xl font-bold mb-2 center">Please login</h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-[90vw] md:w-full">
             <CardHeader className="">
@@ -122,7 +122,7 @@ const LoginPage = () => {
                     <span className="text-white text-sm md:text-base">
                       Don't have account{' '}
                       <Link className="text-blue-500 underline" href="/signup">
-                        Sign up
+                        Sign Up
                       </Link>
                     </span>
                     <Button type="submit" className="primary-btn">

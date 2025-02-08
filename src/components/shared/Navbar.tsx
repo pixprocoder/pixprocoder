@@ -76,7 +76,8 @@ const Navbar = () => {
               </span>
             </div>
           </SheetTrigger>
-          <SheetContent className="bg-black border-0">
+          <SheetContent className="bg-black border-0 ">
+            {' '}
             <CartSheet />
           </SheetContent>
         </Sheet>
