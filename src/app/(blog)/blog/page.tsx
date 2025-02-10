@@ -18,6 +18,7 @@ import { useGetPostsQuery } from '@/src/redux/api/posts/PostApiSlice';
 import { getBaseURL } from '@/src/utils';
 import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
+import Image from 'next/image';
 import axios from 'axios';
 
 function BlogPage() {
@@ -82,7 +83,7 @@ function BlogPage() {
                     </CardTitle>
                     <div className="flex gap-3 items-center">
                       <Avatar>
-                        <AvatarImage src={blog.image} />
+                        <AvatarImage src={blog.thumbnail} />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
@@ -97,6 +98,20 @@ function BlogPage() {
                       </div>
                     </div>
                     <CardDescription className="text-gray-300 mt-2">
+                      {/* <Image */}
+                      {/*   width={500} */}
+                      {/*   height={500} */}
+                      {/*   src={blog ? blog?.thumbnail : '/vertical-logo.png'} */}
+                      {/*   alt="preview Image" */}
+                      {/* /> */}
+                      {blog.thumbnail ? (
+                        <img src={blog.thumbnail} />
+                      ) : (
+                        <img
+                          src="vertical-logo.png
+"
+                        />
+                      )}
                       {blog.content}
                       {/* <div dangerouslySetInnerHTML={{ __html: blog.content }} /> */}
                     </CardDescription>
