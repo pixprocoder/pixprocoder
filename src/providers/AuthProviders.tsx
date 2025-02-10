@@ -16,6 +16,7 @@ import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage';
 import { authKey } from '../constants/storageKey';
 import { removeUserInfo } from '../helpers/auth.helper';
 import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
+import { Role } from '../enums';
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();
@@ -29,7 +30,7 @@ const AuthProviders = ({ children }: any) => {
   const { data } = useGetUsersQuery({});
   useEffect(() => {
     if (data) {
-      const admins = data.data.filter((user: any) => user.role === 'admin');
+      const admins = data.data.filter((user: any) => user.role === Role.ADMIN);
       setAdmin(admins);
       // setLoading(false); // Set loading to false once data is processed
     }

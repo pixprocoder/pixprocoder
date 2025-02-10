@@ -1,7 +1,14 @@
-import { useState } from 'react';
+'use client';
+import { useContext, useState } from 'react';
 import RichTextEditor from './RichTextEditor';
+import { useCreatePostMutation } from '../redux/api/posts/PostApiSlice';
+import { AuthContext } from '../providers/AuthProviders';
 
 const BlogPostForm = () => {
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  const [createPost, { isLoading, isError, error, isSuccess }] =
+    useCreatePostMutation();
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -17,7 +24,11 @@ const BlogPostForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Add your API call here
-    console.log('Submitting:', formData);
+    const data = {
+      authorId: user?.uid,
+      formData,
+    };
+    createPost({ data });
   };
 
   const addTag = (e: React.KeyboardEvent) => {

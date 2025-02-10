@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   AvatarFallback,
@@ -14,11 +15,25 @@ import {
 } from '@/src/components/ui/card';
 import { Skeleton } from '@/src/components/ui/skeleton';
 import { useGetPostsQuery } from '@/src/redux/api/posts/PostApiSlice';
+import { getBaseURL } from '@/src/utils';
 import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
+import axios from 'axios';
 
 function BlogPage() {
-  const { data: posts, isLoading } = useGetPostsQuery({});
+  // const { data, status } = useGetPostsQuery({});
+  // TODO: replace the fetch after resolving the redux RTK
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    axios
+      .get('http://localhost:3003/api/v1/posts')
+      .then((response) => {
+        console.log(response?.data?.data);
+        setPosts(response?.data?.data);
+      })
+      .finally(() => setLoading(false)); // Set loading to false after fetching
+  }, []);
 
   return (
     <section className=" min-h-screen py-14 container mx-auto">
@@ -28,9 +43,9 @@ function BlogPage() {
         <div><SelectCategoryPage /></div>
       </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {isLoading
+        {loading
           ? //@ts-ignore
-            Array.from({ length: posts?.data?.length || 2 }).map((_, index) => (
+            Array.from({ length: posts?.length || 2 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full"
@@ -55,7 +70,7 @@ function BlogPage() {
                 </CardFooter>
               </Card>
             ))
-          : posts?.data?.map((blog: any) => {
+          : posts?.map((blog: any) => {
               return (
                 <Card
                   key={blog.id}
@@ -83,6 +98,7 @@ function BlogPage() {
                     </div>
                     <CardDescription className="text-gray-300 mt-2">
                       {blog.content}
+                      {/* <div dangerouslySetInnerHTML={{ __html: blog.content }} /> */}
                     </CardDescription>
                   </CardHeader>
                   <CardFooter>
