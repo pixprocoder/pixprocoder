@@ -37,6 +37,8 @@ import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
+import RenderHTML from '@/src/components/RenderHTML';
+import RenderContent from '@/src/components/RenderContent';
 
 // ------------- import end --------------
 
@@ -56,6 +58,7 @@ const SingleBlogPage = ({ params }: any) => {
   const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
   const [currentPage, setCurrentPage] = useState(2); // Default to page 2
 
+  console.log(comments?.data);
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
     // Logic to fetch new data based on the page number
@@ -127,7 +130,9 @@ const SingleBlogPage = ({ params }: any) => {
 
         {/* Content */}
         <div className="mt-4">
-          <p className="text-gray-400 font-light">{post?.data?.content}</p>
+          <RenderContent content={post?.data?.content} />
+          {/* <RenderHTML content={post?.data?.content} /> */}
+          {/* <p className="text-gray-400 font-light">{post?.data?.content}</p> */}
         </div>
 
         {/* like feature */}
@@ -213,7 +218,7 @@ const SingleBlogPage = ({ params }: any) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <p className="text-sm">{comment?.author}</p>
+                  <p className="text-sm">{comment?.author?.email}</p>
                   <small className="text-gray-400 text-xs flex gap-2">
                     {formatDateToUTC(comment?.createdAt)}
                   </small>

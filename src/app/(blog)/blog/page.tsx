@@ -20,6 +20,8 @@ import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
 import Link from 'next/link';
 import Image from 'next/image';
 import axios from 'axios';
+import RenderHTML from '@/src/components/RenderHTML';
+import RenderContent from '@/src/components/RenderContent';
 
 function BlogPage() {
   const { data: posts, isLoading } = useGetPostsQuery({});
@@ -100,7 +102,8 @@ function BlogPage() {
 "
                         />
                       )}
-                      {blog.content}
+                      <RenderContent content={blog.content} />
+                      {/* <RenderHTML content={blog.content} /> */}
                       {/* <div dangerouslySetInnerHTML={{ __html: blog.content }} /> */}
                     </CardDescription>
                   </CardHeader>
