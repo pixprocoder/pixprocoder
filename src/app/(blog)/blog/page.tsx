@@ -22,19 +22,7 @@ import Image from 'next/image';
 import axios from 'axios';
 
 function BlogPage() {
-  // const { data, status } = useGetPostsQuery({});
-  // TODO: replace the fetch after resolving the redux RTK
-  const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    axios
-      .get('http://localhost:3003/api/v1/posts')
-      .then((response) => {
-        console.log(response?.data?.data);
-        setPosts(response?.data?.data);
-      })
-      .finally(() => setLoading(false)); // Set loading to false after fetching
-  }, []);
+  const { data: posts, isLoading } = useGetPostsQuery({});
 
   return (
     <section className=" min-h-screen py-14 container mx-auto">
@@ -44,7 +32,7 @@ function BlogPage() {
         <div><SelectCategoryPage /></div>
       </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {loading
+        {isLoading
           ? //@ts-ignore
             Array.from({ length: posts?.length || 2 }).map((_, index) => (
               <Card

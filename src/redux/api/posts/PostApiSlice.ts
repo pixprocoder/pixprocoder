@@ -2,6 +2,7 @@ import { getBaseURL } from './../../../utils/index';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const PostApiSlice = createApi({
+  reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({ baseUrl: getBaseURL() }),
   tagTypes: ['comment', 'postLike', 'post'],
   endpoints: (builder) => ({
