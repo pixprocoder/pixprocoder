@@ -123,7 +123,7 @@ const SingleBlogPage = ({ params }: any) => {
             className="w-full rounded-lg"
             width={500}
             height={500}
-            src={post?.data?.image}
+            src={post?.data?.thumbnail}
             alt="img"
           />
         </div>

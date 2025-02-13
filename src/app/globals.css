@@ -15,6 +15,48 @@
   --primary: 220 100% 60%; /* Lighter blue for dark mode */
   --primary-foreground: 0 0% 100%; /* White text for contrast */
 }
+/* blog post style */
+.prose h2 {
+  @apply w-full my-4 text-gray-200;
+}
+.prose h3 {
+  @apply w-full my-4 text-gray-300;
+}
+.prose p {
+  @apply w-full my-4 text-gray-400;
+}
+/* Copy button positioning */
+pre {
+  @apply relative;
+}
+
+pre code {
+  @apply pt-10 !important;
+}
+
+pre code::before {
+  content: 'Code';
+  @apply absolute top-2 left-4 text-gray-400 text-sm font-mono;
+}
+
+.dark pre code::before {
+  @apply text-gray-600;
+}
+
+/* Tooltip styles */
+.tooltip::before {
+  content: attr(data-tip);
+  @apply absolute -top-8 right-0 bg-gray-800 text-white px-2 py-1 rounded text-sm 
+         opacity-0 invisible transition-all duration-200 whitespace-nowrap;
+}
+
+.tooltip:hover::before {
+  @apply opacity-100 visible;
+}
+
+.dark .tooltip::before {
+  @apply bg-gray-700;
+}
 body {
   background-color: #000000;
   color: white;
@@ -215,10 +257,10 @@ body {
     @apply bg-gradient-to-r from-green-500 to-blue-500 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
   }
   .text-primary {
-    @apply text-purple-500
+    @apply text-purple-500;
   }
   .text-success {
-    @apply text-green-500
+    @apply text-green-500;
   }
 }
 @layer base {

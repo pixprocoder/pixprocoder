@@ -1,13 +1,24 @@
 // components/RenderContent.tsx
-import DOMPurify from 'dompurify';
+import * as DOMPurify from 'dompurify';
 import parse from 'html-react-parser';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { useState } from 'react';
+import { FiCopy, FiCheck } from 'react-icons/fi'; // Install react-icons
+
 import Image from 'next/image';
 
 export default function RenderContent({ content }: { content: string }) {
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
+
   // 1. Sanitize HTML
-  const sanitizedHTML = DOMPurify.sanitize(content, {
+  const sanitizedHTML = DOMPurify.default.sanitize(content, {
     USE_PROFILES: { html: true },
     ALLOWED_TAGS: [
       'h2',
@@ -50,14 +61,30 @@ export default function RenderContent({ content }: { content: string }) {
           domNode.children[0]?.attribs.class?.replace('language-', '') || '';
 
         return (
-          <SyntaxHighlighter
-            language={language}
-            style={vscDarkPlus}
-            className="rounded-lg my-6 text-sm"
-            PreTag="div"
-          >
-            {codeContent}
-          </SyntaxHighlighter>
+          <div className="relative group">
+            <button
+              onClick={() => handleCopy(codeContent)}
+              className="absolute right-2 top-2 p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors tooltip"
+              data-tip={copiedCode === codeContent ? 'Copied!' : 'Copy code'}
+              aria-label="Copy code"
+            >
+              {copiedCode === codeContent ? (
+                <FiCheck className="text-green-400 w-5 h-5" />
+              ) : (
+                <FiCopy className="text-gray-300 w-5 h-5" />
+              )}
+            </button>
+
+            <SyntaxHighlighter
+              language={language}
+              style={vscDarkPlus}
+              className="rounded-lg my-6 text-sm"
+              PreTag="div"
+              showLineNumbers
+            >
+              {codeContent}
+            </SyntaxHighlighter>
+          </div>
         );
       }
     },
