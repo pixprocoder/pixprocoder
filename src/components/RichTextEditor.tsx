@@ -4,18 +4,21 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Image from '@tiptap/extension-image';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { lowlight } from 'lowlight';
+import { lowlight } from 'lowlight/lib/core';
 import DOMPurify from 'dompurify';
-
+import { all, createLowlight } from 'lowlight';
+const lowlight = createLowlight(all);
 // Correct language imports
-import javascript from 'refractor/lang/javascript';
-import css from 'refractor/lang/css';
-import typescript from 'refractor/lang/typescript';
+import css from 'highlight.js/lib/languages/css';
+import js from 'highlight.js/lib/languages/javascript';
+import ts from 'highlight.js/lib/languages/typescript';
+import html from 'highlight.js/lib/languages/xml';
 
 // Register languages
-lowlight.register(javascript);
-lowlight.register(css);
-lowlight.register(typescript);
+lowlight.register('html', html);
+lowlight.register('css', css);
+lowlight.register('js', js);
+lowlight.register('ts', ts);
 
 const RichTextEditor = ({
   onChange,

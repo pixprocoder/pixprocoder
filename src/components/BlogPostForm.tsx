@@ -6,7 +6,7 @@ import { AuthContext } from '../providers/AuthProviders';
 
 const BlogPostForm = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
   const [createPost, { isLoading, isError, error, isSuccess }] =
     useCreatePostMutation();
   const [formData, setFormData] = useState({
