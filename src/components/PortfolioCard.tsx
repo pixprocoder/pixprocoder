@@ -68,7 +68,7 @@ const PortfolioCard = ({
               tags.map((t: any, i: number) => (
                 <Badge
                   key={i}
-                  className={`${t?.color} bg-gray-700 hover:bg-gray-800 `}
+                  className={`${t?.color} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
                 >
                   # {t?.name}
                 </Badge>

@@ -17,7 +17,7 @@ const ConfirmDelete = ({ onConfirm, onTrigger, id }: ConfirmDeleteProps) => {
       confirmText="Yes, Delete"
       cancelText="No, Cancel"
     >
-      <p className="text-white">This action cannot be undone.</p>
+      <p className="text-white">Warning! This action cannot be undone.</p>
     </Modal>
   );
 };

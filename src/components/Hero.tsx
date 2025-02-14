@@ -36,6 +36,7 @@ const Hero = () => {
       className="flex flex-col px-4 lg:p-0 lg:flex-row pt-20 my-10 justify-center lg:items-center"
     >
       <div className="flex-1  ">
+        {/* <h5 className="text-xs text-green-500">Welcome</h5> */}
         <h1 className="text-4xl hidden lg:block font-semibold font-montserrat ">
           HI, <span className="text-[#0084FF]">I'm</span>
         </h1>

@@ -8,6 +8,7 @@ const nextConfig = {
   },
   images: {
     domains: [
+      'blog.logrocket.com',
       'i.ibb.co',
       'd2devwt40at1e2.cloudfront.net',
       'miro.medium.com',

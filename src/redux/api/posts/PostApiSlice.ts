@@ -2,14 +2,31 @@ import { getBaseURL } from './../../../utils/index';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const PostApiSlice = createApi({
+  reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({ baseUrl: getBaseURL() }),
-  tagTypes: ['comment', 'postLike'],
+  tagTypes: ['comment', 'postLike', 'post'],
   endpoints: (builder) => ({
+    // get posts
     getPosts: builder.query({
       query: () => '/posts',
+      transformResponse: (response: any) => {
+        return response.data;
+      },
+      providesTags: ['post'],
     }),
     getSinglePost: builder.query({
       query: (id) => `/posts/${id}`,
+    }),
+
+    // Create Post
+    createPost: builder.mutation({
+      query(body) {
+        return {
+          url: `/posts/create-post`,
+          method: 'POST',
+          body,
+        };
+      },
     }),
 
     // PostLike endpoint
@@ -49,4 +66,5 @@ export const {
   usePostCommentMutation,
   usePostLikeMutation,
   useGetPostLikeQuery,
+  useCreatePostMutation,
 } = PostApiSlice;

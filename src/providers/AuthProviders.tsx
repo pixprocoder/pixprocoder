@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -7,14 +7,16 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-} from "firebase/auth";
-import { createContext, useEffect, useState } from "react";
-import auth from "../firebase/firebase.init";
-import axios from "axios";
-import { getBaseURL } from "../utils";
-import { getFromLocalStorage, setToLocalStorage } from "../utils/local-storage";
-import { authKey } from "../constants/storageKey";
-import { removeUserInfo } from "../helpers/auth.helper";
+} from 'firebase/auth';
+import { createContext, useEffect, useState } from 'react';
+import auth from '../firebase/firebase.init';
+import axios from 'axios';
+import { getBaseURL } from '../utils';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage';
+import { authKey } from '../constants/storageKey';
+import { removeUserInfo } from '../helpers/auth.helper';
+import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
+import { Role } from '../enums';
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();
@@ -23,6 +25,16 @@ const gitHubProvider = new GithubAuthProvider();
 const AuthProviders = ({ children }: any) => {
   const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState(true);
+  // loading admins from users
+  const [admin, setAdmin] = useState([]);
+  const { data } = useGetUsersQuery({});
+  useEffect(() => {
+    if (data) {
+      const admins = data.data.filter((user: any) => user.role === Role.ADMIN);
+      setAdmin(admins);
+      // setLoading(false); // Set loading to false once data is processed
+    }
+  }, [data]); // Run this effect only when `data` changes
 
   const createUser = (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -72,7 +84,7 @@ const AuthProviders = ({ children }: any) => {
             removeUserInfo(authKey);
           }
         } catch (error) {
-          console.log("Error saving user to the backend:", error);
+          console.log('Error saving user to the backend:', error);
           removeUserInfo(authKey);
         }
       } else {
@@ -91,6 +103,7 @@ const AuthProviders = ({ children }: any) => {
 
   const authInfo = {
     user,
+    admin,
     loading,
     createUser,
     signIn,
