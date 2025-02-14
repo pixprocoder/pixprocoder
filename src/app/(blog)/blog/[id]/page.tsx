@@ -15,6 +15,9 @@ import {
 } from '@/src/redux/api/posts/PostApiSlice';
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
+import { FaShare } from 'react-icons/fa';
 
 import {
   Pagination,
@@ -39,6 +42,7 @@ import Link from 'next/link';
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import RenderHTML from '@/src/components/RenderHTML';
 import RenderContent from '@/src/components/RenderContent';
+import Image from 'next/image';
 
 // ------------- import end --------------
 
@@ -95,36 +99,44 @@ const SingleBlogPage = ({ params }: any) => {
     <section className="container mx-auto">
       <div className="w-full lg:w-2/4 mx-auto">
         {/* <GoogleAdsense /> */}
-        <h1 className="text-left lg:text-center text-3xl lg:text-5xl font-bold  my-6">
+        <h1 className="text-left lg:text-center text-2xl lg:text-4xl font-bold text-gray-200  my-6">
           {post?.data?.title}
         </h1>
         {/* Avatar */}
-        <div className="flex gap-3 items-center mb-4">
-          <Avatar>
-            <AvatarImage src={post?.data?.image} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-3 items-center">
+            <Avatar>
+              <AvatarImage src={post?.data?.thumbnail} />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
 
-          <div className="flex  gap-2">
-            <p className="text-white font-bold text-base">Kobir</p>
-            <p className="text-gray-300 text-sm flex gap-2 items-center">
-              {post?.data?.createdAt && formatDateToUTC(post?.data?.createdAt)}{' '}
-              <small className="text-xs">at</small>
-              <small>
+            <div className="flex  gap-2">
+              <p className="text-white font-bold text-base">Kobir</p>
+              <p className="text-gray-300 text-sm flex gap-2 items-center">
                 {post?.data?.createdAt &&
-                  formatTimeToUTC(post?.data?.createdAt)}
-              </small>
-            </p>
+                  formatDateToUTC(post?.data?.createdAt)}{' '}
+                <small className="text-xs">at</small>
+                <small>
+                  {post?.data?.createdAt &&
+                    formatTimeToUTC(post?.data?.createdAt)}
+                </small>
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2 text-2xl justify-center items-center">
+            <FaLinkedin />
+            <FaFacebookSquare />
+            <FaShare />
           </div>
         </div>
 
-        <div className="">
-          <img
-            className="w-full rounded-lg"
-            width={500}
-            height={500}
+        <div className="w-full my-4 h-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+          <Image
             src={post?.data?.thumbnail}
-            alt="img"
+            alt="thumbnail"
+            width={400}
+            height={600}
+            className="object-contain opacity-50"
           />
         </div>
 
