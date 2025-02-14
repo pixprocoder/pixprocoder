@@ -6,15 +6,15 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from '../ui/select';
 
 const SelectCategoryPage = () => {
   return (
     <Select>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[100px] md:w-[180px] border border-gray-800">
         <SelectValue placeholder="Select a Category" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="border border-gray-800">
         <SelectGroup className="bg-black text-white">
           <SelectLabel>Technology</SelectLabel>
           <SelectItem value="React.js">React.js</SelectItem>
