@@ -44,7 +44,7 @@ function BlogPage() {
       <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
         {isLoading
           ? //@ts-ignore
-            Array.from({ length: posts?.length || 2 }).map((_, index) => (
+            Array.from({ length: posts?.length || 3 }).map((_, index) => (
               <Card
                 key={index}
                 className="bg-gray-950 border border-gray-800 w-full h-full flex flex-col"
@@ -114,7 +114,7 @@ function BlogPage() {
 
                       <div className="mt-auto text-primary pt-4">
                         <Link
-                          className="group flex gap-2 underline items-center"
+                          className="group flex gap-2 underline items-center cursor-pointer"
                           href={`/blog/${blog.id}`}
                         >
                           <span>Read More</span>

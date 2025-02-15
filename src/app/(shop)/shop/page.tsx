@@ -32,7 +32,9 @@ const Shop = () => {
   }
 
   if (error) {
-    return <div className="text-center my-4 text-red-500">Error: {error}</div>;
+    return (
+      <div className="text-center my-4 text-red-500">Error is: {error}</div>
+    );
   }
 
   return (
