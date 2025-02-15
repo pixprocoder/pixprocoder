@@ -230,7 +230,11 @@ const SingleBlogPage = ({ params }: any) => {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <p className="text-sm">{comment?.author?.email}</p>
+                  <p className="text-sm">
+                    {comment?.author?.username
+                      ? comment?.author?.username
+                      : 'guest'}
+                  </p>
                   <small className="text-gray-400 text-xs flex gap-2">
                     {formatDateToUTC(comment?.createdAt)}
                   </small>
