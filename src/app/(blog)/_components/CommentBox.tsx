@@ -17,7 +17,6 @@ function CommentBox({ id }: { id: string }) {
     e.preventDefault();
     if (!user?.email) {
       toast({
-        title: 'Uh oh! Something went wrong.',
         description: 'You Must Need To Login!',
         className: `toast-error`, // Apply the custom class
       });
@@ -36,7 +35,7 @@ function CommentBox({ id }: { id: string }) {
     const postId = id;
     const options = {
       postId,
-      author: user?.displayName || user?.email,
+      author: user?.email,
       content: comment,
     };
 
