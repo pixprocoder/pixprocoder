@@ -106,13 +106,13 @@ const SingleBlogPage = ({ params }: any) => {
         <div className="flex justify-between items-center">
           <div className="flex gap-3 items-center">
             <Avatar>
-              <AvatarImage src={post?.data?.thumbnail} />
+              <AvatarImage className="w-16  " src="/profile.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
 
-            <div className="flex  gap-2">
-              <p className="text-white font-bold text-base">Kobir</p>
-              <p className="text-gray-300 text-sm flex gap-2 items-center">
+            <div className="flex flex-col">
+              <p className="text-white font-bold text-base">Samsul Kobir</p>
+              <p className="text-gray-300 text-xs flex gap-2 items-center">
                 {post?.data?.createdAt &&
                   formatDateToUTC(post?.data?.createdAt)}{' '}
                 <small className="text-xs">at</small>
@@ -226,7 +226,7 @@ const SingleBlogPage = ({ params }: any) => {
             >
               <div className="flex gap-2 items-center">
                 <Avatar className="w-6 h-6">
-                  <AvatarImage src={user?.photoURL} />
+                  <AvatarImage src="/user.svg" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
