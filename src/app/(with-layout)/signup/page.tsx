@@ -75,7 +75,6 @@ const SignupPage = () => {
       .then((res: any) => {
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Signup successful',
         });
       })
