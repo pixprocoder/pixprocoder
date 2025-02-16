@@ -46,10 +46,10 @@ const PortfolioCard = ({
       data-aos-duration="500"
       className=" flex flex-col justify-center items-center "
     >
-      <Card className="bg-gray-950 border border-gray-800 w-full ">
+      <Card className="bg-gray-950 border border-none w-full ">
         <CardHeader className="px-4 py-2">
           <Link href={`/portfolio/${id}`}>
-            <div className="  rounded-lg flex justify-center overflow-hidden">
+            <div className="bg-gray-900  rounded-lg flex justify-center overflow-hidden">
               <img
                 src={image}
                 alt="Image"
@@ -57,21 +57,23 @@ const PortfolioCard = ({
               />
             </div>
           </Link>
-          <CardTitle className="text-gray-200 mt-2 md:mt-4 font-bold">
+
+          <CardTitle className="text-gray-200 mt-2 md:mt-4 font-bold font-montserrat">
             {title}
           </CardTitle>
+
           <CardDescription className="text-gray-300 text-xs my-2">
             {description}
           </CardDescription>
         </CardHeader>
 
-        <CardFooter className="flex items-start flex-col gap-2">
+        <div className="flex items-start flex-col gap-2 px-4">
           <div className="flex gap-2">
             {tags &&
               tags.map((t: any, i: number) => (
                 <Badge
                   key={i}
-                  className={`${t?.color} bg-gray-700 hover:bg-gray-800 cursor-pointer`}
+                  className={`${t?.color} text-[10px] bg-gray-700 hover:bg-gray-800 cursor-pointer`}
                 >
                   # {t?.name}
                 </Badge>
@@ -79,13 +81,13 @@ const PortfolioCard = ({
           </div>
 
           <Link
-            className="group text-primary flex gap-2 underline items-center cursor-pointer"
+            className="group text-primary font-raleway flex gap-2 underline items-center cursor-pointer mb-2"
             href={`/portfolio/${id}`}
           >
-            <span>Read More</span>
+            <span>View Case Study</span>
             <FaLongArrowAltRight className="transition-transform duration-300 group-hover:translate-x-2" />
           </Link>
-        </CardFooter>
+        </div>
       </Card>
     </section>
   );
