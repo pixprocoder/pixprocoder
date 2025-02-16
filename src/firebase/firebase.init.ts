@@ -25,4 +25,8 @@ if (typeof window !== 'undefined') {
   analytics = getAnalytics(app);
 }
 
-export default auth;
+// if (typeof window !== 'undefined' && analytics) {
+//   analytics.setDebugMode(true);
+// }
+
+export { auth, analytics };
