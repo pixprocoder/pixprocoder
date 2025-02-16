@@ -9,17 +9,28 @@ import loginImg from '../../../assets/login.svg';
 import { Label } from '@/src/components/ui/label';
 import { Separator } from '@/src/components/ui/separator';
 import { SiGithub, SiGoogle } from 'react-icons/si';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/src/components/ui/use-toast';
 
 const SignupPage = () => {
-  const { createUser, signInWithGoogle, signInWithGitHub } =
+  const { createUser, user, signInWithGoogle, signInWithGitHub } =
     useContext(AuthContext);
   const { toast } = useToast();
   const router = useRouter();
+
+  // Redirecting the user to home if the user is already signup
+  useEffect(() => {
+    if (user?.email) {
+      router.push('/');
+      toast({
+        description: 'The User is Already Signed up!',
+      });
+      return;
+    }
+  }, [router]);
 
   const [error, setError] = useState('');
 
@@ -38,7 +49,6 @@ const SignupPage = () => {
         reset();
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Signup Successful',
         });
       })
@@ -53,7 +63,6 @@ const SignupPage = () => {
       .then((res: any) => {
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Signup successful',
         });
       })
@@ -66,7 +75,6 @@ const SignupPage = () => {
       .then((res: any) => {
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Signup successful',
         });
       })
@@ -81,7 +89,7 @@ const SignupPage = () => {
         <h1 className="text-3xl font-bold mb-2 center">Please Sign up </h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-[90vw] md:w-full">
-            <CardHeader className="">
+            <CardHeader className="px-4 py-2 ">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid w-full max-w-sm items-center ">
                   <Label className="text-white mb-1" htmlFor="name">
