@@ -8,18 +8,29 @@ import { Separator } from '@/src/components/ui/separator';
 import Image from 'next/image';
 import { SiGithub, SiGoogle } from 'react-icons/si';
 import Link from 'next/link';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/src/components/ui/use-toast';
 
 const LoginPage = () => {
-  const { signIn, signInWithGoogle, signInWithGitHub } =
+  const { signIn, user, signInWithGoogle, signInWithGitHub } =
     useContext(AuthContext);
   const { toast } = useToast();
   const router = useRouter();
 
+  // redirecting the user to home if already loggedin
+  useEffect(() => {
+    if (user?.email) {
+      router.push('/');
+      toast({
+        description: 'You Already Logedin',
+      });
+
+      return;
+    }
+  }, [router]);
   const [error, setError] = useState('');
 
   const {
@@ -37,7 +48,6 @@ const LoginPage = () => {
         reset();
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Login successful',
         });
       })
@@ -52,7 +62,6 @@ const LoginPage = () => {
       .then((res: any) => {
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Login successful',
         });
       })
@@ -65,7 +74,6 @@ const LoginPage = () => {
       .then((res: any) => {
         router.push('/');
         toast({
-          variant: 'outline',
           description: 'Login successful',
         });
       })
