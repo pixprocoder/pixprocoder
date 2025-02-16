@@ -80,7 +80,7 @@ const LoginPage = () => {
         <h1 className="text-3xl font-bold mb-2 center">Please login</h1>
         <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
           <div className="flex-1 w-[90vw] md:w-full">
-            <CardHeader className="">
+            <CardHeader className="px-4 py-2 ">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid w-full max-w-sm items-center my-4">
                   <Label className="text-white mb-1" htmlFor="email">
