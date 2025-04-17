@@ -15,9 +15,6 @@ import {
 } from '@/src/redux/api/posts/PostApiSlice';
 import { motion } from 'framer-motion';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
-import { FaFacebookSquare } from 'react-icons/fa';
-import { FaLinkedin } from 'react-icons/fa';
-import { FaShare } from 'react-icons/fa';
 
 import {
   Pagination,
@@ -43,6 +40,7 @@ import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import RenderHTML from '@/src/components/RenderHTML';
 import RenderContent from '@/src/components/RenderContent';
 import Image from 'next/image';
+import ShareButtons from '@/src/components/shared/ShareButtons';
 
 // ------------- import end --------------
 
@@ -95,6 +93,13 @@ const SingleBlogPage = ({ params }: any) => {
     }
   };
 
+  // Share post prop data
+  const postUrl = `https://www.pixprocoder.com/blog/${id}`;
+  const postTitle = post?.data?.title;
+  const postDescription = post?.data?.excerpt;
+  console.log(postTitle, 'post title');
+  console.log(postDescription, 'post Desc');
+
   return (
     <section className="container mx-auto">
       <div className="w-full lg:w-2/4 mx-auto">
@@ -123,11 +128,12 @@ const SingleBlogPage = ({ params }: any) => {
               </p>
             </div>
           </div>
-          <div className="flex gap-2 text-2xl justify-center items-center">
-            <FaLinkedin />
-            <FaFacebookSquare />
-            <FaShare />
-          </div>
+          {/*  Share Button component*/}
+          <ShareButtons
+            url={postUrl}
+            title={postTitle}
+            description={postDescription}
+          />
         </div>
 
         <div className="w-full my-4 h-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">

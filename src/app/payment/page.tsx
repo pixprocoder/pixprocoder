@@ -36,6 +36,13 @@ export default Payments;
  * everyone do that at some point.
  * and I have to change the default behaviour is is the most important task I need to do right now.
  * I can Have all the necessary
+ * Neovim is very beautyful I like it
+ * I did learn from other people.
+ * keep learing.
+ * doesn't metter where you can learn from you need to be learing every single day.
+ * that is how you can have more power and you can get the powerful person in the world.
+ * I do most of the time in neovim.
+ * so it's okay to have those in common
  *
  *
  * */

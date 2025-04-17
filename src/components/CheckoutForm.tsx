@@ -13,7 +13,7 @@ import { clearCart } from '../redux/features/cart/CartSlice';
 const CheckoutForm = () => {
   const { totalPrice, items } = useAppSelector((state) => state.cart);
   const { user } = useContext(AuthContext);
-  const distatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { setTransactionId } = useContext(TransactionContext);
   const [clientSecret, setClientSecret] = useState<string>('');
   const [paymentError, setPaymentError] = useState<string>('');
@@ -98,7 +98,7 @@ const CheckoutForm = () => {
         // localStorage.setItem('paymentSuccess', 'true');
 
         setTransactionId(paymentIntent.id);
-        distatch(clearCart());
+        dispatch(clearCart());
 
         router.push('/payment/success');
 
