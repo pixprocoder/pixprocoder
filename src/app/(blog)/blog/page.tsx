@@ -25,6 +25,8 @@ import axios from 'axios';
 import SelectCategoryPage from '@/src/components/shared/SelectCategory';
 import SectionBanner from '@/src/components/shared/SectionBanner';
 
+// import ends
+
 function BlogPage() {
   const { data: posts, isLoading } = useGetPostsQuery({});
 
