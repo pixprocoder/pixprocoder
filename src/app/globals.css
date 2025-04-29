@@ -1,276 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
 
-:root {
-  --primary: 220 100% 50%; /* Blue color in HSL */
-  --primary-foreground: 0 0% 100%; /* White text for contrast */
-}
-
-.dark {
-  --primary: 220 100% 60%; /* Lighter blue for dark mode */
-  --primary-foreground: 0 0% 100%; /* White text for contrast */
-}
-/* blog post style */
-.prose h2 {
-  @apply w-full my-4 text-gray-200;
-}
-.prose h3 {
-  @apply w-full my-4 text-gray-300;
-}
-.prose p {
-  @apply w-full my-4 text-gray-400;
-}
-/* Copy button positioning */
-pre {
-  @apply relative;
-}
-
-pre code {
-  @apply pt-10 !important;
-}
-
-pre code::before {
-  content: 'Code';
-  @apply absolute top-2 left-4 text-gray-400 text-sm font-mono;
-}
-
-.dark pre code::before {
-  @apply text-gray-600;
-}
-
-/* Tooltip styles */
-.tooltip::before {
-  content: attr(data-tip);
-  @apply absolute -top-8 right-0 bg-gray-800 text-white px-2 py-1 rounded text-sm 
-         opacity-0 invisible transition-all duration-200 whitespace-nowrap;
-}
-
-.tooltip:hover::before {
-  @apply opacity-100 visible;
-}
-
-.dark .tooltip::before {
-  @apply bg-gray-700;
-}
-body {
-  background-color: #000000;
-  color: white;
-  font-family: 'Space Grotesk', sans-serif;
-}
-.dashboard-card-bg {
-  background-color: #1d212d;
-}
-.dashboard-container {
-  display: grid;
-  /* grid-template-columns: 10% auto 25%; */
-  grid-template-columns: 10% auto;
-}
-.dashboard-aside {
-  display: grid;
-  grid-template-rows: auto 75%;
-}
-
-.font-montserrat {
-  font-family: 'Montserrat', sans-serif;
-}
-.font-raleway {
-  font-family: 'Raleway', sans-serif;
-}
-font-grotesk {
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.nav-item {
-  color: #e9e9e9;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.btn {
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.main-headline {
-  font-size: 40px;
-  font-weight: 700;
-  color: #e9e9e9;
-}
-.category-headline {
-  font-size: 30px;
-  font-weight: 700;
-  color: #e9e9e9;
-}
-
-.sub-headline {
-  font-size: 18px;
-  font-weight: 500;
-  color: #e9e9e9;
-}
-.body-text {
-  font-size: 16px;
-  font-weight: 500;
-  color: #e9e9e9;
-}
-
-/* background Image */
-.banner-footer {
-  /* background-image: url("../public/images/bannerImg.jpg"); */
-  background-image: url('../assets/footer-bg.png');
-  background-blend-mode: multiply;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  /* width: 100vw; */
-}
-
-/* Keyframes for animating the sprite */
-@keyframes heartAnimation {
-  0% {
-    background-position: 0 0;
-  }
-  11.1% {
-    background-position: -50px 0;
-  }
-  22.2% {
-    background-position: -100px 0;
-  }
-  33.3% {
-    background-position: -150px 0;
-  }
-  44.4% {
-    background-position: -200px 0;
-  }
-  55.5% {
-    background-position: -250px 0;
-  }
-  66.6% {
-    background-position: -300px 0;
-  }
-  77.7% {
-    background-position: -350px 0;
-  }
-  88.8% {
-    background-position: -400px 0;
-  }
-  100% {
-    background-position: -450px 0;
-  }
-}
-
-/* When the like button is clicked, animate the sprite */
-.animate .heart-sprite {
-  animation: heartAnimation 0.8s steps(9) forwards;
-}
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    /* Light theme */
+    --background: 0 0% 100%;        /* White */
+    --foreground: 240 10% 3.9%;      /* Zinc-950 */
+    
+    --card: 0 0% 100%;              /* White */
+    --card-foreground: 240 10% 3.9%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    --popover-foreground: 240 10% 3.9%;
+    
+    --primary: 262 83% 68%;         /* Your purple (#D673F8) */
+    --primary-foreground: 0 0% 100%; /* White */
+    
+    --secondary: 207 90% 61%;       /* Your blue (#3495FE) */
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 240 4.8% 95.9%;        /* Zinc-100 */
+    --muted-foreground: 240 3.8% 46.1%;
+    
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 90%;
+    
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
+    /* Dark theme */
+    --background: 240 10% 3.9%;     /* Zinc-950 */
+    --foreground: 0 0% 98%;         /* Zinc-50 */
+    
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 263 83% 72%;         /* Lighter purple for dark mode */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 207 90% 65%;       /* Lighter blue for dark mode */
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 240 3.7% 15.9%;        /* Zinc-800 */
+    --muted-foreground: 240 5% 64.9%;
+    
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
   }
 }
 
-/* Add this to your global CSS file */
-.toast-success {
-  @apply bg-green-700 text-white border-green-500;
-}
-.toast-warning {
-  @apply bg-yellow-500 text-white border-yellow-100;
-}
-
-.toast-error {
-  @apply bg-red-500 text-white border-red-500;
-}
-
-.toast-top-center {
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-@layer components {
-  .primary-btn {
-    @apply bg-gradient-to-r from-blue-500 to-purple-500 hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
-  }
-  .secondary-btn {
-    @apply bg-gradient-to-r from-green-500 to-blue-500 hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
-  }
-  .text-primary {
-    @apply text-purple-500;
-  }
-  .text-success {
-    @apply text-green-500;
-  }
-}
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Raleway", sans-serif;
+  }
+}
+
+/* Custom components */
+@layer components {
+  .brand-gradient {
+    @apply bg-gradient-to-r from-[#D673F8] to-[#3495FE];
+  }
+  
+  .primary-btn {
+    @apply brand-gradient text-primary-foreground hover:opacity-90 transition-opacity px-6 py-3 rounded-lg font-semibold;
+  }
+
+  .secondary-btn {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 px-6 py-3 rounded-lg font-medium transition-colors;
+  }
+
+  .dashboard-card {
+    @apply bg-card rounded-xl p-6 border border-border;
+  }
+
+  .prose {
+    @apply max-w-none;
+    h2 {
+      @apply text-2xl font-bold text-foreground mt-8 mb-4;
+    }
+    h3 {
+      @apply text-xl font-semibold text-foreground mt-6 mb-3;
+    }
+    p {
+      @apply text-muted-foreground leading-relaxed mb-4;
+    }
+  }
+}
+
+/* Tooltip styles */
+.tooltip::before {
+  content: attr(data-tip);
+  @apply absolute -top-8 right-0 bg-popover text-popover-foreground px-3 py-1.5 rounded-md text-sm 
+         opacity-0 invisible transition-all duration-200 whitespace-nowrap shadow-lg border border-border;
+}
+
+.tooltip:hover::before {
+  @apply opacity-100 visible;
+}
+
+/* Code blocks */
+pre {
+  @apply bg-muted/50 p-4 rounded-lg border border-border my-6 relative;
+}
+
+pre code::before {
+  content: 'Code';
+  @apply absolute top-2 left-4 text-muted-foreground text-sm font-mono;
+}
+
+/* Dashboard layout */
+.dashboard-container {
+  @apply grid grid-cols-[240px_1fr] gap-6 p-6;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    @apply grid-cols-1 p-4;
+  }
+}
+
+/* Typography */
+.main-headline {
+  @apply text-4xl md:text-5xl font-bold tracking-tight;
+}
+
+.category-headline {
+  @apply text-3xl font-semibold mb-6;
+}
+
+.sub-headline {
+  @apply text-lg text-muted-foreground mb-6;
+}
+
+.body-text {
+  @apply text-base text-muted-foreground leading-relaxed;
+}
+
+/* Animations */
+@keyframes heartAnimation {
+  0% { background-position: 0 0; }
+  100% { background-position: -450px 0; }
+}
+
+.animate .heart-sprite {
+  animation: heartAnimation 0.8s steps(9) forwards;
+}
+
+/* Toast notifications */
+.toast-success {
+  @apply bg-green-600/90 text-background border-green-700;
+}
+
+.toast-error {
+  @apply bg-red-600/90 text-background border-red-700;
+}
+
+.toast-warning {
+  @apply bg-yellow-600/90 text-background border-yellow-700;
+}
+
+
+@layer utilities {
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
   }
 }

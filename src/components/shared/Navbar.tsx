@@ -24,6 +24,7 @@ import Image from 'next/image';
 import { Sheet, SheetContent, SheetTrigger } from '@/src/components/ui/sheet';
 import CartSheet from '@/src/components/cart/CartSheet';
 import { useAppSelector } from '@/src/redux/hooks/hooks';
+import { ThemeToggle } from './ThemeToggle';
 
 // component start here
 const Navbar = () => {
@@ -53,91 +54,79 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-[#000000] items-center shadow-lg border-b border-gray-900">
+    <div className="navbar sticky top-0 flex justify-between py-4 px-4 lg:container mx-auto z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 items-center shadow-sm border-b">
       <div className="flex-1">
-        <Link href="/" className="font-bold text-xl flex gap-2  items-center">
+        <Link href="/" className="font-bold text-xl flex gap-2 items-center">
           <Image width={30} height={30} src="/vertical-logo.png" alt="logo" />
-          <p>PIXPROCODER</p>
+          <p className="text-foreground">PIXPROCODER</p>
         </Link>
       </div>
 
-      {/* // only for mobile  */}
+      {/* Mobile Menu */}
       <div className="mr-4 flex items-center md:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <div className="relative">
-              <IoBagAddOutline className=" text-white text-2xl mr-4 cursor-pointer hover:text-blue-500 transition-all duration-100"></IoBagAddOutline>
-              <span className="absolute -top-4 -left-2 p-1 text-xs text-purple-500 ">
-                {items?.length < 10 ? (
-                  <span>0{items?.length}</span>
-                ) : (
-                  items?.length
-                )}
+              <IoBagAddOutline className="text-foreground text-2xl mr-4 cursor-pointer hover:text-primary transition-all" />
+              <span className="absolute -top-4 -left-2 p-1 text-xs text-primary">
+                {items?.length?.toString().padStart(2, '0')}
               </span>
             </div>
           </SheetTrigger>
-          <SheetContent className="bg-black border-0 ">
-            {' '}
+          <SheetContent className="border-muted">
             <CartSheet />
           </SheetContent>
         </Sheet>
+
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="border">
+              <Avatar className="border border-muted">
                 {user?.photoURL ? (
                   <AvatarImage src={user?.photoURL} />
                 ) : (
-                  <AvatarFallback className="text-black">
-                    {user?.displayName
-                      ? user?.displayName
-                          ?.split(' ')
-                          .map((word: any[]) => word[0])
-                          .join('')
-                          .toUpperCase()
-                          .slice(0, 2)
-                      : 'CN'}
+                  <AvatarFallback className="bg-muted text-foreground">
+                    {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
                   </AvatarFallback>
                 )}
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-black text-white">
+            <DropdownMenuContent className="bg-popover text-popover-foreground">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>My Profile</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/profile/user">My Profile</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
                 Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <>
-            <Link href="/login">
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-                LOGIN
-              </Button>
-            </Link>
-          </>
+          <Link href="/login">
+            <Button className="primary-btn">LOGIN</Button>
+          </Link>
         )}
       </div>
 
+      {/* Mobile Sidebar */}
       <motion.div
         initial={{ x: '100%' }}
         animate={{ x: isOpen ? 0 : '100%' }}
         transition={{ duration: 0.3 }}
-        className="fixed rounded-l-3xl top-0 right-0 w-2/3 h-full bg-gray-600 shadow-md p-4 z-50 md:hidden"
+        className="fixed rounded-l-3xl top-0 right-0 w-2/3 h-full bg-popover shadow-md p-4 z-50 md:hidden"
       >
         <div
           className="lg:hidden absolute right-4 text-right cursor-pointer z-30"
           onClick={handleResponsiveMenu}
         >
           {isOpen ? (
-            <AiOutlineClose className="text-white text-2xl" />
+            <AiOutlineClose className="text-foreground text-2xl" />
           ) : (
-            <GiHamburgerMenu className="text-white text-2xl" />
+            <GiHamburgerMenu className="text-foreground text-2xl" />
           )}
         </div>
         <ul className="space-y-4 pt-12 flex flex-col justify-center items-center">
@@ -145,7 +134,7 @@ const Navbar = () => {
             <li key={i}>
               <span
                 onClick={() => handleMobileNav(el.to)}
-                className="mr-4 cursor-pointer hover:font-bold hover:text-blue-500 transition-all duration-100"
+                className="cursor-pointer hover:font-bold text-foreground hover:text-primary transition-all"
               >
                 {el.key}
               </span>
@@ -154,22 +143,12 @@ const Navbar = () => {
         </ul>
       </motion.div>
 
-      <div
-        className="lg:hidden cursor-pointer z-30"
-        onClick={handleResponsiveMenu}
-      >
-        {isOpen ? (
-          <AiOutlineClose className="text-white text-2xl" />
-        ) : (
-          <GiHamburgerMenu className="text-white text-2xl" />
-        )}
-      </div>
-
-      <ul className="hidden navItem lg:flex gap-6 justify-center items-center">
+      {/* Desktop Menu */}
+      <ul className="hidden lg:flex gap-6 items-center">
         {navLinks.map((el, i) => (
           <li key={i}>
             <Link
-              className="bg-white font-semibold mr-4 cursor-pointer hover:font-bold bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition-all hover:border-b-2  hover:border-b-purple-500 pb-4   duration-100"
+              className="font-medium text-foreground/80 hover:text-foreground transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-primary hover:after:w-full after:transition-all"
               href={el.to}
             >
               {el.key}
@@ -180,48 +159,37 @@ const Navbar = () => {
         <Sheet>
           <SheetTrigger asChild>
             <div className="relative">
-              <IoBagAddOutline className=" text-white text-2xl mr-4 cursor-pointer hover:text-blue-500 transition-all duration-100"></IoBagAddOutline>
-              <span className="absolute -top-4 -left-2 p-1 text-xs text-purple-500 ">
-                {items?.length < 10 ? (
-                  <span>0{items?.length}</span>
-                ) : (
-                  items?.length
-                )}
+              <IoBagAddOutline className="text-foreground text-2xl mr-4 cursor-pointer hover:text-primary transition-all" />
+              <span className="absolute -top-4 -left-2 p-1 text-xs text-primary">
+                {items?.length?.toString().padStart(2, '0')}
               </span>
             </div>
           </SheetTrigger>
-          <SheetContent className="bg-black border-0">
+          <SheetContent className="border-muted">
             <CartSheet />
           </SheetContent>
         </Sheet>
-
+        <ThemeToggle />
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="border">
+              <Avatar className="border border-muted">
                 {user?.photoURL ? (
                   <AvatarImage src={user?.photoURL} />
                 ) : (
-                  <AvatarFallback className="text-black">
-                    {user?.displayName
-                      ? user?.displayName
-                          ?.split(' ')
-                          .map((word: any[]) => word[0])
-                          .join('')
-                          .toUpperCase()
-                          .slice(0, 2)
-                      : 'CN'}
+                  <AvatarFallback className="bg-muted text-foreground">
+                    {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
                   </AvatarFallback>
                 )}
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-black text-white">
+            <DropdownMenuContent className="bg-popover text-popover-foreground">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link href="/profile/user">MyProfile</Link>
+              <DropdownMenuItem asChild>
+                <Link href="/profile/user">My Profile</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/dashboard">Dashboard</Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleSignOut}>
@@ -230,32 +198,8 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          // <Dropdown
-          //   trigger={
-          //     <Avatar>
-          //       {user?.photoURL ? (
-          //         <AvatarImage src={user?.photoURL} />
-          //       ) : (
-          //         <AvatarFallback className="text-black">
-          //           {user?.displayName
-          //             ? user?.displayName
-          //                 ?.split(' ')
-          //                 .map((word: any[]) => word[0])
-          //                 .join('')
-          //                 .toUpperCase()
-          //                 .slice(0, 2)
-          //             : 'CN'}
-          //         </AvatarFallback>
-          //       )}
-          //     </Avatar>
-          //   }
-          //   label="My Account"
-          //   items={dropdownItems}
-          // />
           <Link href="/login">
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-              LOGIN
-            </Button>
+            <Button className="primary-btn">LOGIN</Button>
           </Link>
         )}
       </ul>
