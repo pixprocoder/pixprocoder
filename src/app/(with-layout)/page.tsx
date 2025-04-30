@@ -7,7 +7,7 @@ import { OverviewCard } from '@/src/components/OverviewCard';
 
 export default function Home() {
   return (
-    <section className="lg:container mx-auto px-4 text-white">
+    <section className="lg:container mx-auto px-4 ">
       <Hero />
       <OverviewCard />
       {/* <BlogPage /> */}
