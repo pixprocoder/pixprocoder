@@ -109,20 +109,35 @@ const Navbar = () => {
         <ThemeToggle />
         <div>
           {user ? (
-            <div className="flex items-center gap-4">
-              <Avatar className="border border-muted">
-                {user?.photoURL ? (
-                  <AvatarImage src={user?.photoURL} />
-                ) : (
-                  <AvatarFallback className="bg-muted text-foreground">
-                    {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
-                  </AvatarFallback>
-                )}
-              </Avatar>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className="border border-muted">
+                  {user?.photoURL ? (
+                    <AvatarImage src={user?.photoURL} />
+                  ) : (
+                    <AvatarFallback className="bg-muted text-foreground">
+                      {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-popover text-popover-foreground">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile/user">My Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Link href="/login" className="w-full">
-              <Button className="w-full primary-btn">LOGIN</Button>
+            <Link href="/login">
+              <Button className="primary-btn">LOGIN</Button>
             </Link>
           )}
         </div>
