@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import Facebook from "../../assets/icons/Facebook.svg";
-import Instagram from "../../assets/icons/Instagram.svg";
-import Twitter from "../../assets/icons/Twitter.svg";
-import Linkedin from "../../assets/icons/Linkedin.svg";
-import Link from "next/link";
-import Image from "next/image";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useRef } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import Facebook from '../../assets/icons/Facebook.svg';
+import Instagram from '../../assets/icons/Instagram.svg';
+import Twitter from '../../assets/icons/Twitter.svg';
+import Linkedin from '../../assets/icons/Linkedin.svg';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { useRef } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 const Footer = () => {
- 
   const {
     register,
     handleSubmit,
@@ -26,9 +25,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className="banner-footer  lg:h-[400px] bg-[#15213C] bg-opacity-50">
+    <footer className="banner-footer border-t lg:h-[400px] bg-background bg-opacity-50">
       <div className="container mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 text-white pt-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 text-foreground pt-24">
           <div>
             <h3 className="text-xl font-bold  my-2 lg:mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
@@ -141,25 +140,25 @@ const Footer = () => {
                   className="flex w-full max-w-sm items-center space-x-2 text-blue-500"
                 >
                   <Input
-                    {...register("email", { required: true })}
+                    {...register('email', { required: true })}
                     className="text-blue-500"
                     type="email"
-                    aria-invalid={errors.subject ? "true" : "false"}
+                    aria-invalid={errors.subject ? 'true' : 'false'}
                     placeholder="Email"
                   />
-                  {errors.subject?.type === "required" && (
+                  {errors.subject?.type === 'required' && (
                     <p className="text-sm text-red-700" role="alert">
                       Email is required
                     </p>
-                  )} 
+                  )}
                   <Button type="submit">Subscribe</Button>
                 </form>
               </li>
             </ul>
           </div>
         </div>
-        <p className="text-center text-white mt-14 text-xs ">
-          Copyright ©2024 All rights reserved by |{" "}
+        <p className="text-center text-foreground mt-4 text-xs ">
+          Copyright ©2024 All rights reserved by |{' '}
           <b className="text-blue-500">Samsul Kobir 💙</b>
         </p>
       </div>

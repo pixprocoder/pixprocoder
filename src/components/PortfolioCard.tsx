@@ -43,7 +43,7 @@ const PortfolioCard = ({
       data-aos-duration="500"
       className="group relative flex flex-col justify-center items-center hover:-translate-y-2 transition-transform duration-300"
     >
-      <Card className="bg-background border border-border/50 w-full shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden">
+      <Card className="card-background border border-border/50 w-full shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl overflow-hidden">
         {/* Image Section */}
         <div className="relative aspect-video overflow-hidden">
           <Link href={`/portfolio/${id}`}>
