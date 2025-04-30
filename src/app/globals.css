@@ -195,3 +195,16 @@ pre code::before {
     transition-duration: 300ms;
   }
 }
+
+
+/* additional css animation */
+@keyframes tech-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(3deg); }
+  50% { transform: translateY(10px) rotate(-3deg); }
+  75% { transform: translateY(-5px) rotate(2deg); }
+}
+
+.floating-tech {
+  animation: tech-float 15s ease-in-out infinite;
+}

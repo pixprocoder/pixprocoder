@@ -46,7 +46,7 @@ const Modal = ({
       <DialogTrigger asChild onClick={() => setOpen(true)}>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="bg-black border-gray-800 ">
+      <DialogContent className="bg-background text-foreground ">
         <DialogHeader>
           <DialogTitle className="font-bold text-lg">{title}</DialogTitle>
           <DialogDescription>{children}</DialogDescription>

@@ -9,7 +9,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <AlertBanner />
+      {/* <AlertBanner /> */}
       <Navbar />
       {children}
       <Footer />
