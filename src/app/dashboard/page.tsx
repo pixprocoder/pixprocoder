@@ -6,7 +6,7 @@ const page = () => {
   return (
     <PrivateRoute>
       <div className="max-w-2xl mx-auto">
-        <h1>Dashbord Page</h1>
+        <h1>Dashbord Home Page</h1>
         <Button>
           <Link href="/dashboard/write-blog">Write Blog</Link>
         </Button>

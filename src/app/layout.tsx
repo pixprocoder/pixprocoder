@@ -7,6 +7,7 @@ import OtherProviders from '@/src/providers/OtherProviders';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
 import ReduxProvider from '../providers/ReduxProvider';
 import PageViewTracker from '../components/PageViewTracker';
+import { ThemeProvider } from '../providers/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Pixprocoder',
@@ -23,19 +24,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className="">
-        <ReduxProvider>
-          <TanStackQueryProvider>
-            <AuthProviders>
-              <OtherProviders>
-                <main>{children}</main>
-                <PageViewTracker />
+        <ThemeProvider>
+          <ReduxProvider>
+            <TanStackQueryProvider>
+              <AuthProviders>
+                <OtherProviders>
+                  <main>{children}</main>
+                  <PageViewTracker />
 
-                <Toaster />
-                {/*   <CartIcon /> */}
-              </OtherProviders>
-            </AuthProviders>
-          </TanStackQueryProvider>
-        </ReduxProvider>
+                  <Toaster />
+                  {/*   <CartIcon /> */}
+                </OtherProviders>
+              </AuthProviders>
+            </TanStackQueryProvider>
+          </ReduxProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
