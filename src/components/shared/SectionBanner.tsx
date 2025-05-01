@@ -1,26 +1,30 @@
-import React from "react";
+'use client';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-const SectionBanner = ({ children }: any) => {
+interface SectionBannerProps {
+  children: React.ReactNode;
+}
+
+export const SectionBanner = ({ children }: SectionBannerProps) => {
   return (
-    <div
-      className="flex  items-center bg-opacity-35 "
-      style={{
-        backgroundImage: `url("/sectionBanner.webp")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "#0c0c0c",
-        height: "300px",
-        width: "100%",
-        marginTop: "-100px",
-        marginBottom: "50px",
-        borderRadius: "0 0 10px 10px",
-      }}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="relative mb-16 flex h-64 items-center overflow-hidden rounded-xl border border-border bg-background/80 backdrop-blur-sm md:h-80"
     >
-      <div className="max-w-[1400px] mx-auto flex  ">
-        <h1 className=" text-6xl font-black">{children}</h1>
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-20"
+        style={{
+          backgroundImage: 'url("/sectionBanner.webp")',
+        }}
+      />
+
+      <div className="relative mx-auto max-w-7xl px-4 text-center">
+        <h1 className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-4xl font-black text-transparent md:text-6xl">
+          {children}
+        </h1>
       </div>
-    </div>
+    </motion.div>
   );
 };
-
-export default SectionBanner;
