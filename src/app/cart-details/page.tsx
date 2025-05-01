@@ -156,10 +156,7 @@ function CartDetailsPage() {
                 </span>
               </div>
 
-              <Button
-                asChild
-                className="w-full mt-6 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary"
-              >
+              <Button asChild className="w-full mt-6 primary-btn">
                 <Link href="/checkout">Proceed to Checkout</Link>
               </Button>
             </div>

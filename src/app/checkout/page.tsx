@@ -250,12 +250,6 @@ function CheckoutPage() {
                   </span>
                 </div>
               </div>
-              <Button
-                onClick={handlePayment}
-                className="w-full mt-4 text-sm sm:text-base bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary"
-              >
-                Confirm Payment
-              </Button>
             </div>
           </div>
         </div>
