@@ -53,7 +53,7 @@ function CheckoutPage() {
           </Badge>
         </Link>
         <Button asChild variant="ghost" className="flex-shrink-0">
-          <Link href="/cart" className="gap-2">
+          <Link href="/cart-details" className="gap-2">
             <FiArrowLeft className="w-4 h-4" />
             Back to Cart
           </Link>
