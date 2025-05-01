@@ -1,58 +1,84 @@
-import React from 'react';
+// ShopCard Component (ShopCard.tsx)
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
-import { FaStar } from 'react-icons/fa';
+import Image from 'next/image';
+import { Button } from '@/src/components/ui/button';
+import { Badge } from '@/src/components/ui/badge';
+import { FiShoppingCart } from 'react-icons/fi';
 
-const ShopCard = ({ item }: any) => {
-  return (
-    <Link
-      href={`/shop/${item.id}`}
-      className=" shadow-sm  md:shadow-md bg-background rounded-sm flex p-2 py-6 flex-col"
-    >
-      <div className="w-full h-40 overflow-hidden  flex justify-center items-center ">
-        <img src={item.image} alt="image" />
-      </div>
-      <div className="">
-        <p className="text-sm text-foreground mt-2 overflow-hidden text-ellipsis whitespace-nowrap w-full">
-          {item.title}
-        </p>
-        <div className="flex flex-row-reverse justify-between my-2">
-          <span className="text-xs text-success">In Stock</span>
-          <div className="text-sm text-foreground flex gap-1 items-center">
-            {[...Array(5)].map((_, index) => {
-              if (index < Math.floor(item?.rating?.rate)) {
-                // Full star
-                return (
-                  <span key={index} className="text-yellow-400">
-                    <FaStar />
-                  </span>
-                );
-              } else if (index < item?.rating?.rate) {
-                // Half star
-                return (
-                  <span key={index} className="text-yellow-400">
-                    <FaStarHalfAlt />
-                  </span>
-                );
-              } else {
-                // Empty star
-                return (
-                  <span key={index} className="text-gray-400">
-                    <FaRegStar />
-                  </span>
-                );
-              }
-            })}
-            <p className="text-xs ">
-              (<span className="text-primary">{item?.rating?.count}</span>)
-            </p>
-          </div>
-        </div>
-        <span className="text-purple-500 font-black text-2xl">
-          ${item.price}
+const ShopCard = ({ item, index }: any) => {
+  const renderRating = () => {
+    const fullStars = Math.floor(item.rating.rate);
+    const hasHalfStar = item.rating.rate % 1 >= 0.5;
+
+    return (
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, i) => (
+          <span
+            key={i}
+            className={`text-sm ${
+              i < fullStars
+                ? 'text-yellow-400'
+                : hasHalfStar && i === fullStars
+                  ? 'text-yellow-400'
+                  : 'text-muted-foreground'
+            }`}
+          >
+            {i < fullStars ? '★' : hasHalfStar && i === fullStars ? '½' : '☆'}
+          </span>
+        ))}
+        <span className="text-xs text-muted-foreground ml-1">
+          ({item.rating.count})
         </span>
       </div>
-    </Link>
+    );
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+      className="group relative"
+    >
+      <Link
+        href={`/shop/${item.id}`}
+        className="flex flex-col h-full p-4 border rounded-xl bg-background/50 hover:border-primary transition-all"
+      >
+        <div className="relative aspect-square mb-4">
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        <h3 className="font-medium mb-2 line-clamp-2">{item.title}</h3>
+
+        {renderRating()}
+
+        <div className="mt-auto pt-4 flex items-center justify-between">
+          <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+            ${item.price}
+          </span>
+          <Badge
+            variant="outline"
+            className="text-green-500 border-green-500/30"
+          >
+            In Stock
+          </Badge>
+        </div>
+      </Link>
+
+      <Button
+        variant="outline"
+        size="sm"
+        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+      >
+        <FiShoppingCart className="w-4 h-4" />
+      </Button>
+    </motion.div>
   );
 };
 
