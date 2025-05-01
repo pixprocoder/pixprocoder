@@ -100,7 +100,7 @@ const About = () => {
                 Download CV
               </Button>
               <Button variant="outline" className="gap-2">
-                View Certifications
+                View My Work
               </Button>
             </div>
           </div>

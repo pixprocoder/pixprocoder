@@ -2,67 +2,96 @@
 import { useState } from 'react';
 import { portfolioMenu, projects } from '../constants';
 import PortfolioCard from './PortfolioCard';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiFolder, FiXCircle } from 'react-icons/fi';
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);
-  const handleMenuClick = (itemId: any) => {
-    setActiveTab(itemId);
-  };
 
   const selectedTabItem = portfolioMenu.find((item) => item.id === activeTab);
   const selectedCategory = selectedTabItem?.value || 'All';
-  const filteredProjects =
-    selectedCategory === 'All'
-      ? projects
-      : projects.filter((p) => p.category === selectedCategory);
+  const filteredProjects = projects.filter((p) =>
+    selectedCategory === 'All' ? true : p.category === selectedCategory,
+  );
 
   const isCategoryEmpty = filteredProjects.length === 0;
 
   return (
-    <section id="portfolio" className="pt-8 my-40">
-      <h1 className="  font-montserrat font-bold ">Recent Projects</h1>
-      <div className="flex flex-wrap gap-4 mt-10">
-        <div className=" flex flex-wrap gap-4 justify-center items-center ">
+    <section
+      id="portfolio"
+      className="py-20 lg:py-32 bg-gradient-to-b from-background to-muted/5"
+    >
+      <div className="container px-4 mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+            Featured Work
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+            Explore my technical solutions across different domains and
+            platforms
+          </p>
+        </motion.div>
+
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap gap-2 justify-center mb-16">
           {portfolioMenu.map((item) => (
-            <div key={item.id}>
-              <span
-                className={`tab transition tab-lifted  cursor-pointer border p-2 text-sm rounded-md  ${
-                  activeTab === item.id
-                    ? ' duration-200 tab-active border-blue-600  text-blue-600 '
-                    : ''
-                }`}
-                onClick={() => handleMenuClick(item.id)}
-              >
-                {item.value}
-              </span>
-            </div>
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`px-6 py-2 rounded-full transition-all ${
+                activeTab === item.id
+                  ? 'bg-gradient-to-r from-primary to-blue-500 text-background'
+                  : 'bg-muted hover:bg-muted/50 text-foreground'
+              }`}
+            >
+              {item.value}
+            </button>
           ))}
         </div>
+
+        {/* Projects Grid */}
+        <AnimatePresence mode="wait">
+          {isCategoryEmpty ? (
+            <motion.div
+              key="empty-state"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-20 space-y-4"
+            >
+              <FiXCircle className="w-16 h-16 mx-auto text-muted-foreground" />
+              <p className="text-2xl text-muted-foreground">
+                Projects in this category are currently under development
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="projects-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid lg:grid-cols-3 md:grid-cols-2 gap-8"
+            >
+              {filteredProjects.map((p, i) => (
+                <PortfolioCard
+                  key={p.id}
+                  title={p.title}
+                  id={p.id}
+                  description={p.description}
+                  image={p.image}
+                  gitHubLink={p.gitHubLink}
+                  liveLink={p.liveLink}
+                  tags={p.tags}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-      {isCategoryEmpty ? (
-        <>
-          <p className="text-3xl text-center h-[40vh] flex mx-2 justify-center items-center">
-            Projects are coming soon 😊
-          </p>
-        </>
-      ) : (
-        <>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10 mt-10">
-            {filteredProjects.map((p, i) => (
-              <PortfolioCard
-                key={i}
-                title={p.title}
-                id={p.id}
-                description={p.description}
-                image={p.image}
-                gitHubLink={p.gitHubLink}
-                liveLink={p.liveLink}
-                tags={p.tags}
-              />
-            ))}
-          </div>
-        </>
-      )}
     </section>
   );
 };

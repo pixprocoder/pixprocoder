@@ -1,15 +1,10 @@
 'use client';
-
-import Facebook from '../../assets/icons/Facebook.svg';
-import Instagram from '../../assets/icons/Instagram.svg';
-import Twitter from '../../assets/icons/Twitter.svg';
-import Linkedin from '../../assets/icons/Linkedin.svg';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { FiGithub, FiMail, FiCode } from 'react-icons/fi';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   const {
@@ -17,150 +12,143 @@ const Footer = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm();
 
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  const onSubmit = (data: any) => {
     console.log(data);
     reset();
   };
 
   return (
-    <footer className="banner-footer border-t lg:h-[400px] bg-background bg-opacity-50">
-      <div className="container mx-auto ">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 text-foreground pt-24">
-          <div>
-            <h3 className="text-xl font-bold  my-2 lg:mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/blog"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/portfolio"
-                >
-                  Portfolio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/contact"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
+    <footer className="bg-background/95 backdrop-blur border-t">
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-24">
+          {/* Brand Column */}
+          <div className="space-y-4 flex-1">
+            <Link href="/" className="flex items-center gap-2 group">
+              <FiCode className="h-6 w-6 text-primary" />
+              <span className="text-xl font-bold relative">
+                PixproCoder
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
+              </span>
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              Building digital experiences that matter
+            </p>
+            <div className="flex flex-col space-y-4">
+              <Link
+                href="https://github.com/pixprocoder"
+                target="_blank"
+                className="relative group w-fit"
+              >
+                <FiGithub className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                href="mailto:pixprocoder@gmail.com"
+                className="relative group w-fit"
+              >
+                <FiMail className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xl font-bold  my-2 lg:mb-4">Features</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
-                >
-                  Read Blogs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
-                >
-                  Terms
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
-                >
-                  Security
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="hover:text-blue-600 transition-all duration-200"
-                  href="/"
-                >
-                  Support
-                </Link>
-              </li>
-            </ul>
+
+          {/* Links Container */}
+          <div className="flex flex-col lg:flex-row flex-1 gap-8 lg:gap-12 xl:gap-24">
+            {/* Resources Column */}
+            <div className="space-y-4 flex-1">
+              <h3 className="text-sm font-semibold relative inline-block">
+                Resources
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
+              </h3>
+              <nav className="flex flex-col space-y-2">
+                {['Blog', 'Portfolio', 'Docs', 'Shop'].map((link) => (
+                  <Link
+                    key={link}
+                    href={`/${link.toLowerCase()}`}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors relative group w-fit"
+                  >
+                    {link}
+                    <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* Legal Column */}
+            <div className="space-y-4 flex-1">
+              <h3 className="text-sm font-semibold relative inline-block">
+                Legal
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
+              </h3>
+              <nav className="flex flex-col space-y-2">
+                {['Privacy', 'Terms', 'Cookies'].map((link) => (
+                  <Link
+                    key={link}
+                    href={`/${link.toLowerCase().replace(' ', '-')}`}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors relative group w-fit"
+                  >
+                    {link}
+                    <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xl font-bold  my-2 lg:mb-4">Follow Me</h3>
-            <ul className="space-y-2 text-sm">
-              <li>Connect me on social</li>
-              <ul className="flex gap-4">
-                <li>
-                  <Link href="https://www.facebook.com/skpixeel">
-                    <Image src={Facebook} alt="facebook" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="https://www.instagram.com/pixprocoder/">
-                    <Image src={Instagram} alt="Instagram" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="https://twitter.com/pixprocoder">
-                    <Image src={Twitter} alt="Twitter" />
-                  </Link>
-                </li>
-                <li>
-                  <Link href="https://www.linkedin.com/in/pixprocoder/">
-                    <Image src={Linkedin} alt="Linkedin" />
-                  </Link>
-                </li>
-              </ul>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold  my-2 lg:mb-4">Newsletter</h3>
-            <ul className="space-y-2 text-sm">
-              <li>Stay update with our latest</li>
-              <li>
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="flex w-full max-w-sm items-center space-x-2 text-blue-500"
+
+          {/* Newsletter Column */}
+          <div className="space-y-4 flex-1">
+            <h3 className="text-sm font-semibold relative inline-block">
+              Newsletter
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
+            </h3>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+              <motion.div
+                className="flex flex-col space-y-2"
+                whileHover={{ scale: 1.02 }}
+              >
+                <Input
+                  {...register('email', { required: true })}
+                  placeholder="Enter your email"
+                  className="bg-background border-muted/50 focus:border-primary/50"
+                />
+                <Button
+                  type="submit"
+                  size="sm"
+                  className="relative overflow-hidden w-fit"
                 >
-                  <Input
-                    {...register('email', { required: true })}
-                    className="text-blue-500"
-                    type="email"
-                    aria-invalid={errors.subject ? 'true' : 'false'}
-                    placeholder="Email"
-                  />
-                  {errors.subject?.type === 'required' && (
-                    <p className="text-sm text-red-700" role="alert">
-                      Email is required
-                    </p>
-                  )}
-                  <Button type="submit">Subscribe</Button>
-                </form>
-              </li>
-            </ul>
+                  <span className="relative z-10">Subscribe</span>
+                  <span className="absolute inset-0 bg-primary/10 w-0 group-hover:w-full transition-all duration-300" />
+                </Button>
+              </motion.div>
+              {errors.email && (
+                <p className="text-xs text-destructive">
+                  Please enter a valid email
+                </p>
+              )}
+            </form>
           </div>
         </div>
-        <p className="text-center text-foreground mt-4 text-xs ">
-          Copyright ©2024 All rights reserved by |{' '}
-          <b className="text-blue-500">Samsul Kobir 💙</b>
-        </p>
+
+        {/* Copyright */}
+        <motion.div
+          className="mt-12 pt-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+        >
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} PixproCoder. All rights reserved.
+            <br />
+            <span className="inline-block mt-2">
+              Crafted with <span className="text-destructive">❤</span> by
+              <Link href="/about" className="ml-1 relative group">
+                Samsul Kobir
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+            </span>
+          </p>
+        </motion.div>
       </div>
     </footer>
   );

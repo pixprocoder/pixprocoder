@@ -4,6 +4,7 @@ import Hero from '@/src/components/Hero';
 import Portfolio from '@/src/components/Portfolio';
 import Skills from '@/src/components/Skills';
 import { OverviewCard } from '@/src/components/OverviewCard';
+import Testimonials from '@/src/components/Testimonials';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Skills />
       {/* <Services /> */}
       <FAQPage />
+      <Testimonials />
       {/* <Contact /> */}
     </section>
   );

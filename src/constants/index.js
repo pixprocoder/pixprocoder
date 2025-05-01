@@ -472,4 +472,60 @@ export const blogs = [
   },
 ];
 
-// Dropdown Items
+// constants/testimonials.ts
+export const testimonials = [
+  {
+    name: 'Sarah Johnson',
+    role: 'CTO at TechInnovate',
+    company: 'TechInnovate Inc.',
+    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    text: 'Working with Samsul was a game-changer for our e-commerce platform migration. His expertise in Next.js and cloud architecture helped us achieve 60% faster page loads while maintaining 100% uptime during the transition.',
+    rating: 5,
+    projectLink: '/portfolio/ecommerce-migration',
+  },
+  {
+    name: 'Michael Chen',
+    role: 'Lead Developer',
+    company: 'OpenSource Labs',
+    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    text: "The best technical mentor I've worked with. Samsul's code reviews transformed our team's approach to React state management. Our bundle size reduced by 40% after his optimizations.",
+    rating: 5,
+    projectLink: '/portfolio/react-optimization',
+  },
+  {
+    name: 'Emma Wilson',
+    role: 'Startup Founder',
+    company: 'HealthTrack',
+    avatar: 'https://randomuser.me/api/portraits/women/67.jpg',
+    text: 'From concept to deployment, Samsul delivered beyond expectations. His full-stack solution for our health analytics platform integrated perfectly with our legacy systems.',
+    rating: 5,
+    projectLink: '/portfolio/health-analytics',
+  },
+  {
+    name: 'David Martinez',
+    role: 'Product Manager',
+    company: 'FinTech Global',
+    avatar: 'https://randomuser.me/api/portraits/men/75.jpg',
+    text: 'Impressive problem-solving skills under tight deadlines. The real-time dashboard he built using WebSockets and Redis now serves 50k+ daily active users flawlessly.',
+    rating: 4,
+    projectLink: '/portfolio/realtime-dashboard',
+  },
+  {
+    name: 'Priya Patel',
+    role: 'UX Lead',
+    company: 'DesignHub',
+    avatar: 'https://randomuser.me/api/portraits/women/82.jpg',
+    text: 'A rare developer who truly understands design systems. His implementation of our Figma designs was pixel-perfect across all breakpoints.',
+    rating: 5,
+    projectLink: '/portfolio/design-system',
+  },
+  {
+    name: 'James Wilson',
+    role: 'CTO',
+    company: 'EduTech Solutions',
+    avatar: 'https://randomuser.me/api/portraits/men/91.jpg',
+    text: "Samsul's Node.js microservices architecture scaled beautifully to handle our exam season traffic spike of 200k concurrent users.",
+    rating: 5,
+    projectLink: '/portfolio/edutech-platform',
+  },
+];
