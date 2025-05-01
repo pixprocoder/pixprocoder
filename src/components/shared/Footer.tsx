@@ -5,6 +5,11 @@ import { Button } from '../ui/button';
 import { useForm } from 'react-hook-form';
 import { FiGithub, FiMail, FiCode } from 'react-icons/fi';
 import { motion } from 'framer-motion';
+import { FaInstagramSquare } from 'react-icons/fa';
+import { AiFillFacebook } from 'react-icons/ai';
+import { FaLinkedin } from 'react-icons/fa';
+import { FaSquareGithub } from 'react-icons/fa6';
+import Image from 'next/image';
 
 const Footer = () => {
   const {
@@ -26,29 +31,52 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="space-y-4 flex-1">
             <Link href="/" className="flex items-center gap-2 group">
-              <FiCode className="h-6 w-6 text-primary" />
+              <Image
+                className="hidden md:block"
+                width={30}
+                height={30}
+                src="/vertical-logo.png"
+                alt="logo"
+              />
               <span className="text-xl font-bold relative">
-                PixproCoder
+                PIXPROCODER
                 <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-300" />
               </span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Building digital experiences that matter
             </p>
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-row gap-4">
               <Link
                 href="https://github.com/pixprocoder"
                 target="_blank"
                 className="relative group w-fit"
               >
-                <FiGithub className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <FaSquareGithub className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
                 href="mailto:pixprocoder@gmail.com"
                 className="relative group w-fit"
               >
-                <FiMail className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <FaInstagramSquare className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                href="mailto:pixprocoder@gmail.com"
+                className="relative group w-fit"
+              >
+                <AiFillFacebook className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                href="mailto:pixprocoder@gmail.com"
+                className="relative group w-fit"
+              >
+                <FaLinkedin className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
             </div>

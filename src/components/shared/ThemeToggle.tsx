@@ -9,7 +9,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       className="relative p-2 rounded-lg hover:bg-accent transition-colors duration-300 overflow-hidden w-10 h-10 flex items-center justify-center"
     >
       <Sun className="h-5 w-5 absolute rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0 dark:opacity-0" />

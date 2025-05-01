@@ -16,8 +16,8 @@ export default function Home() {
       <Portfolio />
       <Skills />
       {/* <Services /> */}
-      <FAQPage />
       <Testimonials />
+      <FAQPage />
       {/* <Contact /> */}
     </section>
   );
