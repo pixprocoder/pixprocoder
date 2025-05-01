@@ -125,7 +125,7 @@ function CartSheet() {
           {items.length > 0 && (
             <Button asChild className="gap-2">
               <Link href="/cart-details">
-                Checkout
+                See Cart
                 <FiArrowRight className="w-4 h-4" />
               </Link>
             </Button>

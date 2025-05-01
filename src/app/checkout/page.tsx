@@ -8,9 +8,13 @@ import { CiCreditCard1 } from 'react-icons/ci';
 import { GrPaypal } from 'react-icons/gr';
 import Modal from '@/src/components/shared/Modal';
 import Payments from '@/src/app/payment/page';
+import { motion } from 'framer-motion';
+import { Badge } from '@/src/components/ui/badge';
+import { FiArrowLeft, FiLock } from 'react-icons/fi';
 
-function page() {
+function CheckoutPage() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
+
   const paymentMethods = {
     card: false,
     payPal: false,
@@ -25,215 +29,234 @@ function page() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex mt-4 gap-4 items-center">
-        <Link href="/">
-          <Image width={40} height={40} src="/vertical-logo.png" alt="logo" />
+    <div className="container  mx-auto px-4 py-8">
+      {/* Responsive Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-wrap items-center justify-between gap-4 mb-8"
+      >
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <Image
+            width={40}
+            height={40}
+            src="/vertical-logo.png"
+            alt="logo"
+            className="rounded-lg"
+          />
+          <Badge
+            variant="outline"
+            className="border-green-500/30 text-green-500"
+          >
+            <FiLock className="w-4 h-4 mr-1" />
+            Secure Checkout
+          </Badge>
         </Link>
-        <h1 className="text-sm text-green-600"> 🔒 All Data Are encrypted</h1>
-      </div>
-      <hr className="border border-gray-600 my-4" />
-      <div className="flex flex-col md:flex-row justify-between gap-4 px-2">
-        <div className="flex-[2]">
-          {/* Shipping Address */}
-          <div>
-            <h3 className="mb-2 text-gray-300">Shipping Address </h3>
-            <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
-              <div className="flex border-r border-gray-500 pr-2 flex-1 justify-between w-full">
-                <div>
-                  <p className="text-sm text-gray-300">
-                    Samsul Kobir
-                    <span className="pl-3">+33 5333456233</span>
-                  </p>
-                  <p className="text-xs my-1 text-purple-500">
-                    Calea Moșilor 237, block.45, sc.1, sector.2, ap.20, floor.3
-                    București, București 021243, Romania
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    București, București 021243, Romania
-                  </p>
-                </div>
-                <Modal
-                  trigger={<FaRegEdit className="text-2xl cursor-pointer" />}
-                >
-                  <p>Content goes here</p>
-                </Modal>
-              </div>
-              <div className="hidden md:flex flex-col flex-1">
-                <p className="text-sm text-gray-300">
-                  Delivery
-                  <span className="pl-3">FREE</span>
-                </p>
-                <p className="text-xs my-1 text-purple-500">
-                  Delivery: 4-12 business days, fastest delivery in 4 business
-                  days
-                </p>
-              </div>
-            </div>
-            <hr className="my-4 border-[0.1px] border-gray-700" />
-          </div>
-          {/* Item Details */}
-          <div>
-            <div className="flex justify-between  ">
-              <h3 className="mb-2 text-sm text-gray-200">
-                <span className="text-purple-500">
-                  {items?.length && items?.length}
-                </span>{' '}
-                Items
-              </h3>{' '}
-              {/* view all items */}
+        <Button asChild variant="ghost" className="flex-shrink-0">
+          <Link href="/cart" className="gap-2">
+            <FiArrowLeft className="w-4 h-4" />
+            Back to Cart
+          </Link>
+        </Button>
+      </motion.div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left Column - 2/3 width on desktop */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Shipping Address Section */}
+          <div className="p-4 sm:p-6 rounded-xl border border-border">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                Shipping Address
+              </h2>
               <Modal
                 trigger={
-                  <span className="text-gray-300 text-sm underline cursor-pointer ">
-                    View All
-                  </span>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <FaRegEdit className="w-4 h-4" />
+                    <span className="sr-only sm:not-sr-only">Edit</span>
+                  </Button>
                 }
               >
-                <div className="flex flex-col max-h-[400px] gap-4 overflow-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700 py-3">
-                  {items?.map((item: any) => {
-                    return (
-                      <div className="flex gap-4" key={item.id}>
-                        <div className="flex flex-col cursor-pointer  ">
-                          <div className="w-[100px] overflow-hidden border-gray-800 border-[0.1px] rounded-md h-[100px] flex justify-center items-center">
-                            <Image
-                              src={item?.image}
-                              width={100}
-                              height={100}
-                              alt="product"
-                            />
-                          </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <h1 className="text-gray-300">{item.title}</h1>
-                          <h1 className="text-xs">
-                            {item.description
-                              .split(' ')
-                              .slice(0, 20)
-                              .join(' ') + '...'}
-                          </h1>
-                          <div className="flex justify-between items-center">
-                            <h1 className=" text-xl text-purple-500 font-bold mt-2">
-                              $ {item?.price}
-                            </h1>
-                            <p className="pr-4">
-                              Qty:{' '}
-                              <span className="text-purple-500 font-bold">
-                                {item?.quantity}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="p-4">
+                  <p>Address edit form goes here</p>
                 </div>
               </Modal>
             </div>
 
-            <div className="bg-gray-900 rounded-md flex justify-between  px-2 py-4">
-              <div className="flex gap-4 overflow-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-700 py-3">
-                {items?.map((item: any) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex flex-col cursor-pointer  "
-                    >
-                      <div className="w-[100px] overflow-hidden border-gray-800 border-[0.1px] rounded-md h-[100px] flex justify-center items-center">
-                        <Image
-                          src={item?.image}
-                          width={100}
-                          height={100}
-                          alt="product"
-                        />
-                      </div>
-                      <h1 className=" text-xl text-purple-500 font-bold mt-2">
-                        $ {item?.price}
-                      </h1>
-                    </div>
-                  );
-                })}
+            <div className="space-y-2">
+              <p className="font-medium">Samsul Kobir (+33 5333456233)</p>
+              <p className="text-muted-foreground text-sm sm:text-base">
+                Calea Moșilor 237, block.45, sc.1, sector.2, ap.20, floor.3
+              </p>
+              <p className="text-muted-foreground text-sm sm:text-base">
+                București, Romania 021243
+              </p>
+              <div className="pt-4 mt-4 border-t border-border">
+                <Badge
+                  variant="outline"
+                  className="text-green-500 border-green-500/30"
+                >
+                  Delivery: 4-12 business days
+                </Badge>
               </div>
             </div>
           </div>
-          <hr className="my-4  border-[0.1px]  border-gray-700" />
 
-          {/* payment  */}
-          <div>
-            <h3 className="mb-2 text-gray-300">Payment Method </h3>
-            <div className="bg-gray-900 rounded-md  flex justify-between gap-3 px-2 py-4">
-              <div className="flex flex-col gap-4">
-                {/* card method */}
-
-                <Modal
-                  trigger={
-                    <div className="cursor-pointer flex items-center gap-2">
-                      <CiCreditCard1 className="text-2xl text-purple-500" />
-                      <p className="text-sm  underline decoration-purple-500">
-                        Card
-                      </p>
+          {/* Items Preview Section */}
+          <div className="p-4 sm:p-6 rounded-xl border border-border">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+              <h2 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                {items.length} Items
+              </h2>
+              <Modal
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full sm:w-auto"
+                  >
+                    View All Items
+                  </Button>
+                }
+              >
+                <div className="max-h-[60vh] overflow-auto space-y-4 p-2">
+                  {items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex gap-4 p-2 border-b border-border"
+                    >
+                      <div className="relative w-20 h-20 rounded-md overflow-hidden border border-border">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-contain p-2"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-sm sm:text-base">
+                          {item.title}
+                        </h3>
+                        <p className="text-muted-foreground text-xs sm:text-sm">
+                          {item.description.split(' ').slice(0, 20).join(' ')}
+                          ...
+                        </p>
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-sm sm:text-base font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                            ${item.price}
+                          </span>
+                          <span className="text-sm sm:text-base">
+                            Qty: {item.quantity}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  }
+                  ))}
+                </div>
+              </Modal>
+            </div>
+
+            <div className="flex flex-wrap gap-3 pb-2 overflow-x-auto scrollbar-thin scrollbar-thumb-border">
+              {items.map((item) => (
+                <div
+                  key={item.id}
+                  className="w-24 h-24 flex-shrink-0 relative rounded-lg border border-border"
                 >
-                  <div className="border border-purple-500 p-4 rounded-md my-4">
-                    <h1 className="text-gray-200 text-center text-2xl">
-                      Add Card
-                    </h1>
-                    {/*Locad checkout*/}
-                    <h1 className="flex justify-between items-center text-gray-200 border-b">
-                      pay
-                      <span className="text-2xl font-bold text-primary">
-                        {totalPrice}
-                      </span>
-                    </h1>
-                    <Payments />
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-contain p-2"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-background/80 p-1 text-center">
+                    <p className="text-xs font-bold">${item.price}</p>
                   </div>
-                </Modal>
-                {/* paypal method */}
-                <Modal
-                  trigger={
-                    <div className="cursor-pointer flex items-center gap-2">
-                      <GrPaypal className="text-purple-500 text-2xl" />
-                      <p className=" text-sm underline decoration-purple-500 cursor-pointer">
-                        PayPal
-                      </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Payment Methods Section */}
+          <div className="p-4 sm:p-6 rounded-xl border border-border">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              Payment Method
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Modal
+                trigger={
+                  <div className="p-4 rounded-lg border border-border hover:border-primary transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <CiCreditCard1 className="w-6 h-6 text-primary" />
+                      <span className="font-medium text-sm sm:text-base">
+                        Credit/Debit Card
+                      </span>
                     </div>
-                  }
-                >
-                  <p>content goes here</p>
-                </Modal>
-              </div>
+                  </div>
+                }
+              >
+                <div className="p-4 border border-border rounded-lg">
+                  <h3 className="text-lg sm:text-xl font-bold mb-4">
+                    Card Payment
+                  </h3>
+                  <Payments total={totalPrice} />
+                </div>
+              </Modal>
+
+              <Modal
+                trigger={
+                  <div className="p-4 rounded-lg border border-border hover:border-primary transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <GrPaypal className="w-6 h-6 text-blue-500" />
+                      <span className="font-medium text-sm sm:text-base">
+                        PayPal
+                      </span>
+                    </div>
+                  </div>
+                }
+              >
+                <div className="p-4 border border-border rounded-lg">
+                  <h3 className="text-lg sm:text-xl font-bold mb-4">
+                    PayPal Integration
+                  </h3>
+                  <p className="text-muted-foreground">
+                    PayPal checkout coming soon
+                  </p>
+                </div>
+              </Modal>
             </div>
           </div>
         </div>
 
-        {/* Right */}
-        <div className="flex-[1]">
-          <h1 className="mb-2 text-gray-300"> Order Summary</h1>
-          <div>
-            <div className="flex justify-between">
-              <h1 className="text-sm text-gray-300">Items total:</h1>
-              <span className="text-purple-500 text-xl font-bold">
-                $ {totalPrice}
-              </span>
+        {/* Right Column - Order Summary */}
+        <div className="lg:col-span-1">
+          <div className="p-4 sm:p-6 rounded-xl border border-border lg:sticky lg:top-8">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              Order Summary
+            </h2>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm sm:text-base">Items:</span>
+                <span className="font-medium">${totalPrice.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm sm:text-base">Shipping:</span>
+                <span className="text-green-500">FREE</span>
+              </div>
+              <div className="pt-4 border-t border-border">
+                <div className="flex justify-between items-center pt-4">
+                  <span className="font-bold text-sm sm:text-base">Total:</span>
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                    ${totalPrice.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+              <Button
+                onClick={handlePayment}
+                className="w-full mt-4 text-sm sm:text-base bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary"
+              >
+                Confirm Payment
+              </Button>
             </div>
-            <div className="flex justify-between">
-              <h1 className="text-sm text-gray-300">Shipping</h1>
-              <span className="text-green-500 font-bold">FREE</span>
-            </div>
-          </div>
-          <hr className="border border-gray-600 my-4" />
-          <div>
-            <div className="flex justify-between">
-              <h1 className="text-sm">Total:</h1>
-              <span className="text-purple-500 text-xl font-bold">
-                $ {totalPrice}
-              </span>
-            </div>
-          </div>
-          <div>
-            <Button onClick={handlePayment} className="mt-4 w-full primary-btn">
-              Order And Pay
-            </Button>
           </div>
         </div>
       </div>
@@ -241,4 +264,4 @@ function page() {
   );
 }
 
-export default page;
+export default CheckoutPage;
