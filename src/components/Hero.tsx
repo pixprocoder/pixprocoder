@@ -83,10 +83,8 @@ const Hero = () => {
             </div>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
               <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-                Samsul Kobir
+                Full-Stack Software Engineer
               </span>
-              <br />
-              <span className="text-foreground">Full-Stack Developer</span>
             </h1>
           </motion.div>
 

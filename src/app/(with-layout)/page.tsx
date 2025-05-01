@@ -4,10 +4,11 @@ import Hero from '@/src/components/Hero';
 import Portfolio from '@/src/components/Portfolio';
 import Skills from '@/src/components/Skills';
 import { OverviewCard } from '@/src/components/OverviewCard';
+import Testimonials from '@/src/components/Testimonials';
 
 export default function Home() {
   return (
-    <section className="lg:container mx-auto px-4 text-white">
+    <section className="lg:container mx-auto px-4 ">
       <Hero />
       <OverviewCard />
       {/* <BlogPage /> */}
@@ -15,6 +16,7 @@ export default function Home() {
       <Portfolio />
       <Skills />
       {/* <Services /> */}
+      <Testimonials />
       <FAQPage />
       {/* <Contact /> */}
     </section>

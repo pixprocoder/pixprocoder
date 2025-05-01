@@ -50,6 +50,10 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+
+        aspectRatio: {
+          video: '16 / 9',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

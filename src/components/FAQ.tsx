@@ -1,77 +1,84 @@
-"use client";
-import Image from "next/image";
-import faq from "../assets/faq.svg";
-import { useState } from "react";
-import { faqItems } from "../constants";
+'use client';
+import { useState } from 'react';
+import { faqItems } from '../constants';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
+} from './ui/accordion';
+import { motion } from 'framer-motion';
 
 function FAQPage() {
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  const handleToggle = (index: any) => {
-    if (activeIndex === index) {
-      setActiveIndex(null);
-    } else {
-      setActiveIndex(index);
-    }
-  };
-
   return (
-    <section className="my-40">
-      <h1 className=" mb-8 text-center text-5xl font-montserrat font-bold">
-        Frequently Asked Questions
-      </h1>
-      <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
-        <div className="flex-1">
-          <Image src={faq} alt="faq" />
-        </div>
-        <div className="flex-1">
-          <div className="join join-vertical  gap-2 w-full">
+    <section className="py-20 lg:py-32 bg-gradient-to-b from-background to-muted/5">
+      <div className="container px-4 mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+            Common Questions
+          </h2>
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+            Answers to frequent inquiries about services, orders, and
+            collaborations
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="hidden lg:block relative h-full"
+          >
+            <div className="sticky top-24">
+              <div className="relative aspect-square w-full">
+                <img
+                  src="/faq.svg" // Consider a modern SVG illustration
+                  alt="Question marks illustration"
+                  className="object-contain"
+                />
+              </div>
+              {/* <p className="text-center mt-6 text-muted-foreground">
+                Can't find your answer?{' '}
+                <a href="#contact" className="text-primary hover:underline">
+                  Contact me directly
+                </a>
+              </p> */}
+            </div>
+          </motion.div>
+
+          <div className="space-y-4">
             <Accordion type="single" collapsible>
               {faqItems.map((item, index) => (
-                // @ts-ignore
-                <AccordionItem key={index} value={item.value}>
-                  <AccordionTrigger>{item.question}</AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-gray-300">{item.answer}</p>
+                <AccordionItem
+                  key={index}
+                  value={item.value}
+                  className="border-border/50"
+                >
+                  <motion.div whileHover={{ x: 5 }}>
+                    <AccordionTrigger className="text-left hover:no-underline px-4 py-6 rounded-lg hover:bg-muted/50 transition-colors">
+                      <span className="font-medium text-foreground">
+                        {item.question}
+                      </span>
+                    </AccordionTrigger>
+                  </motion.div>
+                  <AccordionContent className="px-4 pb-4 text-muted-foreground leading-relaxed">
+                    {item.answer}
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        className="mt-3 inline-flex items-center text-primary hover:underline gap-2"
+                      >
+                        Learn More <FiArrowRight className="w-4 h-4" />
+                      </a>
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-
-            {/* {faqItems.map((item, index) => (
-              <div
-                className={`collapse collapse-plus join-item  ${
-                  activeIndex === index ? "active" : ""
-                } transition ease-in-out duration-300`}
-                key={index}
-              >
-                <input
-                  type="radio"
-                  name="my-accordion-3"
-                  onChange={() => handleToggle(index)}
-                />
-                <div
-                  className={`collapse-title text-xl font-montserrat font-medium ${
-                    activeIndex === index
-                      ? "text-white bg-blue-500"
-                      : "text-blue-500"
-                  } transition ease-in-out duration-300`}
-                >
-                  {item.question}
-                </div>
-                {activeIndex === index && (
-                  <div className="collapse-content">
-                    <p className={`mt-3 font-raleway`}>{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))} */}
           </div>
         </div>
       </div>
