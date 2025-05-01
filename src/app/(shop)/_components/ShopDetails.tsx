@@ -36,15 +36,12 @@ function ShopDetailsPage({ item }: { item: any }) {
         </div>
 
         <div className="flex-1">
-          <h1 className="text-2xl">{title}</h1>
-          <p className="text-sm text-gray-300 my-2">{description}</p>
+          <h1 className="text-4xl text-foreground">{title}</h1>
+          <p className="text-sm text-muted-foreground my-2">{description}</p>
           {/* <p className="text-sm text-gray-300 my-2">{category}</p> */}
-          <p className="text-sm text-gray-300 my-2 flex items-center gap-2">
-            {' '}
-            Price:{' '}
-            <span className="text-2xl text-purple-500 font-bold ">
-              {price}
-            </span>{' '}
+          <p className="text-sm text-foreground my-2 flex items-center gap-2">
+            $
+            <span className="text-2xl text-purple-500 font-bold ">{price}</span>{' '}
           </p>
           <Button onClick={() => handleAddToCart(item)} className="primary-btn">
             Add To Cart
