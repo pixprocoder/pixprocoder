@@ -56,14 +56,11 @@ function CommentBox({ id }: { id: string }) {
       <Textarea
         onChange={(e: any) => setComment(e.target.value)}
         value={comment}
-        className="text-white mb-2 bg-gray-900"
+        className="text-foreground mb-2 bg-background"
         placeholder="Write Your Thought"
       />
       <div className="flex justify-start">
-        <Button
-          className="bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300"
-          type="submit"
-        >
+        <Button className="primary-btn" type="submit">
           Post Comment
         </Button>
       </div>
