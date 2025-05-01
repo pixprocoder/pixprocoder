@@ -1,28 +1,22 @@
 'use client';
 import { use, useContext, useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FiArrowLeft } from 'react-icons/fi';
+import { FaHeart, FaRegHeart, FaComment, FaShare } from 'react-icons/fa6';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
 import { Button } from '@/src/components/ui/button';
-import { AuthContext } from '@/src/providers/AuthProviders';
 import {
-  useGetCommentQuery,
-  useGetPostLikeQuery,
-  useGetSinglePostQuery,
-  usePostLikeMutation,
-} from '@/src/redux/api/posts/PostApiSlice';
-import { motion } from 'framer-motion';
-import { FaHeart, FaRegHeart } from 'react-icons/fa6';
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationPrevious,
-} from '@/src/components/ui/pagination';
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/src/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -30,286 +24,278 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
+import { Badge } from '@/src/components/ui/badge';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import { useToast } from '@/src/components/ui/use-toast';
-import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
-import { formatDateToUTC, formatTimeToUTC } from '@/src/utils/FormatDate';
-import Link from 'next/link';
-
-import CommentBox from '@/src/app/(blog)/_components/CommentBox';
-import RenderHTML from '@/src/components/RenderHTML';
 import RenderContent from '@/src/components/RenderContent';
-import Image from 'next/image';
+import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import ShareButtons from '@/src/components/shared/ShareButtons';
+import {
+  useGetCommentQuery,
+  useGetPostLikeQuery,
+  useGetSinglePostQuery,
+  usePostLikeMutation,
+} from '@/src/redux/api/posts/PostApiSlice';
+import { formatDateToUTC } from '@/src/utils/FormatDate';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
 
-// ------------- import end --------------
-
-const SingleBlogPage = ({ params }: any) => {
+const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const { id } = use(params);
-  const [sortOrder, setSortOrder] = useState('desc');
-  const dispatch = useAppDispatch();
-  const { user } = useContext(AuthContext);
   const { toast } = useToast();
+  const { user } = useContext(AuthContext);
+  const dispatch = useAppDispatch();
   const { isLiked } = useAppSelector((state) => state.like);
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // RTK Query hooks
   const { data: post } = useGetSinglePostQuery(id);
   const { data: comments } = useGetCommentQuery({
     id,
     sort: sortOrder,
+    page: currentPage,
+    limit: 10,
   });
   const { data: totalLikeCount } = useGetPostLikeQuery(id);
-  const [postLike, { isLoading, isSuccess }] = usePostLikeMutation({});
-  const [currentPage, setCurrentPage] = useState(2); // Default to page 2
+  const [postLike, { isLoading: isLikeLoading }] = usePostLikeMutation();
 
-  console.log(comments?.data);
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
-    // Logic to fetch new data based on the page number
-  };
-
-  // Handling Like
   const handleLike = async () => {
-    try {
-      if (user?.uid) {
-        const result = await postLike({
-          id: id,
-          data: { liked: !isLiked, userId: user.uid },
-        });
+    if (!user?.uid) {
+      toast({ description: 'Please login to like posts' });
+      return;
+    }
 
-        const updatedLike = result?.data?.data?.data?.isLiked;
-        if (updatedLike !== undefined) {
-          dispatch(setLike(updatedLike));
-        } else {
-          dispatch(toggleLike(id));
-        }
-      } else {
-        toast({
-          variant: 'outline',
-          description: 'Please Login First',
-        });
-        return;
+    try {
+      const result = await postLike({
+        id,
+        data: {
+          liked: !isLiked,
+          userId: user.uid,
+        },
+      }).unwrap();
+
+      if ('error' in result) {
+        throw new Error(result.error);
       }
+
+      dispatch(
+        result.data?.isLiked !== undefined
+          ? setLike(result.data.isLiked)
+          : toggleLike(),
+      );
     } catch (error) {
-      console.error('Error updating like status', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Failed to update like status',
+      });
     }
   };
 
-  // Share post prop data
-  const postUrl = `https://www.pixprocoder.com/blog/${id}`;
-  const postTitle = post?.data?.title;
-  const postDescription = post?.data?.excerpt;
-  console.log(postTitle, 'post title');
-  console.log(postDescription, 'post Desc');
+  // Pagination controls
+  const handlePagination = (direction: 'next' | 'prev') => {
+    setCurrentPage((prev) =>
+      direction === 'next' ? prev + 1 : Math.max(1, prev - 1),
+    );
+  };
 
   return (
-    <section className="container mx-auto">
-      <div className="w-full lg:w-2/4 mx-auto">
-        {/* <GoogleAdsense /> */}
-        <h1 className="text-left lg:text-center text-2xl lg:text-4xl font-bold text-gray-200  my-6">
-          {post?.data?.title}
-        </h1>
-        {/* Avatar */}
-        <div className="flex justify-between items-center">
-          <div className="flex gap-3 items-center">
-            <Avatar>
-              <AvatarImage className="w-16  " src="/profile.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+    <div className="container mx-auto px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-4xl mx-auto"
+      >
+        {/* Back Navigation */}
+        <div className="mb-8">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+          >
+            <FiArrowLeft className="w-4 h-4" />
+            Back to Blog
+          </Link>
+        </div>
 
-            <div className="flex flex-col">
-              <p className="text-white font-bold text-base">Samsul Kobir</p>
-              <p className="text-gray-300 text-xs flex gap-2 items-center">
-                {post?.data?.createdAt &&
-                  formatDateToUTC(post?.data?.createdAt)}{' '}
-                <small className="text-xs">at</small>
-                <small>
+        {/* Article Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent mb-4">
+            {post?.data?.title}
+          </h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Avatar className="w-10 h-10">
+                <AvatarImage src="/profile.png" />
+                <AvatarFallback>SK</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium">Samsul Kobir</p>
+                <p className="text-sm text-muted-foreground">
                   {post?.data?.createdAt &&
-                    formatTimeToUTC(post?.data?.createdAt)}
-                </small>
-              </p>
+                    formatDateToUTC(post.data.createdAt)}
+                </p>
+              </div>
             </div>
+            {/* <ShareButtons
+              url={`https://www.pixprocoder.com/blog/${id}`}
+              title={post?.data?.title}
+              description={post?.data?.excerpt}
+            /> */}
           </div>
-          {/*  Share Button component*/}
-          <ShareButtons
-            url={postUrl}
-            title={postTitle}
-            description={postDescription}
-          />
         </div>
 
-        <div className="w-full my-4 h-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+        {/* Featured Image */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          className="relative aspect-video rounded-xl overflow-hidden border border-border mb-8"
+        >
           <Image
-            src={post?.data?.thumbnail}
-            alt="thumbnail"
-            width={400}
-            height={600}
-            className="object-contain opacity-50"
+            src={post?.data?.thumbnail || '/placeholder.jpg'}
+            alt={post?.data?.title}
+            fill
+            className="object-cover"
           />
-        </div>
+        </motion.div>
 
-        {/* Content */}
-        <div className="mt-4">
-          <RenderContent content={post?.data?.content} />
-          {/* <RenderHTML content={post?.data?.content} /> */}
-          {/* <p className="text-gray-400 font-light">{post?.data?.content}</p> */}
-        </div>
+        {/* Content Tabs */}
+        <Tabs defaultValue="content">
+          <TabsList className="grid grid-cols-3 bg-background/50 backdrop-blur">
+            <TabsTrigger value="content">Article</TabsTrigger>
+            <TabsTrigger value="comments">
+              Comments ({comments?.data?.length || 0})
+            </TabsTrigger>
+            <TabsTrigger value="related">Related Posts</TabsTrigger>
+          </TabsList>
 
-        {/* like feature */}
-        <div className="flex items-center gap-3 justify-center mt-2">
-          <Button onClick={handleLike}>
-            {isLiked ? (
-              <>
-                <motion.div
-                  className="flex gap-2 items-center"
-                  initial={{ scale: 1 }}
-                  animate={{ scale: [1, 1.2, 1] }} // Pulse effect
-                  transition={{ duration: 0.3 }}
-                >
-                  <FaHeart className="text-red-500" />
-                  <span>Liked</span>
-                </motion.div>
-              </>
-            ) : (
-              <motion.div
-                className="flex gap-2 items-center "
-                initial={{ scale: 1 }}
-                animate={{ scale: [1.2, 1] }} // Shrink effect when unliked
-                transition={{ duration: 0.3 }}
-              >
-                <FaRegHeart />
-                <span>Like</span>
-              </motion.div>
-            )}
-          </Button>
-          {isLoading ? (
-            '....'
-          ) : (
-            <p>
-              {totalLikeCount?.data?.likes}{' '}
-              <span>{totalLikeCount?.data?.likes <= 1 ? 'Like' : 'Likes'}</span>
-            </p>
-          )}
-        </div>
-        <hr className=" my-2" />
-
-        <div className="mt-4 bg-gray-700 rounded-lg p-4">
-          <h1 className="text-lg text-gray-100 ">Leave A Comment</h1>
-          <CommentBox id={id} />
-        </div>
-
-        {/* Show comments */}
-        <div className="flex justify-between items-center my-4">
-          <p className="text-sm ">
-            <span>{comments?.data?.length > 1 ? 'Comments' : 'Comment'}</span>:
-            (
-            {comments?.data?.length ? (
-              <span className="text-purple-500">{comments?.data?.length}</span>
-            ) : (
-              'No Comment Found'
-            )}
-            ){' '}
-          </p>
-          <Select value={sortOrder} onValueChange={setSortOrder}>
-            <SelectTrigger className=" w-auto border-none  ">
-              <div className="flex justify-center items-center gap-2">
-                <span className="text-purple-500 text-sm">Sort By:</span>{' '}
-                <span className="text-xs">
-                  <SelectValue />
-                </span>
-              </div>
-            </SelectTrigger>
-            <SelectContent className="bg-gray-900 border-none text-white">
-              <SelectItem value="desc">Newest</SelectItem>
-              <SelectItem value="asc">Oldest</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <hr className="mb-4" />
-        <div className="flex flex-col gap-2">
-          {comments?.data?.map((comment: any) => (
-            <div
-              key={comment._id}
-              className="bg-gray-800 rounded-lg flex flex-col p-2 gap-4"
+          {/* Content Tab */}
+          <TabsContent value="content" className="py-8">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="prose dark:prose-invert max-w-none"
             >
-              <div className="flex gap-2 items-center">
-                <Avatar className="w-6 h-6">
-                  <AvatarImage src="/user.svg" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col">
-                  <p className="text-sm">
-                    {comment?.author?.username
-                      ? comment?.author?.username
-                      : 'guest'}
-                  </p>
-                  <small className="text-gray-400 text-xs flex gap-2">
-                    {formatDateToUTC(comment?.createdAt)}
-                  </small>
-                </div>
+              <RenderContent content={post?.data?.content} />
+            </motion.div>
+
+            {/* Like & Stats Section */}
+            <div className="mt-8 flex items-center gap-6 border-t border-border pt-6">
+              <Button
+                variant="outline"
+                onClick={handleLike}
+                className="gap-2 hover:bg-primary/10"
+                disabled={isLikeLoading}
+              >
+                {isLiked ? (
+                  <FaHeart className="text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-muted-foreground" />
+                )}
+                <span>{totalLikeCount?.data?.likes || 0}</span>
+              </Button>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <FaComment />
+                <span>{comments?.data?.length || 0} comments</span>
               </div>
-              <p className="text-xs ml-6 border-l-2 border-gray-600  px-2 ">
-                {comment?.content}
-              </p>
-              <div className="ml-8">
-                <Button className="  w-12 h-8 text-xs   bg-gradient-to-r from-blue-500 to-purple-500  hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 transition duration-300">
-                  Reply
-                </Button>
+              <Badge variant="outline" className="capitalize">
+                {post?.data?.category || 'general'}
+              </Badge>
+            </div>
+          </TabsContent>
+
+          {/* Comments Tab */}
+          <TabsContent value="comments" className="py-8">
+            <div className="space-y-8">
+              <CommentBox id={id} />
+
+              <div className="flex items-center justify-between">
+                <Select
+                  value={sortOrder}
+                  onValueChange={(value) => {
+                    setSortOrder(value);
+                    setCurrentPage(1);
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Sort comments" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="desc">Newest First</SelectItem>
+                    <SelectItem value="asc">Oldest First</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {/* <Pagination className="ml-auto">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handlePagination('prev')}
+                        disabled={currentPage === 1}
+                      >
+                        Previous
+                      </Button>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <span className="px-4">Page {currentPage}</span>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handlePagination('next')}
+                        disabled={!comments?.hasNextPage}
+                      >
+                        Next
+                      </Button>
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination> */}
+              </div>
+
+              <div className="space-y-6">
+                {comments?.data?.map((comment) => (
+                  <motion.div
+                    key={comment._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-6 rounded-lg border border-border bg-background/50"
+                  >
+                    <div className="flex gap-4">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage src={comment.author?.avatar} />
+                        <AvatarFallback>
+                          {comment.author?.username?.[0] || 'G'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h4 className="font-medium">
+                            {comment.author?.username || 'Guest'}
+                          </h4>
+                          <span className="text-xs text-muted-foreground">
+                            {formatDateToUTC(comment.createdAt)}
+                          </span>
+                        </div>
+                        <p className="text-muted-foreground">
+                          {comment.content}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-        {/* // pagination */}
-        <div className="my-4">
-          <Pagination>
-            <PaginationContent className="flex justify-around w-full">
-              <PaginationItem>
-                <PaginationPrevious
-                  className="cursor-pointer border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
-                  size="sm"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Previous
-                </PaginationPrevious>
-              </PaginationItem>
-              <PaginationItem>
-                <Link href="#" passHref>
-                  <PaginationLink
-                    size="sm" // Add the size prop here
-                    onClick={() => handlePageChange(1)}
-                    isActive={currentPage === 1}
-                  >
-                    1
-                  </PaginationLink>
-                </Link>
-              </PaginationItem>
-              <PaginationItem>
-                <Link href="#" passHref>
-                  <PaginationLink
-                    size="sm"
-                    onClick={() => handlePageChange(2)}
-                    isActive={currentPage === 2}
-                  >
-                    2
-                  </PaginationLink>
-                </Link>
-              </PaginationItem>
+          </TabsContent>
 
-              <PaginationItem>
-                {/* Use PaginationLink for "Next" */}
-                <Link href="#" passHref>
-                  <PaginationLink
-                    className="border-none bg-purple-500 hover:bg-purple-700 hover:text-white "
-                    size="sm" // Add the size prop here
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </PaginationLink>
-                </Link>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      </div>
-    </section>
+          {/* Related Posts Tab */}
+          <TabsContent value="related" className="py-8">
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Add related posts component here */}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </motion.div>
+    </div>
   );
 };
 

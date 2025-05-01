@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { FaLinkedin } from 'react-icons/fa';
+import { FaExternalLinkSquareAlt } from 'react-icons/fa';
+import { FaFacebookSquare } from 'react-icons/fa';
 
 interface Props {
   url: string;
@@ -46,20 +49,21 @@ export default function ShareButtons({ url, title, description }: Props) {
     <div className="flex gap-4">
       <button
         onClick={shareOnLinkedIn}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
+        className="bg-blue-800 text-white px-4 py-2 rounded"
       >
-        linkedIn
+        <FaLinkedin />
       </button>
       <button
         onClick={shareOnFacebook}
         className="bg-blue-800 text-white px-4 py-2 rounded"
       >
-        Facebook
+        <FaFacebookSquare />
       </button>
       <button
         onClick={copyToClipboard}
         className="bg-gray-600 text-white px-4 py-2 rounded"
       >
+        <FaExternalLinkSquareAlt> </FaExternalLinkSquareAlt>
         {isCopied ? 'Copied!' : 'Copy Link'}
       </button>
     </div>

@@ -12,10 +12,10 @@ const SelectCategoryPage = () => {
   return (
     <Select>
       <SelectTrigger className="w-[100px] md:w-[180px] border border-gray-800">
-        <SelectValue placeholder="Select a Category" />
+        <SelectValue placeholder="All" />
       </SelectTrigger>
       <SelectContent className="border border-gray-800">
-        <SelectGroup className="bg-black text-white">
+        <SelectGroup className="bg-background text-foreground">
           <SelectLabel>Technology</SelectLabel>
           <SelectItem value="React.js">React.js</SelectItem>
           <SelectItem value="Node.js">Node.js</SelectItem>
