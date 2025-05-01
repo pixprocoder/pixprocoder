@@ -1,20 +1,32 @@
+// Shop Page (page.tsx)
 'use client';
 
-import ShopCard from '../_components/ShopCard';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import ShopCard from '../_components/ShopCard';
+import { Input } from '@/src/components/ui/input';
+import { Button } from '@/src/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/src/components/ui/select';
+import { Skeleton } from '@/src/components/ui/skeleton';
 
 const Shop = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('price');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
-    // Fetch data from the API
     fetch('https://fakestoreapi.com/products')
       .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch data');
-        }
+        if (!res.ok) throw new Error('Failed to fetch data');
         return res.json();
       })
       .then((data) => {
@@ -25,27 +37,64 @@ const Shop = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, []); // Empty dependency array to run only once
-
-  if (loading) {
-    return <div className="text-center my-4">Loading...</div>;
-  }
+  }, []);
 
   if (error) {
     return (
-      <div className="text-center my-4 text-red-500">Error is: {error}</div>
+      <div className="text-center my-4 text-red-500">
+        Error: {error}. Please try refreshing the page.
+      </div>
     );
   }
 
   return (
-    <div className="lg:w-[1200px] min-h-screen mx-auto">
-      <h1 className="text-3xl text-center my-4">Shop from my store</h1>
-      {/* <GoogleAdsense /> */}
-      <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4  ">
-        {items.map((item, index) => (
-          <ShopCard key={index} item={item}></ShopCard>
-        ))}
+    <div className="container mx-auto px-4 py-12">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent mb-4">
+          Tech Marketplace
+        </h1>
+        <p className="text-muted-foreground max-w-xl mx-auto">
+          Discover premium tech products and developer essentials
+        </p>
       </div>
+
+      {/* Filters */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <Input
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="flex-1"
+        />
+        <Select value={sortBy} onValueChange={setSortBy}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="price">Price: Low to High</SelectItem>
+            <SelectItem value="priceDesc">Price: High to Low</SelectItem>
+            <SelectItem value="rating">Top Rated</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Product Grid */}
+      {loading ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, i) => (
+            <Skeleton key={i} className="h-80 rounded-xl" />
+          ))}
+        </div>
+      ) : (
+        <motion.div
+          layout
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          {items.map((item, index) => (
+            <ShopCard key={item.id} item={item} index={index} />
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 };

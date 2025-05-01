@@ -3,7 +3,7 @@ import { use, useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiChevronLeft } from 'react-icons/fi';
 import { FaHeart, FaRegHeart, FaComment, FaShare } from 'react-icons/fa6';
 import {
   Avatar,
@@ -109,13 +109,13 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
       >
         {/* Back Navigation */}
         <div className="mb-8">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-          >
-            <FiArrowLeft className="w-4 h-4" />
-            Back to Blog
-          </Link>
+          <Button variant="ghost" className="gap-2">
+            <Link className="flex gap-2 items-center" href="/blog">
+              {' '}
+              <FiChevronLeft className="w-4 h-4" />
+              Back to Courses
+            </Link>
+          </Button>
         </div>
 
         {/* Article Header */}

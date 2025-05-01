@@ -7,71 +7,156 @@ import {
   DialogTitle,
   DialogDescription,
 } from '../../components/ui/dialog';
-import { Button } from '../../components/ui/button';
-import React, { useState } from 'react';
+import { Button, ButtonProps } from '../../components/ui/button';
+import { ReactNode, forwardRef, useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import { cn } from '../../lib/utils'; // Assuming you have a cn utility
 
 interface ModalProps {
-  trigger: React.ReactNode;
+  trigger: ReactNode;
   title?: string;
-  children: React.ReactNode;
-  onConfirm?: () => void;
+  children: ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onConfirm?: () => Promise<void> | void;
   onCancel?: () => void;
   confirmText?: string;
   cancelText?: string;
+  confirmButtonProps?: ButtonProps;
+  cancelButtonProps?: ButtonProps;
+  showCloseButton?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  contentClassName?: string;
+  overlayClassName?: string;
+  icon?: ReactNode;
+  disableBackdropClose?: boolean;
 }
 
-const Modal = ({
-  trigger,
-  title,
-  children,
-  onConfirm,
-  onCancel,
-  confirmText,
-  cancelText,
-}: ModalProps) => {
-  const [open, setOpen] = useState(false);
+const Modal = forwardRef<HTMLDivElement, ModalProps>(
+  (
+    {
+      trigger,
+      title,
+      children,
+      open,
+      onOpenChange,
+      onConfirm,
+      onCancel,
+      confirmText = 'Confirm',
+      cancelText = 'Cancel',
+      confirmButtonProps,
+      cancelButtonProps,
+      showCloseButton = true,
+      size = 'md',
+      contentClassName,
+      overlayClassName,
+      icon,
+      disableBackdropClose = false,
+    },
+    ref,
+  ) => {
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleConfirm = () => {
-    if (onConfirm) onConfirm(); // Execute delete logic
-    setOpen(false); // Close modal after confirming
-  };
+    const handleConfirm = async () => {
+      try {
+        setIsLoading(true);
+        await onConfirm?.();
+        onOpenChange?.(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleCancel = () => {
-    if (onCancel) onCancel(); // Handle cancel logic
-    setOpen(false); // Close modal when clicking cancel
-  };
+    const handleCancel = () => {
+      onCancel?.();
+      onOpenChange?.(false);
+    };
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild onClick={() => setOpen(true)}>
-        {trigger}
-      </DialogTrigger>
-      <DialogContent className="bg-background text-foreground ">
-        <DialogHeader>
-          <DialogTitle className="font-bold text-lg">{title}</DialogTitle>
-          <DialogDescription>{children}</DialogDescription>
-        </DialogHeader>
-        <div className="flex justify-end gap-2 mt-4">
-          {onCancel && (
-            <Button
-              className="bg-gray-600 hover:bg-gray-700"
+    const sizeClasses = {
+      sm: 'max-w-sm',
+      md: 'max-w-md',
+      lg: 'max-w-lg',
+      xl: 'max-w-xl',
+    };
+
+    return (
+      <Dialog
+        open={open}
+        onOpenChange={onOpenChange}
+        modal={!disableBackdropClose}
+      >
+        <DialogTrigger asChild>{trigger}</DialogTrigger>
+        <DialogContent
+          className={cn(
+            'bg-background text-foreground rounded-lg',
+            sizeClasses[size],
+            contentClassName,
+          )}
+          overlayClassName={cn(
+            'backdrop-blur-sm bg-background/80',
+            overlayClassName,
+          )}
+          onPointerDownOutside={(e) =>
+            disableBackdropClose && e.preventDefault()
+          }
+          onEscapeKeyDown={(e) => disableBackdropClose && e.preventDefault()}
+          ref={ref}
+        >
+          {/* {showCloseButton && (
+            <button
               onClick={handleCancel}
+              className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              aria-label="Close"
             >
-              {cancelText}
-            </Button>
+              <X className="h-5 w-5" />
+            </button>
+          )} */}
+
+          {(title || icon) && (
+            <DialogHeader className="text-left">
+              {icon && <div className="mb-2">{icon}</div>}
+              {title && (
+                <DialogTitle className="text-lg font-semibold leading-none tracking-tight">
+                  {title}
+                </DialogTitle>
+              )}
+            </DialogHeader>
           )}
-          {onConfirm && (
-            <Button
-              className="bg-red-500 hover:bg-red-600"
-              onClick={handleConfirm}
-            >
-              {confirmText}
-            </Button>
+
+          <DialogDescription className="max-h-[70vh] overflow-y-auto">
+            {children}
+          </DialogDescription>
+
+          {(onConfirm || onCancel) && (
+            <div className="mt-4 flex justify-end gap-2">
+              {onCancel && (
+                <Button
+                  variant="outline"
+                  onClick={handleCancel}
+                  disabled={isLoading}
+                  {...cancelButtonProps}
+                >
+                  {cancelText}
+                </Button>
+              )}
+              {onConfirm && (
+                <Button
+                  onClick={handleConfirm}
+                  loading={isLoading}
+                  disabled={isLoading}
+                  {...confirmButtonProps}
+                >
+                  {confirmText}
+                </Button>
+              )}
+            </div>
           )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};
+        </DialogContent>
+      </Dialog>
+    );
+  },
+);
+
+Modal.displayName = 'Modal';
 
 export default Modal;

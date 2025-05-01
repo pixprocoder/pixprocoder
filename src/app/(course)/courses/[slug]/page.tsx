@@ -1,186 +1,214 @@
 'use client';
-import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Button } from '@/src/components/ui/button';
 import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaShoppingCart,
-  FaInfoCircle,
-} from 'react-icons/fa';
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/src/components/ui/tabs';
+import { Badge } from '@/src/components/ui/badge';
+import { FiShare2, FiDownload, FiChevronLeft } from 'react-icons/fi';
+import { FaRegClock, FaChartLine } from 'react-icons/fa6';
+import ShareButtons from '@/src/components/shared/ShareButtons';
+import Link from 'next/link';
 
-const ProductDetailsPage = ({ params }: { params: any }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [expandedSection, setExpandedSection] = useState(null);
-
-  const productImages = [
-    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    'https://images.unsplash.com/photo-1526498460520-4c246339dccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-    'https://images.unsplash.com/photo-1526948128573-703ee1aeb6fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-  ];
-
-  const productDetails = {
-    name: 'Digital Marketing Course',
-    price: '$99.99',
+const CourseDetailsPage = ({ params }: { params: { id: string } }) => {
+  const courseData = {
+    title: 'Advanced Full-Stack Development',
+    price: '$299',
     description:
-      'Master the art of digital marketing with our comprehensive course. Learn SEO, social media marketing, content creation, and more!',
+      'Master modern full-stack development with TypeScript, Next.js, Node.js, and PostgreSQL',
     features: [
-      '50+ hours of video content',
-      'Lifetime access',
-      'Certificate upon completion',
-      'Interactive quizzes and assignments',
-      'Expert instructor support',
+      { icon: '🕒', text: '60+ Hours Content' },
+      { icon: '📚', text: '12 Projects' },
+      { icon: '🎓', text: 'Certification' },
+      { icon: '💻', text: 'Lifetime Access' },
     ],
-    specifications: [
-      { label: 'Course Duration', value: '8 weeks' },
-      { label: 'Difficulty Level', value: 'Intermediate' },
-      { label: 'Language', value: 'English' },
-      { label: 'Subtitles', value: 'Multiple languages available' },
+    curriculum: [
+      { module: 1, title: 'Next.js Fundamentals', lessons: 8, duration: '6h' },
+      { module: 2, title: 'API Development', lessons: 10, duration: '8h' },
+      { module: 3, title: 'Database Design', lessons: 6, duration: '5h' },
     ],
     faqs: [
       {
-        question: 'Is this course suitable for beginners?',
-        answer:
-          'Yes, this course is designed for both beginners and intermediate learners.',
+        question: 'Course Requirements?',
+        answer: 'Basic HTML/CSS/JS knowledge',
       },
       {
-        question: 'Will I receive a certificate?',
-        answer:
-          'Yes, upon successful completion of the course, you will receive a digital certificate.',
-      },
-      {
-        question: 'Can I access the course on mobile devices?',
-        answer:
-          'Absolutely! The course is fully responsive and can be accessed on any device.',
+        question: 'Support Included?',
+        answer: '24/7 Discord Community Access',
       },
     ],
   };
 
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === productImages.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? productImages.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const toggleSection = (section: any) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/2">
-          <div className="relative">
-            <img
-              src={productImages[currentImageIndex]}
-              alt={`Product image ${currentImageIndex + 1}`}
-              className="w-full h-auto rounded-lg shadow-lg"
+    <div className="container mx-auto px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="max-w-6xl mx-auto"
+      >
+        {/* Back & Share Header */}
+        <div className="flex justify-between items-center mb-8">
+          <Button variant="ghost" className="gap-2">
+            <Link className="flex gap-2 items-center" href="/courses">
+              {' '}
+              <FiChevronLeft className="w-4 h-4" />
+              Back to Courses
+            </Link>
+          </Button>
+          {/* <ShareButtons 
+            url={`/courses/${params.id}`}
+            title={courseData.title}
+          /> */}
+        </div>
+
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          {/* Course Preview */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="relative aspect-video rounded-xl overflow-hidden border border-border"
+          >
+            <Image
+              src="/web-dev.png"
+              alt="Course preview"
+              fill
+              className="object-cover"
             />
-            <button
-              onClick={prevImage}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200"
-              aria-label="Previous image"
-            >
-              <FaChevronLeft className="text-gray-800" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 rounded-full p-2 transition-all duration-200"
-              aria-label="Next image"
-            >
-              <FaChevronRight className="text-gray-800" />
-            </button>
-          </div>
-          <div className="flex justify-center mt-4">
-            {productImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-3 h-3 rounded-full mx-1 ${
-                  currentImageIndex === index ? 'bg-blue-500' : 'bg-gray-300'
-                }`}
-                aria-label={`Go to image ${index + 1}`}
-              ></button>
-            ))}
-          </div>
-        </div>
-        <div className="md:w-1/2">
-          <h1 className="text-3xl font-bold mb-4">{productDetails.name}</h1>
-          <p className="text-xl font-semibold text-blue-600 mb-4">
-            {productDetails.price}
-          </p>
-          <p className="text-gray-600 mb-6">{productDetails.description}</p>
-          <ul className="list-disc list-inside mb-6">
-            {productDetails.features.map((feature, index) => (
-              <li key={index} className="text-gray-700">
-                {feature}
-              </li>
-            ))}
-          </ul>
-          <div className="flex space-x-4 mb-8">
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
-              <FaShoppingCart className="mr-2" />
-              Add to Cart
-            </button>
-            <button className="bg-gray-200 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200 flex items-center">
-              <FaInfoCircle className="mr-2" />
-              View Details
-            </button>
-          </div>
-        </div>
-      </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+            <Badge className="absolute top-4 right-4 bg-green-500/20 text-green-500">
+              Bestseller
+            </Badge>
+          </motion.div>
 
-      <div className="mt-12">
-        <div className="border-t border-gray-200 pt-6">
-          <button
-            onClick={() => toggleSection('specifications')}
-            className="flex justify-between items-center w-full text-left font-semibold text-lg mb-2"
-          >
-            <span>Specifications</span>
-            <span className="text-blue-500">
-              {expandedSection === 'specifications' ? '-' : '+'}
-            </span>
-          </button>
-          {expandedSection === 'specifications' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              {productDetails.specifications.map((spec, index) => (
-                <div key={index} className="bg-gray-100 p-4 rounded-lg">
-                  <span className="font-medium">{spec.label}:</span>{' '}
-                  {spec.value}
+          {/* Course Details */}
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              {courseData.title}
+            </h1>
+
+            <div className="flex items-center gap-4">
+              <Badge variant="outline" className="flex items-center gap-2">
+                <FaRegClock className="w-4 h-4" />8 Weeks
+              </Badge>
+              <Badge variant="outline" className="flex items-center gap-2">
+                <FaChartLine className="w-4 h-4" />
+                Intermediate
+              </Badge>
+            </div>
+
+            <p className="text-xl text-muted-foreground">
+              {courseData.description}
+            </p>
+
+            <div className="grid grid-cols-2 gap-4">
+              {courseData.features.map((feature, i) => (
+                <div key={i} className="p-4 rounded-lg border border-border">
+                  <span className="text-2xl">{feature.icon}</span>
+                  <p className="mt-2">{feature.text}</p>
                 </div>
               ))}
             </div>
-          )}
+
+            <div className="space-y-4">
+              <Button className="w-full gap-2 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary">
+                Enroll Now - {courseData.price}
+              </Button>
+              <Button variant="outline" className="w-full gap-2">
+                <FiDownload className="w-4 h-4" />
+                Download Syllabus
+              </Button>
+            </div>
+          </div>
         </div>
 
-        <div className="border-t border-gray-200 pt-6 mt-6">
-          <button
-            onClick={() => toggleSection('faqs')}
-            className="flex justify-between items-center w-full text-left font-semibold text-lg mb-2"
-          >
-            <span>FAQs</span>
-            <span className="text-blue-500">
-              {expandedSection === 'faqs' ? '-' : '+'}
-            </span>
-          </button>
-          {expandedSection === 'faqs' && (
-            <div className="mt-4 space-y-4">
-              {productDetails.faqs.map((faq, index) => (
-                <div key={index} className="bg-gray-100 p-4 rounded-lg">
-                  <h3 className="font-medium mb-2">{faq.question}</h3>
-                  <p className="text-gray-600">{faq.answer}</p>
+        {/* Curriculum & Details */}
+        <Tabs defaultValue="curriculum">
+          <TabsList className="grid grid-cols-3 bg-background/50 backdrop-blur">
+            <TabsTrigger value="curriculum">Curriculum</TabsTrigger>
+            <TabsTrigger value="details">Course Details</TabsTrigger>
+            <TabsTrigger value="faq">FAQ</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="curriculum" className="py-8">
+            <div className="space-y-4">
+              {courseData.curriculum.map((module, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  className="p-6 rounded-lg border border-border bg-background/50"
+                >
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-semibold">
+                        Module {module.module}: {module.title}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {module.lessons} lessons • {module.duration}
+                      </p>
+                    </div>
+                    <Button variant="ghost">Preview</Button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="details" className="py-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold">What You'll Learn</h3>
+                <ul className="space-y-2">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <span className="text-primary">▹</span>
+                      Build full-stack applications with modern stack
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-2xl font-bold">Technologies Covered</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'AWS'].map(
+                    (tech, i) => (
+                      <Badge key={i} variant="outline">
+                        {tech}
+                      </Badge>
+                    ),
+                  )}
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="faq" className="py-8">
+            <div className="space-y-4">
+              {courseData.faqs.map((faq, i) => (
+                <div key={i} className="p-6 rounded-lg border border-border">
+                  <h4 className="font-medium">{faq.question}</h4>
+                  <p className="text-muted-foreground mt-2">{faq.answer}</p>
                 </div>
               ))}
             </div>
-          )}
+          </TabsContent>
+        </Tabs>
+
+        {/* Related Courses */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold mb-8">
+            More Courses You Might Like
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Add course cards here */}
+          </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-export default ProductDetailsPage;
+export default CourseDetailsPage;
