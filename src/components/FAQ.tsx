@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { faqItems } from '../constants';
 import {
   Accordion,
@@ -7,7 +7,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion';
-import { motion } from 'framer-motion';
 
 function FAQPage() {
   return (

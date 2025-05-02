@@ -2,14 +2,12 @@
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
-import { useForm } from 'react-hook-form';
+import { cn } from '@/src/lib/utils';
+import { getBaseURL } from '@/src/utils';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Phone, User } from 'lucide-react';
-import { cn } from '@/src/lib/utils';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { getBaseURL } from '@/src/utils';
-import { SectionBanner } from '@/src/components/shared/SectionBanner';
+import { useForm } from 'react-hook-form';
 
 function ContactPage() {
   const {
