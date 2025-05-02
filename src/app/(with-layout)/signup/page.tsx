@@ -1,19 +1,26 @@
 'use client';
 import { Button } from '@/src/components/ui/button';
-import { Card, CardFooter, CardHeader } from '@/src/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/src/components/ui/card';
 import { Input } from '@/src/components/ui/input';
-import Image from 'next/image';
-import Link from 'next/link';
-import loginImg from '../../../assets/login.svg';
-
 import { Label } from '@/src/components/ui/label';
 import { Separator } from '@/src/components/ui/separator';
-import { SiGithub, SiGoogle } from 'react-icons/si';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '@/src/providers/AuthProviders';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/src/components/ui/use-toast';
+import { cn } from '@/src/lib/utils';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { motion } from 'framer-motion';
+import { Loader2, Lock, Mail, User } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { SiGithub, SiGoogle } from 'react-icons/si';
+import signupImage from '../../../assets/login.svg';
 
 const SignupPage = () => {
   const { createUser, user, signInWithGoogle, signInWithGitHub } =
@@ -21,169 +28,197 @@ const SignupPage = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  // Redirecting the user to home if the user is already signup
   useEffect(() => {
     if (user?.email) {
       router.push('/');
-      toast({
-        description: 'The User is Already Signed up!',
-      });
-      return;
+      toast({ description: 'You are already signed in' });
     }
-  }, [router]);
-
-  const [error, setError] = useState('');
+  }, [user, router, toast]);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = (data: any) => {
-    const email = data.userEmail;
-    const password = data.userPassword;
-    createUser(email, password)
-      .then((res: any) => {
-        // console.log(res.user);
-        reset();
-        router.push('/');
-        toast({
-          description: 'Signup Successful',
-        });
-      })
-      .catch((err: any) => {
-        setError(err.message);
+
+  const onSubmit = async (data: any) => {
+    try {
+      await createUser(data.userEmail, data.userPassword);
+      reset();
+      router.push('/');
+      toast({ description: 'Signup successful 🎉' });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        description: error.message || 'Signup failed',
       });
+    }
   };
 
-  // Handling Social login
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((res: any) => {
-        router.push('/');
-        toast({
-          description: 'Signup successful',
-        });
-      })
-      .catch((error: any) => {
-        setError(error.message);
+  const handleSocialLogin = async (provider: () => Promise<any>) => {
+    try {
+      await provider();
+      router.push('/');
+      toast({ description: 'Signup successful 🎉' });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        description: error.message || 'Authentication failed',
       });
-  };
-  const handleGitHubSignIn = () => {
-    signInWithGitHub()
-      .then((res: any) => {
-        router.push('/');
-        toast({
-          description: 'Signup successful',
-        });
-      })
-      .catch((error: any) => {
-        setError(error.message);
-      });
+    }
   };
 
   return (
-    <section className="min-h-screen flex justify-center items-center flex-row-reverse">
-      <div className="">
-        <h1 className="text-3xl font-bold mb-2 center">Please Sign up </h1>
-        <Card className="bg-gray-950 border border-gray-800 w-full flex justify-between items-center flex-col-reverse lg:flex-row">
-          <div className="flex-1 w-[90vw] md:w-full">
-            <CardHeader className="px-4 py-2 ">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid w-full max-w-sm items-center ">
-                  <Label className="text-white mb-1" htmlFor="name">
-                    Name
-                  </Label>
-                  <Input
-                    {...register('userName', { required: true })}
-                    aria-invalid={errors.userName ? 'true' : 'false'}
-                    type="text"
-                    id="name"
-                    placeholder="Type Your Name"
-                  />
-                  {errors.userName?.type === 'required' && (
-                    <p className="text-red-500 text-xs" role="alert">
-                      Name is required
-                    </p>
-                  )}
-                </div>
-                <div className="grid w-full max-w-sm items-center my-4">
-                  <Label className="text-white mb-1" htmlFor="email">
-                    Email
-                  </Label>
-                  <Input
-                    {...register('userEmail', { required: true })}
-                    aria-invalid={errors.userEmail ? 'true' : 'false'}
-                    type="email"
-                    id="email"
-                    placeholder="Type Your Email"
-                  />
-                  {errors.userEmail?.type === 'required' && (
-                    <p className="text-red-500 text-xs" role="alert">
-                      Email is required
-                    </p>
-                  )}
+    <section className="min-h-screen flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-4xl"
+      >
+        <Card className="bg-background/50 backdrop-blur-sm border-border">
+          <div className="grid lg:grid-cols-2">
+            {/* Image Section */}
+            <div className="hidden lg:block relative min-h-[500px]">
+              <Image
+                src={signupImage}
+                alt="Signup Illustration"
+                fill
+                className="object-cover rounded-l-xl"
+                priority
+              />
+            </div>
+
+            {/* Form Section */}
+            <div className="p-6 sm:p-8">
+              <CardHeader className="space-y-1 p-0">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+                  Create Account
+                </h1>
+                <p className="text-muted-foreground">
+                  Get started with your new account
+                </p>
+              </CardHeader>
+
+              <CardContent className="p-0 mt-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                  <div>
+                    <Label htmlFor="name">Name</Label>
+                    <div className="relative mt-1">
+                      <Input
+                        {...register('userName', {
+                          required: 'Name is required',
+                        })}
+                        id="name"
+                        placeholder="John Doe"
+                        className={cn(errors.userName && 'border-destructive')}
+                      />
+                      <User className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    </div>
+                    {errors.userName && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.userName.message?.toString()}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <div className="relative mt-1">
+                      <Input
+                        {...register('userEmail', {
+                          required: 'Email is required',
+                        })}
+                        id="email"
+                        placeholder="name@example.com"
+                        className={cn(errors.userEmail && 'border-destructive')}
+                      />
+                      <Mail className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    </div>
+                    {errors.userEmail && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.userEmail.message?.toString()}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label htmlFor="password">Password</Label>
+                    <div className="relative mt-1">
+                      <Input
+                        {...register('userPassword', {
+                          required: 'Password is required',
+                        })}
+                        type="password"
+                        id="password"
+                        placeholder="••••••••"
+                        className={cn(
+                          errors.userPassword && 'border-destructive',
+                        )}
+                      />
+                      <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    </div>
+                    {errors.userPassword && (
+                      <p className="text-destructive text-sm mt-1">
+                        {errors.userPassword.message?.toString()}
+                      </p>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    {isSubmitting ? 'Creating account...' : 'Sign Up'}
+                  </Button>
+                </form>
+
+                <div className="relative my-6">
+                  <Separator className="bg-border" />
+                  <span className="absolute left-1/2 -translate-x-1/2 -top-3 px-2 bg-background text-muted-foreground text-sm">
+                    OR CONTINUE WITH
+                  </span>
                 </div>
 
-                <div className="grid w-full max-w-sm items-center ">
-                  <Label className="text-white mb-1" htmlFor="password">
-                    Password
-                  </Label>
-                  <Input
-                    {...register('userPassword', { required: true })}
-                    aria-invalid={errors.userPassword ? 'true' : 'false'}
-                    type="password"
-                    id="password"
-                    placeholder="Your password"
-                  />
-                  {errors.userPassword?.type === 'required' && (
-                    <p className="text-red-500 text-xs" role="alert">
-                      Password is required
-                    </p>
-                  )}
+                <div className="flex flex-col gap-3">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => handleSocialLogin(signInWithGoogle)}
+                  >
+                    <SiGoogle className="mr-2 h-4 w-4" />
+                    Google
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => handleSocialLogin(signInWithGitHub)}
+                  >
+                    <SiGithub className="mr-2 h-4 w-4" />
+                    GitHub
+                  </Button>
                 </div>
-                <div className="mt-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white text-sm md:text-base">
-                      Already have an account{' '}
-                      <Link className="text-blue-500 underline" href="/login">
-                        Login
-                      </Link>
-                    </span>
-                    <Button type="submit" className="primary-btn">
-                      Signup
-                    </Button>
-                  </div>
-                </div>
-              </form>
-              {error && <p className="text-red-500 text-xs">{error}</p>}
-            </CardHeader>
-            <div className="flex w-28 justify-center items-centers mx-auto">
-              <Separator className="my-4" />
-              <span className="text-white mx-2">OR</span>
-              <Separator className="my-4" />
+              </CardContent>
+
+              <CardFooter className="p-0 mt-6">
+                <p className="text-center text-sm text-muted-foreground">
+                  Already have an account?{' '}
+                  <Link
+                    href="/login"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    Log in
+                  </Link>
+                </p>
+              </CardFooter>
             </div>
-            <CardFooter
-              onClick={handleGoogleSignIn}
-              className="flex flex-col w-full gap-2"
-            >
-              <Button className="w-full primary-btn">
-                <SiGoogle className="mr-2 h-4 w-4" /> Continue with Google
-              </Button>
-              <Button
-                onClick={handleGitHubSignIn}
-                className="w-full secondary-btn"
-              >
-                <SiGithub className="mr-2 h-4 w-4" /> Continue with Github
-              </Button>
-            </CardFooter>
-          </div>
-          <div className="flex-1 hidden lg:flex">
-            <Image src={loginImg} alt="login" />
           </div>
         </Card>
-      </div>
+      </motion.div>
     </section>
   );
 };
