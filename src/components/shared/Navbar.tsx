@@ -17,7 +17,12 @@ import {
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import Image from 'next/image';
-import { Sheet, SheetContent, SheetTrigger } from '@/src/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/src/components/ui/sheet';
 import CartSheet from '@/src/components/cart/CartSheet';
 import { useAppSelector } from '@/src/redux/hooks/hooks';
 import { ThemeToggle } from './ThemeToggle';
@@ -74,6 +79,7 @@ const Navbar = () => {
           </SheetTrigger>
 
           <SheetContent side="bottom" className="rounded-t-2xl h-[80vh]">
+            <SheetTitle className="sr-only">menu</SheetTitle>
             <div className="flex flex-col h-full">
               <ul className="flex-1 space-y-6 pt-8">
                 {navLinks.map((el, i) => (
@@ -149,7 +155,10 @@ const Navbar = () => {
                     asChild
                     className="px-4 py-2.5 hover:bg-muted"
                   >
-                    <Link href="/profile" className="flex items-center gap-2">
+                    <Link
+                      href="/dashboard/profiles"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
                       <User className="w-4 h-4 text-primary" />
                       <span>My Profile</span>
                     </Link>
@@ -159,7 +168,10 @@ const Navbar = () => {
                     asChild
                     className="px-4 py-2.5 hover:bg-muted"
                   >
-                    <Link href="/dashboard" className="flex items-center gap-2">
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
                       <LayoutDashboard className="w-4 h-4 text-primary" />
                       <span>Dashboard</span>
                     </Link>
@@ -250,7 +262,10 @@ const Navbar = () => {
                   asChild
                   className="px-4 py-2.5 hover:bg-muted"
                 >
-                  <Link href="/profile" className="flex items-center gap-2">
+                  <Link
+                    href="/dashboard/profiles"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <User className="w-4 h-4 text-primary" />
                     <span>My Profile</span>
                   </Link>
@@ -260,7 +275,10 @@ const Navbar = () => {
                   asChild
                   className="px-4 py-2.5 hover:bg-muted"
                 >
-                  <Link href="/dashboard" className="flex items-center gap-2">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
                     <LayoutDashboard className="w-4 h-4 text-primary" />
                     <span>Dashboard</span>
                   </Link>
@@ -270,7 +288,7 @@ const Navbar = () => {
 
                 <DropdownMenuItem
                   onClick={handleSignOut}
-                  className="px-4 py-2.5 hover:bg-muted text-red-500 focus:text-red-500"
+                  className="px-4 py-2.5 cursor-pointer hover:bg-muted text-red-500 focus:text-red-500"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
