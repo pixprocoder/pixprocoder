@@ -23,6 +23,7 @@ import { useAppSelector } from '@/src/redux/hooks/hooks';
 import { ThemeToggle } from './ThemeToggle';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FiX } from 'react-icons/fi';
+import { LayoutDashboard, LogOut, User } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -110,29 +111,70 @@ const Navbar = () => {
         <div>
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar className="border border-muted">
-                  {user?.photoURL ? (
-                    <AvatarImage src={user?.photoURL} />
-                  ) : (
-                    <AvatarFallback className="bg-muted text-foreground">
-                      {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
-                    </AvatarFallback>
-                  )}
-                </Avatar>
+              <DropdownMenuTrigger asChild>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="cursor-pointer"
+                >
+                  <Avatar className="border-2 border-transparent hover:border-primary transition-all">
+                    {user?.photoURL ? (
+                      <AvatarImage
+                        src={user.photoURL}
+                        className="object-cover"
+                      />
+                    ) : (
+                      <AvatarFallback className="bg-muted text-foreground font-medium">
+                        {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                </motion.div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-popover text-popover-foreground">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/profile/user">My Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut}>
-                  Logout
-                </DropdownMenuItem>
+
+              <DropdownMenuContent
+                align="end"
+                className="w-48 bg-background border border-border rounded-lg shadow-xl mt-2"
+              >
+                <div className="relative">
+                  {/* Dropdown arrow */}
+                  <div className="absolute -top-[9px] right-3 w-4 h-4 rotate-45 bg-background border-l border-t border-border" />
+
+                  <DropdownMenuLabel className="px-4 py-2 font-normal text-sm text-muted-foreground">
+                    {user?.displayName || user?.email || 'Welcome!'}
+                  </DropdownMenuLabel>
+
+                  <DropdownMenuSeparator className="bg-border" />
+
+                  <DropdownMenuItem
+                    asChild
+                    className="px-4 py-2.5 hover:bg-muted"
+                  >
+                    <Link href="/profile" className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-primary" />
+                      <span>My Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    asChild
+                    className="px-4 py-2.5 hover:bg-muted"
+                  >
+                    <Link href="/dashboard" className="flex items-center gap-2">
+                      <LayoutDashboard className="w-4 h-4 text-primary" />
+                      <span>Dashboard</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator className="bg-border" />
+
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="px-4 py-2.5 hover:bg-muted text-red-500 focus:text-red-500"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
@@ -173,29 +215,67 @@ const Navbar = () => {
 
         {user ? (
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar className="border border-muted">
-                {user?.photoURL ? (
-                  <AvatarImage src={user?.photoURL} />
-                ) : (
-                  <AvatarFallback className="bg-muted text-foreground">
-                    {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
-                  </AvatarFallback>
-                )}
-              </Avatar>
+            <DropdownMenuTrigger asChild>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer"
+              >
+                <Avatar className="border-2 border-transparent hover:border-primary transition-all">
+                  {user?.photoURL ? (
+                    <AvatarImage src={user.photoURL} className="object-cover" />
+                  ) : (
+                    <AvatarFallback className="bg-muted text-foreground font-medium">
+                      {user?.displayName?.slice(0, 2).toUpperCase() || 'CN'}
+                    </AvatarFallback>
+                  )}
+                </Avatar>
+              </motion.div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-popover text-popover-foreground">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/profile/user">My Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/dashboard">Dashboard</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSignOut}>
-                Logout
-              </DropdownMenuItem>
+
+            <DropdownMenuContent
+              align="end"
+              className="w-48 bg-background border border-border rounded-lg shadow-xl mt-2"
+            >
+              <div className="relative">
+                {/* Dropdown arrow */}
+                <div className="absolute -top-[9px] right-3 w-4 h-4 rotate-45 bg-background border-l border-t border-border" />
+
+                <DropdownMenuLabel className="px-4 py-2 font-normal text-sm text-muted-foreground">
+                  {user?.displayName || user?.email || 'Welcome!'}
+                </DropdownMenuLabel>
+
+                <DropdownMenuSeparator className="bg-border" />
+
+                <DropdownMenuItem
+                  asChild
+                  className="px-4 py-2.5 hover:bg-muted"
+                >
+                  <Link href="/profile" className="flex items-center gap-2">
+                    <User className="w-4 h-4 text-primary" />
+                    <span>My Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  asChild
+                  className="px-4 py-2.5 hover:bg-muted"
+                >
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard className="w-4 h-4 text-primary" />
+                    <span>Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator className="bg-border" />
+
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className="px-4 py-2.5 hover:bg-muted text-red-500 focus:text-red-500"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
