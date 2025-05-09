@@ -1,6 +1,6 @@
-"use client";
-import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
+'use client';
+import { useForm } from 'react-hook-form';
+import { Button } from './ui/button';
 const Contact = () => {
   const {
     register,
@@ -8,10 +8,10 @@ const Contact = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => {
-    console.log("the data is", data);
+    console.log('the data is', data);
   };
 
-  console.log("here I am");
+  console.log('here I am');
 
   return (
     <section id="contact-section" className="pt-8 my-40">
@@ -24,7 +24,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                 <input
-                  {...register("name", { required: true })}
+                  {...register('name', { required: true })}
                   type="text"
                   placeholder="Your Name"
                   className="input input-bordered"
@@ -32,7 +32,7 @@ const Contact = () => {
               </div>
               <div className="form-control my-2">
                 <input
-                  {...register("subject", { required: true })}
+                  {...register('subject', { required: true })}
                   type="text"
                   placeholder="subject"
                   className="input input-bordered"
@@ -40,9 +40,9 @@ const Contact = () => {
               </div>
               <div className="form-control my-2">
                 <textarea
-                  {...register("message", { required: true })}
+                  {...register('message', { required: true })}
                   placeholder="Your message"
-                  className="textarea textarea-bordered textarea-md w-full "
+                  className="textarea textarea-bordered textarea-md w-full  "
                 ></textarea>
               </div>
               <div className="form-control my-3">
@@ -72,5 +72,5 @@ const Contact = () => {
 
 export default Contact;
 function resetForm() {
-  throw new Error("Function not implemented.");
+  throw new Error('Function not implemented.');
 }

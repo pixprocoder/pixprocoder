@@ -23,6 +23,7 @@ const Hero = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
+    console.log('the quote data is : ', data);
     toast({
       title: 'Email Sent',
       description: 'I will get back to you soon.',
@@ -131,7 +132,7 @@ const Hero = () => {
                   <Input
                     type="email"
                     placeholder="Your Email"
-                    className="w-full bg-background text-foreground border-border"
+                    className="w-full  bg-background text-foreground border-border"
                     {...register('email', { required: true })}
                   />
                   {errors.email && (

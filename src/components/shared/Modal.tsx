@@ -88,7 +88,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent
           className={cn(
-            'bg-background text-foreground rounded-lg',
+            'bg-background text-foreground rounded-lg overflow-visible',
             sizeClasses[size],
             contentClassName,
           )}
@@ -123,7 +123,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
             </DialogHeader>
           )}
 
-          <DialogDescription className="max-h-[70vh] overflow-y-auto">
+          <DialogDescription className="max-h-[70vh] overflow-y-auto p-6">
             {children}
           </DialogDescription>
 
