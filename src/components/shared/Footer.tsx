@@ -1,15 +1,13 @@
 'use client';
-import Link from 'next/link';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { useForm } from 'react-hook-form';
-import { FiGithub, FiMail, FiCode } from 'react-icons/fi';
 import { motion } from 'framer-motion';
-import { FaInstagramSquare } from 'react-icons/fa';
-import { AiFillFacebook } from 'react-icons/ai';
-import { FaLinkedin } from 'react-icons/fa';
-import { FaSquareGithub } from 'react-icons/fa6';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { AiFillFacebook } from 'react-icons/ai';
+import { FaInstagramSquare, FaLinkedin } from 'react-icons/fa';
+import { FaSquareGithub } from 'react-icons/fa6';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 const Footer = () => {
   const {

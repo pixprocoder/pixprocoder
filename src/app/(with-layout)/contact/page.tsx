@@ -6,7 +6,7 @@ import { cn } from '@/src/lib/utils';
 import { getBaseURL } from '@/src/utils';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Phone, User } from 'lucide-react';
+import { LocateIcon, Mail, MessageSquare, Phone, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 function ContactPage() {
@@ -56,7 +56,7 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-medium">Email</h3>
-                <p className="text-muted-foreground">contact@example.com</p>
+                <p className="text-muted-foreground">makkobir79@gmail.com</p>
               </div>
             </div>
 
@@ -66,17 +66,17 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-medium">Phone</h3>
-                <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                <p className="text-muted-foreground">+40 772 937 317</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-full bg-primary/10">
-                <User className="w-6 h-6 text-primary" />
+                <LocateIcon className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-medium">Social</h3>
-                <p className="text-muted-foreground">LinkedIn / Twitter</p>
+                <h3 className="font-medium">Region</h3>
+                <p className="text-muted-foreground">Europe 🇪🇺</p>
               </div>
             </div>
           </div>
