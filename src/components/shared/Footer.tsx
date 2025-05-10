@@ -56,7 +56,7 @@ const Footer = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
-                href="mailto:pixprocoder@gmail.com"
+                href="https://www.instagram.com/pixprocoder"
                 className="relative group w-fit"
               >
                 <FaInstagramSquare className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -64,7 +64,7 @@ const Footer = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
-                href="mailto:pixprocoder@gmail.com"
+                href="https://www.facebook.com/pixprocoderr"
                 className="relative group w-fit"
               >
                 <AiFillFacebook className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -72,7 +72,7 @@ const Footer = () => {
                 <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
-                href="mailto:pixprocoder@gmail.com"
+                href="https://www.linkedin.com/in/pixprocoder/"
                 className="relative group w-fit"
               >
                 <FaLinkedin className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -138,9 +138,15 @@ const Footer = () => {
               >
                 <Input
                   {...register('email', { required: true })}
+                  type="email"
                   placeholder="Enter your email"
                   className="bg-background border-muted/50 focus:border-primary/50"
                 />
+                {errors.email && (
+                  <p className="text-xs text-destructive">
+                    Please enter an email
+                  </p>
+                )}
                 <Button
                   type="submit"
                   size="sm"
@@ -150,11 +156,6 @@ const Footer = () => {
                   <span className="absolute inset-0 bg-primary/10 w-0 group-hover:w-full transition-all duration-300" />
                 </Button>
               </motion.div>
-              {errors.email && (
-                <p className="text-xs text-destructive">
-                  Please enter a valid email
-                </p>
-              )}
             </form>
           </div>
         </div>
