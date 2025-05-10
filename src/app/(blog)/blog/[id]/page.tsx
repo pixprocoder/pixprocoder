@@ -113,7 +113,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
             <Link className="flex gap-2 items-center" href="/blog">
               {' '}
               <FiChevronLeft className="w-4 h-4" />
-              Back to Courses
+              Back to Blog
             </Link>
           </Button>
         </div>
