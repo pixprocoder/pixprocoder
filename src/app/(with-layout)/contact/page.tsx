@@ -91,10 +91,14 @@ function ContactPage() {
         >
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Your Email</label>
+              <label htmlFor="email" className="text-sm font-medium">
+                Your Email
+              </label>
               <div className="relative mt-1">
                 <Input
                   {...register('email', { required: 'Email is required' })}
+                  id="email"
+                  type="email"
                   className={cn('pl-10', errors.email && 'border-red-500')}
                   placeholder="name@example.com"
                 />
@@ -108,9 +112,13 @@ function ContactPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Subject</label>
+              <label htmlFor="subject" className="text-sm font-medium">
+                Subject
+              </label>
               <div className="relative mt-1">
                 <Input
+                  id="subject"
+                  type="text"
                   {...register('subject', { required: 'Subject is required' })}
                   className={cn('pl-10', errors.subject && 'border-red-500')}
                   placeholder="What's this about?"
@@ -125,9 +133,12 @@ function ContactPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Message</label>
+              <label htmlFor="message" className="text-sm font-medium">
+                Message
+              </label>
               <div className="relative mt-1">
                 <Textarea
+                  id="message"
                   {...register('message', { required: 'Message is required' })}
                   className={cn('pl-10', errors.message && 'border-red-500')}
                   rows={5}
