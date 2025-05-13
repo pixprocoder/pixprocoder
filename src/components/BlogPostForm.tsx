@@ -28,6 +28,7 @@ const BlogPostForm = () => {
       authorId: user?.uid,
       formData,
     };
+    console.log('Form data:', data);
     createPost({ data });
   };
 

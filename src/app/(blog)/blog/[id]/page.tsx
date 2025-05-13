@@ -48,6 +48,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const { isLiked } = useAppSelector((state) => state.like);
   const [sortOrder, setSortOrder] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('content');
 
   // RTK Query hooks
   const { data: post } = useGetSinglePostQuery(id);
@@ -159,17 +160,25 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
         </motion.div>
 
         {/* Content Tabs */}
-        <Tabs defaultValue="content">
-          <TabsList className="grid grid-cols-3 bg-background/50 backdrop-blur">
-            <TabsTrigger value="content">Article</TabsTrigger>
-            <TabsTrigger value="comments">
-              Comments ({comments?.data?.length || 0})
-            </TabsTrigger>
-            <TabsTrigger value="related">Related Posts</TabsTrigger>
-          </TabsList>
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => {
+            setActiveTab(value);
+            //TODO: Reset scroll position
+          }}
+        >
+          <div className="sticky top-[70px] z-40 bg-background/90 backdrop-blur-md border-b border-border">
+            <TabsList className="grid grid-cols-3 bg-transparent">
+              <TabsTrigger value="content">Article</TabsTrigger>
+              <TabsTrigger value="comments">
+                Comments ({comments?.data?.length || 0})
+              </TabsTrigger>
+              <TabsTrigger value="related">Related Posts</TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Content Tab */}
-          <TabsContent value="content" className="py-8">
+          <TabsContent value="content" key="content" className="py-8">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -193,7 +202,10 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
                 )}
                 <span>{totalLikeCount?.data?.likes || 0}</span>
               </Button>
-              <div className="flex items-center gap-2 text-muted-foreground">
+              <div
+                className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
+                onClick={() => setActiveTab('comments')}
+              >
                 <FaComment />
                 <span>{comments?.data?.length || 0} comments</span>
               </div>
@@ -204,7 +216,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
           </TabsContent>
 
           {/* Comments Tab */}
-          <TabsContent value="comments" className="py-8">
+          <TabsContent value="comments" key="comments" className="py-8">
             <div className="space-y-8">
               <CommentBox id={id} />
 
@@ -288,7 +300,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
           </TabsContent>
 
           {/* Related Posts Tab */}
-          <TabsContent value="related" className="py-8">
+          <TabsContent value="related" key="related" className="py-8">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Add related posts component here */}
             </div>

@@ -1,15 +1,14 @@
 'use client';
+import { ReactNode, forwardRef, useState } from 'react';
+import { Button, ButtonProps } from '../../components/ui/button';
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
+  DialogTrigger,
 } from '../../components/ui/dialog';
-import { Button, ButtonProps } from '../../components/ui/button';
-import { ReactNode, forwardRef, useEffect, useState } from 'react';
-import { X } from 'lucide-react';
 import { cn } from '../../lib/utils'; // Assuming you have a cn utility
 
 interface ModalProps {

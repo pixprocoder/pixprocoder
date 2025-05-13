@@ -14,6 +14,7 @@ const nextConfig = {
       'miro.medium.com',
       'fakestoreapi.com',
       'lh3.googleusercontent.com',
+      'avatars.githubusercontent.com',
     ],
   },
 };
