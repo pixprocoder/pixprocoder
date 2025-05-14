@@ -25,6 +25,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
+import Link from 'next/link';
 
 const BlogsPage = () => {
   // Mock data - replace with real data
@@ -82,9 +83,11 @@ const BlogsPage = () => {
             Manage your blog posts and content
           </p>
         </div>
-        <Button className="bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary">
-          <FiPlus className="mr-2" /> New Post
-        </Button>
+        <Link href="/dashboard/write-blog">
+          <Button className="primary-btn">
+            <FiPlus className="mr-2" /> Write New Blog
+          </Button>
+        </Link>
       </div>
 
       <Card className="border-border">

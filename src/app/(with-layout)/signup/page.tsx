@@ -31,7 +31,6 @@ const SignupPage = () => {
   useEffect(() => {
     if (user?.email) {
       router.push('/');
-      toast({ description: 'You are already signed in' });
     }
   }, [user, router, toast]);
 

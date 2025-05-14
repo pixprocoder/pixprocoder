@@ -49,7 +49,7 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
           {/* Thumbnail */}
           <div className="relative aspect-video w-full">
             <Image
-              src={blog.thumbnail || '/default-blog.png'}
+              src={blog?.thumbnail || '/web-dev.png'}
               alt={blog.title}
               fill
               className="object-cover"

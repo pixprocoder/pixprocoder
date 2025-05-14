@@ -1,22 +1,13 @@
 'use client';
-import { use, useContext, useState } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FiArrowLeft, FiChevronLeft } from 'react-icons/fi';
-import { FaHeart, FaRegHeart, FaComment, FaShare } from 'react-icons/fa6';
+import CommentBox from '@/src/app/(blog)/_components/CommentBox';
+import RenderContent from '@/src/components/RenderContent';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
+import { Badge } from '@/src/components/ui/badge';
 import { Button } from '@/src/components/ui/button';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/src/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -24,21 +15,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
-import { Badge } from '@/src/components/ui/badge';
-import { AuthContext } from '@/src/providers/AuthProviders';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
-import RenderContent from '@/src/components/RenderContent';
-import CommentBox from '@/src/app/(blog)/_components/CommentBox';
-import ShareButtons from '@/src/components/shared/ShareButtons';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentQuery,
   useGetPostLikeQuery,
   useGetSinglePostQuery,
   usePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
-import { formatDateToUTC } from '@/src/utils/FormatDate';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { formatDateToUTC } from '@/src/utils/FormatDate';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { use, useContext, useState } from 'react';
+import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { FiChevronLeft } from 'react-icons/fi';
 
 const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const { id } = use(params);
@@ -48,6 +47,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const { isLiked } = useAppSelector((state) => state.like);
   const [sortOrder, setSortOrder] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('content');
 
   // RTK Query hooks
   const { data: post } = useGetSinglePostQuery(id);
@@ -152,24 +152,32 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
         >
           <Image
             src={post?.data?.thumbnail || '/placeholder.jpg'}
-            alt={post?.data?.title}
+            alt={post?.data?.title || 'Blog Post'}
             fill
             className="object-cover"
           />
         </motion.div>
 
         {/* Content Tabs */}
-        <Tabs defaultValue="content">
-          <TabsList className="grid grid-cols-3 bg-background/50 backdrop-blur">
-            <TabsTrigger value="content">Article</TabsTrigger>
-            <TabsTrigger value="comments">
-              Comments ({comments?.data?.length || 0})
-            </TabsTrigger>
-            <TabsTrigger value="related">Related Posts</TabsTrigger>
-          </TabsList>
+        <Tabs
+          value={activeTab}
+          onValueChange={(value) => {
+            setActiveTab(value);
+            //TODO: Reset scroll position
+          }}
+        >
+          <div className="sticky top-[70px] z-40 bg-background/90 backdrop-blur-md border-b border-border">
+            <TabsList className="grid grid-cols-3 bg-transparent">
+              <TabsTrigger value="content">Article</TabsTrigger>
+              <TabsTrigger value="comments">
+                Comments ({comments?.data?.length || 0})
+              </TabsTrigger>
+              <TabsTrigger value="related">Related Posts</TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Content Tab */}
-          <TabsContent value="content" className="py-8">
+          <TabsContent value="content" key="content" className="py-8">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -193,7 +201,10 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
                 )}
                 <span>{totalLikeCount?.data?.likes || 0}</span>
               </Button>
-              <div className="flex items-center gap-2 text-muted-foreground">
+              <div
+                className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
+                onClick={() => setActiveTab('comments')}
+              >
                 <FaComment />
                 <span>{comments?.data?.length || 0} comments</span>
               </div>
@@ -204,7 +215,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
           </TabsContent>
 
           {/* Comments Tab */}
-          <TabsContent value="comments" className="py-8">
+          <TabsContent value="comments" key="comments" className="py-8">
             <div className="space-y-8">
               <CommentBox id={id} />
 
@@ -288,7 +299,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
           </TabsContent>
 
           {/* Related Posts Tab */}
-          <TabsContent value="related" className="py-8">
+          <TabsContent value="related" key="related" className="py-8">
             <div className="grid md:grid-cols-2 gap-6">
               {/* Add related posts component here */}
             </div>
