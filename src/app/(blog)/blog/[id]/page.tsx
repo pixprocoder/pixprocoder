@@ -1,22 +1,13 @@
 'use client';
-import { use, useContext, useState } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FiArrowLeft, FiChevronLeft } from 'react-icons/fi';
-import { FaHeart, FaRegHeart, FaComment, FaShare } from 'react-icons/fa6';
+import CommentBox from '@/src/app/(blog)/_components/CommentBox';
+import RenderContent from '@/src/components/RenderContent';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
+import { Badge } from '@/src/components/ui/badge';
 import { Button } from '@/src/components/ui/button';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/src/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -24,21 +15,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
-import { Badge } from '@/src/components/ui/badge';
-import { AuthContext } from '@/src/providers/AuthProviders';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
-import RenderContent from '@/src/components/RenderContent';
-import CommentBox from '@/src/app/(blog)/_components/CommentBox';
-import ShareButtons from '@/src/components/shared/ShareButtons';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentQuery,
   useGetPostLikeQuery,
   useGetSinglePostQuery,
   usePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
-import { formatDateToUTC } from '@/src/utils/FormatDate';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
+import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { formatDateToUTC } from '@/src/utils/FormatDate';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { use, useContext, useState } from 'react';
+import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { FiChevronLeft } from 'react-icons/fi';
 
 const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const { id } = use(params);
@@ -153,7 +152,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
         >
           <Image
             src={post?.data?.thumbnail || '/placeholder.jpg'}
-            alt={post?.data?.title}
+            alt={post?.data?.title || 'Blog Post'}
             fill
             className="object-cover"
           />
