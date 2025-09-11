@@ -13,13 +13,17 @@ I'm a passionate Full-stack Software Engineer with expertise in modern web techn
 
 ### Frontend
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Svelte](https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00)
+![SvelteKit](https://img.shields.io/badge/SvelteKit-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![MDX](https://img.shields.io/badge/MDX-1B1F24?style=for-the-badge&logo=mdx&logoColor=white)
 
 ### Backend & Database
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-ffaa00?style=for-the-badge&logo=Firebase&logoColor=white)
+![Convex](https://img.shields.io/badge/Convex-000000?style=for-the-badge&logo=convex&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
@@ -49,7 +53,7 @@ I'm a passionate Full-stack Software Engineer with expertise in modern web techn
 - 💼 Professional updates on [LinkedIn](https://www.linkedin.com/in/pixprocoder/)
 - 🏓 Creative coding experiments on [Codepen](https://codepen.io/pixprocoder)
 - 📸 Design and development snippets on [Instagram](https://instagram.com/pixprocoder)
-- 🌐 Check out my portfolio at [pixprocoder.com](https://pixprocoder.com)
+- 🌐 Check out my portfolio at [pixprocoder.com](https://pixprocoder.vercel.app)
 
 ## 🛠️ Getting Started
 
@@ -63,10 +67,10 @@ git clone https://github.com/pixprocoder/pixprocoder.git
 cd pixprocoder
 
 # Install dependencies
-npm install
+bun install
 
 # Run the development server
-npm run dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the website.
@@ -74,3 +78,4 @@ Open [http://localhost:3000](http://localhost:3000) to view the website.
 ## 📄 License
 
 This project is proprietary and for personal use. All rights reserved.
+
