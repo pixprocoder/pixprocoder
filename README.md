@@ -48,13 +48,6 @@ I'm a passionate Full-stack Software Engineer with expertise in modern web techn
 - Exploring advanced Next.js patterns and optimizations
 - Contributing to open-source projects
 
-## 📫 Let's Connect!
-
-- 💼 Professional updates on [LinkedIn](https://www.linkedin.com/in/pixprocoder/)
-- 🏓 Creative coding experiments on [Codepen](https://codepen.io/pixprocoder)
-- 📸 Design and development snippets on [Instagram](https://instagram.com/pixprocoder)
-- 🌐 Check out my portfolio at [pixprocoder.com](https://pixprocoder.vercel.app)
-
 ## 🛠️ Getting Started
 
 To run this project locally:
