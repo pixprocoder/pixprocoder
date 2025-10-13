@@ -1,11 +1,11 @@
 # Hola! 👋 I'm Md Samsul Kobir 
 
-[![Website](https://img.shields.io/badge/Website-pixprocoder-blue)](https://pixprocoder.vercel.app)
+[![Website](https://img.shields.io/badge/Website-pixprocoder-blue)](https://pixprocoder.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-pixprocoder-blue)](https://www.linkedin.com/in/pixprocoder/)
 [![Codepen](https://img.shields.io/badge/Codepen-pixprocoder-black)](https://codepen.io/pixprocoder)
 [![Instagram](https://img.shields.io/badge/Instagram-pixprocoder-E4405F?logo=instagram&logoColor=white)](https://instagram.com/pixprocoder)
 
-I'm a passionate Full-stack Software Engineer with expertise in modern web technologies. I enjoy creating dynamic, responsive, and user-friendly web applications.
+The Technical founder of [pixprocoder-studio](https://pixprocoder-studio.com). and I am a passionate Full-stack Software Engineer with expertise in modern web technologies. I enjoy creating dynamic, responsive, and user-friendly web applications.
 
 ## 🚀 Technologies & Tools
 
