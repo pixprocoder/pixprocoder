@@ -1,4 +1,5 @@
 'use client';
+import axios from 'axios';
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -9,14 +10,13 @@ import {
   signOut,
 } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { getBaseURL } from '../utils';
-import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage';
 import { authKey } from '../constants/storageKey';
-import { removeUserInfo } from '../helpers/auth.helper';
-import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
 import { Role } from '../enums';
 import { auth } from '../firebase/firebase.init';
+import { removeUserInfo } from '../helpers/auth.helper';
+import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
+import { getBaseURL } from '../utils';
+import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage';
 
 export const AuthContext = createContext<any>(null);
 const googleProvider = new GoogleAuthProvider();

@@ -1,6 +1,5 @@
 'use client';
 import { Button } from '@/src/components/ui/button';
-import loginImg from '../../../assets/login.svg';
 import {
   Card,
   CardContent,
@@ -10,17 +9,18 @@ import {
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Separator } from '@/src/components/ui/separator';
-import Image from 'next/image';
-import { SiGithub, SiGoogle } from 'react-icons/si';
-import Link from 'next/link';
-import { useContext, useEffect } from 'react';
-import { AuthContext } from '@/src/providers/AuthProviders';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/src/components/ui/use-toast';
-import { motion } from 'framer-motion';
 import { cn } from '@/src/lib/utils';
-import { Loader2, Mail, Lock } from 'lucide-react';
+import { AuthContext } from '@/src/providers/AuthProviders';
+import { motion } from 'framer-motion';
+import { Loader2, Lock, Mail } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { SiGithub, SiGoogle } from 'react-icons/si';
+import loginImg from '../../../assets/login.svg';
 
 const LoginPage = () => {
   const { signIn, user, signInWithGoogle, signInWithGitHub } =

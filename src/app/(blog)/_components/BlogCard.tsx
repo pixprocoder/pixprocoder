@@ -1,20 +1,15 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { FaLongArrowAltRight } from 'react-icons/fa';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
 import { Badge } from '@/src/components/ui/badge';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/src/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/src/components/ui/card';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaLongArrowAltRight } from 'react-icons/fa';
 
 interface BlogCardProps {
   blog: any;
@@ -22,7 +17,6 @@ interface BlogCardProps {
 }
 
 export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
-  console.log(blog);
   if (isLoading) {
     return (
       <Card className="h-full overflow-hidden border-border bg-background/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
@@ -60,7 +54,7 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
           {/* Content */}
           <div className="p-6 space-y-4">
             {/* Tags */}
-            {blog.tags?.length > 0 && (
+            {/* {blog.tags?.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {blog.tags.map((tag: string) => (
                   <Badge
@@ -72,38 +66,44 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
                   </Badge>
                 ))}
               </div>
-            )}
-
-            {/* Title */}
-            <h3 className="text-xl font-semibold line-clamp-2">{blog.title}</h3>
-
-            {/* Excerpt */}
-            <p className="text-muted-foreground line-clamp-3">{blog.excerpt}</p>
-
+            )} */}
             {/* Author and Date */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Avatar className="h-6 w-6">
-                  <AvatarImage src={blog.author?.avatar || '/profile.png'} />
-                  <AvatarFallback>{blog.author?.name[0]}</AvatarFallback>
+                  <AvatarImage src={'/profile.png'} />
+                  <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
                 </Avatar>
-                <span>{blog.author?.name || 'Samsul Kobir'}</span>
+                <span>{blog.author || 'Samsul Kobir'}</span>
               </div>
-              <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
+              <span>{new Date(blog.date).toLocaleDateString()}</span>
             </div>
+
+            {/* Title */}
+            <Link
+              href={`/blog/${blog.slug}`}
+              className="text-xl font-semibold line-clamp-2
+               hover:text-primary/80 transition-colors hover:underline
+              "
+            >
+              {blog.title}
+            </Link>
+
+            {/* Excerpt */}
+            <p className="text-muted-foreground line-clamp-3">{blog.excerpt}</p>
           </div>
         </CardContent>
 
         {/* Read More */}
-        <CardFooter className="border-t p-6">
+        {/* <CardFooter className="border-t p-6">
           <Link
-            href={`/blog/${blog.id}`}
+            href={`/blog/${blog.slug}`}
             className="group flex w-full items-center justify-between text-primary hover:text-primary/80 transition-colors"
           >
             <span>Continue Reading</span>
             <FaLongArrowAltRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </motion.div>
   );

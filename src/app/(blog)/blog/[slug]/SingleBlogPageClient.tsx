@@ -1,6 +1,7 @@
 'use client';
+
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
-import RenderContent from '@/src/components/RenderContent';
+import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
 import {
   Avatar,
   AvatarFallback,
@@ -38,9 +39,16 @@ import Link from 'next/link';
 import { use, useContext, useState } from 'react';
 import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { FiChevronLeft } from 'react-icons/fi';
+import { BlogPost } from '@/src/lib/blog-helpers';
+import SocialShareButtons from '@/src/components/SocialShareButtons';
 
-const SingleBlogPage = ({ params }: { params: { id: string } }) => {
-  const { id } = use(params);
+interface SingleBlogPageClientProps {
+  blogPost: BlogPost;
+}
+
+export default function SingleBlogPageClient({
+  blogPost,
+}: SingleBlogPageClientProps) {
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
   const dispatch = useAppDispatch();
@@ -49,15 +57,19 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('content');
 
-  // RTK Query hooks
-  const { data: post } = useGetSinglePostQuery(id);
+  // Use the existing API for comments and likes
+  // We need to map the MDX blog slug to the database ID for API calls
+  // For now, we'll use the slug, but in a real implementation you would map this
+  // to an actual database ID or keep a mapping between slugs and DB IDs
+  const postIdForApi = blogPost.meta.slug || blogPost.slug;
+
   const { data: comments } = useGetCommentQuery({
-    id,
+    id: postIdForApi,
     sort: sortOrder,
     page: currentPage,
     limit: 10,
   });
-  const { data: totalLikeCount } = useGetPostLikeQuery(id);
+  const { data: totalLikeCount } = useGetPostLikeQuery(postIdForApi);
   const [postLike, { isLoading: isLikeLoading }] = usePostLikeMutation();
 
   const handleLike = async () => {
@@ -68,7 +80,7 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
 
     try {
       const result = await postLike({
-        id,
+        id: blogPost.slug,
         data: {
           liked: !isLiked,
           userId: user.uid,
@@ -120,28 +132,38 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
 
         {/* Article Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent mb-4">
-            {post?.data?.title}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent mb-4">
+            {blogPost.meta.title}
           </h1>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
               <Avatar className="w-10 h-10">
                 <AvatarImage src="/profile.png" />
                 <AvatarFallback>SK</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">Samsul Kobir</p>
+                <p className="font-medium">{blogPost.meta.author}</p>
                 <p className="text-sm text-muted-foreground">
-                  {post?.data?.createdAt &&
-                    formatDateToUTC(post.data.createdAt)}
+                  {blogPost.meta.date && formatDateToUTC(blogPost.meta.date)}
                 </p>
               </div>
             </div>
-            {/* <ShareButtons
-              url={`https://www.pixprocoder.com/blog/${id}`}
-              title={post?.data?.title}
-              description={post?.data?.excerpt}
-            /> */}
+
+            {/* Social Share Buttons */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground mr-2 hidden sm:block">
+                Share:
+              </span>
+              <SocialShareButtons
+                url={
+                  typeof window !== 'undefined'
+                    ? window.location.href
+                    : `https://www.pixprocoder.com/blog/${blogPost.meta.slug}`
+                }
+                title={blogPost.meta.title}
+                description={blogPost.meta.excerpt}
+              />
+            </div>
           </div>
         </div>
 
@@ -151,8 +173,8 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
           className="relative aspect-video rounded-xl overflow-hidden border border-border mb-8"
         >
           <Image
-            src={post?.data?.thumbnail || '/placeholder.jpg'}
-            alt={post?.data?.title || 'Blog Post'}
+            src={blogPost.meta.thumbnail || '/web-dev.png'}
+            alt={blogPost.meta.title || 'Blog Post'}
             fill
             className="object-cover"
           />
@@ -183,41 +205,96 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
               animate={{ opacity: 1 }}
               className="prose dark:prose-invert max-w-none"
             >
-              <RenderContent content={post?.data?.content} />
+              <BlogContentRenderer code={blogPost.content} />
             </motion.div>
 
             {/* Like & Stats Section */}
-            <div className="mt-8 flex items-center gap-6 border-t border-border pt-6">
-              <Button
-                variant="outline"
-                onClick={handleLike}
-                className="gap-2 hover:bg-primary/10"
-                disabled={isLikeLoading}
-              >
-                {isLiked ? (
-                  <FaHeart className="text-red-500" />
-                ) : (
-                  <FaRegHeart className="text-muted-foreground" />
-                )}
-                <span>{totalLikeCount?.data?.likes || 0}</span>
-              </Button>
-              <div
-                className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
-                onClick={() => setActiveTab('comments')}
-              >
-                <FaComment />
-                <span>{comments?.data?.length || 0} comments</span>
+            <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-t border-border pt-6">
+              <div className="flex flex-wrap items-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={handleLike}
+                  className="gap-2 hover:bg-primary/10"
+                  disabled={isLikeLoading}
+                >
+                  {isLiked ? (
+                    <FaHeart className="text-red-500" />
+                  ) : (
+                    <FaRegHeart className="text-muted-foreground" />
+                  )}
+                  <span>{totalLikeCount?.data?.likes || 0}</span>
+                </Button>
+                <div
+                  className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
+                  onClick={() => setActiveTab('comments')}
+                >
+                  <FaComment />
+                  <span>{comments?.data?.length || 0} comments</span>
+                </div>
               </div>
-              <Badge variant="outline" className="capitalize">
-                {post?.data?.category || 'general'}
-              </Badge>
+
+              {blogPost.meta.tags && blogPost.meta.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {blogPost.meta.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="capitalize">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Responsive iframe styles */}
+            <style jsx global>{`
+              .prose iframe {
+                width: 100%;
+                aspect-ratio: 16/9;
+                height: auto;
+                max-height: 600px;
+              }
+
+              .prose .video-container {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                padding-top: 56.25%; /* 16:9 Aspect Ratio */
+              }
+
+              .prose .video-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+              }
+
+              /* Responsive container for other embeds */
+              .prose .responsive-embed {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                height: 0;
+                padding-top: 56.25%; /* 16:9 Aspect Ratio */
+              }
+
+              .prose .responsive-embed iframe,
+              .prose .responsive-embed object,
+              .prose .responsive-embed embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 0;
+              }
+            `}</style>
           </TabsContent>
 
           {/* Comments Tab */}
           <TabsContent value="comments" key="comments" className="py-8">
             <div className="space-y-8">
-              <CommentBox id={id} />
+              <CommentBox id={blogPost.slug} />
 
               <div className="flex items-center justify-between">
                 <Select
@@ -308,6 +385,6 @@ const SingleBlogPage = ({ params }: { params: { id: string } }) => {
       </motion.div>
     </div>
   );
-};
+}
 
-export default SingleBlogPage;
+

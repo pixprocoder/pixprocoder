@@ -2,6 +2,7 @@
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
+import { useToast } from '@/src/components/ui/use-toast';
 import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
 import { getBaseURL } from '@/src/utils';
@@ -13,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from 'react-icons/fa';
 
 function ContactPage() {
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -20,13 +22,12 @@ function ContactPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       const res = await axios.post(`${getBaseURL()}/contact`, data);
       if (res.status === 200) {
+        toast({ description: 'Message sent successful 🎉' });
         reset();
-        // Consider adding toast notification here
-        alert('Message sent successfully 🎉');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -34,7 +35,8 @@ function ContactPage() {
     }
   };
 
-  const formatNumber = (number) => {
+  // Format number for whatsapp
+  const formatNumber = (number: string) => {
     return number.replace(/\s+/g, '');
   };
 
