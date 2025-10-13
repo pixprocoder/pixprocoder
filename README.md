@@ -1,6 +1,4 @@
-![GitHub Banner](/public/GitHub-Banner-image.jpg)
-
-# Hi there 👋 I'm Samsul Kobir (pixprocoder)
+# Hola! 👋 I'm Md Samsul Kobir 
 
 [![Website](https://img.shields.io/badge/Website-pixprocoder-blue)](https://pixprocoder.vercel.app)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-pixprocoder-blue)](https://www.linkedin.com/in/pixprocoder/)
