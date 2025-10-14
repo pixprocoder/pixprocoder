@@ -1,7 +1,9 @@
 'use client';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { SiUpwork } from 'react-icons/si';
 import { TbBrandFiverr } from 'react-icons/tb';
 import banner from '../assets/images/banner.png';
@@ -11,8 +13,6 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useToast } from './ui/use-toast';
-import { motion } from 'framer-motion';
-import { FiArrowUpRight } from 'react-icons/fi';
 
 const Hero = () => {
   const { toast } = useToast();
@@ -74,7 +74,7 @@ const Hero = () => {
               >
                 Owner & CEO of{' '}
                 <Link
-                  href="https://pixprocoder-studio.vercel.app/"
+                  href="https://pixprocoder-studio.com/"
                   target="_blank"
                   className="hover:text-primary transition-colors bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-medium"
                 >

@@ -2,14 +2,19 @@
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
+import { useToast } from '@/src/components/ui/use-toast';
+import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
 import { getBaseURL } from '@/src/utils';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { LocateIcon, Mail, MessageSquare, Phone, User } from 'lucide-react';
+import { LocateIcon, Mail, MessageSquare, Phone } from 'lucide-react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { FaWhatsapp } from 'react-icons/fa';
 
 function ContactPage() {
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
@@ -17,18 +22,22 @@ function ContactPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       const res = await axios.post(`${getBaseURL()}/contact`, data);
       if (res.status === 200) {
+        toast({ description: 'Message sent successful 🎉' });
         reset();
-        // Consider adding toast notification here
-        alert('Message sent successfully 🎉');
       }
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to send message');
     }
+  };
+
+  // Format number for whatsapp
+  const formatNumber = (number: string) => {
+    return number.replace(/\s+/g, '');
   };
 
   return (
@@ -56,7 +65,12 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-medium">Email</h3>
-                <p className="text-muted-foreground">makkobir79@gmail.com</p>
+                <Link
+                  href={`mailto:${contactInfo.email}`}
+                  className="text-muted-foreground"
+                >
+                  {contactInfo.email}
+                </Link>
               </div>
             </div>
 
@@ -66,7 +80,26 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-medium">Phone</h3>
-                <p className="text-muted-foreground">+40 772 937 317</p>
+                <Link
+                  href={`tel:${contactInfo.phone}`}
+                  className="text-muted-foreground"
+                >
+                  {contactInfo.phone}
+                </Link>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-full bg-primary/10">
+                <FaWhatsapp className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium">WhatsApp</h3>
+                <Link
+                  href={`https://wa.me/${formatNumber(contactInfo.whatsapp!)}`}
+                  className="text-muted-foreground"
+                >
+                  {contactInfo.whatsapp}
+                </Link>
               </div>
             </div>
 
