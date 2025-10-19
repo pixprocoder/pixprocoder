@@ -2,6 +2,7 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
+import SocialShareButtons from '@/src/components/SocialShareButtons';
 import {
   Avatar,
   AvatarFallback,
@@ -23,12 +24,12 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
+import { BlogPost } from '@/src/lib/blog-helpers';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import {
-  useGetCommentQuery,
-  useGetPostLikeQuery,
-  useGetSinglePostQuery,
-  usePostLikeMutation,
+  useGetCommentsQuery,
+  useGetPostLikesQuery,
+  useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
 import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
@@ -36,11 +37,9 @@ import { formatDateToUTC } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { use, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { FiChevronLeft } from 'react-icons/fi';
-import { BlogPost } from '@/src/lib/blog-helpers';
-import SocialShareButtons from '@/src/components/SocialShareButtons';
 
 interface SingleBlogPageClientProps {
   blogPost: BlogPost;
@@ -58,42 +57,49 @@ export default function SingleBlogPageClient({
   const [activeTab, setActiveTab] = useState('content');
 
   // Use the existing API for comments and likes
-  // We need to map the MDX blog slug to the database ID for API calls
-  // For now, we'll use the slug, but in a real implementation you would map this
-  // to an actual database ID or keep a mapping between slugs and DB IDs
   const postIdForApi = blogPost.meta.slug || blogPost.slug;
 
-  const { data: comments } = useGetCommentQuery({
-    id: postIdForApi,
+  const { data: comments } = useGetCommentsQuery({
+    postId: postIdForApi,
     sort: sortOrder,
     page: currentPage,
     limit: 10,
   });
-  const { data: totalLikeCount } = useGetPostLikeQuery(postIdForApi);
-  const [postLike, { isLoading: isLikeLoading }] = usePostLikeMutation();
+  // const { data: totalLikeCount } = useGetPostLikesQuery(postIdForApi);
+  const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
+
+  // TODO: UPDATE WITH REDUX
+  const [totalLikeCount, setTotalLikeCount] = useState(0);
+  console.log(totalLikeCount);
 
   const handleLike = async () => {
+    // user cannot like if the're not loggedIn
     if (!user?.uid) {
       toast({ description: 'Please login to like posts' });
       return;
     }
+    console.log('isliked', isLiked);
 
     try {
       const result = await postLike({
-        id: blogPost.slug,
+        postId: blogPost.slug,
         data: {
-          liked: !isLiked,
           userId: user.uid,
+          isLiked,
         },
       }).unwrap();
+
+      // updated like count
+      setTotalLikeCount(result?.data?.data?.[0]?.likeCount);
 
       if ('error' in result) {
         throw new Error(result.error);
       }
 
+      // Toggle the like state in Redux
       dispatch(
-        result.data?.isLiked !== undefined
-          ? setLike(result.data.isLiked)
+        result.data?.liked !== undefined
+          ? setLike(result.data.liked)
           : toggleLike(),
       );
     } catch (error) {
@@ -222,7 +228,7 @@ export default function SingleBlogPageClient({
                   ) : (
                     <FaRegHeart className="text-muted-foreground" />
                   )}
-                  <span>{totalLikeCount?.data?.likes || 0}</span>
+                  <span>{totalLikeCount || 0}</span>
                 </Button>
                 <div
                   className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
@@ -386,5 +392,3 @@ export default function SingleBlogPageClient({
     </div>
   );
 }
-
-

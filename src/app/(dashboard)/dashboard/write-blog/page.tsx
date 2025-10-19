@@ -1,5 +1,4 @@
 'use client';
-import BlogPostForm from '@/src/components/BlogPostForm';
 import AdminRoute from '@/src/routes/AdminRoute';
 import PrivateRoute from '@/src/routes/PrivateRoute';
 
@@ -13,7 +12,6 @@ const page = () => {
           </h1>
 
           {/* BlogPostForm */}
-          <BlogPostForm></BlogPostForm>
         </div>
       </AdminRoute>
     </PrivateRoute>

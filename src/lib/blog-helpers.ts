@@ -8,7 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-const BLOG_DIR = path.join(process.cwd(), 'content');
+const BLOG_DIR = path.join(process.cwd(), '/src/content');
 
 export interface BlogPostMeta {
   title: string;
@@ -34,8 +34,9 @@ export function getAllBlogPostPaths(): string[] {
   return filePaths.map((filePath) => {
     const relativePath = path.relative(BLOG_DIR, filePath).replace(/\\/g, '/');
     const parts = relativePath.split('/');
-    const slug = parts.slice(0, -1).join('/');
-    return slug;
+    const directoryBasedSlug = parts.slice(0, -1).join('/');
+    const dateAndTitleSlug = directoryBasedSlug.replace(/\//g, '-');
+    return dateAndTitleSlug;
   });
 }
 
@@ -43,7 +44,20 @@ export async function getBlogPostBySlug(
   slug: string,
 ): Promise<BlogPost | null> {
   try {
-    const filePath = path.join(BLOG_DIR, slug, 'page.mdx');
+    // Convert the date-title format (2025-10-slug) back to directory format (2025/10/slug)
+    // Only convert the first 2 dashes (for year and month) to slashes
+    const parts = slug.split('-');
+    if (parts.length < 3) {
+      // If there are fewer than 3 parts, we can't have a year-month-slug format
+      console.error(`Invalid slug format: ${slug}`);
+      return null;
+    }
+    // Take the first two parts (year and month) and join them with slashes,
+    // then join the rest as the folder name
+    const yearMonth = parts.slice(0, 2).join('/');
+    const folderName = parts.slice(2).join('-');
+    const directoryPath = `${yearMonth}/${folderName}`;
+    const filePath = path.join(BLOG_DIR, directoryPath, 'page.mdx');
 
     await fsPromises.access(filePath);
     const source = await fsPromises.readFile(filePath, 'utf8');
@@ -93,13 +107,30 @@ export async function getBlogPostBySlug(
       content: code,
     };
   } catch (error) {
+    // Convert the date-title format (2025-10-slug) back to directory format (2025/10/slug)
+    // Only convert the first 2 dashes (for year and month) to slashes
+    const parts = slug.split('-');
+    if (parts.length < 3) {
+      // If there are fewer than 3 parts, we can't have a year-month-slug format
+      const directoryPath = slug.replace(/-/g, '/');
+    } else {
+      // Take the first two parts (year and month) and join them with slashes,
+      // then join the rest as the folder name
+      const yearMonth = parts.slice(0, 2).join('/');
+      const folderName = parts.slice(2).join('-');
+      var directoryPath = `${yearMonth}/${folderName}`;
+    }
+
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
       console.error(
-        `Blog post not found: ${path.join(BLOG_DIR, slug, 'page.mdx')}`,
+        `Blog post not found: ${path.join(BLOG_DIR, directoryPath, 'page.mdx')}`,
       );
       return null;
     }
-    console.error(`Error reading blog post ${slug}:`, error);
+    console.error(
+      `Error reading blog post ${slug} (path: ${directoryPath}):`,
+      error,
+    );
     return null;
   }
 }
@@ -111,7 +142,23 @@ export async function getAllBlogPostsMeta(): Promise<
   const posts = [];
 
   for (const blogPath of paths) {
-    const filePath = path.join(BLOG_DIR, blogPath, 'page.mdx');
+    // Convert the date-title format back to directory format to find the file
+    // Only convert the first 2 dashes (for year and month) to slashes
+    const parts = blogPath.split('-');
+    let directoryPath;
+
+    if (parts.length < 3) {
+      // If there are fewer than 3 parts, convert all dashes to slashes
+      directoryPath = blogPath.replace(/-/g, '/');
+    } else {
+      // Take the first two parts (year and month) and join them with slashes,
+      // then join the rest as the folder name
+      const yearMonth = parts.slice(0, 2).join('/');
+      const folderName = parts.slice(2).join('-');
+      directoryPath = `${yearMonth}/${folderName}`;
+    }
+
+    const filePath = path.join(BLOG_DIR, directoryPath, 'page.mdx');
 
     try {
       await fsPromises.access(filePath);
