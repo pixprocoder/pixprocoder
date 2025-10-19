@@ -32,14 +32,13 @@ function CommentBox({ id }: { id: string }) {
       return;
     }
 
-    const postId = id;
-    const options = {
-      postId,
-      author: user?.email,
-      content: comment,
-    };
-
-    postComment({ id: postId, data: options });
+    postComment({ 
+      postId: id, 
+      data: { 
+        content: comment,
+        authorId: user?.uid  // Using user ID instead of email to match Prisma schema
+      } 
+    });
     setTimeout(() => {
       toast({
         title: 'Congratulations 🎉',

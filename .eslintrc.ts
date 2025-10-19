@@ -16,6 +16,7 @@ module.exports = {
     'plugin:react/recommended', // React-specific rules
     'plugin:react/jsx-runtime', // Prevent issues with the new JSX runtime
     'plugin:next/recommended', // Next.js-specific rules
+    'next/core-web-vitals',
   ],
   rules: {
     'react/jsx-uses-react': 'off', // Disable old JSX runtime rule

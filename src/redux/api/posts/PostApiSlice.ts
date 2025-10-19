@@ -4,18 +4,25 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const PostApiSlice = createApi({
   reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({ baseUrl: getBaseURL() }),
-  tagTypes: ['comment', 'postLike', 'post'],
+  tagTypes: ['Comment', 'Like', 'Post'],
   endpoints: (builder) => ({
-    // get posts
+    // Get all posts
     getPosts: builder.query({
       query: () => '/posts',
       transformResponse: (response: any) => {
         return response.data;
       },
-      providesTags: ['post'],
+      providesTags: ['Post'],
     }),
+
+    // Get single post by ID or slug
     getSinglePost: builder.query({
       query: (id) => `/posts/${id}`,
+    }),
+
+    // Get post by slug specifically
+    getPostBySlug: builder.query({
+      query: (slug) => `/posts/slug/${slug}`,
     }),
 
     // Create Post
@@ -27,34 +34,55 @@ export const PostApiSlice = createApi({
           body,
         };
       },
+      invalidatesTags: ['Post'],
     }),
 
-    // PostLike endpoint
-    postLike: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/posts/like/${id}`,
+    // Like endpoints
+    togglePostLike: builder.mutation({
+      query: ({ postId, data }) => ({
+        url: `/posts/like/${postId}`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['postLike'],
-    }),
-    getPostLike: builder.query({
-      query: (id) => `/posts/${id}`,
-      providesTags: ['postLike'],
+      invalidatesTags: ['Post'],
     }),
 
-    //  Comments
+    getPostLikes: builder.query({
+      query: (postId) => `/posts/${postId}/likes`,
+      providesTags: ['Like'],
+    }),
+
+    // Comment endpoints
     postComment: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `/posts/comment/${id}`,
+      query: ({ postId, data }) => ({
+        url: `/posts/${postId}/comments`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['comment'],
+      invalidatesTags: ['Comment'],
     }),
-    getComment: builder.query({
-      query: ({ id, sort }) => `/posts/comment/${id}?sort=${sort}`,
-      providesTags: ['comment'],
+
+    getComments: builder.query({
+      query: ({ postId, sort = 'desc', page = 1, limit = 10 }) =>
+        `/posts/${postId}/comments?sort=${sort}&page=${page}&limit=${limit}`,
+      providesTags: ['Comment'],
+    }),
+
+    updateComment: builder.mutation({
+      query: ({ commentId, data }) => ({
+        url: `/comments/${commentId}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Comment'],
+    }),
+
+    deleteComment: builder.mutation({
+      query: (commentId) => ({
+        url: `/comments/${commentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Comment'],
     }),
   }),
 });
@@ -62,9 +90,12 @@ export const PostApiSlice = createApi({
 export const {
   useGetPostsQuery,
   useGetSinglePostQuery,
-  useGetCommentQuery,
+  useGetPostBySlugQuery,
+  useGetCommentsQuery,
   usePostCommentMutation,
-  usePostLikeMutation,
-  useGetPostLikeQuery,
+  useTogglePostLikeMutation,
+  useGetPostLikesQuery,
+  useUpdateCommentMutation,
+  useDeleteCommentMutation,
   useCreatePostMutation,
 } = PostApiSlice;

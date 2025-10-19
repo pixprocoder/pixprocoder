@@ -45,7 +45,7 @@ export function Pre({ children, ...props }: PreProps) {
         >
           {displayLanguage}
         </span>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className=" opacity-80 group-hover:opacity-100 transition-opacity">
           <CopyButton value={codeContent || ''} />
         </div>
       </div>
