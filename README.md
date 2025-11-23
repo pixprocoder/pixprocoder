@@ -1,4 +1,4 @@
-# Hola! 👋 I'm Md Samsul Kobir 
+# Hola! 👋 It's Sam 
 
 [![Website](https://img.shields.io/badge/Website-pixprocoder-blue)](https://pixprocoder.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-pixprocoder-blue)](https://www.linkedin.com/in/pixprocoder/)
