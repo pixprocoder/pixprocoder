@@ -28,7 +28,6 @@ import { BlogPost } from '@/src/lib/blog-helpers';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentsQuery,
-  useGetPostLikesQuery,
   useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
 import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
@@ -138,10 +137,7 @@ export default function SingleBlogPageClient({
 
         {/* Article Header */}
         <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent mb-4">
-            {blogPost.meta.title}
-          </h1>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex  items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Avatar className="w-10 h-10">
                 <AvatarImage src="/profile.png" />

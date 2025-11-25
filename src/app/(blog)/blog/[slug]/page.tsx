@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import SingleBlogPageClient from './SingleBlogPageClient';
 
 export default async function SingleBlogPage({ params }: { params: any }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   // Try to find by searching through all blog posts for a matching slug in frontmatter
   const allBlogPosts = await getAllBlogPosts();
