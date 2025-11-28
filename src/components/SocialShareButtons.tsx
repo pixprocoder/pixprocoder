@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/src/components/ui/button';
+import { useEffect, useRef, useState } from 'react';
 import {
-  FaShareAlt,
-  FaLinkedin,
   FaFacebookF,
   FaInstagram,
+  FaLinkedin,
+  FaShareAlt,
 } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 

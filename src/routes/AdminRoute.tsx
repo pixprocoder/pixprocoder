@@ -1,10 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
 import { useContext } from 'react';
 import { AuthContext } from '../providers/AuthProviders';
-import { Role } from '../enums';
 
 const AdminRoute = ({ children }: { children: any }) => {
   const router = useRouter();

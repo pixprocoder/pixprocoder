@@ -1,7 +1,7 @@
 'use client';
-import { testimonials } from '../constants';
 import { motion } from 'framer-motion';
 import { FiArrowRight, FiStar } from 'react-icons/fi';
+import { testimonials } from '../constants';
 
 const Testimonials = () => {
   // Duplicate testimonials array to create an infinite loop effect
