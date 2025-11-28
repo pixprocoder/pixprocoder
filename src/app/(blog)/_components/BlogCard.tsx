@@ -4,12 +4,10 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { Badge } from '@/src/components/ui/badge';
-import { Card, CardContent, CardFooter } from '@/src/components/ui/card';
+import { Card, CardContent } from '@/src/components/ui/card';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaLongArrowAltRight } from 'react-icons/fa';
 
 interface BlogCardProps {
   blog: any;

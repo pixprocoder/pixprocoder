@@ -1,14 +1,14 @@
+import { cache } from 'react';
+import path from 'path';
 import { promises as fsPromises } from 'fs';
-import { glob } from 'glob';
 import grayMatter from 'gray-matter';
 import { bundleMDX } from 'mdx-bundler';
-import path from 'path';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 
-const BLOG_DIR = path.join(process.cwd(), '/src/content');
+const BLOG_DIR = path.join(process.cwd(), 'src/content');
 
 export interface BlogPostMeta {
   title: string;
@@ -25,149 +25,148 @@ export interface BlogPost {
   slug: string;
   meta: BlogPostMeta;
   content: string;
+  filePath?: string;
 }
 
+// Get all blog post paths by walking the directory tree
 export function getAllBlogPostPaths(): string[] {
-  const pattern = path.join(BLOG_DIR, '**', 'page.mdx');
-  const filePaths = glob.sync(pattern);
+  const paths: string[] = [];
 
-  return filePaths.map((filePath) => {
-    const relativePath = path.relative(BLOG_DIR, filePath).replace(/\\/g, '/');
-    const parts = relativePath.split('/');
-    const directoryBasedSlug = parts.slice(0, -1).join('/');
-    const dateAndTitleSlug = directoryBasedSlug.replace(/\//g, '-');
-    return dateAndTitleSlug;
-  });
-}
+  function walkDir(dir: string) {
+    try {
+      const files = require('fs').readdirSync(dir);
 
-export async function getBlogPostBySlug(
-  slug: string,
-): Promise<BlogPost | null> {
-  try {
-    // Convert the date-title format (2025-10-slug) back to directory format (2025/10/slug)
-    // Only convert the first 2 dashes (for year and month) to slashes
-    const parts = slug.split('-');
-    if (parts.length < 3) {
-      // If there are fewer than 3 parts, we can't have a year-month-slug format
-      console.error(`Invalid slug format: ${slug}`);
-      return null;
+      for (const file of files) {
+        const filePath = path.join(dir, file);
+        const stat = require('fs').statSync(filePath);
+
+        if (stat.isDirectory()) {
+          walkDir(filePath);
+        } else if (file === 'page.mdx') {
+          // Store relative path from BLOG_DIR
+          const relativePath = path.relative(BLOG_DIR, filePath);
+          paths.push(relativePath);
+        }
+      }
+    } catch (error) {
+      console.error(`Error reading directory ${dir}:`, error);
     }
-    // Take the first two parts (year and month) and join them with slashes,
-    // then join the rest as the folder name
-    const yearMonth = parts.slice(0, 2).join('/');
-    const folderName = parts.slice(2).join('-');
-    const directoryPath = `${yearMonth}/${folderName}`;
-    const filePath = path.join(BLOG_DIR, directoryPath, 'page.mdx');
-
-    await fsPromises.access(filePath);
-    const source = await fsPromises.readFile(filePath, 'utf8');
-    const { content, data } = grayMatter(source);
-
-    const meta: BlogPostMeta = {
-      title: data.title || 'Untitled',
-      slug: data.slug || slug,
-      date: data.date || new Date().toISOString().split('T')[0],
-      author: data.author || 'Samsul Kobir',
-      excerpt: data.excerpt || '',
-      tags: Array.isArray(data.tags) ? data.tags : [],
-      thumbnail: data.thumbnail,
-      published: data.published ?? true,
-    };
-
-    const { code } = await bundleMDX({
-      source: content,
-      mdxOptions: (options) => {
-        options.remarkPlugins = [...(options.remarkPlugins || []), remarkGfm];
-        options.rehypePlugins = [
-          ...(options.rehypePlugins || []),
-          [
-            rehypeHighlight,
-            {
-              detect: true,
-              ignoreMissing: true,
-            },
-          ],
-          rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              properties: {
-                className: ['anchor'],
-              },
-            },
-          ],
-        ];
-        return options;
-      },
-    });
-
-    return {
-      slug,
-      meta,
-      content: code,
-    };
-  } catch (error) {
-    // Convert the date-title format (2025-10-slug) back to directory format (2025/10/slug)
-    // Only convert the first 2 dashes (for year and month) to slashes
-    const parts = slug.split('-');
-    if (parts.length < 3) {
-      // If there are fewer than 3 parts, we can't have a year-month-slug format
-      const directoryPath = slug.replace(/-/g, '/');
-    } else {
-      // Take the first two parts (year and month) and join them with slashes,
-      // then join the rest as the folder name
-      const yearMonth = parts.slice(0, 2).join('/');
-      const folderName = parts.slice(2).join('-');
-      var directoryPath = `${yearMonth}/${folderName}`;
-    }
-
-    if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      console.error(
-        `Blog post not found: ${path.join(BLOG_DIR, directoryPath, 'page.mdx')}`,
-      );
-      return null;
-    }
-    console.error(
-      `Error reading blog post ${slug} (path: ${directoryPath}):`,
-      error,
-    );
-    return null;
   }
+
+  walkDir(BLOG_DIR);
+  return paths;
 }
 
-export async function getAllBlogPostsMeta(): Promise<
-  { slug: string; meta: BlogPostMeta }[]
-> {
-  const paths = getAllBlogPostPaths();
-  const posts = [];
+export const getBlogPostBySlug = cache(
+  async (slug: string): Promise<BlogPost | null> => {
+    try {
+      // Get all blog post paths
+      const allPaths = getAllBlogPostPaths();
 
-  for (const blogPath of paths) {
-    // Convert the date-title format back to directory format to find the file
-    // Only convert the first 2 dashes (for year and month) to slashes
-    const parts = blogPath.split('-');
-    let directoryPath;
+      console.log(`Searching for slug: ${slug}`);
+      console.log(`Found ${allPaths.length} blog posts`);
 
-    if (parts.length < 3) {
-      // If there are fewer than 3 parts, convert all dashes to slashes
-      directoryPath = blogPath.replace(/-/g, '/');
-    } else {
-      // Take the first two parts (year and month) and join them with slashes,
-      // then join the rest as the folder name
-      const yearMonth = parts.slice(0, 2).join('/');
-      const folderName = parts.slice(2).join('-');
-      directoryPath = `${yearMonth}/${folderName}`;
+      for (const relativePath of allPaths) {
+        const filePath = path.join(BLOG_DIR, relativePath);
+
+        try {
+          const source = await fsPromises.readFile(filePath, 'utf8');
+          const { content, data } = grayMatter(source);
+
+          // Check if this post's slug matches
+          const postSlug =
+            data.slug || path.basename(path.dirname(relativePath));
+
+          if (postSlug === slug) {
+            const meta: BlogPostMeta = {
+              title: data.title || 'Untitled',
+              slug: postSlug,
+              date: data.date || new Date().toISOString().split('T')[0],
+              author: data.author || 'Samsul Kobir',
+              excerpt: data.excerpt || '',
+              tags: Array.isArray(data.tags) ? data.tags : [],
+              thumbnail: data.thumbnail,
+              published: data.published ?? true,
+            };
+
+            // Only return if published
+            if (!meta.published) {
+              console.log(`Post "${slug}" found but not published`);
+              return null;
+            }
+
+            const { code } = await bundleMDX({
+              source: content,
+              mdxOptions: (options) => {
+                options.remarkPlugins = [
+                  ...(options.remarkPlugins || []),
+                  remarkGfm,
+                ];
+                options.rehypePlugins = [
+                  ...(options.rehypePlugins || []),
+                  [
+                    rehypeHighlight,
+                    {
+                      detect: true,
+                      ignoreMissing: true,
+                    },
+                  ],
+                  rehypeSlug,
+                  [
+                    rehypeAutolinkHeadings,
+                    {
+                      properties: {
+                        className: ['anchor'],
+                      },
+                    },
+                  ],
+                ];
+                return options;
+              },
+            });
+
+            console.log(`Successfully loaded post: ${slug}`);
+            return {
+              slug: postSlug,
+              meta,
+              content: code,
+              filePath: relativePath,
+            };
+          }
+        } catch (error) {
+          console.error(`Error reading ${filePath}:`, error);
+          continue;
+        }
+      }
+
+      console.error(`Blog post with slug "${slug}" not found`);
+      return null;
+    } catch (error) {
+      console.error(`Error in getBlogPostBySlug for "${slug}":`, error);
+      return null;
     }
+  },
+);
 
-    const filePath = path.join(BLOG_DIR, directoryPath, 'page.mdx');
+// Get all published blog posts (cached)
+export const getAllBlogPosts = cache(async (): Promise<BlogPost[]> => {
+  const paths = getAllBlogPostPaths();
+  const posts: BlogPost[] = [];
+
+  console.log(`Loading ${paths.length} blog posts from ${BLOG_DIR}`);
+
+  for (const relativePath of paths) {
+    const filePath = path.join(BLOG_DIR, relativePath);
 
     try {
-      await fsPromises.access(filePath);
       const source = await fsPromises.readFile(filePath, 'utf8');
-      const { data } = grayMatter(source);
+      const { content, data } = grayMatter(source);
+
+      const slug = data.slug || path.basename(path.dirname(relativePath));
 
       const meta: BlogPostMeta = {
         title: data.title || 'Untitled',
-        slug: data.slug || blogPath,
+        slug,
         date: data.date || new Date().toISOString().split('T')[0],
         author: data.author || 'Samsul Kobir',
         excerpt: data.excerpt || '',
@@ -176,38 +175,122 @@ export async function getAllBlogPostsMeta(): Promise<
         published: data.published ?? true,
       };
 
+      // Only include published posts
       if (meta.published) {
+        const { code } = await bundleMDX({
+          source: content,
+          mdxOptions: (options) => {
+            options.remarkPlugins = [
+              ...(options.remarkPlugins || []),
+              remarkGfm,
+            ];
+            options.rehypePlugins = [
+              ...(options.rehypePlugins || []),
+              [
+                rehypeHighlight,
+                {
+                  detect: true,
+                  ignoreMissing: true,
+                },
+              ],
+              rehypeSlug,
+              [
+                rehypeAutolinkHeadings,
+                {
+                  properties: {
+                    className: ['anchor'],
+                  },
+                },
+              ],
+            ];
+            return options;
+          },
+        });
+
         posts.push({
-          slug: blogPath,
+          slug,
           meta,
+          content: code,
+          filePath: relativePath,
         });
       }
-    } catch {
+    } catch (err) {
+      console.error(`Error processing ${filePath}:`, err);
       continue;
     }
   }
 
+  // Sort by date (newest first)
   posts.sort(
     (a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime(),
   );
 
+  console.log(`Successfully loaded ${posts.length} published posts`);
   return posts;
+});
+
+// Lightweight version - only loads metadata without bundling MDX
+export const getAllBlogPostsMeta = cache(
+  async (): Promise<
+    { slug: string; meta: BlogPostMeta; filePath: string }[]
+  > => {
+    const paths = getAllBlogPostPaths();
+    const posts = [];
+
+    for (const relativePath of paths) {
+      const filePath = path.join(BLOG_DIR, relativePath);
+
+      try {
+        const source = await fsPromises.readFile(filePath, 'utf8');
+        const { data } = grayMatter(source);
+
+        const slug = data.slug || path.basename(path.dirname(relativePath));
+
+        const meta: BlogPostMeta = {
+          title: data.title || 'Untitled',
+          slug,
+          date: data.date || new Date().toISOString().split('T')[0],
+          author: data.author || 'Samsul Kobir',
+          excerpt: data.excerpt || '',
+          tags: Array.isArray(data.tags) ? data.tags : [],
+          thumbnail: data.thumbnail,
+          published: data.published ?? true,
+        };
+
+        if (meta.published) {
+          posts.push({
+            slug,
+            meta,
+            filePath: relativePath,
+          });
+        }
+      } catch (err) {
+        console.error(`Error reading metadata from ${filePath}:`, err);
+        continue;
+      }
+    }
+
+    posts.sort(
+      (a, b) =>
+        new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime(),
+    );
+
+    return posts;
+  },
+);
+
+// Helper: Get posts by year
+export async function getBlogPostsByYear(year: string): Promise<BlogPost[]> {
+  const allPosts = await getAllBlogPosts();
+  return allPosts.filter((post) => post.meta.date.startsWith(year));
 }
 
-export async function getAllBlogPosts(): Promise<BlogPost[]> {
-  const paths = getAllBlogPostPaths();
-  const posts = [];
-
-  for (const blogPath of paths) {
-    const post = await getBlogPostBySlug(blogPath);
-    if (post && post.meta.published) {
-      posts.push(post);
-    }
-  }
-
-  posts.sort(
-    (a, b) => new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime(),
-  );
-
-  return posts;
+// Helper: Get posts by year and month
+export async function getBlogPostsByYearMonth(
+  year: string,
+  month: string,
+): Promise<BlogPost[]> {
+  const allPosts = await getAllBlogPosts();
+  const yearMonth = `${year}-${month.padStart(2, '0')}`;
+  return allPosts.filter((post) => post.meta.date.startsWith(yearMonth));
 }

@@ -1,8 +1,8 @@
 'use client';
-import React, { useContext } from 'react';
-import { AuthContext } from '../providers/AuthProviders';
 import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import LoadingPage from '../app/loading';
+import { AuthContext } from '../providers/AuthProviders';
 
 const PrivateRoute = ({ children }: any) => {
   const { user, loading } = useContext(AuthContext);

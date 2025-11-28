@@ -1,10 +1,9 @@
 'use client';
-import { useState } from 'react';
-import { technologies } from '../constants';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import Image from 'next/image';
 import Link from 'next/link';
+import { technologies } from '../constants';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 const categoryDescriptions = {
   frontend: {
