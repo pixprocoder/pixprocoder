@@ -3,6 +3,7 @@
 import { Button } from '@/src/components/ui/button';
 import { useEffect, useRef, useState } from 'react';
 import {
+  FaCopy,
   FaFacebookF,
   FaInstagram,
   FaLinkedin,
@@ -29,12 +30,12 @@ export default function SocialShareButtons({
   const encodedTitle = encodeURIComponent(title);
   const encodedDescription = encodeURIComponent(description);
 
-  // Social media share URLs
+  // Social media share URLs with proper parameters
   const shareUrls = {
-    twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    instagram: `https://www.instagram.com/?url=${encodedUrl}`, // Instagram doesn't support direct sharing, so we'll use a generic approach
+    twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}&title=${encodedTitle}&summary=${encodedDescription}&source=PixProcoder`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedTitle}%0A${encodedDescription}`,
+    instagram: url, // Instagram doesn't support direct sharing, so we'll copy the URL
     copy: url, // For copy functionality
   };
 
@@ -60,7 +61,7 @@ export default function SocialShareButtons({
     {
       name: 'Instagram',
       icon: <FaInstagram />,
-      url: shareUrls.instagram,
+      url: shareUrls.copy, // Use the copy URL for Instagram since it doesn't support direct sharing
       color: 'text-pink-500',
     },
   ];
@@ -127,22 +128,7 @@ export default function SocialShareButtons({
               }}
               className="w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-muted transition-colors"
             >
-              <span className="text-gray-600 dark:text-gray-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </svg>
-              </span>
+              <FaCopy className="text-gray-400" />
               <span>Copy Link</span>
             </button>
           </div>

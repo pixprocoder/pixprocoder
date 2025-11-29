@@ -67,20 +67,23 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             )} */}
             {/* Author and Date */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src={'/profile.png'} />
-                  <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
-                </Avatar>
-                <span>{blog.author || 'Samsul Kobir'}</span>
-              </div>
+              <Link href="/me">
+                <div className="flex items-center gap-2">
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage src={'/profile.png'} />
+                    <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
+                  </Avatar>
+                  <span className="hover:underline hover:text-primary">
+                    {blog.author || 'Samsul Kobir'}
+                  </span>
+                </div>
+              </Link>
               <span>{new Date(blog.date).toLocaleDateString()}</span>
             </div>
-
             {/* Title */}
             <Link
               href={`/blog/${blog.slug}`}
-              className="text-xl font-semibold line-clamp-2
+              className="text-lg font-semibold line-clamp-2
                hover:text-primary/80 transition-colors hover:underline
               "
             >
@@ -88,7 +91,9 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             </Link>
 
             {/* Excerpt */}
-            <p className="text-muted-foreground line-clamp-3">{blog.excerpt}</p>
+            <p className="text-muted-foreground text-sm line-clamp-3">
+              {blog.excerpt}
+            </p>
           </div>
         </CardContent>
 
