@@ -1,8 +1,8 @@
-import { cache } from 'react';
-import path from 'path';
 import { promises as fsPromises } from 'fs';
 import grayMatter from 'gray-matter';
 import { bundleMDX } from 'mdx-bundler';
+import path from 'path';
+import { cache } from 'react';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';

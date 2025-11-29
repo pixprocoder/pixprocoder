@@ -144,7 +144,10 @@ export default function SingleBlogPageClient({
                 <AvatarFallback>SK</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">{blogPost.meta.author}</p>
+                <Link className="hover:underline hover:text-primary" href="/me">
+                  {' '}
+                  <p className="font-medium">{blogPost.meta.author}</p>
+                </Link>
                 <p className="text-sm text-muted-foreground">
                   {blogPost.meta.date && formatDateToUTC(blogPost.meta.date)}
                 </p>
