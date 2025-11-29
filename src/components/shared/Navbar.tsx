@@ -209,7 +209,7 @@ const Navbar = () => {
           </Link>
         ))}
 
-        <Sheet>
+        {/* <Sheet>
           <SheetTrigger asChild>
             <div className="relative cursor-pointer">
               <IoBagAddOutline className="text-foreground text-2xl mr-4 hover:text-primary transition-all" />
@@ -221,7 +221,7 @@ const Navbar = () => {
           <SheetContent className="border-muted">
             <CartSheet />
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
 
         <ThemeToggle />
 
