@@ -62,7 +62,7 @@ async function syncPosts(): Promise<void> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_POST_SYNC_SECRET}`,
+        Authorization: `Bearer ef91f0068c703f8ed088239f35cb47c4224099fa6dd33easdf543d55faefdee5efd40cf9ae1edsdfasdfasdf12a845862043b46390d3ab7b0d4ed35906eb91629663949e9df476cd`,
       },
       body: JSON.stringify({ posts }),
     });
