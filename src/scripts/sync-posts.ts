@@ -56,14 +56,17 @@ async function syncPosts(): Promise<void> {
     }
 
     // Send to your backend API
-    const response = await fetch('http://localhost:3003/api/v1/posts/sync', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ef91f0068c703f8ed088239f35cb47c4224099fa6dd33easdf543d55faefdee5efd40cf9ae1edsdfasdfasdf12a845862043b46390d3ab7b0d4ed35906eb91629663949e9df476cd`,
+    const response = await fetch(
+      'https://pixprocoder-backend.onrender.com/api/v1/posts/sync',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ef91f0068c703f8ed088239f35cb47c4224099fa6dd33easdf543d55faefdee5efd40cf9ae1edsdfasdfasdf12a845862043b46390d3ab7b0d4ed35906eb91629663949e9df476cd`,
+        },
+        body: JSON.stringify({ posts }),
       },
-      body: JSON.stringify({ posts }),
-    });
+    );
 
     if (!response.ok) {
       const error = await response.text();
