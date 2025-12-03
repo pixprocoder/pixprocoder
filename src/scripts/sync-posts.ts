@@ -19,7 +19,6 @@ async function syncPosts(): Promise<void> {
 
     // Function to recursively read all markdown files
     const getAllMarkdownFiles = (dir: string): void => {
-      console.log(`📂 Reading directory: ${dir}`);
       const items = fs.readdirSync(dir);
       console.log(`   Found items: ${items.join(', ')}`);
 
@@ -28,7 +27,6 @@ async function syncPosts(): Promise<void> {
         const stat = fs.statSync(fullPath);
 
         if (stat.isDirectory()) {
-          console.log(`   📁 Entering subdirectory: ${item}`);
           // Recursively read subdirectories
           getAllMarkdownFiles(fullPath);
         } else if (item.endsWith('.md') || item.endsWith('.mdx')) {
