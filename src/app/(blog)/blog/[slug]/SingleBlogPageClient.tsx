@@ -77,7 +77,6 @@ export default function SingleBlogPageClient({
       toast({ description: 'Please login to like posts' });
       return;
     }
-    console.log('isliked', isLiked);
 
     try {
       const result = await postLike({
@@ -87,6 +86,7 @@ export default function SingleBlogPageClient({
           isLiked,
         },
       }).unwrap();
+      console.log('the result is: ', result);
 
       // updated like count
       setTotalLikeCount(result?.data?.data?.[0]?.likeCount);
@@ -102,6 +102,7 @@ export default function SingleBlogPageClient({
           : toggleLike(),
       );
     } catch (error) {
+      console.log(error);
       toast({
         variant: 'destructive',
         title: 'Error',
