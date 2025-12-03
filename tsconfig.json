@@ -29,7 +29,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "constants/index.ts", // Fix the file extension here
-    "app/(with-layout)/layout.tsx"
-, "eslintrc.json"  ],
+    "app/(with-layout)/layout.tsx",
+    "eslintrc.json",
+    "src/scripts/sync-posts.ts"
+  ],
   "exclude": ["node_modules"]
 }

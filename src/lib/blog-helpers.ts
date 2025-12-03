@@ -63,9 +63,6 @@ export const getBlogPostBySlug = cache(
       // Get all blog post paths
       const allPaths = getAllBlogPostPaths();
 
-      console.log(`Searching for slug: ${slug}`);
-      console.log(`Found ${allPaths.length} blog posts`);
-
       for (const relativePath of allPaths) {
         const filePath = path.join(BLOG_DIR, relativePath);
 
