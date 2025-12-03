@@ -18,7 +18,7 @@ async function syncPosts(): Promise<void> {
     const posts: Post[] = [];
 
     // Function to recursively read all markdown files
-    function getAllMarkdownFiles(dir: string): void {
+    const getAllMarkdownFiles = (dir: string): void => {
       console.log(`📂 Reading directory: ${dir}`);
       const items = fs.readdirSync(dir);
       console.log(`   Found items: ${items.join(', ')}`);
@@ -44,7 +44,7 @@ async function syncPosts(): Promise<void> {
           posts.push({ slug });
         }
       }
-    }
+    };
 
     // Start reading from content directory
     getAllMarkdownFiles(contentDir);
@@ -62,7 +62,7 @@ async function syncPosts(): Promise<void> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer very_secret_token',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_POST_SYNC_SECRET}`,
       },
       body: JSON.stringify({ posts }),
     });
