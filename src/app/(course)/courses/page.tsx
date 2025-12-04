@@ -1,8 +1,6 @@
 'use client';
-import { Button } from '@/src/components/ui/button';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Badge } from '@/src/components/ui/badge';
+import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import {
   Select,
@@ -11,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/src/components/ui/select';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const courses = [
   {

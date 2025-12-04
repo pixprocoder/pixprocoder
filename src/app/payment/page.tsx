@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import Payment from '@/src/components/Payment';
 
 const Payments = () => {

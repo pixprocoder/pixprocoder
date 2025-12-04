@@ -1,7 +1,7 @@
 'use client'; // Mark this as a client component
 
-import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 //@ts-ignore
 import { analytics } from '../firebase/firebase.init';
 

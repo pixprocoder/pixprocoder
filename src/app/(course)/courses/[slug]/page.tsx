@@ -1,6 +1,5 @@
 'use client';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { Badge } from '@/src/components/ui/badge';
 import { Button } from '@/src/components/ui/button';
 import {
   Tabs,
@@ -8,11 +7,11 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/src/components/ui/tabs';
-import { Badge } from '@/src/components/ui/badge';
-import { FiShare2, FiDownload, FiChevronLeft } from 'react-icons/fi';
-import { FaRegClock, FaChartLine } from 'react-icons/fa6';
-import ShareButtons from '@/src/components/shared/ShareButtons';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
+import { FaChartLine, FaRegClock } from 'react-icons/fa6';
+import { FiChevronLeft, FiDownload } from 'react-icons/fi';
 
 const CourseDetailsPage = ({ params }: { params: { id: string } }) => {
   const courseData = {

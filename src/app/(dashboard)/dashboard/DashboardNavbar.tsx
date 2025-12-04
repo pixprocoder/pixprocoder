@@ -1,11 +1,6 @@
 // components/dashboard/DashboardNavbar.tsx
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useContext } from 'react';
-import { AuthContext } from '@/src/providers/AuthProviders';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { ThemeToggle } from '@/src/components/shared/ThemeToggle';
 import {
   Avatar,
   AvatarFallback,
@@ -19,16 +14,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/src/components/ui/dropdown-menu';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import {
-  LayoutDashboard,
-  LogOut,
-  User,
-  Menu,
-  Settings,
-  Home,
-} from 'lucide-react';
-import { ThemeToggle } from '@/src/components/shared/ThemeToggle';
+import { motion } from 'framer-motion';
+import { Home, LogOut, Menu, Settings, User } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 
 export const DashboardNavbar = ({
   onMenuToggle,
@@ -41,7 +34,7 @@ export const DashboardNavbar = ({
   const handleSignOut = () => {
     logOut()
       .then(() => router.push('/'))
-      .catch((error) => console.error(error));
+      .catch((error: any) => console.error(error));
   };
 
   return (

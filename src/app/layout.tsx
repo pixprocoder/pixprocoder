@@ -11,8 +11,9 @@ import { ThemeProvider } from '../providers/ThemeProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Pixprocoder',
-  description: 'pixprocoder is the brand name',
+  title: 'pixprocoder',
+  description:
+    'pixprocoder is the website of Md Samsul Kobir. he is a software engineer running his own business. this website has blogs and the author is implemening new features often.',
   // other: {
   //   'google-adsense-account': process.env.NEXT_PUBLIC_ADSENSE_ID,
   // }, // Add this line for AdSense

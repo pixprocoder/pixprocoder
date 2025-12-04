@@ -2,16 +2,16 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CgProfile } from 'react-icons/cg';
 import {
-  FiHome,
-  FiShoppingBag,
-  FiSettings,
   FiBox,
-  FiFileText,
   FiDollarSign,
+  FiFileText,
+  FiHome,
+  FiSettings,
+  FiShoppingBag,
   FiUser,
 } from 'react-icons/fi';
-import { CgProfile } from 'react-icons/cg';
 
 import { Button } from '@/src/components/ui/button';
 import { cn } from '@/src/lib/utils';

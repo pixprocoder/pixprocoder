@@ -1,9 +1,9 @@
 'use client';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import { FiXCircle } from 'react-icons/fi';
 import { portfolioMenu, projects } from '../constants';
 import PortfolioCard from './PortfolioCard';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiFolder, FiXCircle } from 'react-icons/fi';
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState(portfolioMenu[0].id);

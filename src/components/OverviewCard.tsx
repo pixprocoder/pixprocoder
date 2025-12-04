@@ -1,9 +1,9 @@
 'use client';
-import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { motion } from 'framer-motion';
-import { FiUsers, FiCode, FiStar, FiBook } from 'react-icons/fi';
+import { useEffect } from 'react';
+import { FiBook, FiCode, FiStar, FiUsers } from 'react-icons/fi';
 
 export const OverviewCard = () => {
   useEffect(() => {

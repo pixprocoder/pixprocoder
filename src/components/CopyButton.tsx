@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Button } from '@/src/components/ui/button';
 import { Check, Copy } from 'lucide-react';
+import React from 'react';
 
 interface CopyButtonProps {
   value: string;

@@ -1,16 +1,16 @@
 'use client';
+import Payments from '@/src/app/payment/page';
+import Modal from '@/src/components/shared/Modal';
+import { Badge } from '@/src/components/ui/badge';
 import { Button } from '@/src/components/ui/button';
 import { useAppSelector } from '@/src/redux/hooks/hooks';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaRegEdit } from 'react-icons/fa';
 import { CiCreditCard1 } from 'react-icons/ci';
-import { GrPaypal } from 'react-icons/gr';
-import Modal from '@/src/components/shared/Modal';
-import Payments from '@/src/app/payment/page';
-import { motion } from 'framer-motion';
-import { Badge } from '@/src/components/ui/badge';
+import { FaRegEdit } from 'react-icons/fa';
 import { FiArrowLeft, FiLock } from 'react-icons/fi';
+import { GrPaypal } from 'react-icons/gr';
 
 function CheckoutPage() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);
