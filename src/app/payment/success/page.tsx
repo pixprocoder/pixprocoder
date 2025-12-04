@@ -1,10 +1,9 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
 import { TransactionContext } from '@/src/providers/OtherProviders';
-import { Button } from '@/src/components/ui/button';
-import Confetti from 'react-confetti';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 
 const SuccessPage = () => {
   const router = useRouter();

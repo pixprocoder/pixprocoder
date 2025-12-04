@@ -1,18 +1,17 @@
 'use client';
-import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Link from 'next/link';
 import Image from 'next/image';
-import { cn } from '../lib/utils';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
+import Link from 'next/link';
+import { useEffect } from 'react';
 import {
-  FaLongArrowAltRight,
-  FaGithub,
   FaExternalLinkAlt,
+  FaGithub,
+  FaLongArrowAltRight,
 } from 'react-icons/fa';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { Card } from './ui/card';
 
 type Props = {
   id: string;

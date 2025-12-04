@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'framer-motion';
 import ConfirmDelete from '@/src/components/shared/ConfirmDelete';
 import { Button } from '@/src/components/ui/button';
 import {
@@ -8,10 +7,11 @@ import {
   removeFromCart,
 } from '@/src/redux/features/cart/CartSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiArrowLeft, FiLock, FiShoppingBag, FiTrash2 } from 'react-icons/fi';
-import { FaPlus, FaMinus } from 'react-icons/fa';
+import { FaMinus, FaPlus } from 'react-icons/fa';
+import { FiArrowLeft, FiLock, FiTrash2 } from 'react-icons/fi';
 
 function CartDetailsPage() {
   const { items, totalPrice } = useAppSelector((state) => state.cart);

@@ -1,13 +1,13 @@
-import { motion } from 'framer-motion';
-import { Button } from '@/src/components/ui/button';
 import { Badge } from '@/src/components/ui/badge';
+import { Button } from '@/src/components/ui/button';
+import { Skeleton } from '@/src/components/ui/skeleton';
 import { useToast } from '@/src/components/ui/use-toast';
 import { addToCart } from '@/src/redux/features/cart/CartSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FiShoppingCart, FiStar, FiChevronLeft } from 'react-icons/fi';
 import Link from 'next/link';
-import { Skeleton } from '@/src/components/ui/skeleton';
+import { FiChevronLeft, FiShoppingCart, FiStar } from 'react-icons/fi';
 
 function ShopDetailsPage({ item }: { item: any }) {
   const { items } = useAppSelector((state) => state.cart);

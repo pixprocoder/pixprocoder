@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion';
 import {
   FiArrowUpRight,
-  FiShoppingBag,
-  FiDollarSign,
   FiBox,
+  FiDollarSign,
+  FiShoppingBag,
   FiUsers,
 } from 'react-icons/fi';
 

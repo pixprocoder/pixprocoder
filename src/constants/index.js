@@ -45,21 +45,21 @@ export const portfolioMenu = [
 
 export const faqItems = [
   {
-    value: 1,
+    value: '1',
     question:
       'What is your approach to designing and developing a website or project?',
     answer:
       " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
   },
   {
-    value: 2,
+    value: '2',
     question:
       'How do you handle responsive design to ensure a seamless user experience across devices?',
     answer:
       " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
   },
   {
-    value: 3,
+    value: '3',
     question:
       'How do you ensure that your web development projects are secure and optimized for performance?',
     answer:

@@ -1,5 +1,5 @@
 'use client';
-import React, { use, useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import ShopDetailsPage from '../../_components/ShopDetails';
 
 function page({ params }) {

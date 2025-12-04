@@ -1,11 +1,7 @@
 // Shop Page (page.tsx)
 'use client';
 
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import ShopCard from '../_components/ShopCard';
 import { Input } from '@/src/components/ui/input';
-import { Button } from '@/src/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -14,6 +10,9 @@ import {
   SelectValue,
 } from '@/src/components/ui/select';
 import { Skeleton } from '@/src/components/ui/skeleton';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import ShopCard from '../_components/ShopCard';
 
 const Shop = () => {
   const [items, setItems] = useState([]);

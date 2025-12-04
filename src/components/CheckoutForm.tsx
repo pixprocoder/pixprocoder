@@ -1,13 +1,13 @@
 'use client';
-import React, { useContext, useEffect, useState } from 'react';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { Button } from '@/src/components/ui/button';
-import axios from 'axios';
-import { getBaseURL } from '@/src/utils';
-import { useRouter } from 'next/navigation';
 import { TransactionContext } from '@/src/providers/OtherProviders';
-import { AuthContext } from '../providers/AuthProviders';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { getBaseURL } from '@/src/utils';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../providers/AuthProviders';
 import { clearCart } from '../redux/features/cart/CartSlice';
 
 const CheckoutForm = () => {

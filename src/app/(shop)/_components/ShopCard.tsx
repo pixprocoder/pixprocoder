@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/src/components/ui/button';
 import { Badge } from '@/src/components/ui/badge';
+import { Button } from '@/src/components/ui/button';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 import { FiShoppingCart } from 'react-icons/fi';
 
 const ShopCard = ({ item, index }: any) => {

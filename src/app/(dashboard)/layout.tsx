@@ -1,17 +1,15 @@
-// app/(dashboard)/layout.tsx
 'use client';
-import { useEffect, useState } from 'react';
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from '@/src/components/ui/sheet';
-import { Menu } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/src/lib/utils';
-import { Sidebar } from './dashboard/Sidebar';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { DashboardNavbar } from './dashboard/DashboardNavbar';
+import { Sidebar } from './dashboard/Sidebar';
 
 export default function DashboardLayout({
   children,

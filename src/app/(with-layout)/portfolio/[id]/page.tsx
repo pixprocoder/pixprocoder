@@ -1,18 +1,16 @@
 'use client';
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Button } from '@/src/components/ui/button';
-import { motion } from 'framer-motion';
-import { FiGithub, FiExternalLink, FiArrowLeft } from 'react-icons/fi';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/src/components/ui/tabs';
-import { Badge } from '@/src/components/ui/badge';
 import { projects } from '@/src/constants';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowLeft, FiExternalLink, FiGithub } from 'react-icons/fi';
 
 async function PortfolioDetailPage({ params }: any) {
   const { id } = await params;
