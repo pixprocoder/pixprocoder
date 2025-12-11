@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "npm run sync:posts && next build",
+    "build": "bun next build",
     "sync:posts": "node src/scripts/sync-posts.ts",
     "lint": "next lint"
   },
