@@ -48,7 +48,7 @@ export const PostApiSlice = createApi({
     }),
 
     getPostLikes: builder.query({
-      query: (postId) => `/posts/${postId}/likes`,
+      query: (postId) => `/posts/like/${postId}`,
       providesTags: ['Like'],
     }),
 

@@ -5,6 +5,7 @@ import {
   AvatarImage,
 } from '@/src/components/ui/avatar';
 import { Card, CardContent } from '@/src/components/ui/card';
+import { formatDateToUTC } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,6 +35,7 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
     );
   }
 
+  console.log(blog?.date);
   return (
     <motion.div whileHover={{ y: -5 }} className="h-full">
       <Card className="h-full overflow-hidden border-border bg-background/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
@@ -74,11 +76,12 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
                     <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
                   </Avatar>
                   <span className="hover:underline hover:text-primary">
-                    {blog.author || 'Samsul Kobir'}
+                    {blog.author || 'MD Samsul Kobir'}
                   </span>
                 </div>
               </Link>
-              <span>{new Date(blog.date).toLocaleDateString()}</span>
+              {/* <span>{new Date(blog.date).toLocaleDateString()}</span> */}
+              <span>{formatDateToUTC(blog.date)}</span>
             </div>
             {/* Title */}
             <Link

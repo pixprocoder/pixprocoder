@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "bun next build",
-    "sync:posts": "node src/scripts/sync-posts.ts",
+    "sync:posts": "bunx src/scripts/sync-posts.ts",
     "lint": "next lint"
   },
   "dependencies": {
