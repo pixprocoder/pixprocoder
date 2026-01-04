@@ -28,6 +28,7 @@ import { BlogPost } from '@/src/lib/blog-helpers';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentsQuery,
+  useGetPostLikesQuery,
   useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
 import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
@@ -64,11 +65,11 @@ export default function SingleBlogPageClient({
     page: currentPage,
     limit: 10,
   });
-  // const { data: totalLikeCount } = useGetPostLikesQuery(postIdForApi);
+  const { data: totalLikeCount } = useGetPostLikesQuery(postIdForApi);
   const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
 
   // TODO: UPDATE WITH REDUX
-  const [totalLikeCount, setTotalLikeCount] = useState(0);
+  // const [totalLikeCount, setTotalLikeCount] = useState(0);
   console.log(totalLikeCount);
 
   const handleLike = async () => {
@@ -89,7 +90,7 @@ export default function SingleBlogPageClient({
       console.log('the result is: ', result);
 
       // updated like count
-      setTotalLikeCount(result?.data?.data?.[0]?.likeCount);
+      // setTotalLikeCount(result?.data?.data?.[0]?.likeCount);
 
       if ('error' in result) {
         throw new Error(result.error);
@@ -228,7 +229,7 @@ export default function SingleBlogPageClient({
                   ) : (
                     <FaRegHeart className="text-muted-foreground" />
                   )}
-                  <span>{totalLikeCount || 0}</span>
+                  <span>{totalLikeCount?.data || 0}</span>
                 </Button>
                 <div
                   className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"
