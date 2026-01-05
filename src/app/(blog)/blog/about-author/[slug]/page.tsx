@@ -57,8 +57,6 @@ export async function generateMetadata({
 
 export default async function AuthorPage({ params }: AuthorPageProps) {
   const { slug } = await params;
-  console.log(slug);
-
   // Use the optimized function to get posts specifically for this authorId/slug
   const authorPosts = await getBlogPostsByAuthorId(slug);
 
