@@ -31,7 +31,8 @@
     "constants/index.ts", // Fix the file extension here
     "app/(with-layout)/layout.tsx",
     "eslintrc.json",
-    "src/scripts/sync-posts.ts"
+    "src/scripts/sync-posts.ts",
+    "src/content/2026/01/life-of-an-immigrant/page.mdx"
   ],
   "exclude": ["node_modules"]
 }

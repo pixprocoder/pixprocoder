@@ -68,7 +68,7 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             )} */}
             {/* Author and Date */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <Link href="/about-author">
+              <Link href={`/blog/about-author/${blog.authorId}`}>
                 <div className="flex items-center gap-2">
                   <Avatar className="h-6 w-6">
                     <AvatarImage src={blog.authorProfile} />

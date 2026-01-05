@@ -24,7 +24,6 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
-import { BlogPost } from '@/src/lib/blog-helpers';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentsQuery,
@@ -33,6 +32,7 @@ import {
 } from '@/src/redux/api/posts/PostApiSlice';
 import { setLike } from '@/src/redux/features/post/LikeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { BlogPost } from '@/src/types';
 import { formatDateToUTC } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -184,7 +184,7 @@ export default function SingleBlogPageClient({
               <div>
                 <Link
                   className="hover:underline hover:text-primary"
-                  href="/about-author"
+                  href={`about-author/${blogPost.meta.authorId}`}
                 >
                   {' '}
                   <p className="font-medium">{blogPost.meta.author}</p>
