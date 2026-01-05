@@ -1,26 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  isLiked:
-    typeof window !== 'undefined' && localStorage.getItem('isLiked') !== null
-      ? JSON.parse(localStorage.getItem('isLiked')!)
-      : false,
+  likedPosts:
+    typeof window !== 'undefined' && localStorage.getItem('likedPosts') !== null
+      ? JSON.parse(localStorage.getItem('likedPosts')!)
+      : {},
 };
+
 const LikeSlice = createSlice({
   name: 'like',
   initialState,
   reducers: {
-    toggleLike: (state) => {
-      state.isLiked = !state.isLiked;
-      localStorage.setItem('isLiked', JSON.stringify(state.isLiked));
-    },
     setLike: (state, action) => {
-      state.isLiked = action.payload;
-      localStorage.setItem('isLiked', JSON.stringify(action.payload));
+      const { userId, slug, isLiked } = action.payload;
+
+      // ✅ Check FIRST, then set
+      if (!state.likedPosts[userId]) {
+        state.likedPosts[userId] = {};
+      }
+
+      state.likedPosts[userId][slug] = isLiked;
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('likedPosts', JSON.stringify(state.likedPosts));
+      }
+    },
+    clearAllLikes: (state) => {
+      state.likedPosts = {};
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('likedPosts');
+      }
     },
   },
 });
 
-export const { toggleLike, setLike } = LikeSlice.actions;
-
+export const { setLike, clearAllLikes } = LikeSlice.actions;
 export default LikeSlice.reducer;

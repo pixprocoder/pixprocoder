@@ -31,13 +31,13 @@ import {
   useGetPostLikesQuery,
   useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
-import { setLike, toggleLike } from '@/src/redux/features/post/LikeSlice';
+import { setLike } from '@/src/redux/features/post/LikeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { formatDateToUTC } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { FiChevronLeft } from 'react-icons/fi';
 
@@ -51,59 +51,95 @@ export default function SingleBlogPageClient({
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
   const dispatch = useAppDispatch();
-  const { isLiked } = useAppSelector((state) => state.like);
+  const isLiked = useAppSelector(
+    (state) => state.like.likedPosts[blogPost.slug] || false,
+  );
   const [sortOrder, setSortOrder] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('content');
+  const { data: totalLikeCount, isLoading } = useGetPostLikesQuery({
+    postId: blogPost.slug,
+    userId: user?.uid || null,
+  });
+  const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
+  const [localLikeCount, setLocalLikeCount] = useState(totalLikeCount);
 
-  // Use the existing API for comments and likes
-  const postIdForApi = blogPost.meta.slug || blogPost.slug;
+  useEffect(() => {
+    if (totalLikeCount) {
+      setLocalLikeCount(totalLikeCount.likeCount);
+
+      if (user?.uid && totalLikeCount?.isLiked !== undefined) {
+        dispatch(
+          setLike({
+            userId: user.uid,
+            slug: blogPost.slug,
+            isLiked: totalLikeCount.isLiked,
+          }),
+        );
+      }
+    }
+  }, [totalLikeCount, user?.uid]);
 
   const { data: comments } = useGetCommentsQuery({
-    postId: postIdForApi,
+    postId: blogPost.slug,
     sort: sortOrder,
     page: currentPage,
     limit: 10,
   });
-  const { data: totalLikeCount } = useGetPostLikesQuery(postIdForApi);
-  const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
 
   // TODO: UPDATE WITH REDUX
   // const [totalLikeCount, setTotalLikeCount] = useState(0);
-  console.log(totalLikeCount);
+  // console.log(totalLikeCount);
 
   const handleLike = async () => {
-    // user cannot like if the're not loggedIn
     if (!user?.uid) {
-      toast({ description: 'Please login to like posts' });
+      toast({ description: 'Login Required For Like' });
       return;
     }
+
+    const optimisticCount = isLiked ? localLikeCount - 1 : localLikeCount + 1;
+    setLocalLikeCount(optimisticCount);
 
     try {
       const result = await postLike({
         postId: blogPost.slug,
         data: {
           userId: user.uid,
-          isLiked,
+          isLiked: !isLiked,
         },
       }).unwrap();
-      console.log('the result is: ', result);
 
-      // updated like count
-      // setTotalLikeCount(result?.data?.data?.[0]?.likeCount);
+      if (result.data.count !== undefined) {
+        setLocalLikeCount(result.data.count);
+      }
 
       if ('error' in result) {
         throw new Error(result.error);
       }
 
-      // Toggle the like state in Redux
+      // ✅ ADD THIS CHECK
+      console.log(
+        'Before dispatch - user.uid:',
+        user.uid,
+        'blogPost.slug:',
+        blogPost.slug,
+      );
+
+      if (!user.uid) {
+        console.error('CRITICAL: user.uid became undefined after API call!');
+        return;
+      }
+
       dispatch(
-        result.data?.liked !== undefined
-          ? setLike(result.data.liked)
-          : toggleLike(),
+        setLike({
+          userId: user.uid,
+          slug: blogPost.slug,
+          isLiked: result.data.isLiked,
+        }),
       );
     } catch (error) {
-      console.log(error);
+      console.error('Like error:', error);
+      setLocalLikeCount(isLiked ? localLikeCount : localLikeCount);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -113,11 +149,11 @@ export default function SingleBlogPageClient({
   };
 
   // Pagination controls
-  const handlePagination = (direction: 'next' | 'prev') => {
-    setCurrentPage((prev) =>
-      direction === 'next' ? prev + 1 : Math.max(1, prev - 1),
-    );
-  };
+  // const handlePagination = (direction: 'next' | 'prev') => {
+  //   setCurrentPage((prev) =>
+  //     direction === 'next' ? prev + 1 : Math.max(1, prev - 1),
+  //   );
+  // };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -142,11 +178,14 @@ export default function SingleBlogPageClient({
           <div className="flex  items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Avatar className="w-10 h-10">
-                <AvatarImage src="/profile.png" />
+                <AvatarImage src={blogPost.meta.authorProfile} />
                 <AvatarFallback>SK</AvatarFallback>
               </Avatar>
               <div>
-                <Link className="hover:underline hover:text-primary" href="/me">
+                <Link
+                  className="hover:underline hover:text-primary"
+                  href="/about-author"
+                >
                   {' '}
                   <p className="font-medium">{blogPost.meta.author}</p>
                 </Link>
@@ -229,7 +268,16 @@ export default function SingleBlogPageClient({
                   ) : (
                     <FaRegHeart className="text-muted-foreground" />
                   )}
-                  <span>{totalLikeCount?.data || 0}</span>
+                  <span>
+                    {localLikeCount !== undefined ? (
+                      <span>
+                        {localLikeCount}{' '}
+                        {localLikeCount <= 1 ? 'like' : 'likes'}{' '}
+                      </span>
+                    ) : (
+                      <span>Loading...</span>
+                    )}
+                  </span>
                 </Button>
                 <div
                   className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary"

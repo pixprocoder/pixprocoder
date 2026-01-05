@@ -15,6 +15,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'avatars.githubusercontent.com',
       'www.pixprocoder.com',
+      'images.unsplash.com',
     ],
   },
 };

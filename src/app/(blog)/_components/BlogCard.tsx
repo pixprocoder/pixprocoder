@@ -35,7 +35,6 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
     );
   }
 
-  console.log(blog?.date);
   return (
     <motion.div whileHover={{ y: -5 }} className="h-full">
       <Card className="h-full overflow-hidden border-border bg-background/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
@@ -69,10 +68,10 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             )} */}
             {/* Author and Date */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <Link href="/me">
+              <Link href="/about-author">
                 <div className="flex items-center gap-2">
                   <Avatar className="h-6 w-6">
-                    <AvatarImage src={'/profile.png'} />
+                    <AvatarImage src={blog.authorProfile} />
                     <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
                   </Avatar>
                   <span className="hover:underline hover:text-primary">

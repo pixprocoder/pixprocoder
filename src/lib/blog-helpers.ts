@@ -15,6 +15,7 @@ export interface BlogPostMeta {
   slug: string;
   date: string;
   author: string;
+  authorProfile?: string;
   excerpt: string;
   tags: string[];
   thumbnail?: string;
@@ -80,6 +81,7 @@ export const getBlogPostBySlug = cache(
               slug: postSlug,
               date: data.date || new Date().toISOString().split('T')[0],
               author: data.author || 'Samsul Kobir',
+              authorProfile: data.authorProfile || '/profile.png',
               excerpt: data.excerpt || '',
               tags: Array.isArray(data.tags) ? data.tags : [],
               thumbnail: data.thumbnail,
@@ -248,6 +250,7 @@ export const getAllBlogPostsMeta = cache(
           slug,
           date: data.date || new Date().toISOString().split('T')[0],
           author: data.author || 'Samsul Kobir',
+          authorProfile: data.authorProfile || '/profile.png',
           excerpt: data.excerpt || '',
           tags: Array.isArray(data.tags) ? data.tags : [],
           thumbnail: data.thumbnail,
