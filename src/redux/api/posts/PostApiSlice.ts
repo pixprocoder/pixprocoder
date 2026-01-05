@@ -44,11 +44,14 @@ export const PostApiSlice = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Post'],
+      invalidatesTags: ['Like'],
     }),
 
     getPostLikes: builder.query({
-      query: (postId) => `/posts/like/${postId}`,
+      query: ({ postId, userId }) => {
+        const params = userId ? `?userId=${userId}` : '';
+        return `/posts/like/${postId}${params}`;
+      },
       providesTags: ['Like'],
     }),
 

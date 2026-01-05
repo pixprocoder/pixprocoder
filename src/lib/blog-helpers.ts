@@ -7,26 +7,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import { BlogPost, BlogPostMeta } from '../types';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content');
-
-export interface BlogPostMeta {
-  title: string;
-  slug: string;
-  date: string;
-  author: string;
-  excerpt: string;
-  tags: string[];
-  thumbnail?: string;
-  published: boolean;
-}
-
-export interface BlogPost {
-  slug: string;
-  meta: BlogPostMeta;
-  content: string;
-  filePath?: string;
-}
 
 // Get all blog post paths by walking the directory tree
 export function getAllBlogPostPaths(): string[] {
@@ -80,6 +63,8 @@ export const getBlogPostBySlug = cache(
               slug: postSlug,
               date: data.date || new Date().toISOString().split('T')[0],
               author: data.author || 'Samsul Kobir',
+              authorId: data.authorId,
+              authorProfile: data.authorProfile || '/profile.png',
               excerpt: data.excerpt || '',
               tags: Array.isArray(data.tags) ? data.tags : [],
               thumbnail: data.thumbnail,
@@ -145,6 +130,88 @@ export const getBlogPostBySlug = cache(
   },
 );
 
+export const getBlogPostsByAuthorId = cache(
+  async (authorId: string): Promise<BlogPost[]> => {
+    try {
+      const allPaths = getAllBlogPostPaths();
+      const posts: BlogPost[] = [];
+
+      for (const relativePath of allPaths) {
+        const filePath = path.join(BLOG_DIR, relativePath);
+
+        try {
+          const source = await fsPromises.readFile(filePath, 'utf8');
+          const { content, data } = grayMatter(source);
+
+          // Check if the authorId matches
+          if (data.authorId === authorId) {
+            const postSlug =
+              data.slug || path.basename(path.dirname(relativePath));
+
+            const meta: BlogPostMeta = {
+              title: data.title || 'Untitled',
+              slug: postSlug,
+              date: data.date || new Date().toISOString().split('T')[0],
+              author: data.author || 'Samsul Kobir',
+              authorId: data.authorId,
+              authorProfile: data.authorProfile || '/profile.png',
+              excerpt: data.excerpt || '',
+              tags: Array.isArray(data.tags) ? data.tags : [],
+              thumbnail: data.thumbnail,
+              published: data.published ?? true,
+            };
+
+            // Only include published posts
+            if (meta.published) {
+              const { code } = await bundleMDX({
+                source: content,
+                mdxOptions: (options) => {
+                  options.remarkPlugins = [
+                    ...(options.remarkPlugins || []),
+                    remarkGfm,
+                  ];
+                  options.rehypePlugins = [
+                    ...(options.rehypePlugins || []),
+                    [rehypeHighlight, { detect: true, ignoreMissing: true }],
+                    rehypeSlug,
+                    [
+                      rehypeAutolinkHeadings,
+                      { properties: { className: ['anchor'] } },
+                    ],
+                  ];
+                  return options;
+                },
+              });
+
+              posts.push({
+                slug: postSlug,
+                meta,
+                content: code,
+                filePath: relativePath,
+              });
+            }
+          }
+        } catch (error) {
+          console.error(`Error processing ${filePath}:`, error);
+          continue;
+        }
+      }
+
+      // Optional: Sort posts by date (newest first)
+      return posts.sort(
+        (a, b) =>
+          new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime(),
+      );
+    } catch (error) {
+      console.error(
+        `Error in getBlogPostsByAuthorId for "${authorId}":`,
+        error,
+      );
+      return [];
+    }
+  },
+);
+
 // Get all published blog posts (cached)
 export const getAllBlogPosts = cache(async (): Promise<BlogPost[]> => {
   const paths = getAllBlogPostPaths();
@@ -166,6 +233,8 @@ export const getAllBlogPosts = cache(async (): Promise<BlogPost[]> => {
         slug,
         date: data.date || new Date().toISOString().split('T')[0],
         author: data.author || 'Samsul Kobir',
+        authorId: data.authorId,
+        authorProfile: data.authorProfile || '/profile.png',
         excerpt: data.excerpt || '',
         tags: Array.isArray(data.tags) ? data.tags : [],
         thumbnail: data.thumbnail,
@@ -248,6 +317,8 @@ export const getAllBlogPostsMeta = cache(
           slug,
           date: data.date || new Date().toISOString().split('T')[0],
           author: data.author || 'Samsul Kobir',
+          authorId: data.authorId,
+          authorProfile: data.authorProfile || '/profile.png',
           excerpt: data.excerpt || '',
           tags: Array.isArray(data.tags) ? data.tags : [],
           thumbnail: data.thumbnail,
