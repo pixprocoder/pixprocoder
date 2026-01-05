@@ -154,7 +154,7 @@ export const getBlogPostsByAuthorId = cache(
               date: data.date || new Date().toISOString().split('T')[0],
               author: data.author || 'Samsul Kobir',
               authorId: data.authorId,
-              authorProfile: data.authorProfile || '/profile.png',
+              authorProfile: data.authorProfile || '/user.png',
               excerpt: data.excerpt || '',
               tags: Array.isArray(data.tags) ? data.tags : [],
               thumbnail: data.thumbnail,

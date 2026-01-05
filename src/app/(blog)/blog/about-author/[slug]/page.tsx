@@ -57,8 +57,6 @@ export async function generateMetadata({
 
 export default async function AuthorPage({ params }: AuthorPageProps) {
   const { slug } = await params;
-  console.log(slug);
-
   // Use the optimized function to get posts specifically for this authorId/slug
   const authorPosts = await getBlogPostsByAuthorId(slug);
 
@@ -79,7 +77,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   ).getFullYear();
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 ">
       <div className="container max-w-4xl mx-auto">
         {/* Back Button */}
         <Link
@@ -90,7 +88,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
           Back to all posts
         </Link>
 
-        {/* Author Header */}
+        {/* Authhrefeader */}
         <div className="flex items-start gap-6 mb-12">
           <Avatar className="w-24 h-24 ring-2 ring-border">
             <AvatarImage src={authorProfile} alt={authorNameDisplay} />
