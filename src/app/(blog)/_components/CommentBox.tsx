@@ -11,14 +11,16 @@ function CommentBox({ id }: { id: string }) {
   const { toast } = useToast();
   const [comment, setComment] = useState('');
 
-  const [postComment, { isSuccess, isError }] = usePostCommentMutation();
+  const [postComment, { isSuccess, isError, isLoading }] =
+    usePostCommentMutation();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!user?.email) {
       toast({
+        title: 'Login Require',
         description: 'You Must Need To Login!',
-        className: `toast-error`, // Apply the custom class
+        className: `toast-warning`,
       });
 
       setComment('');
@@ -26,27 +28,37 @@ function CommentBox({ id }: { id: string }) {
     }
     if (comment === '') {
       toast({
-        description: 'This field is cannot be Empty ∅',
-        className: `toast-error`, // Apply the custom class
+        title: 'Required!',
+        description: 'This field cannot be Empty',
+        className: `toast-error`,
       });
       return;
     }
 
-    postComment({ 
-      postId: id, 
-      data: { 
+    postComment({
+      slug: id,
+      data: {
         content: comment,
-        authorId: user?.uid  // Using user ID instead of email to match Prisma schema
-      } 
+        authorId: user?.uid,
+      },
     });
-    setTimeout(() => {
+    if (isSuccess) {
       toast({
-        title: 'Congratulations 🎉',
+        title: 'Success 🎉',
         description: 'Post Added Successfully 🚀',
-        className: `toast-success`, // Apply the custom class
+        className: `toast-success`,
       });
-    }, 1000);
+      setComment('');
+    }
 
+    if (isError) {
+      toast({
+        title: 'Error ',
+        description: 'Failed to add comment',
+        className: `toast-error`,
+      });
+      setComment('');
+    }
     setComment('');
   };
 
@@ -60,7 +72,7 @@ function CommentBox({ id }: { id: string }) {
       />
       <div className="flex justify-start">
         <Button className="primary-btn" type="submit">
-          Post Comment
+          {isLoading ? 'adding comment...' : 'Post Comment'}
         </Button>
       </div>
     </form>

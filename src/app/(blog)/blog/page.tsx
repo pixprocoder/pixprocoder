@@ -7,7 +7,7 @@ export default async function BlogPage() {
   const posts = await getAllBlogPostsMeta();
 
   return (
-    <section className="container mx-auto min-h-screen py-14">
+    <section className="container mx-auto min-h-screen py-14 px-4">
       <SectionBanner>Latest Articles</SectionBanner>
 
       <div className="mb-12 flex items-center justify-between">
