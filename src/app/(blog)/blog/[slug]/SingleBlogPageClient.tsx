@@ -8,8 +8,12 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { Badge } from '@/src/components/ui/badge';
 import { Button } from '@/src/components/ui/button';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from '@/src/components/ui/pagination';
 import {
   Select,
   SelectContent,
@@ -36,7 +40,9 @@ import { setLike } from '@/src/redux/features/post/LikeSlice';
 import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
 import { BlogPost } from '@/src/types';
 import { formatDateToUTC } from '@/src/utils/FormatDate';
+import { formatDistanceToNow } from 'date-fns';
 import { motion } from 'framer-motion';
+import { Reply } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
@@ -102,11 +108,13 @@ export default function SingleBlogPageClient({
     }
   }, [totalLikeCount, user?.uid, blogPost.slug]);
 
-  const { data: comments } = useGetCommentsQuery({
-    postId: blogPost.slug,
-    sort: sortOrder,
-    page: currentPage,
-    limit: 10,
+  const {
+    data: comments,
+    isLoading: commentLoading,
+    isError: commentError,
+    isSuccess: commentSuccess,
+  } = useGetCommentsQuery({
+    slug: blogPost.slug,
   });
 
   // TODO: UPDATE WITH REDUX
@@ -331,52 +339,33 @@ export default function SingleBlogPageClient({
             <div className="space-y-8">
               <CommentBox id={blogPost.slug} />
 
-              <div className="flex items-center justify-between">
-                <Select
-                  value={sortOrder}
-                  onValueChange={(value) => {
-                    setSortOrder(value);
-                    setCurrentPage(1);
-                  }}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Sort comments" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="desc">Newest First</SelectItem>
-                    <SelectItem value="asc">Oldest First</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                {/* <Pagination className="ml-auto">
-                  <PaginationContent>
-                    <PaginationItem>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handlePagination('prev')}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </Button>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <span className="px-4">Page {currentPage}</span>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handlePagination('next')}
-                        disabled={!comments?.hasNextPage}
-                      >
-                        Next
-                      </Button>
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination> */}
-              </div>
+              {comments?.data?.length !== 0 ? (
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-sm">Sort By:</h3>
+                  </div>
+                  <Select
+                    value={sortOrder}
+                    onValueChange={(value) => {
+                      setSortOrder(value);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Sort comments" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="desc">Newest First</SelectItem>
+                      <SelectItem value="asc">Oldest First</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : (
+                ''
+              )}
 
               <div className="space-y-6">
-                {comments?.data?.map((comment) => (
+                {comments?.data?.map((comment: any) => (
                   <motion.div
                     key={comment._id}
                     initial={{ opacity: 0, y: 10 }}
@@ -384,29 +373,77 @@ export default function SingleBlogPageClient({
                     className="p-6 rounded-lg border border-border bg-background/50"
                   >
                     <div className="flex gap-4">
-                      <Avatar className="w-8 h-8">
-                        <AvatarImage src={comment.author?.avatar} />
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage
+                          src={comment?.author?.avatar || '/user.png'}
+                        />
                         <AvatarFallback>
-                          {comment.author?.username?.[0] || 'G'}
+                          {comment.author?.username?.[0] ||
+                            comment.author?.email?.[0] ||
+                            'G'}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center gap-2">
                           <h4 className="font-medium">
-                            {comment.author?.username || 'Guest'}
+                            {comment.author?.username ||
+                              (comment.author?.email
+                                ? `${comment.author.email.split('@')[0].slice(0, 3)}***`
+                                : 'Guest')}
                           </h4>
                           <span className="text-xs text-muted-foreground">
-                            {formatDateToUTC(comment.createdAt)}
+                            •
                           </span>
+                          <time className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(comment.createdAt), {
+                              addSuffix: true,
+                            })}
+                          </time>
                         </div>
-                        <p className="text-muted-foreground">
+                        <p className="text-muted-foreground leading-relaxed">
                           {comment.content}
                         </p>
+                        <div className="flex items-center gap-2 pt-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 gap-2 text-xs"
+                          >
+                            <Reply className="w-3.5 h-3.5" />
+                            Reply
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
+
+              <Pagination className="ml-auto">
+                <PaginationContent>
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      // onClick={() => handlePagination('prev')}
+                      disabled={currentPage === 1}
+                    >
+                      Previous
+                    </Button>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <span className="px-4">Page {currentPage}</span>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <Button
+                      variant="ghost"
+                      // onClick={() => handlePagination('next')}
+                      disabled={!comments?.hasNextPage}
+                    >
+                      Next
+                    </Button>
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </div>
           </TabsContent>
 

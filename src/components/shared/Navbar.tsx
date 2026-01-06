@@ -1,12 +1,24 @@
 'use client';
-import Link from 'next/link';
-import React, { useContext, useState } from 'react';
-import { navLinks } from '../../constants';
-import { Button } from '../ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/src/components/ui/sheet';
 import { AuthContext } from '@/src/providers/AuthProviders';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useAppSelector } from '@/src/redux/hooks/hooks';
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { AnimatePresence, motion } from 'framer-motion';
+import { LayoutDashboard, LogOut, User } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IoBagAddOutline } from 'react-icons/io5';
+import { useContext, useState } from 'react';
+import { FiX } from 'react-icons/fi';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { navLinks } from '../../constants';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,21 +26,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '../ui/dropdown-menu';
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import Image from 'next/image';
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from '@/src/components/ui/sheet';
-import CartSheet from '@/src/components/cart/CartSheet';
-import { useAppSelector } from '@/src/redux/hooks/hooks';
 import { ThemeToggle } from './ThemeToggle';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { FiX } from 'react-icons/fi';
-import { LayoutDashboard, LogOut, User } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -39,7 +37,7 @@ const Navbar = () => {
   const handleSignOut = () => {
     logOut()
       .then(() => router.push('/'))
-      .catch((error) => console.error(error));
+      .catch((error: any) => console.error(error));
   };
 
   const handleMobileNav = (link: string) => {

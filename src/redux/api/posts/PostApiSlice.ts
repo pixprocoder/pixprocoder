@@ -69,8 +69,8 @@ export const PostApiSlice = createApi({
 
     // Comment endpoints
     postComment: builder.mutation({
-      query: ({ postId, data }) => ({
-        url: `/posts/${postId}/comments`,
+      query: ({ slug, data }) => ({
+        url: `/posts/comments/${slug}`,
         method: 'POST',
         body: data,
       }),
@@ -78,8 +78,7 @@ export const PostApiSlice = createApi({
     }),
 
     getComments: builder.query({
-      query: ({ postId, sort = 'desc', page = 1, limit = 10 }) =>
-        `/posts/${postId}/comments?sort=${sort}&page=${page}&limit=${limit}`,
+      query: ({ slug }) => `/posts/comments/${slug}`,
       providesTags: ['Comment'],
     }),
 

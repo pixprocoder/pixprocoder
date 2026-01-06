@@ -4,14 +4,16 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
+import { Badge } from '@/src/components/ui/badge';
 import { Card, CardContent } from '@/src/components/ui/card';
-import { formatDateToUTC } from '@/src/utils/FormatDate';
+import { BlogPost, BlogPostMeta } from '@/src/types';
+import { formatDateToUTCShort } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface BlogCardProps {
-  blog: any;
+  blog: BlogPostMeta;
   isLoading?: boolean;
 }
 
@@ -70,18 +72,24 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             <div className="flex items-center justify-between text-sm text-muted-foreground">
               <Link href={`/blog/about-author/${blog.authorId}`}>
                 <div className="flex items-center gap-2">
-                  <Avatar className="h-6 w-6">
+                  <Avatar className="h-10 w-10">
                     <AvatarImage src={blog.authorProfile} />
                     <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
                   </Avatar>
-                  <span className="hover:underline hover:text-primary">
-                    {blog.author || 'MD Samsul Kobir'}
-                  </span>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="hover:underline hover:text-primary">
+                      {blog.author || 'MD Samsul Kobir'}
+                    </span>
+                    <span className="text-xs">
+                      {formatDateToUTCShort(blog.date)}
+                    </span>
+                  </div>
                 </div>
               </Link>
               {/* <span>{new Date(blog.date).toLocaleDateString()}</span> */}
-              <span>{formatDateToUTC(blog.date)}</span>
+              <Badge>New</Badge>
             </div>
+            <hr />
             {/* Title */}
             <Link
               href={`/blog/${blog.slug}`}
@@ -98,17 +106,6 @@ export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
             </p>
           </div>
         </CardContent>
-
-        {/* Read More */}
-        {/* <CardFooter className="border-t p-6">
-          <Link
-            href={`/blog/${blog.slug}`}
-            className="group flex w-full items-center justify-between text-primary hover:text-primary/80 transition-colors"
-          >
-            <span>Continue Reading</span>
-            <FaLongArrowAltRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </CardFooter> */}
       </Card>
     </motion.div>
   );
