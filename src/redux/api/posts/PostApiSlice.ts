@@ -78,7 +78,8 @@ export const PostApiSlice = createApi({
     }),
 
     getComments: builder.query({
-      query: ({ slug }) => `/posts/comments/${slug}`,
+      query: ({ slug, sortBy, page, limit }) =>
+        `/posts/comments/${slug}?sortBy=${sortBy}&page=${page}&limit=${limit}`,
       providesTags: ['Comment'],
     }),
 

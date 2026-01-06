@@ -59,6 +59,7 @@ function CommentBox({ id }: { id: string }) {
       });
       setComment('');
     }
+    setComment('');
   };
 
   return (

@@ -57,11 +57,11 @@ interface SingleBlogPageClientProps {
 export default function SingleBlogPageClient({
   blogPost,
 }: SingleBlogPageClientProps) {
-  const [sortOrder, setSortOrder] = useState('desc');
+  const { user } = useContext(AuthContext);
+  const { toast } = useToast();
+  const [sortBy, setSortBy] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('content');
-  const { toast } = useToast();
-  const { user } = useContext(AuthContext);
   // redux
   const dispatch = useAppDispatch();
   const isLiked = useAppSelector(
@@ -108,13 +108,17 @@ export default function SingleBlogPageClient({
     }
   }, [totalLikeCount, user?.uid, blogPost.slug]);
 
+  // comments
   const {
     data: comments,
     isLoading: commentLoading,
     isError: commentError,
     isSuccess: commentSuccess,
   } = useGetCommentsQuery({
+    sortBy,
     slug: blogPost.slug,
+    page: currentPage,
+    limit: 4,
   });
 
   // TODO: UPDATE WITH REDUX
@@ -178,12 +182,15 @@ export default function SingleBlogPageClient({
     }
   };
 
-  // Pagination controls
-  // const handlePagination = (direction: 'next' | 'prev') => {
-  //   setCurrentPage((prev) =>
-  //     direction === 'next' ? prev + 1 : Math.max(1, prev - 1),
-  //   );
-  // };
+  const handlePagination = (direction: 'prev' | 'next') => {
+    const totalPages = comments?.meta?.totalPages || 1;
+
+    if (direction === 'prev' && currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    } else if (direction === 'next' && currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -268,7 +275,7 @@ export default function SingleBlogPageClient({
             <TabsList className="grid grid-cols-3 bg-transparent">
               <TabsTrigger value="content">Article</TabsTrigger>
               <TabsTrigger value="comments">
-                Comments ({comments?.data?.length || 0})
+                Comments ({comments?.meta?.total || 0})
               </TabsTrigger>
               <TabsTrigger value="related">Related Posts</TabsTrigger>
             </TabsList>
@@ -314,7 +321,7 @@ export default function SingleBlogPageClient({
                   onClick={() => setActiveTab('comments')}
                 >
                   <FaComment />
-                  <span>{comments?.data?.length || 0} Comments</span>
+                  <span>{comments?.meta?.total || 0} Comments</span>
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary">
                   <FaEye />
@@ -345,9 +352,9 @@ export default function SingleBlogPageClient({
                     <h3 className="font-medium text-sm">Sort By:</h3>
                   </div>
                   <Select
-                    value={sortOrder}
+                    value={sortBy}
                     onValueChange={(value) => {
-                      setSortOrder(value);
+                      setSortBy(value);
                       setCurrentPage(1);
                     }}
                   >
@@ -367,7 +374,7 @@ export default function SingleBlogPageClient({
               <div className="space-y-6">
                 {comments?.data?.map((comment: any) => (
                   <motion.div
-                    key={comment._id}
+                    key={comment.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="p-6 rounded-lg border border-border bg-background/50"
@@ -378,17 +385,17 @@ export default function SingleBlogPageClient({
                           src={comment?.author?.avatar || '/user.png'}
                         />
                         <AvatarFallback>
-                          {comment.author?.username?.[0] ||
-                            comment.author?.email?.[0] ||
+                          {comment?.author?.username?.[0] ||
+                            comment?.author?.email?.[0] ||
                             'G'}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
                           <h4 className="font-medium">
-                            {comment.author?.username ||
-                              (comment.author?.email
-                                ? `${comment.author.email.split('@')[0].slice(0, 3)}***`
+                            {comment?.author?.username ||
+                              (comment?.author?.email
+                                ? `${comment?.author?.email?.split('@')[0].slice(0, 3)}***`
                                 : 'Guest')}
                           </h4>
                           <span className="text-xs text-muted-foreground">
@@ -423,21 +430,27 @@ export default function SingleBlogPageClient({
                 <PaginationContent>
                   <PaginationItem>
                     <Button
-                      variant="ghost"
-                      // onClick={() => handlePagination('prev')}
-                      disabled={currentPage === 1}
+                      variant="outline"
+                      onClick={() => handlePagination('prev')}
+                      disabled={currentPage === 1 || isLoading}
                     >
-                      Previous
+                      Prev
                     </Button>
                   </PaginationItem>
                   <PaginationItem>
-                    <span className="px-4">Page {currentPage}</span>
+                    <span className="px-4 text-sm text-muted-foreground">
+                      Page {comments?.meta?.page || currentPage} of{' '}
+                      {comments?.meta?.totalPages || 1}
+                    </span>
                   </PaginationItem>
                   <PaginationItem>
                     <Button
-                      variant="ghost"
-                      // onClick={() => handlePagination('next')}
-                      disabled={!comments?.hasNextPage}
+                      variant="outline"
+                      onClick={() => handlePagination('next')}
+                      disabled={
+                        currentPage >= (comments?.meta?.totalPages || 1) ||
+                        isLoading
+                      }
                     >
                       Next
                     </Button>
