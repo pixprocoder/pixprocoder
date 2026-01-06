@@ -54,6 +54,12 @@ interface SingleBlogPageClientProps {
   blogPost: BlogPost;
 }
 
+/**
+ * Renders a full single-blog post page including header, featured image, content, like and view counters, comments, and related-posts tab.
+ *
+ * @param blogPost - The blog post data used to populate the page (metadata, content, thumbnail, slug, etc.).
+ * @returns The component's rendered JSX for the single blog post page.
+ */
 export default function SingleBlogPageClient({
   blogPost,
 }: SingleBlogPageClientProps) {
