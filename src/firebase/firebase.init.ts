@@ -20,8 +20,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 // Initialize Firebase Analytics (only on the client side)
+
 let analytics;
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
   analytics = getAnalytics(app);
 }
 

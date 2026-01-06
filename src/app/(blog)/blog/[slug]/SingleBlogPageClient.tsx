@@ -28,6 +28,8 @@ import { AuthContext } from '@/src/providers/AuthProviders';
 import {
   useGetCommentsQuery,
   useGetPostLikesQuery,
+  useGetPostViewsQuery,
+  useIncrementPostViewMutation,
   useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
 import { setLike } from '@/src/redux/features/post/LikeSlice';
@@ -38,6 +40,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
+import { FaEye } from 'react-icons/fa';
 import { FaComment, FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { FiChevronLeft } from 'react-icons/fi';
 
@@ -48,23 +51,42 @@ interface SingleBlogPageClientProps {
 export default function SingleBlogPageClient({
   blogPost,
 }: SingleBlogPageClientProps) {
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('content');
   const { toast } = useToast();
   const { user } = useContext(AuthContext);
+  // redux
   const dispatch = useAppDispatch();
   const isLiked = useAppSelector(
     (state) => state.like.likedPosts[blogPost.slug] || false,
   );
-  const [sortOrder, setSortOrder] = useState('desc');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState('content');
   const { data: totalLikeCount, isLoading } = useGetPostLikesQuery({
     postId: blogPost.slug,
     userId: user?.uid || null,
   });
+
+  const [incrementView] = useIncrementPostViewMutation();
+  const { data: viewData, isLoading: viewIsLoading } = useGetPostViewsQuery(
+    blogPost.slug,
+  );
+  const viewCount = viewData?.data?.views;
+
   const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
   const [localLikeCount, setLocalLikeCount] = useState(totalLikeCount);
 
   useEffect(() => {
+    const viewKey = `viewed_${blogPost.slug}`;
+    const lastViewed = localStorage.getItem(viewKey);
+    const now = Date.now();
+    const cooldown = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    // If never viewed OR more than 24 hours passed
+    if (!lastViewed || now - parseInt(lastViewed) > cooldown) {
+      incrementView(blogPost.slug);
+      localStorage.setItem(viewKey, now.toString());
+    }
+
     if (totalLikeCount) {
       setLocalLikeCount(totalLikeCount.likeCount);
 
@@ -78,7 +100,7 @@ export default function SingleBlogPageClient({
         );
       }
     }
-  }, [totalLikeCount, user?.uid]);
+  }, [totalLikeCount, user?.uid, blogPost.slug]);
 
   const { data: comments } = useGetCommentsQuery({
     postId: blogPost.slug,
@@ -255,8 +277,8 @@ export default function SingleBlogPageClient({
             </motion.div>
 
             {/* Like & Stats Section */}
-            <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 border-t border-border pt-6">
-              <div className="flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-start  sm:items-center gap-4 border-t border-border pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-4">
                 <Button
                   variant="outline"
                   onClick={handleLike}
@@ -284,11 +306,15 @@ export default function SingleBlogPageClient({
                   onClick={() => setActiveTab('comments')}
                 >
                   <FaComment />
-                  <span>{comments?.data?.length || 0} comments</span>
+                  <span>{comments?.data?.length || 0} Comments</span>
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-primary">
+                  <FaEye />
+                  <span>{viewCount || 0} Views</span>
                 </div>
               </div>
 
-              {blogPost.meta.tags && blogPost.meta.tags.length > 0 && (
+              {/* {blogPost.meta.tags && blogPost.meta.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {blogPost.meta.tags.map((tag, index) => (
                     <Badge key={index} variant="outline" className="capitalize">
@@ -296,54 +322,8 @@ export default function SingleBlogPageClient({
                     </Badge>
                   ))}
                 </div>
-              )}
+              )} */}
             </div>
-
-            {/* Responsive iframe styles */}
-            <style jsx global>{`
-              .prose iframe {
-                width: 100%;
-                aspect-ratio: 16/9;
-                height: auto;
-                max-height: 600px;
-              }
-
-              .prose .video-container {
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                padding-top: 56.25%; /* 16:9 Aspect Ratio */
-              }
-
-              .prose .video-container iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: 0;
-              }
-
-              /* Responsive container for other embeds */
-              .prose .responsive-embed {
-                position: relative;
-                overflow: hidden;
-                width: 100%;
-                height: 0;
-                padding-top: 56.25%; /* 16:9 Aspect Ratio */
-              }
-
-              .prose .responsive-embed iframe,
-              .prose .responsive-embed object,
-              .prose .responsive-embed embed {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: 0;
-              }
-            `}</style>
           </TabsContent>
 
           {/* Comments Tab */}
