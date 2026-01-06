@@ -1,5 +1,5 @@
-import { getBaseURL } from './../../../utils/index';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getBaseURL } from './../../../utils/index';
 
 export const PostApiSlice = createApi({
   reducerPath: 'postApi',
@@ -55,6 +55,18 @@ export const PostApiSlice = createApi({
       providesTags: ['Like'],
     }),
 
+    // views endpoints
+    incrementPostView: builder.mutation({
+      query: (slug) => ({
+        url: `/posts/views/${slug}`,
+        method: 'POST',
+      }),
+    }),
+
+    getPostViews: builder.query({
+      query: (slug) => `/posts/views/${slug}`,
+    }),
+
     // Comment endpoints
     postComment: builder.mutation({
       query: ({ postId, data }) => ({
@@ -98,7 +110,9 @@ export const {
   usePostCommentMutation,
   useTogglePostLikeMutation,
   useGetPostLikesQuery,
+  useGetPostViewsQuery,
   useUpdateCommentMutation,
   useDeleteCommentMutation,
+  useIncrementPostViewMutation,
   useCreatePostMutation,
 } = PostApiSlice;
