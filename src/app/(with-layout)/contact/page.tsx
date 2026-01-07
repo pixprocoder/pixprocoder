@@ -5,6 +5,7 @@ import { Textarea } from '@/src/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
 import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
+import { useSendContactEmailMutation } from '@/src/redux/api/email/EmailApiSlice';
 import { getBaseURL } from '@/src/utils';
 import axios from 'axios';
 import { motion } from 'framer-motion';
@@ -15,6 +16,8 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 function ContactPage() {
   const { toast } = useToast();
+  const [sendContactEmail, { isSuccess, isLoading, isError }] =
+    useSendContactEmailMutation();
   const {
     register,
     handleSubmit,
@@ -22,16 +25,22 @@ function ContactPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = async (data: any) => {
-    try {
-      const res = await axios.post(`${getBaseURL()}/contact`, data);
-      if (res.status === 200) {
-        toast({ description: 'Message sent successful 🎉' });
-        reset();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to send message');
+  const onSubmit = (data: any) => {
+    sendContactEmail(data);
+
+    if (isSuccess) {
+      toast({
+        title: 'Thank You!',
+        description: 'I will get back to you soon',
+      });
+      reset();
+    }
+    if (isError) {
+      toast({
+        variant: 'destructive',
+        description: 'Failed Try again later',
+      });
+      reset();
     }
   };
 

@@ -13,21 +13,36 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { useToast } from './ui/use-toast';
+import { useSendContactEmailMutation } from '../redux/api/email/EmailApiSlice';
 
 const Hero = () => {
   const { toast } = useToast();
+  const [sendContactEmail, { isSuccess, isLoading, isError }] =
+    useSendContactEmailMutation();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log('the quote data is : ', data);
-    toast({
-      title: 'Email Sent',
-      description: 'I will get back to you soon.',
-    });
+    sendContactEmail(data);
+
+    if (isSuccess) {
+      toast({
+        title: 'Thank You!',
+        description: 'I will get back to you soon',
+      });
+      reset();
+    }
+    if (isError) {
+      toast({
+        variant: 'destructive',
+        description: 'Failed Try again later',
+      });
+      reset();
+    }
   };
 
   const containerVariants = {
@@ -145,20 +160,20 @@ const Hero = () => {
                 <div>
                   <Input
                     type="text"
-                    placeholder="Project Name"
+                    placeholder="Subject..."
                     className="w-full bg-background text-foreground border-border"
-                    {...register('projectName', { required: true })}
+                    {...register('subject', { required: true })}
                   />
-                  {errors.projectName && (
+                  {errors.subject && (
                     <span className="text-xs text-destructive">
-                      Project name is required
+                      Subject is required
                     </span>
                   )}
                 </div>
 
                 <div>
                   <Textarea
-                    placeholder="Your Message"
+                    placeholder="Your Message..."
                     className="w-full h-32 bg-background text-foreground border-border"
                     {...register('message', { required: true })}
                   />
@@ -171,7 +186,7 @@ const Hero = () => {
 
                 <div className="space-y-4">
                   <Button type="submit" className="w-full primary-btn">
-                    Deliver 🚀
+                    {isLoading ? 'sending...🚀' : ' Deliver 🚀'}
                   </Button>
 
                   <div className="text-center text-sm text-muted-foreground">
