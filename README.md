@@ -5,7 +5,7 @@
 [![Codepen](https://img.shields.io/badge/Codepen-pixprocoder-black)](https://codepen.io/pixprocoder)
 [![Instagram](https://img.shields.io/badge/Instagram-pixprocoder-E4405F?logo=instagram&logoColor=white)](https://instagram.com/pixprocoder)
 
-CEO of [pixprocoder-studio](https://pixprocoder-studio.com). A passionate Full-stack Software Engineer with expertise in modern web technologies. I enjoy creating dynamic, responsive, and user-friendly web applications.
+CEO of [pixprocoder-studio](https://pixprocoder-studio.com). A passionate Full-stack Software Engineer with expertise in modern web technologies.
 
 ## 🚀 Technologies & Tools
 
