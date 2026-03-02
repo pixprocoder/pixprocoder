@@ -7,7 +7,7 @@
 
 CEO of [pixprocoder-studio](https://pixprocoder-studio.com). A passionate Full-stack Software Engineer.
 
-## 🚀 Technologies & Tools
+## 🚀 Technologies & Tools I use
 
 ### Frontend
 
