@@ -5,9 +5,9 @@
 [![Codepen](https://img.shields.io/badge/Codepen-pixprocoder-black)](https://codepen.io/pixprocoder)
 [![Instagram](https://img.shields.io/badge/Instagram-pixprocoder-E4405F?logo=instagram&logoColor=white)](https://instagram.com/pixprocoder)
 
-CEO of [pixprocoder-studio](https://pixprocoder-studio.com). A passionate Full-stack Software Engineer.
+Founder CEO of [pixprocoder-studio](https://pixprocoder-studio.com). Full-stack Software Engineer.
 
-## 🚀 Technologies & Tools I use
+## 🚀 Technologies & Tools I use the most
 
 ### Frontend
 
