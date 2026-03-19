@@ -46,4 +46,31 @@
 2. Link GA4 property to Google Ads for conversion tracking
 3. Add custom events to key user actions (signups, purchases, etc.)
 
+### Session: Google AdSense Integration
+
+**Goal:** Add Google AdSense for monetization
+
+**Files Created:**
+- `public/ads.txt` - AdSense authorization file with publisher ID
+- `src/components/AdSense.tsx` - Manual ad placement component
+- `src/components/AdSenseAutoAds.tsx` - Auto ads component
+
+**Files Modified:**
+- `.env.example` - Added `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=ca-pub-4097711579904962`
+- `src/app/layout.tsx` - Added AdSense script + AutoAds component
+- `README.md` - Added AdSense documentation
+
+**Publisher ID:** `ca-pub-4097711579904962`
+
+**Features:**
+- Auto Ads enabled site-wide (Google automatically places ads)
+- Manual ad component for custom placements
+- Support for all ad formats (auto, fluid, rectangle, horizontal, vertical)
+
+**Next Steps:**
+1. Deploy site to make `ads.txt` accessible
+2. Submit site to Google AdSense for approval
+3. After approval, create ad units in AdSense dashboard
+4. Add ad slots to blog posts, sidebar, etc.
+
 ---

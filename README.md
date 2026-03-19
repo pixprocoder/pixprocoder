@@ -142,6 +142,53 @@ import { TrackedLink, TrackedButton } from '@/src/components/TrackedElements';
 
 GA4 is configured for Google Ads conversion tracking. Link your GA4 property to Google Ads in the Google Analytics admin panel.
 
+## 📢 Google AdSense
+
+This project has **Google AdSense** integrated for monetization.
+
+### Files
+- `/public/ads.txt` - AdSense authorization file (required)
+- `src/components/AdSense.tsx` - Ad display component
+- `src/components/AdSenseAutoAds.tsx` - Auto ads component
+
+### Setup
+1. Deploy your site so `ads.txt` is accessible at `https://www.pixprocoder.com/ads.txt`
+2. Add your site to [Google AdSense](https://adsense.google.com/)
+3. Wait for approval (usually 1-7 days)
+
+### Usage
+
+**Auto Ads (Recommended - Google places ads automatically):**
+```tsx
+// Already enabled in layout.tsx
+// Google will automatically place ads throughout your site
+```
+
+**Manual Ad Placements:**
+```tsx
+import AdSense from '@/src/components/AdSense';
+
+// In your content
+<AdSense slot="1234567890" format="auto" />
+```
+
+**Ad Formats:**
+- `format="auto"` - Responsive ads (recommended)
+- `format="fluid"` - Flexible size
+- `format="rectangle"` - 300x250 rectangle
+- `format="horizontal"` - 728x90 leaderboard
+- `format="vertical"` - 160x600 skyscraper
+
+**Get Ad Slot IDs:**
+1. Go to AdSense → Ads → By ad unit
+2. Create new ad unit
+3. Copy the `data-ad-slot` value (e.g., `1234567890`)
+
+### Environment Variables
+```bash
+NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=ca-pub-4097711579904962
+```
+
 ## 📄 License
 
 Licensed under the [MIT license](/LICENSE).

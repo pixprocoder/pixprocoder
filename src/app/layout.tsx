@@ -5,6 +5,7 @@ import Script from 'next/script';
 import React from 'react';
 import PageViewTracker from '../components/PageViewTracker';
 import { Toaster } from '../components/ui/toaster';
+import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
 import ReduxProvider from '../providers/ReduxProvider';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
@@ -12,6 +13,7 @@ import { ThemeProvider } from '../providers/ThemeProvider';
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
+const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'ca-pub-4097711579904962';
 
 export const metadata: Metadata = {
   title: 'pixprocoder',
@@ -49,6 +51,14 @@ export default function RootLayout({
           />
         </>
       )}
+      {/* Google AdSense Script */}
+      {ADSENSE_PUBLISHER_ID && (
+        <Script
+          strategy="afterInteractive"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+          crossOrigin="anonymous"
+        />
+      )}
       <body suppressHydrationWarning={true} className="">
         <ThemeProvider>
           <ReduxProvider>
@@ -57,6 +67,7 @@ export default function RootLayout({
                 <OtherProviders>
                   <main>{children}</main>
                   <PageViewTracker />
+                  <AdSenseAutoAds />
                   <Toaster />
                   {/*   <CartIcon /> */}
                 </OtherProviders>
