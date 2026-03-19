@@ -354,7 +354,9 @@ export const testimonials = [
     name: 'dxmalam',
     role: 'Startup Founder',
     country: '🇷🇴 Romania',
-    avatar: '',
+    avatar:
+      'https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto,t_profile_small/v1/attachments/profile/photo/70ece62e7e25999669b889e725b8399e-1709235731099/5e846242-2f16-46a2-adcf-4f68202541dd.jpg',
+    text: 'Did exactly what i asked for. Would definitely be coming back!',
     text: 'very good and professional work. he did Exactly how I want. highly recommended 👍',
     rating: 5,
     projectLink: 'https://www.5stardrivers.com/',

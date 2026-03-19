@@ -8,6 +8,7 @@
     "url": "https://www.pixprocoder.com"
   },
   "scripts": {
+    "start": "next start",
     "dev": "next dev --turbo",
     "build": "bun next build",
     "sync:posts": "bun run src/scripts/sync-posts.ts",
