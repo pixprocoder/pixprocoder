@@ -5,9 +5,9 @@
 [![Codepen](https://img.shields.io/badge/Codepen-pixprocoder-black)](https://codepen.io/pixprocoder)
 [![Instagram](https://img.shields.io/badge/Instagram-pixprocoder-E4405F?logo=instagram&logoColor=white)](https://instagram.com/pixprocoder)
 
-CEO of [pixprocoder-studio](https://pixprocoder-studio.com). A passionate Full-stack Software Engineer.
+Founder CEO of [pixprocoder-studio](https://pixprocoder-studio.com). Full-stack Software Engineer.
 
-## 🚀 Technologies & Tools I use
+## 🚀 Technologies & Tools I use the most
 
 ### Frontend
 
@@ -69,6 +69,78 @@ bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the website.
+
+## 📊 Analytics Setup
+
+This project uses **Google Analytics 4 (GA4)** + **Firebase Analytics** for tracking user behavior and Google Ads integration.
+
+### Environment Variables
+
+Add your GA4 Measurement ID to `.env.local`:
+
+```bash
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+### Usage Examples
+
+**Track custom events:**
+```tsx
+import { useAnalytics } from '@/src/hooks/useAnalytics';
+
+function MyComponent() {
+  const { trackEvent, trackFormSubmit, trackOutboundLink } = useAnalytics();
+
+  const handleClick = () => {
+    trackEvent('button_click', { button_name: 'signup', location: 'hero' });
+  };
+
+  const handleFormSubmit = (success: boolean) => {
+    trackFormSubmit('contact_form', success);
+  };
+
+  return (
+    <button onClick={handleClick}>Sign Up</button>
+  );
+}
+```
+
+**Track e-commerce events:**
+```tsx
+const { trackAddToCart, trackPurchase } = useAnalytics();
+
+// Add to cart
+trackAddToCart('product_123', 'T-Shirt', 29.99, 2);
+
+// Purchase
+trackPurchase('txn_123', 59.98, [
+  { item_id: 'product_123', item_name: 'T-Shirt', quantity: 2 }
+]);
+```
+
+**Use pre-tracked components:**
+```tsx
+import { TrackedLink, TrackedButton } from '@/src/components/TrackedElements';
+
+<TrackedLink href="https://external.com">External Link</TrackedLink>
+<TrackedButton eventName="signup_click">Sign Up</TrackedButton>
+```
+
+### Available Tracking Functions
+
+| Function | Description |
+|----------|-------------|
+| `trackEvent(name, params)` | Track any custom event |
+| `trackPageView(url, title)` | Track page view |
+| `trackOutboundLink(url, text)` | Track outbound link clicks |
+| `trackFormSubmit(name, success)` | Track form submissions |
+| `trackSearch(term, count)` | Track search queries |
+| `trackAddToCart(id, name, price, qty)` | Track add to cart |
+| `trackPurchase(txnId, value, items)` | Track purchases |
+
+### Google Ads Integration
+
+GA4 is configured for Google Ads conversion tracking. Link your GA4 property to Google Ads in the Google Analytics admin panel.
 
 ## 📄 License
 
