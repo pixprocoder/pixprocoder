@@ -1,55 +1,15 @@
 'use client';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { FiArrowUpRight } from 'react-icons/fi';
-import { SiUpwork } from 'react-icons/si';
-import { TbBrandFiverr } from 'react-icons/tb';
-import banner from '../assets/images/banner.png';
-import Modal from './shared/Modal';
-import TypedText from './shared/TypedText';
+import { FiArrowRight, FiTerminal, FiCode, FiCpu } from 'react-icons/fi';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { useToast } from './ui/use-toast';
-import { useSendContactEmailMutation } from '../redux/api/email/EmailApiSlice';
 
 const Hero = () => {
-  const { toast } = useToast();
-  const [sendContactEmail, { isSuccess, isLoading, isError }] =
-    useSendContactEmailMutation();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data: any) => {
-    sendContactEmail(data);
-
-    if (isSuccess) {
-      toast({
-        title: 'Thank You!',
-        description: 'I will get back to you soon',
-      });
-      reset();
-    }
-    if (isError) {
-      toast({
-        variant: 'destructive',
-        description: 'Failed Try again later',
-      });
-      reset();
-    }
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
@@ -58,212 +18,121 @@ const Hero = () => {
     visible: { y: 0, opacity: 1 },
   };
 
-  // Tech stack for floating animation
-  const techStack = [
-    'React',
-    'TypeScript',
-    'Next.js',
-    'Node.js',
-    'GraphQL',
-    'AWS',
-    'MongoDB',
-    'PostgreSQL',
-  ];
-
   return (
-    <section id="home" className="relative overflow-hidden">
-      <div className="container px-4 py-16 md:py-24 grid md:grid-cols-2 gap-8 items-center">
-        {/* Text Content */}
+    <section id="home" className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
+      {/* Programmer Grid Background */}
+      <div className="absolute inset-0 -z-10 bg-background">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+      </div>
+
+      <div className="container mx-auto grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+        {/* Left Content */}
         <motion.div
-          className="space-y-5"
+          className="space-y-6 md:space-y-8 text-left"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants}>
-            <div className="mb-2">
-              <motion.span
-                className="inline-block bg-accent text-accent-foreground text-sm px-4 py-1 rounded-full border border-border"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-              >
-                Owner & CEO of{' '}
-                <Link
-                  href="https://pixprocoder-studio.com/"
-                  target="_blank"
-                  className="hover:text-primary transition-colors bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-medium"
-                >
-                  pixprocoder-studio
-                </Link>
-              </motion.span>
+          <motion.div variants={itemVariants} className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-accent/50 border border-border text-xs md:text-sm font-mono text-muted-foreground">
+              <FiTerminal className="text-primary" />
+              <span>~/pixprocoder/init.sh</span>
+              <span className="w-1.5 h-3.5 bg-primary animate-pulse ml-0.5"></span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              <span className="bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-                Full-Stack Software Engineer
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
+              Engineering <br className="hidden sm:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-purple-600">
+                The Future.
               </span>
             </h1>
+
+            <p className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed border-l-2 border-primary/50 pl-4 font-mono">
+              Software engineer, creator, and provider of premium tools for modern developers.
+            </p>
           </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="pl-3 border-l-2 border-primary/50"
-          >
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="font-medium">Technologies:</span>
-              <TypedText
-                className="text-lg font-medium text-foreground/80"
-                strings={[
-                  'React Ecosystem',
-                  'Cloud Architecture',
-                  'Full-Stack Solutions',
-                  'Scalable Systems',
-                ]}
-              />
-            </div>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
-            <Link href="/blog">
-              <Button
-                variant="outline"
-                className="gap-2 px-5 border-border text-foreground hover:bg-accent"
-              >
-                Explore Blog
-                <FiArrowUpRight className="text-sm" />
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
+            <Link href="/blog" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto gap-2 h-11 px-6 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md font-mono text-sm">
+                <FiCode />
+                Read Insights
               </Button>
             </Link>
 
-            <Modal
-              trigger={
-                <Button className="gap-2 px-5 primary-btn">
-                  Get A Quote
-                  <FiArrowUpRight className="text-sm" />
-                </Button>
-              }
-              title="Start Your Project"
-            >
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Your Email"
-                    className="w-full  bg-background text-foreground border-border"
-                    {...register('email', { required: true })}
-                  />
-                  {errors.email && (
-                    <span className="text-xs text-destructive">
-                      Email is required
-                    </span>
-                  )}
-                </div>
+            <Link href="/shop" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto gap-2 h-11 px-6 border-border hover:bg-accent rounded-md font-mono text-sm">
+                <FiCpu />
+                Explore Tools
+              </Button>
+            </Link>
+          </motion.div>
 
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Subject..."
-                    className="w-full bg-background text-foreground border-border"
-                    {...register('subject', { required: true })}
-                  />
-                  {errors.subject && (
-                    <span className="text-xs text-destructive">
-                      Subject is required
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <Textarea
-                    placeholder="Your Message..."
-                    className="w-full h-32 bg-background text-foreground border-border"
-                    {...register('message', { required: true })}
-                  />
-                  {errors.message && (
-                    <span className="text-xs text-destructive">
-                      Message is required
-                    </span>
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  <Button type="submit" className="w-full primary-btn">
-                    {isLoading ? 'sending...🚀' : ' Deliver 🚀'}
-                  </Button>
-
-                  <div className="text-center text-sm text-muted-foreground">
-                    or
-                  </div>
-
-                  <div className="flex justify-center gap-4">
-                    <Link
-                      href="https://www.fiverr.com/pixprocoder"
-                      target="_blank"
-                      className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                    >
-                      <TbBrandFiverr className="h-5 w-5" />
-                      Fiverr Profile
-                    </Link>
-                    <Link
-                      href="https://www.upwork.com"
-                      target="_blank"
-                      className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                    >
-                      <SiUpwork className="h-5 w-5" />
-                      Upwork Profile
-                    </Link>
-                  </div>
-                </div>
-              </form>
-            </Modal>
+          <motion.div variants={itemVariants} className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs md:text-sm text-muted-foreground font-mono">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span>Systems Operational</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiArrowRight className="text-primary" />
+              <span>v15.0.0</span>
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* Image Section */}
+        {/* Right Code Window */}
         <motion.div
-          variants={itemVariants}
-          className="relative aspect-square bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-xl overflow-hidden border border-border"
+          initial={{ opacity: 0, y: 20, lg: { x: 20, y: 0 } } as any}
+          animate={{ opacity: 1, y: 0, lg: { x: 0 } } as any}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative group mt-4 lg:mt-0"
         >
-          {/* Floating Tech Stack */}
-          <div className="absolute inset-0 flex flex-wrap justify-center items-center opacity-10 pointer-events-none">
-            {techStack.map((tech, index) => (
-              <motion.div
-                key={tech}
-                className="text-foreground/20 dark:text-foreground/30 font-mono text-lg absolute"
-                initial={{
-                  scale: 0,
-                  rotate: Math.random() * 360,
-                }}
-                animate={{
-                  scale: 1,
-                  rotate: 0,
-                  x: Math.random() * 100 - 50,
-                  y: Math.random() * 100 - 50,
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                  delay: index * 0.5,
-                }}
-              >
-                {tech}
-              </motion.div>
-            ))}
+          {/* Glowing backdrop */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-500 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
+
+          <div className="relative rounded-xl bg-[#0d1117] border border-border shadow-2xl overflow-hidden">
+            {/* Window Header */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-[#161b22] border-b border-[#30363d]">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></div>
+              </div>
+              <div className="text-[10px] md:text-xs text-muted-foreground font-mono">pixprocoder.config.ts</div>
+              <div className="w-12"></div>
+            </div>
+
+            {/* Code Area */}
+            <div className="p-4 md:p-6 overflow-x-auto text-[13px] md:text-sm lg:text-base font-mono leading-relaxed">
+              <pre className="scrollbar-hide">
+                <code>
+                  <span className="text-pink-400">const</span> <span className="text-blue-400">pixprocoder</span> <span className="text-pink-400">=</span> {'{\n'}
+                  {'  '}status: <span className="text-green-400">"Online"</span>,{'\n'}
+                  {'  '}mission: <span className="text-green-400">"Building tools."</span>,{'\n'}
+                  {'  '}skills: [{'\n'}
+                  {'    '}<span className="text-green-400">"React"</span>, <span className="text-green-400">"Node.js"</span>,{'\n'}
+                  {'    '}<span className="text-green-400">"Architecture"</span>{'\n'}
+                  {'  '}],{'\n'}
+                  {'  '}execute: <span className="text-yellow-300">()</span> <span className="text-pink-400">{'=>'}</span> {'{\n'}
+                  {'    '}<span className="text-pink-400">return</span> <span className="text-green-400">"Innovate."</span>;{'\n'}
+                  {'  '}{'}\n'}
+                  {'}'};
+                </code>
+              </pre>
+            </div>
           </div>
 
-          <Image
-            src={banner}
-            alt="Developer workspace"
-            className="object-cover object-center mix-blend-luminosity"
-            fill
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-background/0" />
+          {/* Floating Element - Adjusted for better mobile handling */}
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -right-2 -bottom-4 md:-right-6 md:-bottom-6 bg-background border border-border rounded-lg p-3 md:p-4 shadow-xl font-mono text-[10px] md:text-xs hidden sm:block"
+          >
+            <div className="text-primary mb-1">~ % ./deploy.sh</div>
+            <div className="text-muted-foreground">Deploying...</div>
+            <div className="text-green-500 mt-1">✓ Success!</div>
+          </motion.div>
         </motion.div>
-      </div>
-
-      {/* Subtle Grid Background */}
-      <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,black)]">
-        <div className="h-full w-full [background-size:24px_24px] [background-image:linear-gradient(to_right,rgba(55,65,81,0.2)_1px,transparent_1px),linear-gradient(to_bottom,rgba(55,65,81,0.2)_1px,transparent_1px)]" />
       </div>
     </section>
   );

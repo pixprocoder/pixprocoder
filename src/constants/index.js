@@ -46,26 +46,34 @@ export const portfolioMenu = [
 export const faqItems = [
   {
     value: '1',
-    question:
-      'What is your approach to designing and developing a website or project?',
+    question: 'What is the primary tech stack used at PixProcoder Studio?',
     answer:
-      " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
+      "We specialize in modern JavaScript/TypeScript ecosystems. Our go-to stack is Next.js 15 for the frontend, combined with Tailwind CSS for styling and Redux or TanStack Query for state management. For the backend, we leverage Node.js, Express, and Firebase or PostgreSQL depending on the data requirements.",
   },
   {
     value: '2',
-    question:
-      'How do you handle responsive design to ensure a seamless user experience across devices?',
+    question: 'How do you ensure high performance and SEO for the sites you build?',
     answer:
-      " I believe in a holistic approach that blends creativity and technical expertise. My process typically involves understanding your project's goals and target audience, followed by crafting a well-thought-out design concept. Once the design is approved, I move into the development phase, utilizing the latest technologies and coding practices to bring the design to life. Regular communication and collaboration ensure that the final product aligns with your vision and exceeds expectations.",
+      "Performance isn't an afterthought; we use Next.js's server-side rendering (SSR) and static site generation (SSG) to ensure near-instant load times. We also implement automated image optimization, clean semantic HTML, and rigorous Lighthouse audits to ensure your site ranks well and provides a smooth user experience.",
   },
   {
     value: '3',
-    question:
-      'How do you ensure that your web development projects are secure and optimized for performance?',
+    question: 'Do you offer custom integrations for e-commerce and payments?',
     answer:
-      'Security and performance are paramount in every project I undertake. To ensure a secure environment, I follow best practices in web development, implementing robust authentication mechanisms, data encryption, and regular security audits. Additionally, I optimize performance by meticulously optimizing code, compressing assets, and leveraging caching techniques. By prioritizing security and performance, I guarantee that your website not only looks exceptional but also operates seamlessly and safely for all users.',
+      "Yes, we have extensive experience integrating Stripe for secure payment processing and building custom e-commerce flows. Whether you're selling digital products, courses, or physical goods, we can build a checkout experience tailored to your brand.",
   },
-  // Add more FAQ items here
+  {
+    value: '4',
+    question: 'Can you help with scaling an existing application?',
+    answer:
+      "Absolutely. We often work with clients to refactor legacy codebases, migrate to TypeScript for better type safety, or transition to a more scalable architecture like microservices or serverless functions to handle increased traffic.",
+  },
+  {
+    value: '5',
+    question: 'How does PixProcoder handle project communication?',
+    answer:
+      "Transparency is key. We typically use tools like Slack or Discord for real-time updates and GitHub for version control. You'll have clear visibility into the development progress through regular check-ins and staging deployments where you can test features as they are built.",
+  },
 ];
 
 export const projects = [

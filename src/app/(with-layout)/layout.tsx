@@ -11,7 +11,9 @@ export default function RootLayout({
     <>
       {/* <AlertBanner /> */}
       <Navbar />
-      {children}
+      <div>
+        {children}
+      </div>
       <Footer />
     </>
   );
