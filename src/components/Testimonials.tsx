@@ -10,7 +10,7 @@ const Testimonials = () => {
 
   return (
     <section id="testimonials" className="py-20 md:py-32 bg-background overflow-hidden border-t border-border/50">
-      <div className="container px-4 mx-auto mb-16">
+      <div className="container mx-auto mb-16">
         {/* Section Header - Consistent Style */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4">

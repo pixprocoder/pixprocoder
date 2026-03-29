@@ -8,7 +8,7 @@ import Testimonials from '@/src/components/Testimonials';
 
 export default function Home() {
   return (
-    <section className="lg:container mx-auto px-4 ">
+    <section className="lg:container mx-auto">
       <Hero />
       <BentoGrid />
       <RecentPosts />

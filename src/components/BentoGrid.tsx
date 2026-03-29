@@ -26,7 +26,7 @@ const BentoGrid = () => {
 
   return (
     <section className="py-12 md:py-20">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"

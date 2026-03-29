@@ -58,7 +58,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <div className="space-y-4">

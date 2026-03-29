@@ -25,7 +25,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       </div>
 
-      <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      <div className="container mx-auto grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
         {/* Left Content */}
         <motion.div
           className="space-y-6 md:space-y-8 text-left"
@@ -39,14 +39,14 @@ const Hero = () => {
               <span>~/pixprocoder/init.sh</span>
               <span className="w-1.5 h-3.5 bg-primary animate-pulse ml-0.5"></span>
             </div>
-            
+
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.1]">
               Engineering <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-500 to-purple-600">
                 The Future.
               </span>
             </h1>
-            
+
             <p className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed border-l-2 border-primary/50 pl-4 font-mono">
               Software engineer, creator, and provider of premium tools for modern developers.
             </p>
@@ -59,7 +59,7 @@ const Hero = () => {
                 Read Insights
               </Button>
             </Link>
-            
+
             <Link href="/shop" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto gap-2 h-11 px-6 border-border hover:bg-accent rounded-md font-mono text-sm">
                 <FiCpu />
@@ -69,14 +69,14 @@ const Hero = () => {
           </motion.div>
 
           <motion.div variants={itemVariants} className="pt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs md:text-sm text-muted-foreground font-mono">
-             <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                <span>Systems Operational</span>
-             </div>
-             <div className="flex items-center gap-2">
-                <FiArrowRight className="text-primary" />
-                <span>v15.0.0</span>
-             </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span>Systems Operational</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiArrowRight className="text-primary" />
+              <span>v15.0.0</span>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -89,7 +89,7 @@ const Hero = () => {
         >
           {/* Glowing backdrop */}
           <div className="absolute -inset-1 bg-gradient-to-r from-primary via-blue-500 to-purple-600 rounded-xl blur opacity-20 group-hover:opacity-30 transition duration-1000 group-hover:duration-200"></div>
-          
+
           <div className="relative rounded-xl bg-[#0d1117] border border-border shadow-2xl overflow-hidden">
             {/* Window Header */}
             <div className="flex items-center justify-between px-4 py-2.5 bg-[#161b22] border-b border-[#30363d]">
@@ -101,7 +101,7 @@ const Hero = () => {
               <div className="text-[10px] md:text-xs text-muted-foreground font-mono">pixprocoder.config.ts</div>
               <div className="w-12"></div>
             </div>
-            
+
             {/* Code Area */}
             <div className="p-4 md:p-6 overflow-x-auto text-[13px] md:text-sm lg:text-base font-mono leading-relaxed">
               <pre className="scrollbar-hide">
@@ -121,10 +121,10 @@ const Hero = () => {
               </pre>
             </div>
           </div>
-          
+
           {/* Floating Element - Adjusted for better mobile handling */}
-          <motion.div 
-            animate={{ y: [0, -8, 0] }} 
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -right-2 -bottom-4 md:-right-6 md:-bottom-6 bg-background border border-border rounded-lg p-3 md:p-4 shadow-xl font-mono text-[10px] md:text-xs hidden sm:block"
           >
