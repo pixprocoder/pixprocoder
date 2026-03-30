@@ -26,6 +26,7 @@ export const contactInfo = {
 export const navLinks = [
   { to: '/', key: 'Home' },
   { to: '/blog', key: 'Blog' },
+  { to: '/about', key: 'About' },
   { to: '/contact', key: 'Contact' },
 ];
 
