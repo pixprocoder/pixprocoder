@@ -58,27 +58,27 @@ const BentoGrid = () => {
             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
           </motion.div>
 
-          {/* Tile 2: Featured Product/Course (Medium) */}
+          {/* Tile 2: Selected Work (Medium) */}
           <motion.div
             variants={itemVariants}
             className="md:col-span-2 md:row-span-1 group relative overflow-hidden rounded-3xl border border-border bg-accent/20 p-8 flex flex-col justify-center transition-all hover:border-blue-500/50"
           >
              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="space-y-3">
-                  <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">Premium Course</span>
-                  <h3 className="text-xl md:text-2xl font-bold">The Full-Stack Architect</h3>
+                  <span className="text-xs font-mono text-blue-500 uppercase tracking-wider">Showcase</span>
+                  <h3 className="text-xl md:text-2xl font-bold">Selected Works</h3>
                   <p className="text-muted-foreground text-sm max-w-xs">
-                    Learn to build scalable, production-ready systems from scratch.
+                    Explore a curated collection of digital products and engineering solutions.
                   </p>
                 </div>
                 <div className="flex-shrink-0">
                    <div className="w-20 h-20 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 group-hover:rotate-6 transition-transform">
-                      <FiCpu size={40} />
+                      <FiCode size={40} />
                    </div>
                 </div>
              </div>
-             <Link href="/courses" className="mt-6 inline-flex items-center gap-2 text-blue-500 font-medium group/link">
-                View Course <FiArrowRight className="group-hover/link:translate-x-1 transition-transform" />
+             <Link href="#portfolio" className="mt-6 inline-flex items-center gap-2 text-blue-500 font-medium group/link">
+                View Portfolio <FiArrowRight className="group-hover/link:translate-x-1 transition-transform" />
               </Link>
           </motion.div>
 

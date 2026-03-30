@@ -22,9 +22,18 @@ The visual identity is rooted in the tools and environments of a software engine
 *   **Bento Grid:** Used for high-level "Active" content on the homepage to mix blog, products, and social proof.
 *   **Infinite Carousels:** Used for Portfolio and Testimonials. Must be slow, cinematic, and use native CSS animations for performance, with an instant `pause-on-hover` state.
 *   **System Docs FAQ:** Accordions must be styled as technical documentation with `[ Q ]` and `[ A ]` indicators.
-*   **Section Headers:** Consistent format: `Selected <span className="text-primary font-mono italic">module_name</span>`.
+*   **Section Headers:** Consistent format: `Selected <span className="text-primary font-mono italic">module_name</span>`. Breadcrumbs should use terminal paths (e.g., `~/insights/articles`).
 
-## 4. Engineering & Performance
+## 4. Blog & Content Standards
+*   **Blog Cards:** Must feature a "Repository Header" with version tags (e.g., `article_v1.0`) and functional footers (e.g., `READ_MORE`).
+*   **Single Article Layout:**
+    *   **Metadata:** Monospace row for date, author (using `@handle`), read time, and view stats.
+    *   **Sidebar:** Sticky interaction panel for "User Interaction" (Likes/Reviews) and Social Sharing.
+    *   **Status Badges:** Include technical indicators for `Status: Published` and `Log ID`.
+*   **Peer Reviews (Comments):** Style comments as engineering logs with monospace handles and function-call replies (`sys_reply()`).
+*   **Prose (Typography):** Dark-mode optimized with `#0d1117` code block backgrounds and high-contrast technical headings.
+
+## 5. Engineering & Performance
 *   **Framework:** Next.js 15 (App Router) + React 19.
 *   **Runtime:** Bun.
 *   **Styling:** Tailwind CSS (Vanilla CSS preferred for custom animations).
@@ -32,7 +41,7 @@ The visual identity is rooted in the tools and environments of a software engine
 *   **Mobile-First:** All components must be fully responsive, with touch-friendly targets (min 44px) and fluid typography.
 *   **Animations:** Use `framer-motion` for interaction-heavy elements and native CSS for continuous background animations.
 
-## 5. Workflow Instructions for Future Sessions
+## 6. Workflow Instructions for Future Sessions
 *   **Maintain the "System Log" Vibe:** When adding new features, ask: "Does this look like it belongs in an IDE or a Terminal?"
 *   **Content over Bio:** Prioritize showcasing what PixProcoder **builds and thinks** over personal biography.
 *   **Surgical Edits:** Maintain the 16px container spacing and avoid redundant `px-4` classes on nested containers.

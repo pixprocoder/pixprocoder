@@ -4,13 +4,12 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { Badge } from '@/src/components/ui/badge';
-import { Card, CardContent } from '@/src/components/ui/card';
-import { BlogPost, BlogPostMeta } from '@/src/types';
+import { BlogPostMeta } from '@/src/types';
 import { formatDateToUTCShort } from '@/src/utils/FormatDate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FiArrowRight, FiCalendar, FiClock, FiLayers } from 'react-icons/fi';
 
 interface BlogCardProps {
   blog: BlogPostMeta;
@@ -20,93 +19,83 @@ interface BlogCardProps {
 export const BlogCard = ({ blog, isLoading }: BlogCardProps) => {
   if (isLoading) {
     return (
-      <Card className="h-full overflow-hidden border-border bg-background/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-        <CardContent className="p-0">
-          <div className="aspect-video w-full bg-muted/50" />
-          <div className="p-6 space-y-4">
-            <div className="h-6 w-3/4 bg-muted/50 rounded" />
-            <div className="h-4 w-full bg-muted/50 rounded" />
-            <div className="h-4 w-5/6 bg-muted/50 rounded" />
-            <div className="flex items-center justify-between">
-              <div className="h-4 w-20 bg-muted/50 rounded" />
-              <div className="h-6 w-6 bg-muted/50 rounded-full" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="h-[450px] rounded-xl border border-border bg-muted/20 animate-pulse" />
     );
   }
 
   return (
-    <motion.div whileHover={{ y: -5 }} className="h-full">
-      <Card className="h-full overflow-hidden border-border bg-background/80 backdrop-blur-sm hover:shadow-lg transition-shadow">
-        <CardContent className="p-0">
-          {/* Thumbnail */}
-          <div className="relative aspect-video w-full">
-            <Image
-              src={blog?.thumbnail || '/web-dev.png'}
-              alt={blog.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+    <motion.div
+      whileHover={{ y: -5 }}
+      className="group flex flex-col h-full bg-background border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/5"
+    >
+      <Link href={`/blog/${blog.slug}`} className="flex flex-col h-full">
+        {/* Repository-style Header */}
+        <div className="px-5 py-3 border-b border-border bg-muted/30 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <FiLayers size={14} className="text-primary" />
+            <span className="text-[10px] font-mono font-bold text-foreground uppercase tracking-tight">
+              {blog.tags?.[0] || 'engineering'}
+            </span>
           </div>
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
+            <span className="text-[9px] font-mono font-bold text-primary uppercase tracking-tighter italic">article_v1.0</span>
+          </div>
+        </div>
 
-          {/* Content */}
-          <div className="p-6 space-y-4">
-            {/* Tags */}
-            {/* {blog.tags?.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {blog.tags.map((tag: string) => (
-                  <Badge
-                    key={tag}
-                    variant="outline"
-                    className="text-xs bg-background/50 backdrop-blur"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )} */}
-            {/* Author and Date */}
-            <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <Link href={`/blog/about-author/${blog.authorId}`}>
-                <div className="flex items-center gap-2">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src={blog.authorProfile} />
-                    <AvatarFallback>{blog.author?.[0] || 'S'}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="hover:underline hover:text-primary">
-                      {blog.author || 'MD Samsul Kobir'}
-                    </span>
-                    <span className="text-xs">
-                      {formatDateToUTCShort(blog.date)}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-              {/* <span>{new Date(blog.date).toLocaleDateString()}</span> */}
-              <Badge>New</Badge>
+        {/* Thumbnail */}
+        <div className="relative aspect-video w-full overflow-hidden">
+          <Image
+            src={blog?.thumbnail || '/web-dev.png'}
+            alt={blog.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        </div>
+
+        {/* Content */}
+        <div className="p-6 flex flex-col flex-grow space-y-4">
+          {/* Metadata */}
+          <div className="flex items-center gap-4 text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
+            <div className="flex items-center gap-1.5">
+              <FiCalendar className="text-primary" />
+              <span>{formatDateToUTCShort(blog.date)}</span>
             </div>
-            <hr />
-            {/* Title */}
-            <Link
-              href={`/blog/${blog.slug}`}
-              className="text-lg font-semibold line-clamp-2
-               hover:text-primary/80 transition-colors hover:underline
-              "
-            >
-              {blog.title}
-            </Link>
-
-            {/* Excerpt */}
-            <p className="text-muted-foreground text-sm line-clamp-3">
-              {blog.excerpt}
-            </p>
+            <div className="flex items-center gap-1.5">
+              <FiClock className="text-primary" />
+              <span>5 min read</span>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Title */}
+          <h3 className="text-xl font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+            {blog.title}
+          </h3>
+
+          {/* Excerpt */}
+          <p className="text-muted-foreground text-sm line-clamp-3 flex-grow leading-relaxed">
+            {blog.excerpt}
+          </p>
+
+          {/* Footer Info */}
+          <div className="pt-4 border-t border-border flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-6 w-6 border border-border">
+                <AvatarImage src={blog.authorProfile} />
+                <AvatarFallback className="text-[8px]">{blog.author?.[0] || 'S'}</AvatarFallback>
+              </Avatar>
+              <span className="text-[10px] font-mono text-muted-foreground truncate max-w-[100px]">
+                @{blog.author?.toLowerCase().replace(' ', '_') || 'pixprocoder'}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 text-[10px] font-mono text-primary group-hover:gap-2 transition-all">
+              <span>READ_MORE</span>
+              <FiArrowRight size={12} />
+            </div>
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 };
