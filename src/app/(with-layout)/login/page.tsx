@@ -13,14 +13,12 @@ import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { motion } from 'framer-motion';
-import { Loader2, Lock, Mail } from 'lucide-react';
-import Image from 'next/image';
+import { Loader2, Lock, Mail, Terminal, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { SiGithub, SiGoogle } from 'react-icons/si';
-import loginImg from '../../../assets/login.svg';
 
 const LoginPage = () => {
   const { signIn, user, signInWithGoogle, signInWithGitHub } =
@@ -32,7 +30,7 @@ const LoginPage = () => {
     if (user?.email) {
       router.push('/');
     }
-  }, [user, router, toast]);
+  }, [user, router]);
 
   const {
     register,
@@ -46,11 +44,15 @@ const LoginPage = () => {
       await signIn(data.userEmail, data.userPassword);
       reset();
       router.push('/');
-      toast({ description: 'Login successful 🎉' });
+      toast({ 
+        title: 'AUTH_SUCCESS',
+        description: 'Identity verified. Access granted to the hub.' 
+      });
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        description: error.message || 'Login failed',
+        title: 'AUTH_ERROR',
+        description: error.message || 'Verification failed. Please check credentials.',
       });
     }
   };
@@ -59,143 +61,161 @@ const LoginPage = () => {
     try {
       await provider();
       router.push('/');
-      toast({ description: 'Login successful 🎉' });
+      toast({ 
+        title: 'AUTH_SUCCESS',
+        description: 'Social identity verified. Access granted.' 
+      });
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        description: error.message || 'Authentication failed',
+        title: 'AUTH_ERROR',
+        description: error.message || 'Social authentication failed.',
       });
     }
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center p-4">
+    <section className="min-h-[80vh] flex items-center justify-center p-4 bg-background">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-4xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-[450px]"
       >
-        <Card className="bg-background/50 backdrop-blur-sm border-border">
-          <div className="grid lg:grid-cols-2">
-            {/* Image Section */}
-            <div className="hidden lg:block relative min-h-[500px]">
-              <Image
-                src={loginImg}
-                alt="Login Illustration"
-                fill
-                className="object-cover rounded-l-xl"
-                priority
-              />
-            </div>
-
-            {/* Form Section */}
-            <div className="p-6 sm:p-8">
-              <CardHeader className="space-y-1 p-0">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-                  Welcome Back
-                </h1>
-                <p className="text-muted-foreground">
-                  Sign in to continue to your account
-                </p>
-              </CardHeader>
-
-              <CardContent className="p-0 mt-6">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <div className="relative mt-1">
-                      <Input
-                        {...register('userEmail', {
-                          required: 'Email is required',
-                        })}
-                        id="email"
-                        placeholder="name@example.com"
-                        className={cn(errors.userEmail && 'border-destructive')}
-                      />
-                      <Mail className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    </div>
-                    {errors.userEmail && (
-                      <p className="text-destructive text-sm mt-1">
-                        {errors.userEmail.message?.toString()}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <Label htmlFor="password">Password</Label>
-                    <div className="relative mt-1">
-                      <Input
-                        {...register('userPassword', {
-                          required: 'Password is required',
-                        })}
-                        type="password"
-                        id="password"
-                        placeholder="••••••••"
-                        className={cn(
-                          errors.userPassword && 'border-destructive',
-                        )}
-                      />
-                      <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    </div>
-                    {errors.userPassword && (
-                      <p className="text-destructive text-sm mt-1">
-                        {errors.userPassword.message?.toString()}
-                      </p>
-                    )}
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
-                  </Button>
-                </form>
-
-                <div className="relative my-6">
-                  <Separator className="bg-border" />
-                  <span className="absolute left-1/2 -translate-x-1/2 -top-3 px-2 bg-background text-muted-foreground text-sm">
-                    OR CONTINUE WITH
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleSocialLogin(signInWithGoogle)}
-                  >
-                    <SiGoogle className="mr-2 h-4 w-4" />
-                    Google
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handleSocialLogin(signInWithGitHub)}
-                  >
-                    <SiGithub className="mr-2 h-4 w-4" />
-                    GitHub
-                  </Button>
-                </div>
-              </CardContent>
-
-              <CardFooter className="p-0 mt-6">
-                <p className="text-center text-sm text-muted-foreground">
-                  Don't have an account?{' '}
-                  <Link
-                    href="/signup"
-                    className="font-medium text-primary hover:underline"
-                  >
-                    Sign up
-                  </Link>
-                </p>
-              </CardFooter>
-            </div>
+        {/* Breadcrumb Header */}
+        <div className="flex items-center gap-2 mb-8 justify-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 border border-primary/20 text-[10px] font-mono text-primary uppercase tracking-widest">
+            <Terminal size={12} />
+            <span>~/gateway/auth/login</span>
           </div>
+        </div>
+
+        <Card className="bg-muted/10 border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden relative group">
+          {/* Decorative scanner line */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-pulse" />
+          
+          <CardHeader className="space-y-2 text-center pt-8">
+            <h1 className="text-3xl font-bold tracking-tighter text-white">
+              User <span className="text-primary font-mono italic">authentication.</span>
+            </h1>
+            <p className="text-xs font-mono text-gray-500 uppercase tracking-tighter">
+              [ Secure_Access_Protocol_v4.0 ]
+            </p>
+          </CardHeader>
+
+          <CardContent className="px-8 pb-8 pt-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest px-1">Identity (Email)</Label>
+                <div className="relative">
+                  <Input
+                    {...register('userEmail', {
+                      required: 'IDENT_REQUIRED',
+                    })}
+                    id="email"
+                    placeholder="user@endpoint.dev"
+                    className={cn(
+                      "bg-background/50 border-white/10 focus:border-primary/50 font-mono text-xs h-12 rounded-xl pl-10 transition-all",
+                      errors.userEmail && 'border-red-500/50 focus:border-red-500/50'
+                    )}
+                  />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                </div>
+                {errors.userEmail && (
+                  <p className="text-[9px] font-mono text-red-500 uppercase px-1">
+                    Error: {errors.userEmail.message?.toString()}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between px-1">
+                  <Label htmlFor="password" className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-widest">Credentials</Label>
+                  <Link href="/forgot-password" className="text-[9px] font-mono text-primary hover:underline uppercase tracking-tighter">Lost_Access?</Link>
+                </div>
+                <div className="relative">
+                  <Input
+                    {...register('userPassword', {
+                      required: 'CRED_REQUIRED',
+                    })}
+                    type="password"
+                    id="password"
+                    placeholder="••••••••••••"
+                    className={cn(
+                      "bg-background/50 border-white/10 focus:border-primary/50 font-mono text-xs h-12 rounded-xl pl-10 transition-all",
+                      errors.userPassword && 'border-red-500/50 focus:border-red-500/50'
+                    )}
+                  />
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
+                </div>
+                {errors.userPassword && (
+                  <p className="text-[9px] font-mono text-red-500 uppercase px-1">
+                    Error: {errors.userPassword.message?.toString()}
+                  </p>
+                )}
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-14 font-mono text-xs font-bold gap-3 uppercase tracking-wider transition-all shadow-xl shadow-primary/10"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    VERIFYING...
+                  </>
+                ) : (
+                  <>
+                    EXEC_SIGN_IN
+                    <ShieldCheck size={16} />
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <div className="relative my-8">
+              <Separator className="bg-white/5" />
+              <span className="absolute left-1/2 -translate-x-1/2 -top-2 px-3 bg-[#0d1117] text-gray-600 text-[9px] font-mono uppercase tracking-widest">
+                External_Auth_Nodes
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <Button
+                variant="outline"
+                className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-primary/30 rounded-xl h-12 font-mono text-[10px] gap-2 uppercase tracking-tighter text-gray-300"
+                onClick={() => handleSocialLogin(signInWithGoogle)}
+              >
+                <SiGoogle size={14} className="text-gray-400" />
+                Google
+              </Button>
+              <Button
+                variant="outline"
+                className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-primary/30 rounded-xl h-12 font-mono text-[10px] gap-2 uppercase tracking-tighter text-gray-300"
+                onClick={() => handleSocialLogin(signInWithGitHub)}
+              >
+                <SiGithub size={14} className="text-gray-400" />
+                GitHub
+              </Button>
+            </div>
+          </CardContent>
+
+          <CardFooter className="px-8 py-6 bg-white/5 border-t border-white/5 flex flex-col gap-4">
+            <p className="text-center text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+              New_User?{' '}
+              <Link
+                href="/signup"
+                className="font-bold text-primary hover:underline ml-1"
+              >
+                ./register_account
+              </Link>
+            </p>
+            <div className="flex items-center justify-center gap-2 text-[8px] font-mono text-gray-600">
+               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+               <span>SYSTEM_ENCRYPTION_ACTIVE_AES_256</span>
+            </div>
+          </CardFooter>
         </Card>
       </motion.div>
     </section>

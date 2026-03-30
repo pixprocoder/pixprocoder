@@ -17,8 +17,8 @@ import web from '../assets/web.png';
 
 // Contact Info
 export const contactInfo = {
-  phone: '+40 773 937317',
-  whatsapp: '+34 612 50 68 52',
+  phone: '+40 773 937 317',
+  whatsapp: '+40 773 937 317',
   email: 'info@pixprocoder.com',
 };
 
@@ -26,10 +26,6 @@ export const contactInfo = {
 export const navLinks = [
   { to: '/', key: 'Home' },
   { to: '/blog', key: 'Blog' },
-  { to: '/courses', key: 'Courses' },
-  // { to: '/shop', key: 'Shop' },
-  // { to: '/portfolio', key: 'Portfolio' },
-  // { to: '/services', key: 'Services' },
   { to: '/contact', key: 'Contact' },
 ];
 
@@ -48,11 +44,12 @@ export const faqItems = [
     value: '1',
     question: 'What is the primary tech stack used at PixProcoder Studio?',
     answer:
-      "We specialize in modern JavaScript/TypeScript ecosystems. Our go-to stack is Next.js 15 for the frontend, combined with Tailwind CSS for styling and Redux or TanStack Query for state management. For the backend, we leverage Node.js, Express, and Firebase or PostgreSQL depending on the data requirements.",
+      'We specialize in modern JavaScript/TypeScript ecosystems. Our go-to stack is Next.js 15 for the frontend, combined with Tailwind CSS for styling and Redux or TanStack Query for state management. For the backend, we leverage Node.js, Express, and Firebase or PostgreSQL depending on the data requirements.',
   },
   {
     value: '2',
-    question: 'How do you ensure high performance and SEO for the sites you build?',
+    question:
+      'How do you ensure high performance and SEO for the sites you build?',
     answer:
       "Performance isn't an afterthought; we use Next.js's server-side rendering (SSR) and static site generation (SSG) to ensure near-instant load times. We also implement automated image optimization, clean semantic HTML, and rigorous Lighthouse audits to ensure your site ranks well and provides a smooth user experience.",
   },
@@ -66,7 +63,7 @@ export const faqItems = [
     value: '4',
     question: 'Can you help with scaling an existing application?',
     answer:
-      "Absolutely. We often work with clients to refactor legacy codebases, migrate to TypeScript for better type safety, or transition to a more scalable architecture like microservices or serverless functions to handle increased traffic.",
+      'Absolutely. We often work with clients to refactor legacy codebases, migrate to TypeScript for better type safety, or transition to a more scalable architecture like microservices or serverless functions to handle increased traffic.',
   },
   {
     value: '5',

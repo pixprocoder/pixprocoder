@@ -60,10 +60,10 @@ const Hero = () => {
               </Button>
             </Link>
 
-            <Link href="/shop" className="w-full sm:w-auto">
+            <Link href="#portfolio" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto gap-2 h-11 px-6 border-border hover:bg-accent rounded-md font-mono text-sm">
                 <FiCpu />
-                Explore Tools
+                View Projects
               </Button>
             </Link>
           </motion.div>
