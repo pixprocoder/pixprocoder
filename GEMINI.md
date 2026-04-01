@@ -22,7 +22,7 @@ The visual identity is rooted in the tools and environments of a software engine
 *   **Bento Grid:** Used for high-level "Active" content on the homepage to mix blog, products, and social proof.
 *   **Infinite Carousels:** Used for Portfolio and Testimonials. Must be slow, cinematic, and use native CSS animations for performance, with an instant `pause-on-hover` state.
 *   **System Docs FAQ:** Accordions must be styled as technical documentation with `[ Q ]` and `[ A ]` indicators.
-*   **Section Headers:** Consistent format: `Selected <span className="text-primary font-mono italic">module_name</span>`. Breadcrumbs should use terminal paths (e.g., `~/insights/articles`, `~/gateway/contact`).
+*   **Section Headers:** Consistent format: `Selected <span className="text-primary font-mono italic">module_name</span>`. Breadcrumbs should use terminal paths (e.g., `~/insights/articles`, `~/gateway/contact`, `~/system/identity`).
 
 ## 4. Blog & Content Standards
 *   **Blog Cards:** Must feature a "Repository Header" with version tags (e.g., `article_v1.0`) and functional footers (e.g., `READ_MORE`).
@@ -40,7 +40,13 @@ The visual identity is rooted in the tools and environments of a software engine
 *   **Status Modules:** Include system status indicators (e.g., `CONNECTION_STABLE`, `ENCRYPTION_ACTIVE_AES_256`).
 *   **Feedback Logs:** Toast notifications and success messages should use technical terminology (e.g., `TRANSMISSION_SUCCESS`, `AUTH_SUCCESS`).
 
-## 6. Engineering & Performance
+## 6. Legal & Authority Standards (About/Privacy/Terms)
+*   **Authority Pages:** The About page must focus on technical missions, milestones, and high-impact stats (Commits, Efficiency).
+*   **Compliance:** Privacy Policy must contain explicit clauses for **Google AdSense, DART cookies, and third-party vendors** to ensure ad network approval.
+*   **Aesthetic:** Legal and Authority content must be presented in technical cards or documentation logs rather than plain text walls.
+*   **Pathing:** Use logical terminal paths: `~/legal/privacy_policy.md`, `~/legal/terms_conditions.md`.
+
+## 7. Engineering & Performance
 *   **Framework:** Next.js 15 (App Router) + React 19.
 *   **Runtime:** Bun.
 *   **Styling:** Tailwind CSS (Vanilla CSS preferred for custom animations).
@@ -48,7 +54,7 @@ The visual identity is rooted in the tools and environments of a software engine
 *   **Mobile-First:** All components must be fully responsive, with touch-friendly targets (min 44px) and fluid typography.
 *   **Animations:** Use `framer-motion` for interaction-heavy elements and native CSS for continuous background animations.
 
-## 7. Workflow Instructions for Future Sessions
+## 8. Workflow Instructions for Future Sessions
 *   **Maintain the "System Log" Vibe:** When adding new features, ask: "Does this look like it belongs in an IDE or a Terminal?"
 *   **Content over Bio:** Prioritize showcasing what PixProcoder **builds and thinks** over personal biography.
 *   **Surgical Edits:** Maintain the 16px container spacing and avoid redundant `px-4` classes on nested containers.
