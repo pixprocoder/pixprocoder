@@ -15,6 +15,7 @@ const About = () => {
     AOS.init();
   }, []);
 
+
   return (
     <section
       id="about"

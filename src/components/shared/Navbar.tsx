@@ -25,6 +25,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '../ui/dropdown-menu';
+import Image from 'next/image';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -59,7 +60,7 @@ const Navbar = () => {
       {/* Dynamic Spacer: This ensures content on all pages starts below the floating navbar */}
       <div className="h-20 md:h-24 w-full" />
 
-      <motion.header 
+      <motion.header
         variants={{
           visible: { y: 0 },
           hidden: { y: -110 },
@@ -69,14 +70,14 @@ const Navbar = () => {
         className="fixed top-0 z-50 px-4 py-4 flex justify-center w-full"
       >
         <nav className="w-full max-w-5xl bg-[#0d1117]/80 backdrop-blur-xl border border-white/10 rounded-2xl md:rounded-full h-14 md:h-16 flex items-center justify-between px-4 md:px-6 shadow-2xl transition-all">
-          
+
           {/* Left Side: Brand Logo */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-               <FiTerminal size={16} className="md:size-18" />
+              <Image src="/vertical-logo.png" alt="Logo" width={24} height={24} />
             </div>
             <span className="font-bold text-sm md:text-lg tracking-tighter text-white">
-               PIXPROCODER<span className="text-primary font-mono">.DEV</span>
+              PIXPROCODER
             </span>
           </Link>
 
@@ -88,11 +89,10 @@ const Navbar = () => {
                 <Link
                   key={link.to}
                   href={link.to}
-                  className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 ${
-                    isActive 
-                      ? 'bg-primary text-primary-foreground shadow-lg' 
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
-                  }`}
+                  className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 ${isActive
+                    ? 'bg-primary text-primary-foreground shadow-lg'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    }`}
                 >
                   <span className={isActive ? 'text-primary-foreground' : 'text-primary opacity-50'}>./</span>
                   {link.key.toLowerCase()}
@@ -104,8 +104,8 @@ const Navbar = () => {
           {/* Right Side: Actions & Profile */}
           <div className="flex items-center gap-2 md:gap-3">
             <div className="hidden xl:flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-gray-400">
-               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-               <span>SYS: OPTIMAL</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+              <span>SYS: OPTIMAL</span>
             </div>
 
             {user ? (
@@ -165,17 +165,16 @@ const Navbar = () => {
                         <FiCode size={20} />
                       </Button>
                     </div>
-                    
+
                     <nav className="flex flex-col space-y-4">
                       {navLinks.map((link) => (
                         <button
                           key={link.to}
                           onClick={() => handleMobileNav(link.to)}
-                          className={`flex items-center gap-4 text-left p-4 rounded-2xl border transition-all ${
-                            pathname === link.to 
-                              ? 'bg-primary/10 border-primary/30 text-primary' 
-                              : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
-                          }`}
+                          className={`flex items-center gap-4 text-left p-4 rounded-2xl border transition-all ${pathname === link.to
+                            ? 'bg-primary/10 border-primary/30 text-primary'
+                            : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
+                            }`}
                         >
                           <FiCode className={pathname === link.to ? 'text-primary' : 'text-gray-400'} />
                           <span className="font-mono text-sm font-bold lowercase">./{link.key.toLowerCase()}</span>
@@ -185,14 +184,14 @@ const Navbar = () => {
 
                     <div className="mt-auto space-y-6">
                       <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
-                         <div className="flex items-center gap-2 text-[10px] font-mono text-gray-400">
-                            <FiCpu className="text-primary" />
-                            <span>v15.0.0-PROD</span>
-                         </div>
-                         <div className="flex items-center gap-2 text-[10px] font-mono text-gray-400">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                            <span>SYSTEM: OPERATIONAL</span>
-                         </div>
+                        <div className="flex items-center gap-2 text-[10px] font-mono text-gray-400">
+                          <FiCpu className="text-primary" />
+                          <span>v15.0.0-PROD</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[10px] font-mono text-gray-400">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                          <span>SYSTEM: OPERATIONAL</span>
+                        </div>
                       </div>
                     </div>
                   </div>
