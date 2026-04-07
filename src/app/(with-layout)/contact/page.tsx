@@ -11,6 +11,8 @@ import { Mail, MessageSquare, Phone, Globe, Terminal, Send, CheckCircle } from '
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from 'react-icons/fa';
+import { useState } from 'react';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 function ContactPage() {
   const { toast } = useToast();
@@ -22,9 +24,19 @@ function ContactPage() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm();
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const onSubmit = (data: any) => {
-    sendContactEmail(data);
+    if (!turnstileToken) {
+      toast({
+        variant: 'destructive',
+        title: 'VERIFICATION_REQUIRED',
+        description: 'Please complete the security verification before transmitting.',
+      });
+      return;
+    }
+
+    sendContactEmail({ ...data, 'cf-turnstile-response': turnstileToken });
 
     if (isSuccess) {
       toast({
@@ -205,10 +217,22 @@ function ContactPage() {
                 </div>
               </div>
 
+              <div className="pt-2">
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAACzxmgTsXnSDPWoQ'}
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() => setTurnstileToken(null)}
+                  onExpire={() => setTurnstileToken(null)}
+                  options={{
+                    theme: 'dark',
+                  }}
+                />
+              </div>
+
               <div className="pt-4">
                 <Button
                   type="submit"
-                  disabled={isSubmitting || isLoading}
+                  disabled={isSubmitting || isLoading || !turnstileToken}
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-14 font-mono text-xs font-bold gap-3 uppercase tracking-wider group/btn transition-all shadow-xl shadow-primary/10"
                 >
                   {isSubmitting || isLoading ? (
