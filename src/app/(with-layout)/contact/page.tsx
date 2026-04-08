@@ -5,7 +5,7 @@ import { Textarea } from '@/src/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
 import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
-import { useSendContactEmailMutation } from '@/src/redux/api/email/EmailApiSlice';
+import { submitContact } from '@/src/actions/contact';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Phone, Globe, Terminal, Send, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
@@ -16,8 +16,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 
 function ContactPage() {
   const { toast } = useToast();
-  const [sendContactEmail, { isSuccess, isLoading, isError }] =
-    useSendContactEmailMutation();
+  const [isPending, setIsPending] = useState(false);
   const {
     register,
     handleSubmit,
@@ -26,7 +25,7 @@ function ContactPage() {
   } = useForm();
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     if (!turnstileToken) {
       toast({
         variant: 'destructive',
@@ -36,20 +35,23 @@ function ContactPage() {
       return;
     }
 
-    sendContactEmail({ ...data, 'cf-turnstile-response': turnstileToken });
+    setIsPending(true);
+    const result = await submitContact({ ...data, turnstileToken });
+    setIsPending(false);
 
-    if (isSuccess) {
+    if (result.success) {
       toast({
         title: 'TRANSMISSION_SUCCESS',
         description: 'Your message has been logged. I will respond shortly.',
       });
       reset();
-    }
-    if (isError) {
+      // Reset Turnstile token
+      setTurnstileToken(null);
+    } else {
       toast({
         variant: 'destructive',
         title: 'TRANSMISSION_ERROR',
-        description: 'Failed to establish connection. Please try again.',
+        description: result.error || 'Failed to establish connection. Please try again.',
       });
     }
   };
@@ -232,10 +234,10 @@ function ContactPage() {
               <div className="pt-4">
                 <Button
                   type="submit"
-                  disabled={isSubmitting || isLoading || !turnstileToken}
+                  disabled={isSubmitting || isPending || !turnstileToken}
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-14 font-mono text-xs font-bold gap-3 uppercase tracking-wider group/btn transition-all shadow-xl shadow-primary/10"
                 >
-                  {isSubmitting || isLoading ? (
+                  {isSubmitting || isPending ? (
                     'TRANSMITTING...'
                   ) : (
                     <>

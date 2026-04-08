@@ -19,7 +19,7 @@ import web from '../assets/web.png';
 export const contactInfo = {
   phone: '+40 773 937 317',
   whatsapp: '+40 773 937 317',
-  email: 'info@pixprocoder.com',
+  email: 'hello@sam.pixprocoder.com',
 };
 
 // Navigation links
