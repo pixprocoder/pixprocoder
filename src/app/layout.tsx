@@ -9,7 +9,6 @@ import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
 import ReduxProvider from '../providers/ReduxProvider';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
-import { ThemeProvider } from '../providers/ThemeProvider';
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
@@ -59,22 +58,19 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       )}
-      <body suppressHydrationWarning={true} className="">
-        <ThemeProvider>
-          <ReduxProvider>
-            <TanStackQueryProvider>
-              <AuthProviders>
-                <OtherProviders>
-                  <main>{children}</main>
-                  <PageViewTracker />
-                  <AdSenseAutoAds />
-                  <Toaster />
-                  {/*   <CartIcon /> */}
-                </OtherProviders>
-              </AuthProviders>
-            </TanStackQueryProvider>
-          </ReduxProvider>
-        </ThemeProvider>
+      <body suppressHydrationWarning={true} className="dark">
+        <ReduxProvider>
+          <TanStackQueryProvider>
+            <AuthProviders>
+              <OtherProviders>
+                <main>{children}</main>
+                <PageViewTracker />
+                <AdSenseAutoAds />
+                <Toaster />
+              </OtherProviders>
+            </AuthProviders>
+          </TanStackQueryProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
