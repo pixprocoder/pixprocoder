@@ -25,6 +25,7 @@ export const contactInfo = {
 // Navigation links
 export const navLinks = [
   { to: '/', key: 'Home' },
+  { to: '/gallery', key: 'Gallery' },
   { to: '/blog', key: 'Blog' },
   { to: '/about', key: 'About' },
   { to: '/contact', key: 'Contact' },
@@ -366,5 +367,88 @@ export const testimonials = [
     text: 'very good and professional work. he did Exactly how I want. highly recommended 👍',
     rating: 5,
     projectLink: 'https://www.5stardrivers.com/',
+  },
+];
+
+export const galleries = [
+  {
+    id: 'Programming',
+    title: 'Programming Journey from 2020',
+    description:
+      'Ever since I started my programming journey. those are my memories throughout ',
+    coverImage: 'https://i.ibb.co/q367h8bh/20251017-002019.jpg',
+    date: 'December 2020',
+    location: 'Bangladesh, Sylhet',
+    mediaCount: 4,
+    media: [
+      {
+        id: 'm1',
+        type: 'image',
+        url: 'https://i.ibb.co/KjQcyTnW/pc.jpg',
+        title: 'My working desktop monitor',
+        description: 'My second monitor',
+      },
+    ],
+  },
+  {
+    id: 'europe-2024',
+    title: 'Europe Summer 2024',
+    description:
+      'A summer backpacking trip across 6 countries — capturing moments from the streets of Paris to the canals of Amsterdam.',
+    coverImage:
+      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=800&fit=crop',
+    date: 'Summer 2024',
+    location: 'Paris, Switzerland, Amsterdam',
+    mediaCount: 3,
+    media: [
+      {
+        id: 'e1',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1511739001486-6bfe10cee32a?w=1600&h=1200&fit=crop',
+        title: 'Eiffel Tower at Night',
+        subtitle: 'The iron lady sparkling under the Parisian sky.',
+      },
+      {
+        id: 'e2',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=1600&h=1200&fit=crop',
+        title: 'Swiss Alps',
+        subtitle: 'Jungfraujoch — Top of Europe.',
+      },
+      {
+        id: 'e3',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=1600&h=1200&fit=crop',
+        title: 'Amsterdam Canals',
+        subtitle: 'Golden hour reflections in the Jordaan district.',
+      },
+    ],
+  },
+  {
+    id: 'personal-2024',
+    title: 'Personal Moments 2024',
+    description:
+      'Snapshots of everyday life — celebrations, nature walks, and candid moments with friends.',
+    coverImage:
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1200&h=800&fit=crop',
+    date: '2024',
+    location: 'Various',
+    mediaCount: 2,
+    media: [
+      {
+        id: 'p1',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=1600&h=1200&fit=crop',
+        title: 'Birthday Celebration',
+        subtitle: 'Another trip around the sun with the best people.',
+      },
+      {
+        id: 'p2',
+        type: 'image',
+        url: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1600&h=1200&fit=crop',
+        title: 'Rainy Day Coffee',
+        subtitle: 'Good book, better coffee, rainy afternoon.',
+      },
+    ],
   },
 ];
