@@ -2,17 +2,17 @@
 import {
   Sheet,
   SheetContent,
-  SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from '@/src/components/ui/sheet';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { LogOut } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
-import { FiTerminal, FiCpu, FiCode } from 'react-icons/fi';
+import { FiCode, FiCpu } from 'react-icons/fi';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { navLinks } from '../../constants';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -24,7 +24,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '../ui/dropdown-menu';
-import Image from 'next/image';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
