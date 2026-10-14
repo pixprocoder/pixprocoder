@@ -30,7 +30,11 @@ const Hero = () => {
       className="relative overflow-hidden pt-6 pb-16 sm:pt-10 sm:pb-24 lg:pt-16 lg:pb-32"
     >
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-[-20%] left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px] sm:h-[36rem] sm:w-[36rem]" />
+        <motion.div
+          className="absolute top-[-20%] left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px] sm:h-[36rem] sm:w-[36rem]"
+          animate={{ opacity: [0.45, 0.8, 0.45], scale: [1, 1.06, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
 
       <div className="grid w-full items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
@@ -91,7 +95,11 @@ const Hero = () => {
           transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[360px]"
         >
-          <div className="hero-portrait relative aspect-[3/4]">
+          <motion.div
+            className="hero-portrait relative aspect-[3/4]"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          >
             <Image
               src="/profile-me.jpg"
               alt="Sam Kobir"
@@ -100,7 +108,7 @@ const Hero = () => {
               className="object-cover object-[center_18%]"
               sizes="(max-width: 640px) 280px, 360px"
             />
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

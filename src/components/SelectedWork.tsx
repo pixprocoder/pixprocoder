@@ -28,7 +28,13 @@ export default function SelectedWork() {
       id="portfolio"
       className="border-t border-border py-16 sm:py-24"
     >
-      <div className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-8 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between"
+      >
         <div className="space-y-3">
           <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
             Selected work
@@ -63,7 +69,7 @@ export default function SelectedWork() {
             <ChevronRight className="size-4" />
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -74,8 +80,10 @@ export default function SelectedWork() {
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {projects.map((project) => (
-          <article
+          <motion.article
             key={project.id}
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.25 }}
             className="w-[min(100%,20rem)] shrink-0 snap-start sm:w-[min(100%,24rem)] md:w-[calc(50%-12px)]"
           >
             <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-border bg-card">
@@ -121,7 +129,7 @@ export default function SelectedWork() {
                 {project.description}
               </p>
             </div>
-          </article>
+          </motion.article>
         ))}
       </motion.div>
     </section>

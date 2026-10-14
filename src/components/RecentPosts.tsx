@@ -1,8 +1,9 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { FiArrowRight, FiCalendar, FiClock, FiTag } from 'react-icons/fi';
 import { getAllBlogPostsMeta } from '@/src/lib/blog-helpers';
 import { formatDateToUTCShort } from '@/src/utils/FormatDate';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowRight, FiCalendar, FiClock } from 'react-icons/fi';
+import { Reveal } from './motion/Reveal';
 
 export default async function RecentPosts() {
   const posts = await getAllBlogPostsMeta();
@@ -13,7 +14,7 @@ export default async function RecentPosts() {
   return (
     <section className="border-t border-border py-16 sm:py-24">
       <div>
-        <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-3">
             <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
               Writing
@@ -32,14 +33,14 @@ export default async function RecentPosts() {
             All posts
             <FiArrowRight className="size-4" />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {recentPosts.map((post, idx) => (
+            <Reveal key={post.slug} delay={0.08 * idx}>
             <Link 
-              key={post.slug} 
               href={`/blog/${post.slug}`}
-              className="group flex flex-col h-full bg-background border border-border rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/5"
+              className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
             >
               {/* Image Header */}
               <div className="relative aspect-video overflow-hidden border-b border-border">
@@ -83,6 +84,7 @@ export default async function RecentPosts() {
                 </div>
               </div>
             </Link>
+            </Reveal>
           ))}
         </div>
       </div>
