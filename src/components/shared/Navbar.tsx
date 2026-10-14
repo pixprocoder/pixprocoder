@@ -6,7 +6,6 @@ import {
   SheetTrigger,
 } from '@/src/components/ui/sheet';
 import { AuthContext } from '@/src/providers/AuthProviders';
-import { useAppSelector } from '@/src/redux/hooks/hooks';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { LayoutDashboard, LogOut, User } from 'lucide-react';

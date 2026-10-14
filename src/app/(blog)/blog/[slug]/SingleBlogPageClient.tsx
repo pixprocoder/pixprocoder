@@ -35,8 +35,7 @@ import {
   useIncrementPostViewMutation,
   useTogglePostLikeMutation,
 } from '@/src/redux/api/posts/PostApiSlice';
-import { setLike } from '@/src/redux/features/post/LikeSlice';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks/hooks';
+import { useLikeStore } from '@/src/store/like-store';
 import { BlogPost } from '@/src/types';
 import { formatDateToUTC } from '@/src/utils/FormatDate';
 import { formatDistanceToNow } from 'date-fns';
@@ -50,6 +49,23 @@ interface SingleBlogPageClientProps {
   blogPost: BlogPost;
 }
 
+function readLikePayload(response: any): {
+  likeCount: number;
+  isLiked?: boolean;
+} {
+  const inner =
+    response?.data?.result ??
+    response?.data ??
+    response?.result ??
+    response ??
+    {};
+  const raw = inner.likeCount ?? inner.count;
+  const likeCount = typeof raw === 'number' && !Number.isNaN(raw) ? raw : 0;
+  const isLiked =
+    typeof inner.isLiked === 'boolean' ? inner.isLiked : undefined;
+  return { likeCount, isLiked };
+}
+
 export default function SingleBlogPageClient({
   blogPost,
 }: SingleBlogPageClientProps) {
@@ -59,9 +75,9 @@ export default function SingleBlogPageClient({
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState('content');
   
-  const dispatch = useAppDispatch();
-  const isLiked = useAppSelector(
-    (state) => state.like.likedPosts[blogPost.slug] || false,
+  const setLike = useLikeStore((state) => state.setLike);
+  const isLiked = useLikeStore((state) =>
+    user?.uid ? Boolean(state.likedPosts[user.uid]?.[blogPost.slug]) : false,
   );
   const { data: totalLikeCount } = useGetPostLikesQuery({
     postId: blogPost.slug,
@@ -85,20 +101,21 @@ export default function SingleBlogPageClient({
       incrementView(blogPost.slug);
       localStorage.setItem(viewKey, now.toString());
     }
+  }, [blogPost.slug, incrementView]);
 
-    if (totalLikeCount) {
-      setLocalLikeCount(totalLikeCount.likeCount);
-      if (user?.uid && totalLikeCount?.isLiked !== undefined) {
-        dispatch(
-          setLike({
-            userId: user.uid,
-            slug: blogPost.slug,
-            isLiked: totalLikeCount.isLiked,
-          }),
-        );
-      }
+  useEffect(() => {
+    if (!totalLikeCount) return;
+    const { likeCount, isLiked: serverIsLiked } =
+      readLikePayload(totalLikeCount);
+    setLocalLikeCount(likeCount);
+    if (user?.uid && serverIsLiked !== undefined) {
+      setLike({
+        userId: user.uid,
+        slug: blogPost.slug,
+        isLiked: serverIsLiked,
+      });
     }
-  }, [totalLikeCount, user?.uid, blogPost.slug, incrementView, dispatch]);
+  }, [totalLikeCount, user?.uid, blogPost.slug, setLike]);
 
   const {
     data: comments,
@@ -116,32 +133,42 @@ export default function SingleBlogPageClient({
       return;
     }
 
-    const optimisticCount = isLiked ? localLikeCount - 1 : localLikeCount + 1;
-    setLocalLikeCount(optimisticCount);
+    const nextLiked = !isLiked;
+    const currentCount = Number(localLikeCount) || 0;
+    const previousLiked = isLiked;
+    setLocalLikeCount(Math.max(0, currentCount + (nextLiked ? 1 : -1)));
+    setLike({
+      userId: user.uid,
+      slug: blogPost.slug,
+      isLiked: nextLiked,
+    });
 
     try {
       const result = await postLike({
         postId: blogPost.slug,
         data: {
           userId: user.uid,
-          isLiked: !isLiked,
+          isLiked: nextLiked,
         },
       }).unwrap();
 
-      if (result.data.count !== undefined) {
-        setLocalLikeCount(result.data.count);
-      }
-
-      dispatch(
+      const { likeCount, isLiked: serverIsLiked } = readLikePayload(result);
+      setLocalLikeCount(likeCount);
+      if (serverIsLiked !== undefined) {
         setLike({
           userId: user.uid,
           slug: blogPost.slug,
-          isLiked: result.data.isLiked,
-        }),
-      );
+          isLiked: serverIsLiked,
+        });
+      }
     } catch (error) {
       console.error('Like error:', error);
-      setLocalLikeCount(isLiked ? localLikeCount : localLikeCount);
+      setLocalLikeCount(currentCount);
+      setLike({
+        userId: user.uid,
+        slug: blogPost.slug,
+        isLiked: previousLiked,
+      });
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -345,7 +372,7 @@ export default function SingleBlogPageClient({
                           className={`h-12 flex flex-col gap-1 items-center justify-center rounded-xl transition-all ${isLiked ? 'bg-primary/10 border-primary text-primary' : 'hover:border-primary/50'}`}
                         >
                            {isLiked ? <Heart size={16} className="fill-primary" /> : <Heart size={16} />}
-                           <span className="text-[10px] font-mono font-bold">{localLikeCount} LIKES</span>
+                           <span className="text-[10px] font-mono font-bold">{Number(localLikeCount) || 0} LIKES</span>
                         </Button>
                         
                         <Button 
