@@ -7,6 +7,7 @@ import { Toaster } from '../components/ui/toaster';
 import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
+import { ibmPlexMono, openSans, sourceSerif } from './fonts';
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
@@ -24,7 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`dark ${openSans.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
+    >
       {/* Google Analytics Script */}
       {GA_MEASUREMENT_ID && (
         <>
@@ -56,7 +60,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       )}
-      <body suppressHydrationWarning={true} className="dark">
+      <body suppressHydrationWarning={true} className="dark font-sans">
         <TanStackQueryProvider>
           <AuthProviders>
             <main>{children}</main>
