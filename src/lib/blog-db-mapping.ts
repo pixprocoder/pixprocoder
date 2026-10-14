@@ -1,5 +1,9 @@
 import { getAllBlogPostsMeta } from '@/src/lib/blog-helpers';
-import { PostApiSlice } from '../redux/api/posts/PostApiSlice';
+import {
+  useComments,
+  usePostLikes,
+  useTogglePostLike,
+} from '../hooks/api/use-posts';
 
 // Define types for our mapping system
 interface PostMapping {
@@ -71,11 +75,11 @@ export async function getDatabaseIdForSlug(
  * Enhanced hook to get comments for a post by slug (works with MDX system)
  */
 export const useCommentsForMdxPost = (postId: string) => {
-  return PostApiSlice.useGetCommentsQuery({
-    postId,
-    sort: 'desc',
+  return useComments({
+    slug: postId,
+    sortBy: 'desc',
     page: 1,
-    limit: 50, // Adjust as needed
+    limit: 50,
   });
 };
 
@@ -83,12 +87,12 @@ export const useCommentsForMdxPost = (postId: string) => {
  * Enhanced hook to get likes for a post by slug (works with MDX system)
  */
 export const useLikesForMdxPost = (postId: string) => {
-  return PostApiSlice.useGetPostLikesQuery(postId);
+  return usePostLikes(postId);
 };
 
 /**
  * Hook to toggle like for a post by slug (works with MDX system)
  */
 export const useToggleLikeForMdxPost = () => {
-  return PostApiSlice.useTogglePostLikeMutation();
+  return useTogglePostLike();
 };

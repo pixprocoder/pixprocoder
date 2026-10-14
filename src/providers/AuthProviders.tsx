@@ -12,7 +12,7 @@ import { authKey } from '../constants/storageKey';
 import { Role } from '../enums';
 import { auth } from '../firebase/firebase.init';
 import { removeUserInfo } from '../helpers/auth.helper';
-import { useGetUsersQuery } from '../redux/api/user/UserApiSlice';
+import { useUsers } from '../hooks/api/use-users';
 import { getBaseURL } from '../utils';
 import { getFromLocalStorage, setToLocalStorage } from '../utils/local-storage';
 
@@ -25,9 +25,9 @@ const AuthProviders = ({ children }: any) => {
   const [loading, setLoading] = useState(true);
   // loading admins from users
   const [admin, setAdmin] = useState([]);
-  const { data } = useGetUsersQuery({});
+  const { data } = useUsers();
   useEffect(() => {
-    if (data) {
+    if (data?.data) {
       const admins = data.data.filter((user: any) => user.role === Role.ADMIN);
       setAdmin(admins);
       // setLoading(false); // Set loading to false once data is processed

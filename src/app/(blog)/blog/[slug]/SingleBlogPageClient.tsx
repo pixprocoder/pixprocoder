@@ -27,14 +27,14 @@ import {
   TabsTrigger,
 } from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
-import { AuthContext } from '@/src/providers/AuthProviders';
 import {
-  useGetCommentsQuery,
-  useGetPostLikesQuery,
-  useGetPostViewsQuery,
-  useIncrementPostViewMutation,
-  useTogglePostLikeMutation,
-} from '@/src/redux/api/posts/PostApiSlice';
+  useComments,
+  useIncrementPostView,
+  usePostLikes,
+  usePostViews,
+  useTogglePostLike,
+} from '@/src/hooks/api/use-posts';
+import { AuthContext } from '@/src/providers/AuthProviders';
 import { useLikeStore } from '@/src/store/like-store';
 import { BlogPost } from '@/src/types';
 import { formatDateToUTC } from '@/src/utils/FormatDate';
@@ -79,16 +79,17 @@ export default function SingleBlogPageClient({
   const isLiked = useLikeStore((state) =>
     user?.uid ? Boolean(state.likedPosts[user.uid]?.[blogPost.slug]) : false,
   );
-  const { data: totalLikeCount } = useGetPostLikesQuery({
-    postId: blogPost.slug,
-    userId: user?.uid || null,
-  });
+  const { data: totalLikeCount } = usePostLikes(
+    blogPost.slug,
+    user?.uid || null,
+  );
 
-  const [incrementView] = useIncrementPostViewMutation();
-  const { data: viewData } = useGetPostViewsQuery(blogPost.slug);
+  const { mutate: incrementView } = useIncrementPostView();
+  const { data: viewData } = usePostViews(blogPost.slug);
   const viewCount = viewData?.data?.views;
 
-  const [postLike, { isLoading: isLikeLoading }] = useTogglePostLikeMutation();
+  const { mutateAsync: postLike, isPending: isLikeLoading } =
+    useTogglePostLike();
   const [localLikeCount, setLocalLikeCount] = useState(0);
 
   useEffect(() => {
@@ -120,7 +121,7 @@ export default function SingleBlogPageClient({
   const {
     data: comments,
     isLoading: commentLoading,
-  } = useGetCommentsQuery({
+  } = useComments({
     sortBy,
     slug: blogPost.slug,
     page: currentPage,
@@ -150,7 +151,7 @@ export default function SingleBlogPageClient({
           userId: user.uid,
           isLiked: nextLiked,
         },
-      }).unwrap();
+      });
 
       const { likeCount, isLiked: serverIsLiked } = readLikePayload(result);
       setLocalLikeCount(likeCount);

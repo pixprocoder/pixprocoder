@@ -1,4 +1,4 @@
-- replace the redux with zustand.
+- replace the redux with zustand. ✅
 - new folder structure.
 - keep only the firebase provider login and the ui change. ✅
-- keep only the tanstack query.
+- keep only the tanstack query. ✅
