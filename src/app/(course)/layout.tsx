@@ -1,6 +1,6 @@
-import Footer from "@/src/components/shared/Footer";
-import Navbar from "@/src/components/shared/Navbar";
-
+import Footer from '@/src/components/shared/Footer';
+import Navbar from '@/src/components/shared/Navbar';
+import SiteWidth from '@/src/components/shared/SiteWidth';
 
 export default function RootLayout({
   children,
@@ -10,7 +10,9 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      <main className="max-w-[1200px] mx-auto">{children}</main>
+      <SiteWidth>
+        <main>{children}</main>
+      </SiteWidth>
       <Footer />
     </>
   );

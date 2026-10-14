@@ -27,13 +27,13 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative overflow-hidden px-4 pt-6 pb-16 sm:pt-10 sm:pb-24 lg:pt-16 lg:pb-32"
+      className="relative overflow-hidden pt-6 pb-16 sm:pt-10 sm:pb-24 lg:pt-16 lg:pb-32"
     >
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute top-[-20%] left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[120px] sm:h-[36rem] sm:w-[36rem]" />
       </div>
 
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <div className="grid w-full items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
         <motion.div
           className="max-w-xl space-y-6 text-left sm:space-y-8"
           variants={container}

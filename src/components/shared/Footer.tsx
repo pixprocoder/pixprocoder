@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-background border-t border-border py-12 md:py-16">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto w-full max-w-5xl px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
           
           {/* Minimal Newsletter */}
