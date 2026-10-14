@@ -1,24 +1,19 @@
 import FAQPage from '@/src/components/FAQ';
 import Hero from '@/src/components/Hero';
-import Portfolio from '@/src/components/Portfolio';
-import Skills from '@/src/components/Skills';
-import BentoGrid from '@/src/components/BentoGrid';
 import RecentPosts from '@/src/components/RecentPosts';
+import SelectedWork from '@/src/components/SelectedWork';
+import Skills from '@/src/components/Skills';
 import Testimonials from '@/src/components/Testimonials';
 
 export default function Home() {
   return (
     <section>
       <Hero />
-      <BentoGrid />
       <RecentPosts />
-      {/* <About /> */}
-      <Portfolio />
+      <SelectedWork />
       <Skills />
-      {/* <Services /> */}
       <Testimonials />
       <FAQPage />
-      {/* <Contact /> */}
     </section>
   );
 }

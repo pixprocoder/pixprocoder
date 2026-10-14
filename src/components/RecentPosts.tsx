@@ -11,20 +11,26 @@ export default async function RecentPosts() {
   if (recentPosts.length === 0) return null;
 
   return (
-    <section className="py-20 md:py-32">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-              Latest from <span className="text-primary font-mono">the_blog</span>
+    <section className="border-t border-border py-16 sm:py-24">
+      <div>
+        <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-3">
+            <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+              Writing
+            </p>
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              Latest from the blog
             </h2>
-            <p className="text-muted-foreground max-w-xl text-lg">
-              Deep dives into modern web architecture, engineering patterns, and the future of development.
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Notes on web architecture, engineering patterns, and how I build.
             </p>
           </div>
-          <Link href="/blog" className="group inline-flex items-center gap-2 text-sm font-mono font-medium hover:text-primary transition-colors">
-            <span>./view-all-posts.sh</span>
-            <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            All posts
+            <FiArrowRight className="size-4" />
           </Link>
         </div>
 
