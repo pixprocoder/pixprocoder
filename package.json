@@ -1,11 +1,11 @@
 {
-  "name": "pixprocoder",
+  "name": "Sam Kobir",
   "version": "0.1.0",
-  "description": "This is my personal website.",
+  "description": "Sam Kobir is a software engineer. this site is made for the personal use of the site where showcasing the projects.",
   "private": true,
   "author": {
-    "name": "Md Samsul Kobir",
-    "url": "https://www.pixprocoder.com"
+    "name": "Sam Kobir",
+    "url": "https://sam.pixprocoder.com"
   },
   "scripts": {
     "start": "next start",
@@ -85,7 +85,8 @@
     "tailwindcss": "3.3.2",
     "tailwindcss-animate": "^1.0.7",
     "typed.js": "^2.0.16",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",

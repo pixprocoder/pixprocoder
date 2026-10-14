@@ -17,7 +17,7 @@ const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'ca
 export const metadata: Metadata = {
   title: 'pixprocoder',
   description:
-    'pixprocoder is the website of Md Samsul Kobir. he is a software engineer running his own business. this website has blogs and the author is implemening new features often.',
+    'Sam Kobir! A software engineer ',
 };
 
 export default function RootLayout({

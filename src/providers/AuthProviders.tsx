@@ -3,9 +3,7 @@ import axios from 'axios';
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -35,14 +33,6 @@ const AuthProviders = ({ children }: any) => {
       // setLoading(false); // Set loading to false once data is processed
     }
   }, [data]); // Run this effect only when `data` changes
-
-  const createUser = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password);
-  };
-
-  const signIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
 
   const signInWithGoogle = () => {
     return signInWithPopup(auth, googleProvider);
@@ -105,8 +95,6 @@ const AuthProviders = ({ children }: any) => {
     user,
     admin,
     loading,
-    createUser,
-    signIn,
     logOut,
     signInWithGoogle,
     signInWithGitHub,

@@ -143,7 +143,7 @@ const Navbar = () => {
             ) : (
               <Link href="/login">
                 <Button size="sm" className="h-8 md:h-9 px-3 md:px-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full font-mono text-[9px] md:text-[10px] font-bold gap-2 uppercase tracking-wider">
-                  EXEC_LOGIN <FiCode size={14} />
+                  Sign in
                 </Button>
               </Link>
             )}
