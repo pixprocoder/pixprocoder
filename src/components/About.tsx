@@ -33,7 +33,7 @@ const About = () => {
           </h1>
           <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             Full-stack developer & creative problem-solver passionate about
-            building impactful web experiences
+            building impactful web experiences.
           </p>
         </motion.div>
 

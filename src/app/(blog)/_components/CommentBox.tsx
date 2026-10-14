@@ -2,8 +2,8 @@
 import { Button } from '@/src/components/ui/button';
 import { Textarea } from '@/src/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
+import { usePostComment } from '@/src/hooks/api/use-posts';
 import { AuthContext } from '@/src/providers/AuthProviders';
-import { usePostCommentMutation } from '@/src/redux/api/posts/PostApiSlice';
 import { useContext, useState } from 'react';
 
 function CommentBox({ id }: { id: string }) {
@@ -11,10 +11,9 @@ function CommentBox({ id }: { id: string }) {
   const { toast } = useToast();
   const [comment, setComment] = useState('');
 
-  const [postComment, { isSuccess, isError, isLoading }] =
-    usePostCommentMutation();
+  const { mutateAsync: postComment, isPending: isLoading } = usePostComment();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!user?.email) {
       toast({
@@ -22,8 +21,6 @@ function CommentBox({ id }: { id: string }) {
         description: 'You Must Need To Login!',
         className: `toast-warning`,
       });
-
-      setComment('');
       return;
     }
     if (comment === '') {
@@ -35,31 +32,27 @@ function CommentBox({ id }: { id: string }) {
       return;
     }
 
-    postComment({
-      slug: id,
-      data: {
-        content: comment,
-        authorId: user?.uid,
-      },
-    });
-    if (isSuccess) {
+    try {
+      await postComment({
+        slug: id,
+        data: {
+          content: comment,
+          authorId: user?.uid,
+        },
+      });
       toast({
         title: 'Success 🎉',
         description: 'Post Added Successfully 🚀',
         className: `toast-success`,
       });
       setComment('');
-    }
-
-    if (isError) {
+    } catch {
       toast({
         title: 'Error ',
         description: 'Failed to add comment',
         className: `toast-error`,
       });
-      setComment('');
     }
-    setComment('');
   };
 
   return (

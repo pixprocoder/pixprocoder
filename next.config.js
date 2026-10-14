@@ -2,6 +2,7 @@
 
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  serverExternalPackages: ['@prisma/client', 'prisma'],
   typescript: {
     ignoreBuildErrors: true,
   },

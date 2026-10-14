@@ -6,7 +6,6 @@ import {
   SheetTrigger,
 } from '@/src/components/ui/sheet';
 import { AuthContext } from '@/src/providers/AuthProviders';
-import { useAppSelector } from '@/src/redux/hooks/hooks';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { LayoutDashboard, LogOut, User } from 'lucide-react';
@@ -143,7 +142,7 @@ const Navbar = () => {
             ) : (
               <Link href="/login">
                 <Button size="sm" className="h-8 md:h-9 px-3 md:px-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full font-mono text-[9px] md:text-[10px] font-bold gap-2 uppercase tracking-wider">
-                  EXEC_LOGIN <FiCode size={14} />
+                  Sign in
                 </Button>
               </Link>
             )}

@@ -34,7 +34,7 @@ if (posts.length === 0) {
 
 try {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3003/api/v1'}/posts/sync `,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000/api/v1'}/posts/sync`,
     {
       method: 'POST',
       headers: {
