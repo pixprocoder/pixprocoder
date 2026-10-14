@@ -7,7 +7,3 @@ export const postKeys = {
     [...postKeys.all, 'comments', slug, sortBy, page, limit] as const,
   commentsRoot: (slug: string) => [...postKeys.all, 'comments', slug] as const,
 };
-
-export const userKeys = {
-  all: ['users'] as const,
-};
