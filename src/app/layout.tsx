@@ -1,4 +1,3 @@
-import OtherProviders from '@/src/providers/OtherProviders';
 import 'highlight.js/styles/github-dark.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
@@ -7,7 +6,6 @@ import PageViewTracker from '../components/PageViewTracker';
 import { Toaster } from '../components/ui/toaster';
 import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
-import ReduxProvider from '../providers/ReduxProvider';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
 import './globals.css';
 
@@ -59,18 +57,14 @@ export default function RootLayout({
         />
       )}
       <body suppressHydrationWarning={true} className="dark">
-        <ReduxProvider>
-          <TanStackQueryProvider>
-            <AuthProviders>
-              <OtherProviders>
-                <main>{children}</main>
-                <PageViewTracker />
-                <AdSenseAutoAds />
-                <Toaster />
-              </OtherProviders>
-            </AuthProviders>
-          </TanStackQueryProvider>
-        </ReduxProvider>
+        <TanStackQueryProvider>
+          <AuthProviders>
+            <main>{children}</main>
+            <PageViewTracker />
+            <AdSenseAutoAds />
+            <Toaster />
+          </AuthProviders>
+        </TanStackQueryProvider>
       </body>
     </html>
   );

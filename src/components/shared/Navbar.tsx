@@ -8,7 +8,7 @@ import {
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { LayoutDashboard, LogOut, User } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useContext, useState } from 'react';
@@ -123,15 +123,6 @@ const Navbar = () => {
                   <DropdownMenuLabel className="px-4 py-3 font-normal text-gray-400">
                     Auth: <span className="text-white">{user?.email || 'root'}</span>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/10" />
-                  <DropdownMenuItem onClick={() => router.push('/dashboard')} className="px-4 py-2.5 cursor-pointer hover:bg-white/5 focus:bg-white/5 gap-2">
-                    <LayoutDashboard size={14} className="text-primary" />
-                    <span>view_dashboard()</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push('/dashboard/profiles')} className="px-4 py-2.5 cursor-pointer hover:bg-white/5 focus:bg-white/5 gap-2">
-                    <User size={14} className="text-primary" />
-                    <span>user_profile()</span>
-                  </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-white/10" />
                   <DropdownMenuItem onClick={handleSignOut} className="px-4 py-2.5 cursor-pointer hover:bg-white/5 focus:bg-white/5 gap-2 text-red-400 focus:text-red-400">
                     <LogOut size={14} />
