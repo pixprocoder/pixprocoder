@@ -1,42 +1,122 @@
-# AGENTS.md — pixprocoder (Frontend)
+# AGENTS.md — pixprocoder
+
+Personal site for Sam Kobir (`pixprocoder.com`). Single Next.js app: pages + `/api/v1`. No Express backend on the live path.
 
 ## Project info
-- Next.js 16 App Router, React 19, TypeScript, Tailwind CSS, shadcn/ui
-- Package manager: Bun
+
+- Next.js 16 App Router, React 19, TypeScript 5.9, Tailwind CSS v4, shadcn/ui
+- Package manager: **Bun**
 - Dev: `bun run dev` (turbopack)
 - Build: `bun run build`
 - Lint: `bun run lint`
+- Keep **Framer Motion** (no GSAP). Local fonts in `src/fonts` via `src/app/fonts.ts` (no runtime Google Fonts CSS).
+- Site stays dark (`.dark` on html/body). `ThemeToggle` is unused.
+- Do not edit shadcn files in `src/components/ui/`. Merge classes with `cn()` from `src/lib/utils.tsx`.
+- Tailwind v4: use `grow`, `size-*`, not `flex-grow`. Theme tokens in `src/app/globals.css` (`@theme inline`). `(with-layout)` pages already use `SiteWidth` (`max-w-5xl` + `px-4`); do not nest another container.
+
+## Commands
+
+| Script | What |
+|---|---|
+| `bun run dev` | Next turbopack |
+| `bun run build` | Production build |
+| `bun run db:generate` | `bunx prisma generate` |
+| `bun run db:push` | `bunx prisma db push` |
+| `bun run db:migrate` | `bunx prisma migrate dev && bunx prisma generate` |
+| `bun run sync:posts` | Sync MDX slugs into the `posts` table |
+
+`postinstall` runs `bunx prisma generate`. Prisma 7 does **not** generate after migrate, so `db:migrate` runs both.
 
 ## Architecture
-- `src/app/` — App Router pages (route groups: `(with-layout)`, `(blog)`, `(shop)`, `(course)`, `(dashboard)`)
-- `src/components/` — React components (shared/, ui/ (shadcn), feature components)
-- `src/lib/` — Utilities (`blog-helpers.ts`, `utils.tsx`, `analytics.ts`)
-- `src/redux/` — Redux store, slices, RTK Query API slices
-- `src/providers/` — Auth, Redux, TanStack Query, Theme providers
-- `src/helpers/` — Auth helpers (`auth.helper.ts`)
-- `src/types/` — TypeScript interfaces
-- `src/constants/` — Static data (navLinks, projects, skills, etc.)
-- `src/content/` — MDX blog posts (`YYYY/MM/slug/page.mdx`)
-- `src/firebase/` — Firebase init
-- `src/hooks/` — Custom hooks
-- `src/routes/` — PrivateRoute, AdminRoute guards
 
-## State management
-- Redux Toolkit: cart slice (localStorage), like slice (localStorage)
-- RTK Query: `PostApiSlice`, `UserApiSlice`, `EmailApiSlice` (backend at `/api/v1`)
-- Context: AuthContext (Firebase), TransactionContext (payment)
-- TanStack Query provider also available
+- `src/app/` — App Router. Live groups: `(auth)`, `(blog)`, `(with-layout)`, `api/v1`
+- `src/app/api/v1/**/route.ts` — thin HTTP handlers
+- `src/lib/` — domain + DB (`auth.ts`, `posts.ts`, `mail.ts`, `db/prisma.ts`, `blog-helpers.ts`, `blog-listing.ts`)
+- `src/actions/` — server actions (`sync-user.ts`, `contact.ts`)
+- `src/components/` — feature UI (`blog/`, `Gallery/`, `shared/`, `motion/Reveal.tsx`)
+- `src/content/YYYY/MM/slug/page.mdx` — blog bodies on disk
+- `src/firebase/` — Firebase client
+- `src/providers/` — `AuthProviders` (Firebase), `TanStackQueryProvider`
+- `src/constants/` — `navLinks`, `faqItems`, `projects`, `technologies`, `testimonials`, `galleries`, `contactInfo`
+- `src/generated/prisma/` — Prisma 7 client (**gitignored**; generated on install)
 
-## Backend API
-- Base URL: `NEXT_PUBLIC_API_URL` (default `http://localhost:3003/api/v1`)
-- Auth: Firebase → `POST /api/v1/jwt` → JWT stored in localStorage under `accessToken`
+**Removed (do not recreate):** `(dashboard)`, `(shop)`, `(course)`, `(projects)`, portfolio routes, Redux, RTK Query, Stripe, JWT auth, Express backend client.
 
-## Key conventions
-- shadcn/ui components in `src/components/ui/` — do not edit directly
-- RTK Query base query already configured with base URL; add endpoints to existing slices
-- Blog posts are MDX files in `src/content/` — use `lib/blog-helpers.ts` to read them
-- Use `cn()` from `src/lib/utils.tsx` for className merging
-- Dark mode via `next-themes` using class strategy
+### Routes
+
+| Path | Notes |
+|---|---|
+| `/` | Homepage: Hero, RecentPosts, SelectedWork, Skills, Testimonials, FAQ |
+| `/blog`, `/blog/[slug]` | Listing (first MDX tag as category, 9 per page) + article |
+| `/gallery`, `/gallery/[id]` | Albums + lightbox |
+| `/about` | From `Sam Kobir.md` |
+| `/contact` | Form + Turnstile + nodemailer |
+| `/saved` | Bookmarked posts (Firebase uid) |
+| `/privacy`, `/terms` | Legal |
+| `/login`, `/signup` | Firebase Google / GitHub only |
+
+`navLinks`: Home, Blog, Gallery, About, Contact. Navbar also links Saved when signed in.
+
+## Data and auth
+
+- **Auth:** Firebase Google + GitHub. `user.uid` is the app user key. Login syncs via `syncFirebaseUser` → `users.uid`.
+- **Posts:** MDX on disk. Postgres `posts` table is slug + `views` + engagement relations only. After a new MDX file, `bun run sync:posts` (secret: `POST_SYNC_SECRET` or `NEXT_PUBLIC_POST_SYNC_SECRET`).
+- **Engagement:** likes, bookmarks, comments, views in Neon. Unique like/bookmark `(userId, slug)` where `userId` is Firebase uid. Comments: `authorId` = uid, `parentId` → `Comment.id` (`onDelete: SetNull`) for future replies. Views increment with post upsert (`src/lib/posts.ts`).
+- **Likes UI:** Zustand optimistic cache; Mongo/Postgres rows are source of truth.
+- **Prisma is Node-only.** Never import `src/lib/db/prisma.ts` from `'use client'` files.
+
+`getBaseURL()` in `src/utils` uses `NEXT_PUBLIC_API_URL` or `/api/v1`.
+
+## Database (Neon Postgres + Prisma 7)
+
+Migrated off MongoDB Atlas. Prisma **7.10.1** (not 8 RC). Mongo is unsupported in Prisma 7.
+
+- Schema: `prisma/schema.prisma` — `provider = "postgresql"`
+- Config: `prisma.config.ts` — CLI URL is `DIRECT_URL` or falls back to `DATABASE_URL` (so Vercel generate works with pooler only)
+- Runtime: `src/lib/db/prisma.ts` — `PrismaNeon` adapter + pooled `DATABASE_URL`
+- Client output: `src/generated/prisma` (import `PrismaClient` / `Role` from there, or `Role` re-exported from `src/lib/db/prisma.ts`)
+- Initial migration: `prisma/migrations/20261015223305_init`
+
+**Two Neon URLs, one database:**
+
+| Var | Host | Used by |
+|---|---|---|
+| `DATABASE_URL` | `…-pooler…` + `pgbouncer=true` + `sslmode=require` | App / Prisma Client / Vercel |
+| `DIRECT_URL` | same hostname **without** `-pooler` | Local `migrate` / `db push` |
+
+Do not use `channel_binding=require`. Do not duplicate `DATABASE_URL` across `.env` and `.env.local` with different values.
+
+`.env` and `.env.local` are gitignored. `.env.example` is tracked. Prisma CLI loads `.env`; Next.js loads `.env` then `.env.local`. Restart `bun run dev` after changing `DATABASE_URL`.
+
+Schema is Postgres-valid but still Mongo-shaped: copied PKs are ObjectId hex; new rows use `cuid()`; likes/bookmarks/comments join User by **uid** and Post by **slug**. `User.password` and optional `Post.userId` are leftovers. Tighten FKs in a later migration after replies UI, not in the same pass as features.
 
 ## Environment variables
-- `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_STRIPE_PK`, `NEXT_PUBLIC_FIREBASE_*`, `NEXT_PUBLIC_GA_MEASUREMENT_ID`, `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_BACKEND_URL`, `NEXT_PUBLIC_POST_SYNC_SECRET`
+
+Server: `DATABASE_URL`, `DIRECT_URL` (local migrate), `SMTP_USER`, `SMTP_PASS`, `TURNSTILE_SECRET_KEY`, `POST_SYNC_SECRET`
+
+Public: `NEXT_PUBLIC_API_URL` (`/api/v1`), `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_FIREBASE_*`, `NEXT_PUBLIC_GA_MEASUREMENT_ID`, `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_POST_SYNC_SECRET`
+
+Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs back.
+
+## Key conventions
+
+- Blog listing: `tags[0]` is the category (`src/lib/blog-listing.ts`). `BLOG_PAGE_SIZE` is 9.
+- Article: `ArticleReactions` order is views, like, comments, save, share. Share uses Radix dropdown + real `<a>` links (not `window.open`). `ActionButton` must forward refs/props.
+- Contact: Turnstile + `src/lib/mail.ts`.
+- Motion: `src/components/motion/Reveal.tsx`.
+- New APIs belong in this Next app under `src/app/api/v1`.
+
+## Recent work (2026)
+
+1. **Unified app** — Next.js frontend + API in one repo. Firebase Google/GitHub only. Shop, dashboard, courses, portfolio routes, Redux, Stripe, JWT, Express client removed.
+2. **Restyle** — terminal/CLI look → premium dark theme (TweakCN tokens, local fonts, Framer Motion). Homepage, blog listing/article, gallery, about, contact, FAQ, privacy/terms.
+3. **Engagement** — views (upsert Post), likes, comments, bookmarks, `/saved`.
+4. **Prisma 7 + Neon** — left Prisma 6 + Mongo because Prisma 7 has no Mongo. Rewrote schema for PostgreSQL, `prisma.config.ts`, Neon adapter. Empty tables via `migrate dev`, copied Atlas → Neon (71 users, 8 posts, 12 likes, 2 bookmarks, 40 comments). Local and prod `DATABASE_URL` are Neon pooler. Mongo driver, copy script, and `MONGO_DATABASE_URL` removed. Atlas cluster is unused by this app (drop only if `pixprocoder-backend` is retired too).
+
+## Still open
+
+- Comment **reply UI** (schema already has `parentId`)
+- Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
+- Auth page restyle
+- Related posts
+- Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present

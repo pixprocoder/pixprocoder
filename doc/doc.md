@@ -2,3 +2,4 @@
 - new folder structure. ✅
 - keep only the firebase provider login and the ui change. ✅
 - keep only the tanstack query. ✅
+- migrate to postgresql in neonDB ✅
