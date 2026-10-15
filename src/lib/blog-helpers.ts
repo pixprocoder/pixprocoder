@@ -70,6 +70,7 @@ export const getBlogPostBySlug = cache(
               tags: Array.isArray(data.tags) ? data.tags : [],
               thumbnail: data.thumbnail,
               published: data.published ?? true,
+              readingMinutes: estimateReadingMinutes(content),
             };
 
             // Only return if published

@@ -1,31 +1,13 @@
 'use client';
+
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
+import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
 import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
-import SocialShareButtons from '@/src/components/SocialShareButtons';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { Button } from '@/src/components/ui/button';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from '@/src/components/ui/pagination';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/src/components/ui/select';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/src/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
 import {
   useComments,
@@ -34,20 +16,19 @@ import {
   usePostViews,
   useTogglePostLike,
 } from '@/src/hooks/api/use-posts';
+import {
+  blogListHref,
+  formatTagLabel,
+  getPrimaryTag,
+} from '@/src/lib/blog-listing';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useLikeStore } from '@/src/store/like-store';
 import { BlogPost } from '@/src/types';
-import { formatDateToUTC } from '@/src/utils/FormatDate';
-import { formatDistanceToNow } from 'date-fns';
-import { motion } from 'framer-motion';
-import { Reply, ChevronLeft, Calendar, Clock, Eye, MessageSquare, Heart, Share2, Terminal } from 'lucide-react';
+import { format, formatDistanceToNow } from 'date-fns';
+import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
-
-interface SingleBlogPageClientProps {
-  blogPost: BlogPost;
-}
 
 function readLikePayload(response: any): {
   likeCount: number;
@@ -68,13 +49,14 @@ function readLikePayload(response: any): {
 
 export default function SingleBlogPageClient({
   blogPost,
-}: SingleBlogPageClientProps) {
+}: {
+  blogPost: BlogPost;
+}) {
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
   const [sortBy, setSortBy] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState('content');
-  
+
   const setLike = useLikeStore((state) => state.setLike);
   const isLiked = useLikeStore((state) =>
     user?.uid ? Boolean(state.likedPosts[user.uid]?.[blogPost.slug]) : false,
@@ -86,11 +68,15 @@ export default function SingleBlogPageClient({
 
   const { mutate: incrementView } = useIncrementPostView();
   const { data: viewData } = usePostViews(blogPost.slug);
-  const viewCount = viewData?.data?.views;
+  const viewCount = viewData?.data?.views ?? 0;
 
   const { mutateAsync: postLike, isPending: isLikeLoading } =
     useTogglePostLike();
   const [localLikeCount, setLocalLikeCount] = useState(0);
+
+  const primaryTag = getPrimaryTag(blogPost.meta.tags);
+  const readingMinutes = blogPost.meta.readingMinutes;
+  const dateLabel = format(new Date(blogPost.meta.date), 'MMM d, yyyy');
 
   useEffect(() => {
     const viewKey = `viewed_ok_${blogPost.slug}`;
@@ -122,19 +108,19 @@ export default function SingleBlogPageClient({
     }
   }, [totalLikeCount, user?.uid, blogPost.slug, setLike]);
 
-  const {
-    data: comments,
-    isLoading: commentLoading,
-  } = useComments({
+  const { data: comments, isLoading: commentLoading } = useComments({
     sortBy,
     slug: blogPost.slug,
     page: currentPage,
-    limit: 4,
+    limit: 8,
   });
+
+  const commentCount = comments?.meta?.total || 0;
+  const commentList = comments?.data ?? [];
 
   const handleLike = async () => {
     if (!user?.uid) {
-      toast({ description: 'Login Required For Like' });
+      toast({ description: 'Log in to like this post.' });
       return;
     }
 
@@ -177,257 +163,246 @@ export default function SingleBlogPageClient({
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Failed to update like status',
+        description: 'Could not update like.',
       });
     }
   };
 
-  const handlePagination = (direction: 'prev' | 'next') => {
-    const totalPages = comments?.meta?.totalPages || 1;
-    if (direction === 'prev' && currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    } else if (direction === 'next' && currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
+  const handleBookmark = () => {
+    toast({ description: 'Bookmarks are coming soon.' });
+  };
+
+  const reactions = {
+    liked: isLiked,
+    likeCount: Number(localLikeCount) || 0,
+    likePending: isLikeLoading,
+    viewCount,
+    commentCount,
+    slug: blogPost.meta.slug,
+    shareTitle: blogPost.meta.title,
+    shareDescription: blogPost.meta.excerpt,
+    onLike: handleLike,
+    onBookmark: handleBookmark,
   };
 
   return (
-    <div className="bg-background min-h-screen py-12 md:py-20">
-      <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-5xl mx-auto"
+    <article className="pb-28 pt-10 sm:pt-16 lg:pb-24">
+      <div className="mx-auto max-w-3xl">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          {/* Header Actions */}
-          <div className="flex items-center justify-between mb-12">
-            <Link 
-              href="/blog" 
-              className="group flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"
+          <ChevronLeft className="size-4" />
+          Writing
+        </Link>
+
+        <header className="mt-8 space-y-6">
+          {primaryTag && (
+            <Link
+              href={blogListHref({ tag: primaryTag })}
+              className="text-xs font-medium tracking-[0.18em] text-primary uppercase"
             >
-              <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-              <span>back_to_index()</span>
+              {formatTagLabel(primaryTag)}
             </Link>
-            
-            <div className="flex items-center gap-4">
-               <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-mono text-primary uppercase">
-                  <Terminal size={12} />
-                  <span>Log: {blogPost.slug.slice(0, 8)}...</span>
-               </div>
-               <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-mono text-green-500 uppercase">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                  <span>Status: Published</span>
-               </div>
-            </div>
-          </div>
+          )}
 
-          {/* Article Title & Metadata */}
-          <div className="space-y-6 mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-              {blogPost.meta.title}
-            </h1>
-            
-            <div className="flex flex-wrap items-center gap-6 pt-2 border-b border-border/50 pb-8 text-xs md:text-sm font-mono text-muted-foreground">
-               <div className="flex items-center gap-2">
-                  <Calendar size={14} className="text-primary" />
-                  <span>{formatDateToUTC(blogPost.meta.date)}</span>
-               </div>
-               <div className="flex items-center gap-2">
-                  <Clock size={14} className="text-primary" />
-                  <span>5 MIN READ</span>
-               </div>
-               <div className="flex items-center gap-2">
-                  <Eye size={14} className="text-primary" />
-                  <span>{viewCount || 0} VIEWS</span>
-               </div>
-               <div className="flex items-center gap-3 ml-auto">
-                  <div className="flex items-center gap-2">
-                    <Avatar className="h-6 w-6 border border-border">
-                      <AvatarImage src={blogPost.meta.authorProfile} />
-                      <AvatarFallback>S</AvatarFallback>
-                    </Avatar>
-                    <span className="text-foreground font-bold italic">@{blogPost.meta.author.toLowerCase().replace(' ', '_')}</span>
-                  </div>
-               </div>
-            </div>
-          </div>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            {blogPost.meta.title}
+          </h1>
 
-          {/* Featured Image */}
-          <div className="relative aspect-[21/9] rounded-2xl overflow-hidden border border-border/50 mb-16 shadow-2xl">
-            <Image
-              src={blogPost.meta.thumbnail || '/web-dev.png'}
-              alt={blogPost.meta.title}
-              fill
-              className="object-cover"
-              priority
+          {blogPost.meta.excerpt && (
+            <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {blogPost.meta.excerpt}
+            </p>
+          )}
+
+          <div className="flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-3">
+              <Avatar className="size-10 border border-border">
+                <AvatarImage
+                  src={blogPost.meta.authorProfile}
+                  alt=""
+                />
+                <AvatarFallback>
+                  {blogPost.meta.author?.[0] || 'S'}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0">
+                {blogPost.meta.authorId ? (
+                  <Link
+                    href={`/blog/about-author/${blogPost.meta.authorId}`}
+                    className="truncate text-sm font-medium text-foreground hover:text-primary"
+                  >
+                    {blogPost.meta.author}
+                  </Link>
+                ) : (
+                  <p className="truncate text-sm font-medium text-foreground">
+                    {blogPost.meta.author}
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  <time dateTime={blogPost.meta.date}>{dateLabel}</time>
+                  {readingMinutes ? ` · ${readingMinutes} min read` : ''}
+                </p>
+              </div>
+            </div>
+
+            <ArticleReactions
+              {...reactions}
+              showComments={false}
+              className="hidden sm:flex"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+          </div>
+        </header>
+
+        {blogPost.meta.thumbnail && (
+          <figure className="relative my-8 aspect-video overflow-hidden rounded-2xl border border-border sm:my-10">
+            <Image
+              src={blogPost.meta.thumbnail}
+              alt=""
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 768px"
+            />
+          </figure>
+        )}
+
+        <div className="article-body">
+          <BlogContentRenderer code={blogPost.content} />
+        </div>
+
+        {blogPost.meta.tags?.length > 0 && (
+          <ul className="mt-12 flex flex-wrap gap-2 border-t border-border pt-8">
+            {blogPost.meta.tags.map((tag, index) => {
+              const label = formatTagLabel(tag);
+              const className =
+                'inline-flex rounded-full border border-border px-3 py-1 text-xs text-muted-foreground';
+              return (
+                <li key={tag}>
+                  {index === 0 ? (
+                    <Link
+                      href={blogListHref({ tag: primaryTag })}
+                      className={`${className} transition-colors hover:border-primary/40 hover:text-foreground`}
+                    >
+                      {label}
+                    </Link>
+                  ) : (
+                    <span className={className}>{label}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <div className="mt-8 hidden rounded-2xl border border-border px-4 py-3 sm:block">
+          <ArticleReactions {...reactions} />
+        </div>
+
+        <section id="comments" className="mt-16 scroll-mt-24">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                Comments
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {commentCount} {commentCount === 1 ? 'response' : 'responses'}
+              </p>
+            </div>
+            {commentCount > 1 && (
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="h-10 rounded-xl border border-border bg-background px-3 text-sm text-muted-foreground"
+              >
+                <option value="desc">Newest</option>
+                <option value="asc">Oldest</option>
+              </select>
+            )}
           </div>
 
-          {/* Content Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Main Content */}
-            <div className="lg:col-span-8">
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="bg-muted/20 p-1 rounded-xl border border-border mb-8">
-                  <TabsTrigger value="content" className="flex-1 font-mono text-[10px] md:text-xs rounded-lg uppercase tracking-wider data-[state=active]:bg-background">./article_content</TabsTrigger>
-                  <TabsTrigger value="comments" className="flex-1 font-mono text-[10px] md:text-xs rounded-lg uppercase tracking-wider data-[state=active]:bg-background">./peer_reviews ({comments?.meta?.total || 0})</TabsTrigger>
-                </TabsList>
+          <CommentBox id={blogPost.slug} />
 
-                <TabsContent value="content" className="mt-0">
-                  <article className="prose prose-slate dark:prose-invert max-w-none prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border prose-headings:font-bold prose-headings:tracking-tight prose-a:text-primary">
-                    <BlogContentRenderer code={blogPost.content} />
-                  </article>
-
-                  {/* Tags */}
-                  {blogPost.meta.tags && blogPost.meta.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-12 pt-8 border-t border-border/50">
-                      {blogPost.meta.tags.map((tag, index) => (
-                        <span key={index} className="px-3 py-1 rounded-md bg-muted/30 border border-border text-[10px] font-mono text-muted-foreground uppercase tracking-widest hover:text-primary transition-colors cursor-default">
-                          #{tag}
-                        </span>
-                      ))}
+          <div className="mt-8 space-y-4">
+            {commentLoading && (
+              <p className="text-sm text-muted-foreground">Loading comments…</p>
+            )}
+            {!commentLoading && commentList.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                No comments yet. Start the conversation.
+              </p>
+            )}
+            {commentList.map((comment: any) => (
+              <div
+                key={comment.id}
+                className="rounded-2xl border border-border bg-card p-4 sm:p-5"
+              >
+                <div className="flex gap-3">
+                  <Avatar className="size-9 shrink-0 border border-border">
+                    <AvatarImage src={comment?.author?.avatar || '/user.png'} alt="" />
+                    <AvatarFallback className="text-xs">
+                      {comment?.author?.username?.[0] || 'G'}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0 grow">
+                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {comment?.author?.username || 'Guest'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(comment.createdAt), {
+                          addSuffix: true,
+                        })}
+                      </p>
                     </div>
-                  )}
-                </TabsContent>
-
-                <TabsContent value="comments" className="mt-0 space-y-8">
-                  <CommentBox id={blogPost.slug} />
-                  
-                  {comments?.data?.length > 0 && (
-                    <div className="flex items-center justify-between border-b border-border pb-4">
-                      <h3 className="font-mono text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                        <MessageSquare size={14} className="text-primary" />
-                        System_Comments
-                      </h3>
-                      <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setCurrentPage(1); }}>
-                        <SelectTrigger className="w-[140px] h-8 text-[10px] font-mono bg-transparent border-border">
-                          <SelectValue placeholder="Sort" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-background border-border font-mono text-xs">
-                          <SelectItem value="desc">NEWEST</SelectItem>
-                          <SelectItem value="asc">OLDEST</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-
-                  <div className="space-y-6">
-                    {comments?.data?.map((comment: any) => (
-                      <motion.div
-                        key={comment.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="p-6 rounded-2xl border border-border bg-muted/10 group"
-                      >
-                        <div className="flex gap-4">
-                          <Avatar className="h-10 w-10 border border-border">
-                            <AvatarImage src={comment?.author?.avatar || '/user.png'} />
-                            <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs uppercase">
-                              {comment?.author?.username?.[0] || 'G'}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 space-y-2 min-w-0">
-                            <div className="flex items-center gap-3">
-                              <h4 className="font-mono text-sm font-bold text-foreground truncate">
-                                @{comment?.author?.username || 'guest_user'}
-                              </h4>
-                              <span className="text-[10px] font-mono text-muted-foreground uppercase">
-                                {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
-                              </span>
-                            </div>
-                            <p className="text-sm md:text-base text-muted-foreground leading-relaxed italic">
-                              "{comment.content}"
-                            </p>
-                            <Button variant="ghost" size="sm" className="h-7 px-2 gap-2 text-[10px] font-mono hover:text-primary transition-all opacity-0 group-hover:opacity-100">
-                              <Reply size={12} />
-                              sys_reply()
-                            </Button>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                    <p className="mt-2 text-sm leading-relaxed text-foreground">
+                      {comment.content}
+                    </p>
                   </div>
-
-                  {comments?.meta?.totalPages > 1 && (
-                    <Pagination className="justify-center mt-12">
-                      <PaginationContent className="gap-2">
-                        <Button variant="outline" size="sm" onClick={() => handlePagination('prev')} disabled={currentPage === 1} className="h-8 font-mono text-[10px]">PREV</Button>
-                        <span className="px-4 text-[10px] font-mono text-muted-foreground">PAGE {currentPage} OF {comments.meta.totalPages}</span>
-                        <Button variant="outline" size="sm" onClick={() => handlePagination('next')} disabled={currentPage >= comments.meta.totalPages} className="h-8 font-mono text-[10px]">NEXT</Button>
-                      </PaginationContent>
-                    </Pagination>
-                  )}
-                </TabsContent>
-              </Tabs>
-            </div>
-
-            {/* Sidebar / Desktop Actions */}
-            <div className="lg:col-span-4 space-y-8">
-               <div className="sticky top-28 space-y-8">
-                  {/* Interaction Card */}
-                  <div className="p-6 rounded-2xl border border-border bg-muted/10 space-y-6">
-                     <h3 className="font-mono text-xs font-bold uppercase tracking-widest border-b border-border pb-4">./user_interaction</h3>
-                     
-                     <div className="grid grid-cols-2 gap-4">
-                        <Button 
-                          variant="outline" 
-                          onClick={handleLike}
-                          disabled={isLikeLoading}
-                          className={`h-12 flex flex-col gap-1 items-center justify-center rounded-xl transition-all ${isLiked ? 'bg-primary/10 border-primary text-primary' : 'hover:border-primary/50'}`}
-                        >
-                           {isLiked ? <Heart size={16} className="fill-primary" /> : <Heart size={16} />}
-                           <span className="text-[10px] font-mono font-bold">{Number(localLikeCount) || 0} LIKES</span>
-                        </Button>
-                        
-                        <Button 
-                          variant="outline"
-                          onClick={() => setActiveTab('comments')}
-                          className="h-12 flex flex-col gap-1 items-center justify-center rounded-xl hover:border-primary/50 transition-all"
-                        >
-                           <MessageSquare size={16} />
-                           <span className="text-[10px] font-mono font-bold uppercase">{comments?.meta?.total || 0} REVIEWS</span>
-                        </Button>
-                     </div>
-
-                     <div className="space-y-4 pt-4 border-t border-border">
-                        <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                           <Share2 size={12} />
-                           <span>Spread_the_knowledge</span>
-                        </div>
-                        <SocialShareButtons
-                          url={typeof window !== 'undefined' ? window.location.href : `https://www.pixprocoder.com/blog/${blogPost.meta.slug}`}
-                          title={blogPost.meta.title}
-                          description={blogPost.meta.excerpt}
-                        />
-                     </div>
-                  </div>
-
-                  {/* About the Log / Metadata */}
-                  <div className="p-6 rounded-2xl border border-white/5 bg-white/5 space-y-4">
-                     <div className="flex items-center gap-2 text-[10px] font-mono text-primary uppercase font-bold">
-                        <Terminal size={12} />
-                        <span>Log_Information</span>
-                     </div>
-                     <div className="space-y-2">
-                        {[
-                          { label: 'Version', value: '1.0.0' },
-                          { label: 'Type', value: 'ARTICLE' },
-                          { label: 'Category', value: blogPost.meta.tags?.[0]?.toUpperCase() || 'GENERAL' },
-                          { label: 'Priority', value: 'HIGH' },
-                        ].map((item) => (
-                          <div key={item.label} className="flex items-center justify-between text-[10px] font-mono">
-                             <span className="text-muted-foreground">{item.label}:</span>
-                             <span className="text-foreground font-bold">{item.value}</span>
-                          </div>
-                        ))}
-                     </div>
-                  </div>
-               </div>
-            </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </motion.div>
+
+          {comments?.meta?.totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-3 text-sm">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                disabled={currentPage === 1}
+                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <span className="text-muted-foreground">
+                {currentPage} / {comments.meta.totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentPage((page) =>
+                    Math.min(comments.meta.totalPages, page + 1),
+                  )
+                }
+                disabled={currentPage >= comments.meta.totalPages}
+                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </section>
       </div>
-    </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/90 px-2 pt-2 backdrop-blur-md sm:hidden"
+        style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+      >
+        <ArticleReactions {...reactions} shareSide="top" />
+      </div>
+    </article>
   );
 }
