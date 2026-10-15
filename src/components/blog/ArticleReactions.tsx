@@ -9,8 +9,22 @@ import {
 } from '@/src/components/ui/dropdown-menu';
 import { useToast } from '@/src/components/ui/use-toast';
 import { cn } from '@/src/lib/utils';
-import { Bookmark, Check, Copy, Eye, Heart, MessageSquare, Share2 } from 'lucide-react';
-import { forwardRef, type ReactNode, useState } from 'react';
+import {
+  Bookmark,
+  Check,
+  Copy,
+  Eye,
+  Heart,
+  MessageSquare,
+  Share2,
+} from 'lucide-react';
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import { FaFacebookF, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
@@ -32,28 +46,26 @@ type ArticleReactionsProps = {
 
 const ActionButton = forwardRef<
   HTMLButtonElement,
-  {
+  ButtonHTMLAttributes<HTMLButtonElement> & {
     label: string;
-    onClick?: () => void;
-    disabled?: boolean;
     active?: boolean;
     children: ReactNode;
   }
 >(function ActionButton(
-  { label, onClick, disabled, active, children },
+  { label, active, className, children, type = 'button', ...props },
   ref,
 ) {
   return (
     <button
       ref={ref}
-      type="button"
+      type={type}
       aria-label={label}
-      onClick={onClick}
-      disabled={disabled}
       className={cn(
         'inline-flex min-h-11 min-w-11 flex-col items-center justify-center gap-0.5 rounded-xl px-3 text-xs text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground disabled:opacity-50',
         active && 'text-primary',
+        className,
       )}
+      {...props}
     >
       {children}
     </button>
@@ -77,41 +89,56 @@ export function ArticleReactions({
 }: ArticleReactionsProps) {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState(`https://www.pixprocoder.com/blog/${slug}`);
 
-  const getShareUrl = () => `${window.location.origin}/blog/${slug}`;
+  useEffect(() => {
+    setShareUrl(`${window.location.origin}/blog/${slug}`);
+  }, [slug]);
+
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedTitle = encodeURIComponent(shareTitle);
+  const encodedText = encodeURIComponent(
+    shareDescription ? `${shareTitle} — ${shareDescription}` : shareTitle,
+  );
 
   const networks = [
     {
       name: 'X',
-      href: (url: string) =>
-        `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareTitle)}`,
+      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
       icon: FaXTwitter,
     },
     {
       name: 'LinkedIn',
-      href: (url: string) =>
-        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
       icon: FaLinkedin,
     },
     {
       name: 'Facebook',
-      href: (url: string) =>
-        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
       icon: FaFacebookF,
     },
     {
       name: 'WhatsApp',
-      href: (url: string) =>
-        `https://api.whatsapp.com/send?text=${encodeURIComponent(
-          shareDescription ? `${shareTitle} — ${shareDescription}` : shareTitle,
-        )}%20${encodeURIComponent(url)}`,
+      href: `https://api.whatsapp.com/send?text=${encodedText}%20${encodedUrl}`,
       icon: FaWhatsapp,
     },
   ];
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(getShareUrl());
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        const input = document.createElement('textarea');
+        input.value = shareUrl;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.left = '-9999px';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+      }
       setCopied(true);
       toast({ description: 'Link copied.' });
       window.setTimeout(() => setCopied(false), 2000);
@@ -162,7 +189,7 @@ export function ArticleReactions({
         <span>Save</span>
       </ActionButton>
 
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <ActionButton label="Share">
             <Share2 className="size-4" />
@@ -173,22 +200,19 @@ export function ArticleReactions({
           align="end"
           side={shareSide}
           sideOffset={8}
-          className="w-52 rounded-xl border-border p-1"
+          className="z-[120] w-52 rounded-xl border-border p-1"
         >
           {networks.map((network) => (
-            <DropdownMenuItem
-              key={network.name}
-              className="cursor-pointer gap-2.5 rounded-lg"
-              onSelect={() => {
-                window.open(
-                  network.href(getShareUrl()),
-                  '_blank',
-                  'noopener,noreferrer,width=640,height=480',
-                );
-              }}
-            >
-              <network.icon className="size-4" />
-              {network.name}
+            <DropdownMenuItem key={network.name} asChild>
+              <a
+                href={network.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer gap-2.5 rounded-lg"
+              >
+                <network.icon className="size-4" />
+                {network.name}
+              </a>
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />
