@@ -8,6 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { BlogPost, BlogPostMeta } from '../types';
+import { estimateReadingMinutes } from '../utils/reading-time';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content');
 
@@ -308,7 +309,7 @@ export const getAllBlogPostsMeta = cache(
 
       try {
         const source = await fsPromises.readFile(filePath, 'utf8');
-        const { data } = grayMatter(source);
+        const { data, content } = grayMatter(source);
 
         const slug = data.slug || path.basename(path.dirname(relativePath));
 
@@ -323,6 +324,7 @@ export const getAllBlogPostsMeta = cache(
           tags: Array.isArray(data.tags) ? data.tags : [],
           thumbnail: data.thumbnail,
           published: data.published ?? true,
+          readingMinutes: estimateReadingMinutes(content),
         };
 
         if (meta.published) {

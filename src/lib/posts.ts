@@ -128,6 +128,47 @@ export async function getPosts() {
   return prisma.post.findMany();
 }
 
+export async function getPostEngagement(slugs: string[]) {
+  const unique = [...new Set(slugs.filter(Boolean))];
+  const empty: Record<string, { likes: number; views: number }> = {};
+  if (unique.length === 0) return empty;
+
+  try {
+    const [posts, likes] = await Promise.all([
+      prisma.post.findMany({
+        where: { slug: { in: unique } },
+        select: { slug: true, views: true },
+      }),
+      prisma.like.findMany({
+        where: { slug: { in: unique } },
+        select: { slug: true },
+      }),
+    ]);
+
+    const likesBySlug: Record<string, number> = {};
+    for (const like of likes) {
+      likesBySlug[like.slug] = (likesBySlug[like.slug] ?? 0) + 1;
+    }
+
+    const result: Record<string, { likes: number; views: number }> = {};
+    for (const slug of unique) {
+      result[slug] = { likes: likesBySlug[slug] ?? 0, views: 0 };
+    }
+    for (const post of posts) {
+      result[post.slug] = {
+        likes: likesBySlug[post.slug] ?? 0,
+        views: post.views,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.error('getPostEngagement failed', error);
+    return Object.fromEntries(
+      unique.map((slug) => [slug, { likes: 0, views: 0 }]),
+    );
+  }
+}
+
 export async function syncPosts(posts: { slug: string }[]) {
   const existingPosts = await prisma.post.findMany({ select: { slug: true } });
   const existingSet = new Set(existingPosts.map((p) => p.slug));

@@ -1,10 +1,12 @@
-import { getAllBlogPostsMeta } from '@/src/lib/blog-helpers';
-import { BlogCard } from '../_components/BlogCard';
-import { FiTerminal, FiFilter, FiSearch } from 'react-icons/fi';
+import { PostCard } from '@/src/components/blog/PostCard';
 import SelectCategoryPage from '@/src/components/shared/SelectCategory';
+import { getAllBlogPostsMeta } from '@/src/lib/blog-helpers';
+import { getPostEngagement } from '@/src/lib/posts';
+import { FiFilter, FiSearch, FiTerminal } from 'react-icons/fi';
 
 export default async function BlogPage() {
   const posts = await getAllBlogPostsMeta();
+  const engagement = await getPostEngagement(posts.map((post) => post.slug));
 
   return (
     <div className="bg-background min-h-screen">
@@ -35,14 +37,19 @@ export default async function BlogPage() {
         </div>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts?.map((post, index) => (
-            <BlogCard
-              key={post.slug || index}
-              blog={post.meta}
-              isLoading={false}
-            />
-          ))}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {posts?.map((post) => {
+            const stats = engagement[post.slug] ?? { likes: 0, views: 0 };
+            return (
+              <PostCard
+                key={post.slug}
+                post={post.meta}
+                likes={stats.likes}
+                views={stats.views}
+                variant="listing"
+              />
+            );
+          })}
         </div>
 
         {/* Empty State */}
