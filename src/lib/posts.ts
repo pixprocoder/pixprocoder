@@ -57,25 +57,22 @@ export async function getPostLikeCount(slug: string, userId?: string | null) {
 }
 
 export async function incrementView(slug: string) {
-  return prisma.$transaction(async (tx) => {
-    const post = await tx.post.findUnique({
-      where: { slug },
-      select: { views: true },
-    });
-    if (!post) return null;
-    return tx.post.update({
-      where: { slug },
-      data: { views: { increment: 1 } },
-      select: { views: true },
-    });
+  if (!slug?.trim()) throw new Error('Slug is required');
+
+  return prisma.post.upsert({
+    where: { slug },
+    create: { slug, views: 1 },
+    update: { views: { increment: 1 } },
+    select: { views: true },
   });
 }
 
 export async function getViews(slug: string) {
-  return prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: { slug },
     select: { views: true },
   });
+  return { views: post?.views ?? 0 };
 }
 
 export async function createComment(payload: {
@@ -126,6 +123,47 @@ export async function getComments(payload: {
 
 export async function getPosts() {
   return prisma.post.findMany();
+}
+
+export async function getPostEngagement(slugs: string[]) {
+  const unique = [...new Set(slugs.filter(Boolean))];
+  const empty: Record<string, { likes: number; views: number }> = {};
+  if (unique.length === 0) return empty;
+
+  try {
+    const [posts, likes] = await Promise.all([
+      prisma.post.findMany({
+        where: { slug: { in: unique } },
+        select: { slug: true, views: true },
+      }),
+      prisma.like.findMany({
+        where: { slug: { in: unique } },
+        select: { slug: true },
+      }),
+    ]);
+
+    const likesBySlug: Record<string, number> = {};
+    for (const like of likes) {
+      likesBySlug[like.slug] = (likesBySlug[like.slug] ?? 0) + 1;
+    }
+
+    const result: Record<string, { likes: number; views: number }> = {};
+    for (const slug of unique) {
+      result[slug] = { likes: likesBySlug[slug] ?? 0, views: 0 };
+    }
+    for (const post of posts) {
+      result[post.slug] = {
+        likes: likesBySlug[post.slug] ?? 0,
+        views: post.views,
+      };
+    }
+    return result;
+  } catch (error) {
+    console.error('getPostEngagement failed', error);
+    return Object.fromEntries(
+      unique.map((slug) => [slug, { likes: 0, views: 0 }]),
+    );
+  }
 }
 
 export async function syncPosts(posts: { slug: string }[]) {
