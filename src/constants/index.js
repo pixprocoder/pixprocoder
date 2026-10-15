@@ -1,6 +1,3 @@
-import backend from '../assets/backend.png';
-import creator from '../assets/creator.png';
-import mobile from '../assets/mobile.png';
 import css from '../assets/tech/css.png';
 import docker from '../assets/tech/docker.png';
 import figma from '../assets/tech/figma.png';
@@ -13,7 +10,6 @@ import reactjs from '../assets/tech/reactjs.png';
 import redux from '../assets/tech/redux.png';
 import tailwind from '../assets/tech/tailwind.png';
 import typescript from '../assets/tech/typescript.png';
-import web from '../assets/web.png';
 
 // Contact Info
 export const contactInfo = {
@@ -25,53 +21,42 @@ export const contactInfo = {
 // Navigation links
 export const navLinks = [
   { to: '/', key: 'Home' },
-  { to: '/gallery', key: 'Gallery' },
   { to: '/blog', key: 'Blog' },
+  { to: '/gallery', key: 'Gallery' },
   { to: '/about', key: 'About' },
   { to: '/contact', key: 'Contact' },
-];
-
-export const skills = [];
-
-export const portfolioMenu = [
-  { href: '/', id: 1, value: 'All' },
-  { href: '/', id: 2, value: 'Full Stack' },
-  { href: '/', id: 3, value: 'HTML/CSS/JS' },
-  { href: '/', id: 8, value: 'Next' },
-  { href: '/', id: 4, value: 'React' },
 ];
 
 export const faqItems = [
   {
     value: '1',
-    question: 'What is the primary tech stack used at PixProcoder Studio?',
+    question: 'What do you actually do?',
     answer:
-      'We specialize in modern JavaScript/TypeScript ecosystems. Our go-to stack is Next.js 15 for the frontend, combined with Tailwind CSS for styling and Redux or TanStack Query for state management. For the backend, we leverage Node.js, Express, and Firebase or PostgreSQL depending on the data requirements.',
+      "I'm Sam Kobir, a full-stack engineer who now also owns DevOps. I design and ship products, then keep them running in production. Self-taught since 2020. Originally Dhaka, based in Bucharest.",
   },
   {
     value: '2',
-    question:
-      'How do you ensure high performance and SEO for the sites you build?',
+    question: 'Do you work as a studio or as yourself?',
     answer:
-      "Performance isn't an afterthought; we use Next.js's server-side rendering (SSR) and static site generation (SSG) to ensure near-instant load times. We also implement automated image optimization, clean semantic HTML, and rigorous Lighthouse audits to ensure your site ranks well and provides a smooth user experience.",
+      'I work independently. Client work is invoiced B2B through Pixprocoder Studio SRL, a registered EU consultancy I founded in Bucharest in 2023. A design contractor joins when a project needs one.',
   },
   {
     value: '3',
-    question: 'Do you offer custom integrations for e-commerce and payments?',
+    question: 'What kind of work do you take?',
     answer:
-      "Yes, we have extensive experience integrating Stripe for secure payment processing and building custom e-commerce flows. Whether you're selling digital products, courses, or physical goods, we can build a checkout experience tailored to your brand.",
+      'Full-stack product work and DevOps. React, Next.js, SvelteKit, TypeScript, Node, Go, PostgreSQL. Docker, Terraform, Kubernetes, GitHub Actions, AWS. Remote EU preferred. I have shipped client work in Australia, the UK, and across Europe, plus my own products (MediStore, MomentPro).',
   },
   {
     value: '4',
-    question: 'Can you help with scaling an existing application?',
+    question: 'How did you get here?',
     answer:
-      'Absolutely. We often work with clients to refactor legacy codebases, migrate to TypeScript for better type safety, or transition to a more scalable architecture like microservices or serverless functions to handle increased traffic.',
+      'I started from scratch in 2020. First paid projects in 2021–2022. I registered the company in 2023, then spent 2024–2025 shipping production SaaS. In 2026 I deliberately added the operations half: containers, infrastructure as code, CI/CD, and monitoring.',
   },
   {
     value: '5',
-    question: 'How does PixProcoder handle project communication?',
+    question: 'How do we start a project?',
     answer:
-      "Transparency is key. We typically use tools like Slack or Discord for real-time updates and GitHub for version control. You'll have clear visibility into the development progress through regular check-ins and staging deployments where you can test features as they are built.",
+      "Use the contact form, email, or WhatsApp. I'll reply — usually the same day during Bucharest hours, otherwise the next morning. We talk through the problem, the timeline, and whether I'm the right fit.",
   },
 ];
 
@@ -223,25 +208,6 @@ export const projects = [
   },
 ];
 
-export const services = [
-  {
-    title: 'Front-end web Development',
-    icon: web,
-  },
-  {
-    title: 'React Native Developer',
-    icon: mobile,
-  },
-  {
-    title: 'Backend Developer',
-    icon: backend,
-  },
-  {
-    title: 'Graphic Design',
-    icon: creator,
-  },
-];
-
 export const technologies = [
   {
     name: 'HTML 5',
@@ -293,50 +259,7 @@ export const technologies = [
     icon: docker,
   },
 ];
-export const blogs = [
-  {
-    id: 1,
-    author: 'John',
-    published_date: '2015-3-1',
-    title: 'How Algorithmic Trading Systems Work',
-    description:
-      'In India, the popularity of online trading has helped transform the financial landscape. This has led to over 20% of all trading is now done via mobile through trading apps. In line with this, another development many traders have highlighted is the use of algorithmic trading systems to take advantage of ever-changing market opportunities. To date, algorithmic trading systems are used in up to 60% of all trading volume.',
-  },
-  {
-    id: 2,
-    author: 'Jhanker mahbub',
-    published_date: '2019-7-1',
-    title: 'Build an Email Validator with HTML, CSS, and JavaScript',
-    description:
-      'Learn how to create a responsive Email Validator using HTML, CSS, and JavaScript. This step-by-step guide walks you through integrating the Email Validation API to validate email addresses effectively. Perfect for beginners and experts alike!',
-  },
-  {
-    id: 3,
-    author: 'Kabir Sing',
-    published_date: '2017-8-10',
-    title: 'How to find the Python Installation Path on Windows?',
-    description:
-      "Discover how to locate the Python installation path on your Windows system using two effective methods: the traditional Command Prompt and the modern Terminal. Whether you're troubleshooting or setting up environment variables, this guide provides clear, step-by-step instructions with visuals to help you find the information you need. Explore now!",
-  },
-  {
-    id: 4,
-    author: 'Nazmul Hasan',
-    published_date: '2017-8-10',
-    title: 'How to Check if Keys Exist in JavaScript Objects',
-    description:
-      "Learn how to check if keys exist in JavaScript objects using two popular methods: the 'in' operator and the hasOwnProperty() method. This comprehensive guide provides syntax, examples, and insights to help you navigate object properties in JavaScript",
-  },
-  {
-    id: 5,
-    author: 'Shakib Khan',
-    published_date: '2010-8-10',
-    title: 'How to Open the Terminal in Visual Studio Code',
-    description:
-      'Learn how to open the terminal in Visual Studio Code (VS Code) using various methods, such as the menu bar, keyboard shortcuts, command palette, and sidebar icon. This guide also covers customizing the terminal and working with multiple terminals within VS Code.',
-  },
-];
 
-// constants/testimonials.ts
 export const testimonials = [
   {
     name: 'aa_truck',

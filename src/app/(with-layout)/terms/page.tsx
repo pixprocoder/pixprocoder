@@ -1,84 +1,198 @@
-'use client';
-import { motion } from 'framer-motion';
-import { Terminal, Scale, ShieldCheck, FileWarning, Gavel, Bell } from 'lucide-react';
+import { contactInfo } from '@/src/constants';
+import { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Terms of Use - PixProcoder',
+  description: 'Terms that apply when you use pixprocoder.com.',
+};
+
+const updated = '15 October 2026';
 
 export default function TermsAndConditions() {
-  const sections = [
-    {
-      title: 'Agreement to Terms',
-      icon: <Gavel className="text-primary" size={20} />,
-      content: 'By accessing or using pixprocoder.com, you agree to be bound by these Terms and Conditions. If you disagree with any part of the terms, then you may not access the service.'
-    },
-    {
-      title: 'Intellectual Property',
-      icon: <Scale className="text-primary" size={20} />,
-      content: 'The content, technical articles, source code snippets, and original branding on PixProcoder are the intellectual property of MD Samsul Kobir. You may not reproduce, distribute, or create derivative works without explicit authorization.'
-    },
-    {
-      title: 'User Obligations',
-      icon: <ShieldCheck className="text-primary" size={20} />,
-      content: 'Users are prohibited from using the site for any unlawful purpose or to solicit others to perform or participate in any unlawful acts. Technical reverse engineering or unauthorized "scraping" of content is strictly forbidden.'
-    },
-    {
-      title: 'Disclaimer of Warranties',
-      icon: <FileWarning className="text-primary" size={20} />,
-      content: 'Technical information and code snippets provided on this blog are for educational purposes. We provide the service "as is" and do not guarantee that the code will work in your specific environment without modification.'
-    },
-    {
-      title: 'Limitation of Liability',
-      icon: <Bell className="text-primary" size={20} />,
-      content: 'In no event shall PixProcoder or its founder be liable for any indirect, incidental, special, or consequential damages resulting from your use of the information or products provided on this site.'
-    }
-  ];
-
   return (
-    <div className="bg-background min-h-screen py-12 md:py-20">
-      <div className="container mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Header */}
-          <div className="space-y-4 mb-16 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 border border-primary/20 text-xs font-mono text-primary">
-              <Terminal size={14} />
-              <span>~/legal/terms_conditions.md</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
-              Terms <span className="text-primary font-mono italic">protocol.</span>
-            </h1>
-            <p className="text-muted-foreground text-lg font-mono">
-              Last Updated: March 30, 2026
-            </p>
-          </div>
+    <article className="py-16 sm:py-24">
+      <div className="mx-auto max-w-3xl">
+        <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+          Legal
+        </p>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          Terms of use.
+        </h1>
+        <p className="mt-4 text-sm text-muted-foreground">
+          Last updated {updated}
+        </p>
 
-          {/* Content Grid */}
-          <div className="grid gap-8">
-            {sections.map((section, idx) => (
-              <motion.div
-                key={section.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="p-8 rounded-3xl border border-white/10 bg-muted/5 space-y-4"
+        <div className="mt-12 space-y-10 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Agreement
+            </h2>
+            <p>
+              These terms govern your use of pixprocoder.com (the
+              &quot;site&quot;), operated by MD Samsul Kobir / Pixprocoder
+              Studio SRL, Bucharest, Romania. By using the site you agree to
+              these terms and to the{' '}
+              <Link
+                href="/privacy"
+                className="text-foreground hover:text-primary"
               >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-background border border-white/10 text-primary">
-                    {section.icon}
-                  </div>
-                  <h2 className="text-xl font-bold font-mono tracking-tight text-white uppercase italic">
-                    {section.title.replace(/ /g, '_')}
-                  </h2>
-                </div>
-                <p className="text-muted-foreground leading-relaxed font-mono text-sm md:text-base">
-                  {section.content}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+                Privacy policy
+              </Link>
+              . If you do not agree, do not use the site.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              The site
+            </h2>
+            <p>
+              The site is a personal website and portfolio. It may include a
+              blog, gallery, contact form, and account features (comments,
+              likes). It is provided for information and for contacting me
+              about freelance or consultancy work. It is not a marketplace and
+              does not sell courses or products through this site unless
+              clearly stated.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Intellectual property
+            </h2>
+            <p>
+              Content on the site — writing, photos, design, code samples, and
+              branding — is owned by MD Samsul Kobir or used with permission.
+              You may not copy, scrape, or republish it for commercial use
+              without written permission. You may share links and short
+              quotations with credit. Code snippets in articles are for
+              learning; they are provided as-is.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Accounts
+            </h2>
+            <p>
+              Some features require signing in with Google or GitHub. You are
+              responsible for that account. I may suspend access if these terms
+              are broken or if the service is abused.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Your content
+            </h2>
+            <p>
+              Comments and similar submissions remain yours. You grant me a
+              non-exclusive licence to display them on the site. Do not post
+              anything illegal, harmful, or that infringes someone else&apos;s
+              rights. I may remove content at my discretion.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Acceptable use
+            </h2>
+            <p>
+              You agree not to misuse the site: no unauthorized access,
+              scraping at a scale that harms the service, spam, malware, or
+              using the contact form for anything other than a genuine message.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              No professional advice
+            </h2>
+            <p>
+              Articles, code, and opinions are personal and educational. They
+              are not legal, financial, or professional advice, and they may be
+              incomplete or become outdated. You use them at your own risk.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Third-party services
+            </h2>
+            <p>
+              The site may link to other websites or load third-party tools
+              (authentication, analytics, ads, captcha). I am not responsible
+              for their content or practices. Their terms and privacy policies
+              apply to those services.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Disclaimer
+            </h2>
+            <p>
+              The site is provided &quot;as is&quot; and &quot;as
+              available&quot;, without warranties of any kind, whether express
+              or implied, including fitness for a particular purpose and
+              non-infringement. I do not warrant that the site will be
+              uninterrupted, secure, or error-free.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Limitation of liability
+            </h2>
+            <p>
+              To the fullest extent allowed by law, I am not liable for any
+              indirect, incidental, special, consequential, or punitive
+              damages, or any loss of data, profits, or business, arising from
+              your use of the site or reliance on its content. Nothing in these
+              terms limits liability that cannot be limited under Romanian or
+              EU law (including for death or personal injury caused by
+              negligence, or for fraud).
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Governing law
+            </h2>
+            <p>
+              These terms are governed by the laws of Romania. Courts in
+              Bucharest have jurisdiction, without affecting any mandatory
+              consumer protections that apply where you live.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Changes
+            </h2>
+            <p>
+              I may change these terms. The date at the top will be updated.
+              Continued use after a change means you accept the new terms.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="text-xl font-semibold tracking-tight text-foreground">
+              Contact
+            </h2>
+            <p>
+              MD Samsul Kobir · Pixprocoder Studio SRL · Bucharest, Romania ·{' '}
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="text-foreground hover:text-primary"
+              >
+                {contactInfo.email}
+              </a>
+            </p>
+          </section>
+        </div>
       </div>
-    </div>
+    </article>
   );
 }

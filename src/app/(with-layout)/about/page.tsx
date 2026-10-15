@@ -1,133 +1,334 @@
 'use client';
+
+import { Reveal, staggerContainer, staggerItem } from '@/src/components/motion/Reveal';
+import { Button } from '@/src/components/ui/button';
+import { contactInfo } from '@/src/constants';
 import { motion } from 'framer-motion';
-import { Terminal, Code, Cpu, Globe, Rocket, Award, Coffee, Zap } from 'lucide-react';
+import { Download } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
+
+const RESUME_HREF = '/Samsul_Kobir_Senior_SWE_Resume.pdf';
+
+const journey = [
+  {
+    period: '2020',
+    title: 'Started from scratch',
+    body: 'Taught myself HTML, CSS, and JavaScript with no bootcamp and no CS degree — documentation, tutorials, and building until it worked. First real project: a personal blog with likes, comments, and views.',
+    tags: ['HTML/CSS', 'JavaScript', 'React'],
+  },
+  {
+    period: '2021 – 2022',
+    title: 'First client work',
+    body: 'Landed paid projects on Fiverr and Upwork. Delivered a vehicle rental API in Express and TypeScript, a driving-school booking platform in SvelteKit with a React Native companion, and a Shopify print-on-demand store for an Austrian client.',
+    tags: ['Node.js', 'PostgreSQL', 'SvelteKit', 'React Native', 'Shopify'],
+  },
+  {
+    period: '2023',
+    title: 'Founded Pixprocoder Studio SRL',
+    body: 'Registered a software consultancy in Bucharest — sole owner, EU entity, proper invoicing. Took on clients in Australia and the UK, brought on a design contractor, and began working at European market rates.',
+    tags: ['Consultancy', 'EU company', 'B2B'],
+  },
+  {
+    period: '2024',
+    title: 'MediStore — production SaaS',
+    body: 'Built MediStore, a multi-vendor medical e-commerce platform: Next.js, Node/Express, PostgreSQL with Prisma, deployed on Oracle Cloud with Nginx and SSL. Full production system with auth, payments, and vendor management.',
+    tags: ['Next.js', 'PostgreSQL', 'Prisma', 'Oracle Cloud'],
+  },
+  {
+    period: '2025',
+    title: 'MomentPro — SaaS product',
+    body: 'Built and launched MomentPro, an event photo-sharing product. Guests upload from any device; organisers get a private gallery. Svelte 5, Cloudflare R2, Stripe billing.',
+    tags: ['SvelteKit', 'Cloudflare R2', 'Stripe', 'Drizzle'],
+  },
+  {
+    period: '2026',
+    title: 'DevOps, end to end',
+    body: 'A deliberate shift toward cloud and operations — still full-stack, now owning the rest of the lifecycle. Containerising apps, provisioning with Terraform, wiring CI/CD, and watching production with Prometheus and Grafana. Studying toward AWS Cloud Practitioner and CKA.',
+    tags: ['Docker', 'Terraform', 'Kubernetes', 'GitHub Actions', 'Go', 'AWS'],
+  },
+];
+
+const work = [
+  {
+    title: 'MomentPro',
+    status: 'Live',
+    body: 'Event photo-sharing SaaS. Guests upload from any device; organisers get a private gallery per event.',
+  },
+  {
+    title: 'MediStore',
+    status: 'Live',
+    body: 'Multi-vendor medical e-commerce with auth, vendor management, and payments. Running on Oracle Cloud.',
+  },
+  {
+    title: 'Book Review API',
+    status: 'DevOps',
+    body: 'Go REST API used as a live reference for the full pipeline: Docker, Terraform, Ansible, EKS, Grafana.',
+  },
+  {
+    title: 'Pixprocoder Studio',
+    status: 'Active',
+    body: 'Registered EU consultancy. Client work across Australia, the UK, and Europe.',
+  },
+];
+
+const skillGroups = [
+  {
+    title: 'Frontend',
+    items: ['React / Next.js', 'SvelteKit', 'TypeScript', 'React Native'],
+  },
+  {
+    title: 'Backend',
+    items: ['Node.js / Express', 'Go', 'Bun', 'PostgreSQL · Prisma · Drizzle'],
+  },
+  {
+    title: 'DevOps',
+    items: ['Docker', 'Terraform · Ansible', 'Kubernetes (EKS)', 'GitHub Actions'],
+  },
+  {
+    title: 'Cloud',
+    items: ['AWS', 'Oracle Cloud · Cloudflare', 'Prometheus · Grafana', 'Nginx · TLS'],
+  },
+];
 
 export default function AboutPage() {
-  const milestones = [
-    { year: '2020', event: 'Initial_Commit: Started journey in web engineering.' },
-    { year: '2022', event: 'Scale_Up: Transitioned to full-stack architecture & cloud systems.' },
-    { year: '2024', event: 'Brand_Launch: PixProcoder established as a technical studio.' },
-    { year: '2026', event: 'Next_Gen: Mastering React 19, Next.js 15, and high-performance runtimes.' }
-  ];
-
   return (
-    <div className="bg-background min-h-screen py-12 md:py-20">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-5xl mx-auto"
+    <section className="py-16 sm:py-24">
+      <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div className="space-y-8">
+          <Reveal>
+            <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+              About
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              Sam Kobir.
+            </h1>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Full-stack engineer turned DevOps. I build products end-to-end and
+              keep them running in production. Self-taught since 2020. Originally
+              Dhaka, based in Bucharest.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button asChild className="h-11 w-full rounded-xl px-6 sm:w-auto">
+                <a href={RESUME_HREF} download>
+                  <Download className="mr-2 size-4" />
+                  Download resume
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="h-11 w-full rounded-xl px-6 sm:w-auto"
+              >
+                <Link href="/contact">
+                  Get in touch
+                  <FiArrowRight className="ml-2 size-4" />
+                </Link>
+              </Button>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.12} className="max-w-xl space-y-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            <p>
+              I started learning to code in 2020 with no formal computer-science
+              background — curiosity and a lot of late nights. Within a year I
+              was building real applications with React and Node.js. Within two
+              I was delivering paid work for international clients.
+            </p>
+            <p>
+              In 2023 I founded{' '}
+              <span className="text-foreground">Pixprocoder Studio SRL</span>, a
+              registered software consultancy in Bucharest. Freelance work grew
+              into a company: structure, invoicing, a design partner, and
+              clients in Australia, the UK, and across Europe.
+            </p>
+            <p>
+              In 2026 I shifted toward DevOps and cloud — not dropping
+              full-stack, but owning the other half. I write the application,
+              containerise it, provision infrastructure, wire CI/CD, and watch
+              it in production. The product background is what makes that
+              faster.
+            </p>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.1} className="space-y-6">
+          <div className="relative mx-auto aspect-[3/4] max-h-[28rem] w-full max-w-sm overflow-hidden rounded-2xl border border-border lg:mx-0 lg:max-h-none">
+            <Image
+              src="/profile-me.jpg"
+              alt="Sam Kobir"
+              fill
+              priority
+              className="object-cover object-top"
+              sizes="(max-width: 1024px) 24rem, 28rem"
+            />
+          </div>
+          <dl className="grid grid-cols-2 gap-4 text-sm">
+            {[
+              { label: 'Based', value: 'Bucharest' },
+              { label: 'Building since', value: '2020' },
+              { label: 'Studio', value: 'Pixprocoder SRL' },
+              { label: 'Open to', value: 'EU contracts' },
+            ].map((item) => (
+              <div key={item.label} className="rounded-2xl border border-border bg-card p-4">
+                <dt className="text-xs tracking-wide text-muted-foreground uppercase">
+                  {item.label}
+                </dt>
+                <dd className="mt-1 font-medium text-foreground">{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+
+      <div className="mt-20 border-t border-border pt-16 sm:mt-24 sm:pt-20">
+        <Reveal className="mb-10 space-y-3 sm:mb-14">
+          <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+            Journey
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            2020 to now.
+          </h2>
+        </Reveal>
+
+        <motion.ol
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="space-y-0"
         >
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 border border-primary/20 text-xs font-mono text-primary">
-                <Terminal size={14} />
-                <span>~/system/identity</span>
-              </div>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
-                About <span className="text-primary font-mono italic">PixProcoder.</span>
-              </h1>
-              <p className="text-muted-foreground max-w-2xl text-lg md:text-xl font-mono">
-                // Decoding the mission, the engineer, and the architecture.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
-            {/* Bio Section */}
-            <div className="lg:col-span-7 space-y-8">
-              <div className="prose prose-invert max-w-none font-mono text-gray-400">
-                <p className="text-lg leading-relaxed text-white">
-                  PixProcoder is a high-performance technical studio founded by <span className="text-primary font-bold">MD Samsul Kobir</span>, a Senior Software Engineer dedicated to architecting scalable digital solutions.
+          {journey.map((entry) => (
+            <motion.li
+              key={entry.period}
+              variants={staggerItem}
+              className="grid gap-2 border-t border-border py-8 sm:grid-cols-[8rem_1fr] sm:gap-8"
+            >
+              <p className="text-sm font-medium text-primary">{entry.period}</p>
+              <div>
+                <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                  {entry.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {entry.body}
                 </p>
-                <p>
-                  Our mission is to bridge the gap between complex engineering and elegant user experiences. We don't just "build websites"; we engineer robust ecosystems using the modern JavaScript stack, prioritizing performance, type-safety, and maintainable architecture.
-                </p>
-                <p>
-                  With years of experience in the React ecosystem and a deep passion for open-source contribution, PixProcoder serves as a hub for professional developers seeking premium tools, high-impact insights, and engineering excellence.
-                </p>
-              </div>
-
-              {/* Milestones / Logs */}
-              <div className="space-y-4 pt-8">
-                <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-[0.2em]">System_Milestones</h3>
-                <div className="space-y-3">
-                  {milestones.map((m, i) => (
-                    <div key={i} className="flex gap-4 p-4 rounded-xl border border-white/5 bg-white/5 hover:border-primary/20 transition-colors group">
-                      <span className="text-primary font-bold font-mono text-sm">{m.year}</span>
-                      <span className="text-gray-400 font-mono text-sm group-hover:text-white transition-colors">{m.event}</span>
-                    </div>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {entry.tags.map((tag) => (
+                    <li
+                      key={tag}
+                      className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground"
+                    >
+                      {tag}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            </div>
+            </motion.li>
+          ))}
+        </motion.ol>
+      </div>
 
-            {/* Visuals / Stats Section */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 group">
-                <Image
-                  src="/profile.jpg"
-                  alt="MD Samsul Kobir"
-                  fill
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10">
-                   <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-gray-400 uppercase">Engineer_Lead</span>
-                      <div className="flex items-center gap-1.5">
-                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                         <span className="text-[10px] font-mono text-white">ACTIVE_V15</span>
-                      </div>
-                   </div>
-                </div>
+      <div className="mt-8 border-t border-border pt-16 sm:mt-12 sm:pt-20">
+        <Reveal className="mb-10 space-y-3 sm:mb-14">
+          <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+            Selected work
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Things I&apos;ve shipped.
+          </h2>
+        </Reveal>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+        >
+          {work.map((item) => (
+            <motion.article
+              key={item.title}
+              variants={staggerItem}
+              className="rounded-2xl border border-border bg-card p-6"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="font-semibold tracking-tight text-foreground">
+                  {item.title}
+                </h3>
+                <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">
+                  {item.status}
+                </span>
               </div>
-
-              {/* Stat Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: <Code size={16} />, label: 'Commits', value: '5K+' },
-                  { icon: <Zap size={16} />, label: 'Efficiency', value: '99%' },
-                  { icon: <Award size={16} />, label: 'Experience', value: '5Y+' },
-                  { icon: <Globe size={16} />, label: 'Clients', value: '20+' }
-                ].map((stat, i) => (
-                  <div key={i} className="p-4 rounded-2xl border border-white/5 bg-muted/5 space-y-2">
-                    <div className="text-primary">{stat.icon}</div>
-                    <div className="text-xl font-bold font-mono text-white">{stat.value}</div>
-                    <div className="text-[10px] font-mono text-gray-500 uppercase tracking-tighter">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Core Values / Documentation style */}
-          <div className="mt-20 p-8 md:p-12 rounded-[2rem] border border-primary/20 bg-primary/5 relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-8 opacity-10">
-                <Rocket size={120} />
-             </div>
-             <div className="max-w-2xl relative z-10 space-y-6">
-                <h2 className="text-2xl md:text-3xl font-bold font-mono tracking-tight text-white">The_PixProcoder_Manifesto</h2>
-                <div className="grid gap-6 text-sm md:text-base font-mono text-gray-400">
-                   <div className="flex gap-4">
-                      <span className="text-primary font-bold">01</span>
-                      <span>Prioritize system scalability over short-term "hacks".</span>
-                   </div>
-                   <div className="flex gap-4">
-                      <span className="text-primary font-bold">02</span>
-                      <span>Maintain 100% architectural transparency with clients and community.</span>
-                   </div>
-                   <div className="flex gap-4">
-                      <span className="text-primary font-bold">03</span>
-                      <span>Continuous integration of the latest stable high-performance runtimes.</span>
-                   </div>
-                </div>
-             </div>
-          </div>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {item.body}
+              </p>
+            </motion.article>
+          ))}
         </motion.div>
       </div>
-    </div>
+
+      <div className="mt-16 border-t border-border pt-16 sm:mt-20 sm:pt-20">
+        <Reveal className="mb-10 space-y-3 sm:mb-14">
+          <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+            Stack
+          </p>
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            What I work with.
+          </h2>
+        </Reveal>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+          {skillGroups.map((group) => (
+            <div key={group.title}>
+              <h3 className="text-sm font-medium text-foreground">{group.title}</h3>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Reveal className="mt-16 rounded-2xl border border-border bg-card p-6 sm:mt-20 sm:p-10">
+        <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+          Available
+        </p>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Full-stack or DevOps. Remote EU preferred.
+        </h2>
+        <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Invoiced B2B through Pixprocoder Studio SRL.{' '}
+          <a
+            href={`mailto:${contactInfo.email}`}
+            className="text-foreground hover:text-primary"
+          >
+            {contactInfo.email}
+          </a>
+        </p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button asChild className="h-11 rounded-xl px-6">
+            <Link href="/contact">
+              Start a project
+              <FiArrowRight className="ml-2 size-4" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline" className="h-11 rounded-xl px-6">
+            <a href={RESUME_HREF} download>
+              <Download className="mr-2 size-4" />
+              Resume
+            </a>
+          </Button>
+        </div>
+      </Reveal>
+    </section>
   );
 }

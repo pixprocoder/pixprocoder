@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiChevronLeft, FiChevronRight, FiInfo } from 'react-icons/fi';
-import { X } from 'lucide-react';
 
-interface MediaItem {
+import { useCallback, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+
+type MediaItem = {
   id: string;
   type: 'image' | 'video';
   url: string;
@@ -12,26 +12,30 @@ interface MediaItem {
   title: string;
   subtitle?: string;
   description?: string;
-}
+};
 
-interface MediaLightboxProps {
+export function MediaLightbox({
+  media,
+  currentIndex,
+  onClose,
+  onPrev,
+  onNext,
+}: {
   media: MediaItem[];
   currentIndex: number;
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
-}
-
-export const MediaLightbox = ({ media, currentIndex, onClose, onPrev, onNext }: MediaLightboxProps) => {
+}) {
   const item = media[currentIndex];
 
   const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft') onPrev();
-      if (e.key === 'ArrowRight') onNext();
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowLeft') onPrev();
+      if (event.key === 'ArrowRight') onNext();
     },
-    [onClose, onPrev, onNext]
+    [onClose, onPrev, onNext],
   );
 
   useEffect(() => {
@@ -46,86 +50,93 @@ export const MediaLightbox = ({ media, currentIndex, onClose, onPrev, onNext }: 
   if (!item) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col"
-        onClick={onClose}
-      >
-        {/* Top bar */}
-        <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between p-4 bg-gradient-to-b from-black/60 to-transparent">
-          <div className="flex items-center gap-3">
-            <span className="text-white/70 text-sm font-mono">
-              {currentIndex + 1} / {media.length}
-            </span>
-            <span className="text-white/40 text-sm">—</span>
-            <span className="text-white text-sm font-medium truncate max-w-[300px]">
-              {item.title}
-            </span>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        {/* Media content */}
-        <div
-          className="flex-1 flex items-center justify-center p-4 w-full"
-          onClick={(e) => e.stopPropagation()}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex flex-col bg-black/92 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-3 p-4">
+        <p className="truncate text-sm text-white/80">
+          <span className="tabular-nums text-white/55">
+            {currentIndex + 1} / {media.length}
+          </span>
+          <span className="mx-2 text-white/30">·</span>
+          {item.title}
+        </p>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
         >
+          <X className="size-5" />
+        </button>
+      </div>
+
+      <div
+        className="flex min-h-0 flex-1 items-center justify-center p-4 sm:p-12"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <AnimatePresence mode="wait">
           {item.type === 'image' ? (
             <motion.img
               key={item.id}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.25 }}
               src={item.url}
               alt={item.title}
-              className="max-h-[85vh] max-w-full object-contain rounded-xl"
+              className="max-h-[82vh] max-w-full rounded-xl object-contain"
             />
           ) : (
-            <div className="w-full max-w-4xl aspect-video">
+            <div key={item.id} className="aspect-video w-full max-w-4xl">
               <iframe
                 src={item.embedUrl || item.url}
-                className="w-full h-full rounded-xl"
+                className="size-full rounded-xl"
                 allow="autoplay; encrypted-media"
                 allowFullScreen
+                title={item.title}
               />
             </div>
           )}
-        </div>
+        </AnimatePresence>
+      </div>
 
-        {/* Bottom info bar */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-          <div className="flex items-center gap-2 text-white/60 text-sm justify-center">
-            <FiInfo size={14} />
-            <span>{item.subtitle || item.description || item.title}</span>
-          </div>
-        </div>
+      {(item.subtitle || item.description) && (
+        <p className="absolute inset-x-0 bottom-0 px-6 pb-6 text-center text-sm text-white/70">
+          {item.subtitle || item.description}
+        </p>
+      )}
 
-        {/* Navigation arrows */}
-        {media.length > 1 && (
-          <>
-            <button
-              onClick={(e) => { e.stopPropagation(); onPrev(); }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-            >
-              <FiChevronLeft size={24} />
-            </button>
-            <button
-              onClick={(e) => { e.stopPropagation(); onNext(); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-            >
-              <FiChevronRight size={24} />
-            </button>
-          </>
-        )}
-      </motion.div>
-    </AnimatePresence>
+      {media.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onPrev();
+            }}
+            aria-label="Previous photo"
+            className="absolute top-1/2 left-3 z-10 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-6"
+          >
+            <ChevronLeft className="size-5" />
+          </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              onNext();
+            }}
+            aria-label="Next photo"
+            className="absolute top-1/2 right-3 z-10 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6"
+          >
+            <ChevronRight className="size-5" />
+          </button>
+        </>
+      )}
+    </motion.div>
   );
-};
+}
