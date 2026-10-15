@@ -1,4 +1,3 @@
-import OtherProviders from '@/src/providers/OtherProviders';
 import 'highlight.js/styles/github-dark.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
@@ -7,8 +6,8 @@ import PageViewTracker from '../components/PageViewTracker';
 import { Toaster } from '../components/ui/toaster';
 import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
-import ReduxProvider from '../providers/ReduxProvider';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';
+import { ibmPlexMono, openSans, sourceSerif } from './fonts';
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
@@ -17,7 +16,7 @@ const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'ca
 export const metadata: Metadata = {
   title: 'pixprocoder',
   description:
-    'pixprocoder is the website of Md Samsul Kobir. he is a software engineer running his own business. this website has blogs and the author is implemening new features often.',
+    'Sam Kobir! A software engineer ',
 };
 
 export default function RootLayout({
@@ -26,7 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`dark ${openSans.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
+    >
       {/* Google Analytics Script */}
       {GA_MEASUREMENT_ID && (
         <>
@@ -58,19 +60,15 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       )}
-      <body suppressHydrationWarning={true} className="dark">
-        <ReduxProvider>
-          <TanStackQueryProvider>
-            <AuthProviders>
-              <OtherProviders>
-                <main>{children}</main>
-                <PageViewTracker />
-                <AdSenseAutoAds />
-                <Toaster />
-              </OtherProviders>
-            </AuthProviders>
-          </TanStackQueryProvider>
-        </ReduxProvider>
+      <body suppressHydrationWarning={true} className="dark font-sans">
+        <TanStackQueryProvider>
+          <AuthProviders>
+            <main>{children}</main>
+            <PageViewTracker />
+            <AdSenseAutoAds />
+            <Toaster />
+          </AuthProviders>
+        </TanStackQueryProvider>
       </body>
     </html>
   );

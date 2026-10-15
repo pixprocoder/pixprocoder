@@ -9,6 +9,7 @@ export interface BlogPostMeta {
   tags: string[];
   thumbnail?: string;
   published: boolean;
+  readingMinutes?: number;
 }
 
 export interface BlogPost {

@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  uid      String  @unique // Firebase UID
+  username String?
+  email    String  @unique
+  password String?
+  avatar   String?
+  // emailVerified Boolean @default(false)
+
+  // Relations
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  payments  Payment[]
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
+}
+
+// Post model
+model Post {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  slug String @unique @db.String // Must match MDX directory name
+
+  // Relations
+  comments Comment[]
+  likes    Like[]
+  views    Int       @default(0)
+
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+// Comment model
+model Comment {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  content  String @db.String
+  slug     String @db.String
+  post     Post   @relation(fields: [slug], references: [slug], onDelete: Cascade)
+  authorId String
+  author   User   @relation(fields: [authorId], references: [uid], onDelete: Cascade)
+
+  parentId String?   @db.ObjectId
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies  Comment[] @relation("CommentReplies")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([authorId])
+  @@map("comments")
+}
+
+// Like model
+model Like {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String
+  user   User   @relation(fields: [userId], references: [uid], onDelete: Cascade)
+
+  // Post reference via slug
+  slug String @db.String
+  post Post   @relation(fields: [slug], references: [slug], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, slug])
+  @@index([slug])
+  @@map("likes")
+}
+
+// Payment model
+model Payment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // User reference (using Firebase UID - not MongoDB ObjectId)
+  userId String
+  user   User   @relation(fields: [userId], references: [uid], onDelete: Cascade)
+
+  // Payment details
+  transactionId String @unique @db.String
+  email         String @db.String
+  status        String @default("PENDING")
+  totalPrice    Float
+  items         Json
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("payments")
+}
+
+// ENUM
+enum Role {
+  USER
+  ADMIN
+}

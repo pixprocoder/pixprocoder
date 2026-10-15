@@ -1,61 +1,117 @@
+import { BlogFilters } from '@/src/components/blog/BlogFilters';
+import { BlogPagination } from '@/src/components/blog/BlogPagination';
+import { PostCard } from '@/src/components/blog/PostCard';
 import { getAllBlogPostsMeta } from '@/src/lib/blog-helpers';
-import { BlogCard } from '../_components/BlogCard';
-import { FiTerminal, FiFilter, FiSearch } from 'react-icons/fi';
-import SelectCategoryPage from '@/src/components/shared/SelectCategory';
+import {
+  collectTagOptions,
+  filterPostsByTag,
+  formatTagLabel,
+  paginatePosts,
+} from '@/src/lib/blog-listing';
+import { getPostEngagement } from '@/src/lib/posts';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
-export default async function BlogPage() {
+export const metadata: Metadata = {
+  title: 'Writing - PixProcoder',
+  description:
+    'Notes on web architecture, engineering patterns, and how I build.',
+};
+
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tag?: string; page?: string }>;
+}) {
+  const { tag, page } = await searchParams;
   const posts = await getAllBlogPostsMeta();
+  const tags = collectTagOptions(posts);
+  const activeTag = tags.some((item) => item.value === tag?.toLowerCase())
+    ? tag!.toLowerCase()
+    : undefined;
+
+  const filtered = filterPostsByTag(posts, activeTag);
+  const listing = paginatePosts(filtered, Number(page) || 1);
+  const engagement = await getPostEngagement(
+    listing.items.map((post) => post.slug),
+  );
 
   return (
-    <div className="bg-background min-h-screen">
-      <section className="container mx-auto py-12 md:py-20">
-        {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 border border-primary/20 text-xs font-mono text-primary">
-              <FiTerminal size={14} />
-              <span>~/insights/articles</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Technical <span className="text-primary font-mono italic">insights.</span>
-            </h1>
-            <p className="text-muted-foreground max-w-2xl text-lg md:text-xl">
-              Deep dives into modern web architecture, full-stack engineering, and the future of digital product development.
-            </p>
-          </div>
-
-          {/* Technical Filter Bar */}
-          <div className="flex items-center gap-3 bg-muted/20 p-2 rounded-xl border border-border">
-             <div className="flex items-center gap-2 px-3 text-muted-foreground">
-                <FiFilter size={16} />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Filter:</span>
-             </div>
-             <SelectCategoryPage />
-          </div>
+    <section className="py-16 sm:py-24">
+      <div className="mb-10 flex flex-col gap-6 sm:mb-14 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-3">
+          <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+            Writing
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Notes and essays.
+          </h1>
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Engineering, architecture, and the work of building — including
+            guest stories.
+          </p>
         </div>
-
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts?.map((post, index) => (
-            <BlogCard
-              key={post.slug || index}
-              blog={post.meta}
-              isLoading={false}
-            />
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {posts?.length === 0 && (
-          <div className="py-40 text-center space-y-4">
-             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/20 border border-border text-muted-foreground mb-4">
-                <FiSearch size={24} />
-             </div>
-             <h3 className="text-xl font-bold">No logs found</h3>
-             <p className="text-muted-foreground font-mono text-sm">Query returned 0 results for the current filter.</p>
-          </div>
+        {tags.length > 0 && (
+          <BlogFilters tags={tags} activeTag={activeTag} />
         )}
-      </section>
-    </div>
+      </div>
+
+      <div className="mb-8 text-sm text-muted-foreground">
+        {activeTag ? (
+          <p>
+            {listing.total} {listing.total === 1 ? 'post' : 'posts'} tagged{' '}
+            <span className="text-foreground">
+              {formatTagLabel(activeTag)}
+            </span>
+            {' · '}
+            <Link href="/blog" className="hover:text-foreground">
+              Clear
+            </Link>
+          </p>
+        ) : (
+          <p>
+            {listing.total} {listing.total === 1 ? 'post' : 'posts'}
+          </p>
+        )}
+      </div>
+
+      {listing.items.length > 0 ? (
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {listing.items.map((post) => {
+            const stats = engagement[post.slug] ?? { likes: 0, views: 0 };
+            return (
+              <PostCard
+                key={post.slug}
+                post={post.meta}
+                likes={stats.likes}
+                views={stats.views}
+                variant="listing"
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-border px-6 py-16 text-center">
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">
+            No posts in this topic.
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Try another tag, or view everything.
+          </p>
+          <Link
+            href="/blog"
+            className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
+          >
+            All posts
+          </Link>
+        </div>
+      )}
+
+      <BlogPagination
+        tag={activeTag}
+        currentPage={listing.currentPage}
+        totalPages={listing.totalPages}
+      />
+    </section>
   );
 }

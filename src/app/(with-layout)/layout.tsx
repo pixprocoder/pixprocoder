@@ -1,6 +1,6 @@
 import Footer from '@/src/components/shared/Footer';
 import Navbar from '@/src/components/shared/Navbar';
-import AlertBanner from '@/src/components/shared/AlertBanner';
+import SiteWidth from '@/src/components/shared/SiteWidth';
 
 export default function RootLayout({
   children,
@@ -9,11 +9,8 @@ export default function RootLayout({
 }) {
   return (
     <>
-      {/* <AlertBanner /> */}
       <Navbar />
-      <div>
-        {children}
-      </div>
+      <SiteWidth>{children}</SiteWidth>
       <Footer />
     </>
   );

@@ -1,78 +1,69 @@
 'use client';
+
 import { Button } from '@/src/components/ui/button';
 import { Textarea } from '@/src/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
+import { usePostComment } from '@/src/hooks/api/use-posts';
 import { AuthContext } from '@/src/providers/AuthProviders';
-import { usePostCommentMutation } from '@/src/redux/api/posts/PostApiSlice';
 import { useContext, useState } from 'react';
 
 function CommentBox({ id }: { id: string }) {
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
   const [comment, setComment] = useState('');
+  const { mutateAsync: postComment, isPending: isLoading } = usePostComment();
 
-  const [postComment, { isSuccess, isError, isLoading }] =
-    usePostCommentMutation();
-
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user?.email) {
       toast({
-        title: 'Login Require',
-        description: 'You Must Need To Login!',
-        className: `toast-warning`,
+        title: 'Log in required',
+        description: 'You need to be signed in to comment.',
       });
-
-      setComment('');
       return;
     }
-    if (comment === '') {
+    if (comment.trim() === '') {
       toast({
-        title: 'Required!',
-        description: 'This field cannot be Empty',
-        className: `toast-error`,
+        title: 'Comment is empty',
+        description: 'Write something before posting.',
       });
       return;
     }
 
-    postComment({
-      slug: id,
-      data: {
-        content: comment,
-        authorId: user?.uid,
-      },
-    });
-    if (isSuccess) {
+    try {
+      await postComment({
+        slug: id,
+        data: {
+          content: comment.trim(),
+          authorId: user?.uid,
+        },
+      });
       toast({
-        title: 'Success 🎉',
-        description: 'Post Added Successfully 🚀',
-        className: `toast-success`,
+        title: 'Posted',
+        description: 'Your comment is live.',
       });
       setComment('');
-    }
-
-    if (isError) {
+    } catch {
       toast({
-        title: 'Error ',
-        description: 'Failed to add comment',
-        className: `toast-error`,
+        title: 'Error',
+        description: 'Could not add that comment.',
       });
-      setComment('');
     }
-    setComment('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-2">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <Textarea
-        onChange={(e: any) => setComment(e.target.value)}
+        onChange={(e) => setComment(e.target.value)}
         value={comment}
-        className="text-foreground mb-2 bg-background"
-        placeholder="Write Your Thought"
+        className="min-h-28 rounded-xl border-border bg-background text-sm text-foreground"
+        placeholder={
+          user ? 'Write a comment…' : 'Log in to join the conversation'
+        }
       />
-      <div className="flex justify-start">
-        <Button className="primary-btn" type="submit">
-          {isLoading ? 'adding comment...' : 'Post Comment'}
+      <div className="flex justify-end">
+        <Button className="rounded-xl" type="submit" disabled={isLoading}>
+          {isLoading ? 'Posting…' : 'Post comment'}
         </Button>
       </div>
     </form>

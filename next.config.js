@@ -2,6 +2,7 @@
 
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+  serverExternalPackages: ['@prisma/client', 'prisma'],
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -11,7 +12,6 @@ const nextConfig = {
       'i.ibb.co',
       'd2devwt40at1e2.cloudfront.net',
       'miro.medium.com',
-      'fakestoreapi.com',
       'lh3.googleusercontent.com',
       'photos.app.goo.gl',
       'photos.google.com',

@@ -1,10 +1,11 @@
 'use client';
+
+import { cn } from '@/src/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiCalendar, FiMapPin, FiImage } from 'react-icons/fi';
 
-interface GalleryAlbum {
+type GalleryAlbum = {
   id: string;
   title: string;
   description: string;
@@ -12,41 +13,77 @@ interface GalleryAlbum {
   date: string;
   location: string;
   mediaCount: number;
-}
+};
 
-export const AlbumCard = ({ album }: { album: GalleryAlbum }) => {
+export function AlbumCard({
+  album,
+  featured = false,
+}: {
+  album: GalleryAlbum;
+  featured?: boolean;
+}) {
   return (
-    <Link href={`/gallery/${album.id}`}>
-      <motion.div
-        whileHover={{ y: -6, scale: 1.01 }}
-        className="group relative h-[320px] sm:h-[360px] rounded-2xl overflow-hidden border border-border bg-background cursor-pointer"
+    <Link href={`/gallery/${album.id}`} className="block min-w-0">
+      <motion.article
+        whileHover={{ y: -4 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          'group relative w-full min-w-0 overflow-hidden rounded-2xl border border-border bg-card',
+          featured
+            ? 'h-56 sm:h-80 md:h-96'
+            : 'aspect-[4/5] sm:aspect-[3/4]',
+        )}
       >
-        <Image
-          src={album.coverImage}
-          alt={album.title}
-          fill
-          className="object-cover transition-all duration-700 group-hover:scale-110"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-xs text-white/60 mb-2">
-            <FiCalendar size={12} />
-            <span>{album.date}</span>
-            <FiMapPin size={12} className="ml-2" />
-            <span>{album.location}</span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
+        <div className="absolute inset-0 overflow-hidden">
+          {featured ? (
+            <motion.div
+              className="size-full will-change-transform"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Image
+                src={album.coverImage}
+                alt=""
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 1024px"
+              />
+            </motion.div>
+          ) : (
+            <Image
+              src={album.coverImage}
+              alt=""
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          )}
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
+        <div className="absolute inset-x-0 bottom-0 space-y-2 p-5 sm:p-6">
+          <p className="text-xs tracking-wide text-white/70">
+            {album.date}
+            {album.location ? ` · ${album.location}` : ''}
+          </p>
+          <h3
+            className={cn(
+              'font-semibold tracking-tight text-white',
+              featured ? 'text-xl sm:text-3xl' : 'text-xl',
+            )}
+          >
             {album.title}
           </h3>
-          <p className="text-sm text-white/70 line-clamp-1 mb-3">{album.description}</p>
-          <div className="flex items-center gap-1.5 text-xs text-white/50">
-            <FiImage size={12} />
-            <span>{album.mediaCount} memories</span>
-          </div>
+          <p className="line-clamp-2 text-sm text-white/75">
+            {album.description}
+          </p>
+          <p className="pt-1 text-xs text-white/55">
+            {album.mediaCount} {album.mediaCount === 1 ? 'photo' : 'photos'}
+          </p>
         </div>
-      </motion.div>
+      </motion.article>
     </Link>
   );
-};
+}
