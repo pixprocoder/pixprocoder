@@ -8,7 +8,7 @@ import {
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
-import { LogOut, Menu, X } from 'lucide-react';
+import { Bookmark, LogOut, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -130,6 +130,12 @@ const Navbar = () => {
                     </p>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild className="cursor-pointer gap-2">
+                    <Link href="/saved">
+                      <Bookmark size={14} />
+                      Saved
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={handleSignOut}
                     className="cursor-pointer gap-2 text-destructive focus:text-destructive"
@@ -193,6 +199,19 @@ const Navbar = () => {
                         </button>
                       );
                     })}
+                    {user && (
+                      <button
+                        type="button"
+                        onClick={() => handleMobileNav('/saved')}
+                        className={`rounded-xl px-4 py-3 text-left text-base font-medium transition-colors ${
+                          pathname === '/saved'
+                            ? 'bg-accent text-accent-foreground'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                        }`}
+                      >
+                        Saved
+                      </button>
+                    )}
                   </nav>
                 </SheetContent>
               </Sheet>

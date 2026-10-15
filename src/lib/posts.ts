@@ -56,6 +56,65 @@ export async function getPostLikeCount(slug: string, userId?: string | null) {
   return { result: { likeCount, isLiked } };
 }
 
+export async function ensurePost(slug: string) {
+  return prisma.post.upsert({
+    where: { slug },
+    create: { slug, views: 0 },
+    update: {},
+    select: { slug: true },
+  });
+}
+
+export async function toggleBookmark(payload: {
+  slug: string;
+  userId: string;
+  saved: boolean;
+}) {
+  const { slug, userId, saved } = payload;
+
+  if (!slug?.trim()) throw new Error('Slug is required');
+  if (!userId?.trim()) throw new Error('UserId is required');
+  if (typeof saved !== 'boolean') throw new Error('saved must be a boolean');
+
+  await ensurePost(slug);
+
+  const existing = await prisma.bookmark.findUnique({
+    where: { userId_slug: { userId, slug } },
+  });
+
+  if (saved) {
+    if (!existing) {
+      await prisma.bookmark.create({ data: { userId, slug } });
+    }
+    return { isSaved: true };
+  }
+
+  if (existing) {
+    await prisma.bookmark.delete({
+      where: { userId_slug: { userId, slug } },
+    });
+  }
+  return { isSaved: false };
+}
+
+export async function getBookmarkState(slug: string, userId?: string | null) {
+  if (!userId) return { isSaved: false };
+  const row = await prisma.bookmark.findUnique({
+    where: { userId_slug: { userId, slug } },
+    select: { id: true },
+  });
+  return { isSaved: Boolean(row) };
+}
+
+export async function listBookmarks(userId: string) {
+  if (!userId?.trim()) throw new Error('UserId is required');
+  return prisma.bookmark.findMany({
+    where: { userId },
+    select: { slug: true, createdAt: true },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
 export async function incrementView(slug: string) {
   if (!slug?.trim()) throw new Error('Slug is required');
 

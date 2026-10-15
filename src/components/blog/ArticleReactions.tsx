@@ -39,6 +39,8 @@ type ArticleReactionsProps = {
   shareDescription?: string;
   onLike: () => void;
   onBookmark: () => void;
+  saved?: boolean;
+  bookmarkPending?: boolean;
   className?: string;
   showComments?: boolean;
   shareSide?: 'top' | 'bottom';
@@ -83,6 +85,8 @@ export function ArticleReactions({
   shareDescription,
   onLike,
   onBookmark,
+  saved = false,
+  bookmarkPending,
   className,
   showComments = true,
   shareSide = 'bottom',
@@ -184,9 +188,14 @@ export function ArticleReactions({
         </a>
       )}
 
-      <ActionButton label="Bookmark" onClick={onBookmark}>
-        <Bookmark className="size-4" />
-        <span>Save</span>
+      <ActionButton
+        label={saved ? 'Unsave' : 'Save'}
+        onClick={onBookmark}
+        disabled={bookmarkPending}
+        active={saved}
+      >
+        <Bookmark className={cn('size-4', saved && 'fill-primary')} />
+        <span>{saved ? 'Saved' : 'Save'}</span>
       </ActionButton>
 
       <DropdownMenu modal={false}>

@@ -33,6 +33,44 @@ export function useTogglePostLike() {
   });
 }
 
+export function usePostBookmark(slug: string, userId?: string | null) {
+  return useQuery({
+    queryKey: postKeys.bookmark(slug, userId),
+    queryFn: () =>
+      apiGet(`/posts/bookmark/${encodeURIComponent(slug)}?userId=${userId}`),
+    enabled: Boolean(slug && userId),
+  });
+}
+
+export function useTogglePostBookmark() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      slug,
+      data,
+    }: {
+      slug: string;
+      data: { userId: string; saved: boolean };
+    }) => apiPost(`/posts/bookmark/${encodeURIComponent(slug)}`, data),
+    onSuccess: (_data, vars) => {
+      queryClient.invalidateQueries({
+        queryKey: [...postKeys.all, 'bookmark', vars.slug],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [...postKeys.all, 'bookmarks'],
+      });
+    },
+  });
+}
+
+export function useBookmarkList(userId?: string | null) {
+  return useQuery({
+    queryKey: postKeys.bookmarkList(userId),
+    queryFn: () => apiGet(`/posts/bookmarks?userId=${userId}`),
+    enabled: Boolean(userId),
+  });
+}
+
 export function usePostViews(slug: string) {
   return useQuery({
     queryKey: postKeys.views(slug),
