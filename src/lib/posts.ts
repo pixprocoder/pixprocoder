@@ -57,25 +57,22 @@ export async function getPostLikeCount(slug: string, userId?: string | null) {
 }
 
 export async function incrementView(slug: string) {
-  return prisma.$transaction(async (tx) => {
-    const post = await tx.post.findUnique({
-      where: { slug },
-      select: { views: true },
-    });
-    if (!post) return null;
-    return tx.post.update({
-      where: { slug },
-      data: { views: { increment: 1 } },
-      select: { views: true },
-    });
+  if (!slug?.trim()) throw new Error('Slug is required');
+
+  return prisma.post.upsert({
+    where: { slug },
+    create: { slug, views: 1 },
+    update: { views: { increment: 1 } },
+    select: { views: true },
   });
 }
 
 export async function getViews(slug: string) {
-  return prisma.post.findUnique({
+  const post = await prisma.post.findUnique({
     where: { slug },
     select: { views: true },
   });
+  return { views: post?.views ?? 0 };
 }
 
 export async function createComment(payload: {

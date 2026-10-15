@@ -93,15 +93,19 @@ export default function SingleBlogPageClient({
   const [localLikeCount, setLocalLikeCount] = useState(0);
 
   useEffect(() => {
-    const viewKey = `viewed_${blogPost.slug}`;
+    const viewKey = `viewed_ok_${blogPost.slug}`;
     const lastViewed = localStorage.getItem(viewKey);
-    const now = Date.now();
     const cooldown = 24 * 60 * 60 * 1000;
 
-    if (!lastViewed || now - parseInt(lastViewed) > cooldown) {
-      incrementView(blogPost.slug);
-      localStorage.setItem(viewKey, now.toString());
+    if (lastViewed && Date.now() - parseInt(lastViewed, 10) <= cooldown) {
+      return;
     }
+
+    incrementView(blogPost.slug, {
+      onSuccess: () => {
+        localStorage.setItem(viewKey, String(Date.now()));
+      },
+    });
   }, [blogPost.slug, incrementView]);
 
   useEffect(() => {
