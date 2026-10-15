@@ -1,42 +1,88 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { technologies } from '../constants';
+import Image, { type StaticImageData } from 'next/image';
+import type { IconType } from 'react-icons';
+import {
+  SiAmazonaws,
+  SiAnsible,
+  SiBun,
+  SiCloudflare,
+  SiGithubactions,
+  SiGo,
+  SiGrafana,
+  SiKubernetes,
+  SiPrometheus,
+  SiReact,
+  SiSvelte,
+  SiTerraform,
+} from 'react-icons/si';
+import docker from '../assets/tech/docker.png';
+import git from '../assets/tech/git.png';
+import mongodb from '../assets/tech/mongodb.png';
+import nextjsPng from '../assets/tech/nextjs.png';
+import nodejsPng from '../assets/tech/nodejs.png';
+import postgresPng from '../assets/tech/postgreSQL.png';
+import prismaPng from '../assets/tech/prisma.png';
+import reactjs from '../assets/tech/reactjs.png';
+import tailwind from '../assets/tech/tailwind.png';
+import typescriptPng from '../assets/tech/typescript.png';
 
-const groups = [
+type TechIcon = StaticImageData | IconType;
+
+type Tech = {
+  name: string;
+  icon: TechIcon;
+};
+
+const groups: { title: string; techs: Tech[] }[] = [
   {
     title: 'Frontend',
     techs: [
-      'React JS',
-      'Next.js',
-      'TypeScript',
-      'JavaScript',
-      'Tailwind CSS',
-      'HTML 5',
-      'CSS 3',
+      { name: 'React', icon: reactjs },
+      { name: 'Next.js', icon: nextjsPng },
+      { name: 'Svelte', icon: SiSvelte },
+      { name: 'TypeScript', icon: typescriptPng },
+      { name: 'Tailwind CSS', icon: tailwind },
+      { name: 'React Native', icon: SiReact },
     ],
   },
   {
     title: 'Backend',
-    techs: ['Node JS', 'Express JS', 'Next.js'],
+    techs: [
+      { name: 'Node.js', icon: nodejsPng },
+      { name: 'Go', icon: SiGo },
+      { name: 'Bun', icon: SiBun },
+      { name: 'PostgreSQL', icon: postgresPng },
+      { name: 'Prisma', icon: prismaPng },
+      { name: 'MongoDB', icon: mongodb },
+    ],
   },
   {
-    title: 'Data',
-    techs: ['MongoDB', 'PostgreSQL', 'Firebase'],
+    title: 'DevOps',
+    techs: [
+      { name: 'Docker', icon: docker },
+      { name: 'Terraform', icon: SiTerraform },
+      { name: 'Kubernetes', icon: SiKubernetes },
+      { name: 'GitHub Actions', icon: SiGithubactions },
+      { name: 'Ansible', icon: SiAnsible },
+    ],
   },
   {
-    title: 'Tools',
-    techs: ['git', 'docker', 'figma', 'AWS'],
+    title: 'Cloud',
+    techs: [
+      { name: 'AWS', icon: SiAmazonaws },
+      { name: 'Cloudflare', icon: SiCloudflare },
+      { name: 'Grafana', icon: SiGrafana },
+      { name: 'Prometheus', icon: SiPrometheus },
+      { name: 'Git', icon: git },
+    ],
   },
 ];
 
-const getTechIcon = (name: string) => {
-  const tech = technologies.find(
-    (t) => t.name.toLowerCase() === name.toLowerCase(),
-  );
-  return tech ? tech.icon : null;
-};
+function isImageIcon(icon: TechIcon): icon is StaticImageData {
+  return typeof icon === 'object' && icon !== null && 'src' in icon;
+}
 
 const list = {
   hidden: { opacity: 0 },
@@ -54,6 +100,19 @@ const item = {
     transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+function TechIconView({ icon, name }: { icon: TechIcon; name: string }) {
+  if (isImageIcon(icon)) {
+    return (
+      <span className="relative size-4 shrink-0">
+        <Image src={icon} alt="" fill className="object-contain" />
+      </span>
+    );
+  }
+
+  const Icon = icon;
+  return <Icon className="size-4 shrink-0" title={name} />;
+}
 
 const Skills = () => {
   return (
@@ -83,29 +142,17 @@ const Skills = () => {
               {group.title}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {group.techs.map((name) => {
-                const icon = getTechIcon(name);
-                return (
-                  <motion.span
-                    key={name}
-                    whileHover={{ y: -3 }}
-                    transition={{ duration: 0.2 }}
-                    className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground"
-                  >
-                    {icon && (
-                      <span className="relative size-4 shrink-0">
-                        <Image
-                          src={icon}
-                          alt=""
-                          fill
-                          className="object-contain"
-                        />
-                      </span>
-                    )}
-                    {name}
-                  </motion.span>
-                );
-              })}
+              {group.techs.map((tech) => (
+                <motion.span
+                  key={tech.name}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground"
+                >
+                  <TechIconView icon={tech.icon} name={tech.name} />
+                  {tech.name}
+                </motion.span>
+              ))}
             </div>
           </motion.div>
         ))}
