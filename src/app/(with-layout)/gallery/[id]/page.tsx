@@ -1,132 +1,148 @@
 'use client';
-import { use, useState } from 'react';
-import { motion } from 'framer-motion';
-import { galleries } from '@/src/constants';
-import { MediaLightbox } from '@/src/components/Gallery/MediaLightbox';
-import { FiArrowLeft, FiCalendar, FiMapPin, FiImage } from 'react-icons/fi';
-import Link from 'next/link';
-import Image from 'next/image';
 
-export default function AlbumPage({ params }: { params: Promise<{ id: string }> }) {
+import { MediaLightbox } from '@/src/components/Gallery/MediaLightbox';
+import { staggerContainer, staggerItem } from '@/src/components/motion/Reveal';
+import { galleries } from '@/src/constants';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronLeft } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { use, useState } from 'react';
+
+export default function AlbumPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-
-  const album = galleries.find((g) => g?.id === id);
+  const album = galleries.find((item) => item?.id === id);
 
   if (!album) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Album not found</h2>
-          <Link href="/gallery" className="text-primary hover:underline">
-            Back to Gallery
-          </Link>
-        </div>
-      </div>
+      <section className="py-24 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Album not found
+        </h1>
+        <Link
+          href="/gallery"
+          className="mt-4 inline-flex text-sm text-primary hover:underline"
+        >
+          Back to gallery
+        </Link>
+      </section>
     );
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12 md:py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-6xl mx-auto"
-        >
-          {/* Back + Header */}
-          <div className="mb-8">
-            <Link
-              href="/gallery"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm mb-6"
-            >
-              <FiArrowLeft size={16} />
-              Back to Gallery
-            </Link>
-            <h1 className="text-3xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-              {album.title}
-            </h1>
-            <p className="text-muted-foreground text-lg mb-4 max-w-3xl">{album.description}</p>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1.5">
-                <FiCalendar size={14} className="text-primary" />
-                <span>{album.date}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <FiMapPin size={14} className="text-primary" />
-                <span>{album.location}</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <FiImage size={14} className="text-primary" />
-                <span>{album.media.length} memories</span>
-              </div>
-            </div>
-          </div>
+    <section className="py-16 sm:py-24">
+      <Link
+        href="/gallery"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ChevronLeft className="size-4" />
+        Gallery
+      </Link>
 
-          {/* Media masonry grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
-            {album.media.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="mb-4 break-inside-avoid cursor-pointer group relative"
-                onClick={() => setLightboxIndex(index)}
-              >
-                <div className="relative overflow-hidden rounded-xl border border-border">
-                  {item.type === 'image' ? (
-                    <Image
-                      src={item.url}
-                      alt={item.title}
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-cover transition-all duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="relative aspect-video bg-muted flex items-center justify-center">
-                      <Image
-                        src={item.url}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, 50vw"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-14 h-14 rounded-full bg-black/50 flex items-center justify-center">
-                          <svg className="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                    <div className="self-end">
-                      <p className="text-white text-sm font-medium">{item.title}</p>
-                      {item.subtitle && (
-                        <p className="text-white/60 text-xs">{item.subtitle}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+      <header className="mt-8 max-w-2xl space-y-4">
+        <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+          {album.date}
+        </p>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          {album.title}
+        </h1>
+        <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {album.description}
+        </p>
+        <p className="text-sm text-muted-foreground">
+          {album.location}
+          {album.media.length
+            ? ` · ${album.media.length} ${album.media.length === 1 ? 'photo' : 'photos'}`
+            : ''}
+        </p>
+      </header>
 
-      {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <MediaLightbox
-          media={album.media}
-          currentIndex={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
-          onPrev={() => setLightboxIndex((prev) => (prev! - 1 + album.media.length) % album.media.length)}
-          onNext={() => setLightboxIndex((prev) => (prev! + 1) % album.media.length)}
-        />
-      )}
-    </div>
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3"
+      >
+        {album.media.map((item, index) => (
+          <motion.button
+            key={item.id}
+            type="button"
+            variants={staggerItem}
+            onClick={() => setLightboxIndex(index)}
+            className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-border text-left"
+          >
+            {item.type === 'image' ? (
+              <Image
+                src={item.url}
+                alt={item.title}
+                width={800}
+                height={600}
+                className="h-auto w-full max-w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            ) : (
+              <div className="relative aspect-video bg-muted">
+                <Image
+                  src={item.url}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                />
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <span className="flex size-14 items-center justify-center rounded-full bg-black/50">
+                    <svg
+                      className="ml-0.5 size-6 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                </span>
+              </div>
+            )}
+            <span className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span>
+                <span className="block text-sm font-medium text-white">
+                  {item.title}
+                </span>
+                {item.subtitle && (
+                  <span className="mt-0.5 block text-xs text-white/70">
+                    {item.subtitle}
+                  </span>
+                )}
+              </span>
+            </span>
+          </motion.button>
+        ))}
+      </motion.div>
+
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <MediaLightbox
+            media={album.media}
+            currentIndex={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onPrev={() =>
+              setLightboxIndex(
+                (prev) =>
+                  ((prev ?? 0) - 1 + album.media.length) % album.media.length,
+              )
+            }
+            onNext={() =>
+              setLightboxIndex(
+                (prev) => ((prev ?? 0) + 1) % album.media.length,
+              )
+            }
+          />
+        )}
+      </AnimatePresence>
+    </section>
   );
 }

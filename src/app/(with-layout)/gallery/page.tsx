@@ -1,89 +1,119 @@
 'use client';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { galleries } from '@/src/constants';
+
 import { AlbumCard } from '@/src/components/Gallery/AlbumCard';
-import { FiCamera, FiGrid } from 'react-icons/fi';
+import { staggerContainer, staggerItem } from '@/src/components/motion/Reveal';
+import { galleries } from '@/src/constants';
+import { cn } from '@/src/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useMemo, useState } from 'react';
+
+function albumYear(date: string) {
+  const match = date.match(/\d{4}/);
+  return match?.[0] ?? date;
+}
+
+function photoCount(album: (typeof galleries)[number]) {
+  return album.media?.length || album.mediaCount || 0;
+}
 
 export default function GalleryPage() {
-  const [filter, setFilter] = useState<string>('all');
+  const [filter, setFilter] = useState('all');
 
-  const years = [...new Set(galleries.map((g) => g.date.split(' ').pop() || g.date))];
-  const filtered = filter === 'all' ? galleries : galleries.filter((g) => g.date.includes(filter));
+  const years = useMemo(
+    () =>
+      [...new Set(galleries.map((album) => albumYear(album.date)))].sort(
+        (a, b) => Number(b) - Number(a),
+      ),
+    [],
+  );
+
+  const filtered = galleries.filter(
+    (album) => filter === 'all' || albumYear(album.date) === filter,
+  );
+  const [featured, ...rest] = filtered;
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-12 md:py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl mx-auto text-center mb-12 md:mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-6">
-            <FiCamera size={14} />
-            <span>GALLERY</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
-            My Memories
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            A collection of moments captured through my lens — travels, events, and everyday beauty.
+    <section className="py-16 sm:py-24">
+      <div className="mb-10 flex flex-col gap-6 sm:mb-14 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-3">
+          <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+            Memories
           </p>
-        </motion.div>
-
-        {/* Year filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all ${
-              filter === 'all'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'
-            }`}
-          >
-            <FiGrid size={12} className="inline mr-1.5" />
-            ALL
-          </button>
-          {years.map((year) => (
-            <button
-              key={year}
-              onClick={() => setFilter(year)}
-              className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all ${
-                filter === year
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'
-              }`}
-            >
-              {year}
-            </button>
-          ))}
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Moments I keep.
+          </h1>
+          <p className="max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+            A personal collection — places, people, and ordinary days I
+            don&apos;t want to lose.
+          </p>
         </div>
 
-        {/* Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
-        >
-          {filtered.map((album, i) => (
-            <motion.div
-              key={album.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
-            >
-              <AlbumCard album={album} />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {filtered.length === 0 && (
-          <div className="text-center py-20 text-muted-foreground">
-            <FiCamera size={40} className="mx-auto mb-4 opacity-50" />
-            <p>No albums found for this year.</p>
-          </div>
-        )}
+        <div className="flex flex-wrap gap-2">
+          {['all', ...years].map((year) => {
+            const active = filter === year;
+            return (
+              <button
+                key={year}
+                type="button"
+                onClick={() => setFilter(year)}
+                className={cn(
+                  'rounded-full border px-4 py-2 text-sm transition-colors',
+                  active
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border text-muted-foreground hover:border-primary/40 hover:text-foreground',
+                )}
+              >
+                {year === 'all' ? 'All years' : year}
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
+
+      <AnimatePresence mode="wait">
+        {filtered.length === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="rounded-2xl border border-border px-6 py-16 text-center"
+          >
+            <p className="text-sm text-muted-foreground">
+              No albums for this year yet.
+            </p>
+          </motion.div>
+        ) : (
+          <motion.div
+            key={filter}
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+          >
+            {featured && (
+              <motion.div variants={staggerItem} className="min-w-0 w-full">
+                <AlbumCard
+                  album={{ ...featured, mediaCount: photoCount(featured) }}
+                  featured
+                />
+              </motion.div>
+            )}
+
+            {rest.length > 0 && (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                {rest.map((album) => (
+                  <motion.div key={album.id} variants={staggerItem}>
+                    <AlbumCard
+                      album={{ ...album, mediaCount: photoCount(album) }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }

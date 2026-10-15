@@ -1,36 +1,86 @@
 'use client';
+
+import { submitContact } from '@/src/actions/contact';
+import { Reveal } from '@/src/components/motion/Reveal';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
 import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
-import { submitContact } from '@/src/actions/contact';
-import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Phone, Globe, Terminal, Send, CheckCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Turnstile } from '@marsidev/react-turnstile';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from 'react-icons/fa';
-import { useState } from 'react';
-import { Turnstile } from '@marsidev/react-turnstile';
+import { FaXTwitter } from 'react-icons/fa6';
+import { FiGithub, FiLinkedin, FiMail, FiPhone } from 'react-icons/fi';
+import Link from 'next/link';
 
-function ContactPage() {
+const TIME_ZONE = 'Europe/Bucharest';
+
+const socials = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/pixprocoder',
+    icon: FiGithub,
+  },
+  {
+    label: 'X',
+    href: 'https://x.com/pixprocoder',
+    icon: FaXTwitter,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/pixprocoder',
+    icon: FiLinkedin,
+  },
+];
+
+function formatWhatsApp(number: string) {
+  return number.replace(/\s+/g, '');
+}
+
+function useAround(timeZone: string) {
+  const [around, setAround] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const hour = Number(
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone,
+        hour: 'numeric',
+        hour12: false,
+      }).format(new Date()),
+    );
+    setAround(hour >= 9 && hour < 18);
+  }, [timeZone]);
+
+  return around;
+}
+
+type ContactFormValues = {
+  email: string;
+  subject: string;
+  message: string;
+};
+
+export default function ContactPage() {
   const { toast } = useToast();
+  const around = useAround(TIME_ZONE);
   const [isPending, setIsPending] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm();
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  } = useForm<ContactFormValues>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ContactFormValues) => {
     if (!turnstileToken) {
       toast({
         variant: 'destructive',
-        title: 'VERIFICATION_REQUIRED',
-        description: 'Please complete the security verification before transmitting.',
+        title: 'Verification needed',
+        description: 'Complete the check below, then send again.',
       });
       return;
     }
@@ -41,223 +91,205 @@ function ContactPage() {
 
     if (result.success) {
       toast({
-        title: 'TRANSMISSION_SUCCESS',
-        description: 'Your message has been logged. I will respond shortly.',
+        title: 'Message sent',
+        description: "I'll get back to you soon.",
       });
       reset();
-      // Reset Turnstile token
       setTurnstileToken(null);
     } else {
       toast({
         variant: 'destructive',
-        title: 'TRANSMISSION_ERROR',
-        description: result.error || 'Failed to establish connection. Please try again.',
+        title: 'Could not send',
+        description: result.error || 'Try again in a moment.',
       });
     }
   };
 
-  const formatNumber = (number: string) => {
-    return number.replace(/\s+/g, '');
-  };
+  const channels = [
+    {
+      label: 'Email',
+      value: contactInfo.email,
+      href: `mailto:${contactInfo.email}`,
+      icon: FiMail,
+    },
+    {
+      label: 'Phone',
+      value: contactInfo.phone,
+      href: `tel:${contactInfo.phone}`,
+      icon: FiPhone,
+    },
+    {
+      label: 'WhatsApp',
+      value: contactInfo.whatsapp,
+      href: `https://wa.me/${formatWhatsApp(contactInfo.whatsapp)}`,
+      icon: FaWhatsapp,
+    },
+  ];
+
+  const sending = isSubmitting || isPending;
 
   return (
-    <div className="bg-background min-h-screen">
-      <section className="container mx-auto py-12 md:py-20">
-        {/* Page Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="space-y-4 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 border border-primary/20 text-xs font-mono text-primary mx-auto md:mx-0">
-              <Terminal size={14} />
-              <span>~/gateway/contact</span>
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
-              Contact <span className="text-primary font-mono italic">gateway.</span>
-            </h1>
-            <p className="text-muted-foreground max-w-2xl text-lg md:text-xl">
-              Initiate a connection for collaborations, technical inquiries, or business opportunities.
-            </p>
-          </div>
-          <div className="hidden md:flex items-center gap-2 text-xs font-mono text-gray-400">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span>CONNECTION_STABLE</span>
-          </div>
-        </div>
+    <section className="py-16 sm:py-24">
+      <Reveal className="mb-12 max-w-xl space-y-4 sm:mb-16">
+        <p className="text-xs font-medium tracking-[0.18em] text-primary uppercase">
+          Contact
+        </p>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+          Let&apos;s build something.
+        </h1>
+        <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+          An idea, a product, or a problem that needs a clear interface. I work
+          remotely across the EU, invoiced through Pixprocoder Studio SRL.
+        </p>
+        <p className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <span className="relative flex size-2">
+            {around && (
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+            )}
+            <span
+              className={`relative inline-flex size-2 rounded-full ${
+                around === false
+                  ? 'bg-muted-foreground/50'
+                  : 'bg-emerald-400'
+              }`}
+            />
+          </span>
+          {around === false ? 'Away · replies next morning' : 'Around · usually replies today'}
+          <span className="text-border">·</span>
+          <span>Bucharest</span>
+        </p>
+      </Reveal>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left Side: System Information */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-5 space-y-6"
-          >
-            <div className="p-8 rounded-3xl border border-white/10 bg-muted/10 space-y-8 relative overflow-hidden">
-              <div className="space-y-2 relative z-10">
-                <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-widest flex items-center gap-2">
-                  <Terminal size={14} />
-                  System_Endpoint
-                </h3>
-                <p className="text-sm text-gray-400 font-mono italic">// available_channels</p>
-              </div>
-
-              <div className="space-y-6 relative z-10">
-                {[
-                  { icon: <Mail className="w-5 h-5" />, label: 'Email', value: contactInfo.email, href: `mailto:${contactInfo.email}` },
-                  { icon: <Phone className="w-5 h-5" />, label: 'Voice', value: contactInfo.phone, href: `tel:${contactInfo.phone}` },
-                  { icon: <FaWhatsapp className="w-5 h-5" />, label: 'WhatsApp', value: contactInfo.whatsapp, href: `https://wa.me/${formatNumber(contactInfo.whatsapp!)}` },
-                  { icon: <Globe className="w-5 h-5" />, label: 'Region', value: 'Europe 🇪🇺', href: null },
-                ].map((item, idx) => (
-                  <div key={idx} className="group flex items-start gap-4">
-                    <div className="p-3 rounded-xl bg-background border border-white/10 group-hover:border-primary/50 transition-colors text-primary">
-                      {item.icon}
-                    </div>
-                    <div className="space-y-1">
-                      <h4 className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-tighter">{item.label}</h4>
-                      {item.href ? (
-                        <Link href={item.href} className="text-sm md:text-base font-bold text-white hover:text-primary transition-colors font-mono">
-                          {item.value}
-                        </Link>
-                      ) : (
-                        <p className="text-sm md:text-base font-bold text-white font-mono">{item.value}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Status Modules */}
-              <div className="pt-8 border-t border-white/5 space-y-4">
-                <div className="flex items-center justify-between text-[10px] font-mono">
-                  <span className="text-gray-500 uppercase tracking-tighter">Response_Time:</span>
-                  <span className="text-green-500 font-bold">&lt; 24H_OPTIMAL</span>
-                </div>
-                <div className="flex items-center justify-between text-[10px] font-mono">
-                  <span className="text-gray-500 uppercase tracking-tighter">Uptime:</span>
-                  <span className="text-white font-bold">99.9%_RELIABILITY</span>
-                </div>
-              </div>
-
-              {/* Decorative background number */}
-              <div className="absolute -right-4 -bottom-8 opacity-[0.03] text-[120px] font-mono font-bold select-none pointer-events-none">
-                01
-              </div>
-            </div>
-
-            <div className="p-6 rounded-3xl border border-white/5 bg-white/5 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center text-primary animate-pulse">
-                <CheckCircle size={20} />
-              </div>
-              <p className="text-xs font-mono text-gray-400 leading-relaxed">
-                Encryption active. Your communication is handled through secure protocols.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Right Side: Transmission Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-7"
-          >
-            <form onSubmit={handleSubmit(onSubmit)} className="p-8 rounded-3xl border border-white/10 bg-muted/5 space-y-8 relative overflow-hidden group/form">
-              <div className="space-y-2">
-                <h3 className="text-xs font-mono font-bold text-primary uppercase tracking-widest flex items-center gap-2">
-                  <Send size={14} />
-                  Initiate_Transmission
-                </h3>
-                <p className="text-sm text-gray-400 font-mono italic">// payload_configuration</p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-tighter px-1">User_Auth (Email)</label>
-                    <div className="relative">
-                      <Input
-                        {...register('email', { required: 'IDENT_REQUIRED' })}
-                        className={cn(
-                          'bg-background/50 border-white/10 focus:border-primary/50 font-mono text-xs h-12 rounded-xl pl-10',
-                          errors.email && 'border-red-500/50 focus:border-red-500/50'
-                        )}
-                        placeholder="user@endpoint.dev"
-                      />
-                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                    </div>
-                    {errors.email && <p className="text-[9px] font-mono text-red-500 uppercase px-1">Error: {errors.email.message as string}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-tighter px-1">Subject_Header</label>
-                    <div className="relative">
-                      <Input
-                        {...register('subject', { required: 'HEADER_REQUIRED' })}
-                        className={cn(
-                          'bg-background/50 border-white/10 focus:border-primary/50 font-mono text-xs h-12 rounded-xl pl-10',
-                          errors.subject && 'border-red-500/50 focus:border-red-500/50'
-                        )}
-                        placeholder="collaboration_query"
-                      />
-                      <Terminal className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                    </div>
-                    {errors.subject && <p className="text-[9px] font-mono text-red-500 uppercase px-1">Error: {errors.subject.message as string}</p>}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono font-bold text-gray-500 uppercase tracking-tighter px-1">Message_Body</label>
-                  <div className="relative">
-                    <Textarea
-                      {...register('message', { required: 'CONTENT_REQUIRED' })}
-                      className={cn(
-                        'bg-background/50 border-white/10 focus:border-primary/50 font-mono text-xs rounded-xl pl-10 min-h-[180px] pt-4',
-                        errors.message && 'border-red-500/50 focus:border-red-500/50'
-                      )}
-                      placeholder="Enter your message payload here..."
-                    />
-                    <MessageSquare className="absolute left-3.5 top-4 w-4 h-4 text-gray-500" />
-                  </div>
-                  {errors.message && <p className="text-[9px] font-mono text-red-500 uppercase px-1">Error: {errors.message.message as string}</p>}
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <Turnstile
-                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAACzxmgTsXnSDPWoQ'}
-                  onSuccess={(token) => setTurnstileToken(token)}
-                  onError={() => setTurnstileToken(null)}
-                  onExpire={() => setTurnstileToken(null)}
-                  options={{
-                    theme: 'dark',
-                  }}
-                />
-              </div>
-
-              <div className="pt-4">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || isPending || !turnstileToken}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-14 font-mono text-xs font-bold gap-3 uppercase tracking-wider group/btn transition-all shadow-xl shadow-primary/10"
+      <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <aside className="space-y-8">
+          <ul className="space-y-5">
+            {channels.map((channel) => (
+              <li key={channel.label}>
+                <p className="text-xs tracking-wide text-muted-foreground uppercase">
+                  {channel.label}
+                </p>
+                <Link
+                  href={channel.href}
+                  target={channel.href.startsWith('http') ? '_blank' : undefined}
+                  rel={
+                    channel.href.startsWith('http')
+                      ? 'noopener noreferrer'
+                      : undefined
+                  }
+                  className="mt-1 inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-primary sm:text-base"
                 >
-                  {isSubmitting || isPending ? (
-                    'TRANSMITTING...'
-                  ) : (
-                    <>
-                      EXEC_SEND_MESSAGE
-                      <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </>
-                  )}
-                </Button>
-              </div>
+                  <channel.icon className="size-4 shrink-0" />
+                  {channel.value}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-              {/* Decorative background number */}
-              <div className="absolute -right-4 -bottom-8 opacity-[0.03] text-[120px] font-mono font-bold select-none pointer-events-none">
-                02
-              </div>
-            </form>
-          </motion.div>
-        </div>
-      </section>
-    </div>
+          <div>
+            <p className="text-xs tracking-wide text-muted-foreground uppercase">
+              Social
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {socials.map((social) => (
+                <li key={social.label}>
+                  <Link
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                  >
+                    <social.icon className="size-4" />
+                    {social.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-5 rounded-2xl border border-border bg-card p-5 sm:p-8"
+        >
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                placeholder="you@company.com"
+                {...register('email', { required: 'Email is required' })}
+                className={cn(
+                  'h-11 rounded-xl',
+                  errors.email && 'border-destructive',
+                )}
+              />
+              {errors.email && (
+                <p className="text-xs text-destructive">{errors.email.message}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="subject" className="text-sm font-medium text-foreground">
+                Subject
+              </label>
+              <Input
+                id="subject"
+                placeholder="What are we building?"
+                {...register('subject', { required: 'Subject is required' })}
+                className={cn(
+                  'h-11 rounded-xl',
+                  errors.subject && 'border-destructive',
+                )}
+              />
+              {errors.subject && (
+                <p className="text-xs text-destructive">
+                  {errors.subject.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="message" className="text-sm font-medium text-foreground">
+              Message
+            </label>
+            <Textarea
+              id="message"
+              placeholder="Tell me about the project, timeline, and what you need."
+              {...register('message', { required: 'Message is required' })}
+              className={cn(
+                'min-h-40 rounded-xl',
+                errors.message && 'border-destructive',
+              )}
+            />
+            {errors.message && (
+              <p className="text-xs text-destructive">{errors.message.message}</p>
+            )}
+          </div>
+
+          <Turnstile
+            siteKey={
+              process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+              '0x4AAAAAACzxmgTsXnSDPWoQ'
+            }
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken(null)}
+            onExpire={() => setTurnstileToken(null)}
+            options={{ theme: 'dark' }}
+          />
+
+          <Button
+            type="submit"
+            disabled={sending || !turnstileToken}
+            className="h-11 w-full rounded-xl sm:w-auto sm:px-8"
+          >
+            {sending ? 'Sending…' : 'Send message'}
+          </Button>
+        </form>
+      </div>
+    </section>
   );
 }
-
-export default ContactPage;
