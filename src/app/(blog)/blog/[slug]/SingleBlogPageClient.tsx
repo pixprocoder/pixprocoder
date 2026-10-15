@@ -12,8 +12,10 @@ import { useToast } from '@/src/components/ui/use-toast';
 import {
   useComments,
   useIncrementPostView,
+  usePostBookmark,
   usePostLikes,
   usePostViews,
+  useTogglePostBookmark,
   useTogglePostLike,
 } from '@/src/hooks/api/use-posts';
 import {
@@ -73,6 +75,20 @@ export default function SingleBlogPageClient({
   const { mutateAsync: postLike, isPending: isLikeLoading } =
     useTogglePostLike();
   const [localLikeCount, setLocalLikeCount] = useState(0);
+
+  const { data: bookmarkData } = usePostBookmark(
+    blogPost.slug,
+    user?.uid || null,
+  );
+  const { mutateAsync: postBookmark, isPending: isBookmarkLoading } =
+    useTogglePostBookmark();
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (typeof bookmarkData?.data?.isSaved === 'boolean') {
+      setSaved(bookmarkData.data.isSaved);
+    }
+  }, [bookmarkData]);
 
   const primaryTag = getPrimaryTag(blogPost.meta.tags);
   const readingMinutes = blogPost.meta.readingMinutes;
@@ -168,8 +184,33 @@ export default function SingleBlogPageClient({
     }
   };
 
-  const handleBookmark = () => {
-    toast({ description: 'Bookmarks are coming soon.' });
+  const handleBookmark = async () => {
+    if (!user?.uid) {
+      toast({ description: 'Log in to save this post.' });
+      return;
+    }
+
+    const nextSaved = !saved;
+    const previous = saved;
+    setSaved(nextSaved);
+
+    try {
+      const result = await postBookmark({
+        slug: blogPost.slug,
+        data: { userId: user.uid, saved: nextSaved },
+      });
+      if (typeof result?.data?.isSaved === 'boolean') {
+        setSaved(result.data.isSaved);
+      }
+    } catch (error) {
+      console.error('Bookmark error:', error);
+      setSaved(previous);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Could not update saved post.',
+      });
+    }
   };
 
   const reactions = {
@@ -183,6 +224,8 @@ export default function SingleBlogPageClient({
     shareDescription: blogPost.meta.excerpt,
     onLike: handleLike,
     onBookmark: handleBookmark,
+    saved,
+    bookmarkPending: isBookmarkLoading,
   };
 
   return (

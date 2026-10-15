@@ -2,7 +2,11 @@
 
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-  serverExternalPackages: ['@prisma/client', 'prisma'],
+  serverExternalPackages: [
+    '@prisma/client',
+    'prisma',
+    '@prisma/adapter-neon',
+  ],
   typescript: {
     ignoreBuildErrors: true,
   },

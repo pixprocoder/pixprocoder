@@ -1,5 +1,4 @@
-import { prisma } from '@/src/lib/db/prisma';
-import { Role } from '@prisma/client';
+import { prisma, Role } from '@/src/lib/db/prisma';
 
 export async function syncFirebaseUser(payload: {
   uid: string;
