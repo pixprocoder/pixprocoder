@@ -8,7 +8,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { loginHref } from '@/src/lib/auth-redirect';
 import {
   useComments,
   useIncrementPostView,
@@ -18,6 +17,7 @@ import {
   useTogglePostBookmark,
   useTogglePostLike,
 } from '@/src/hooks/api/use-posts';
+import { loginHref } from '@/src/lib/auth-redirect';
 import {
   blogListHref,
   formatTagLabel,
@@ -60,7 +60,6 @@ export default function SingleBlogPageClient({
   const router = useRouter();
   const [sortBy, setSortBy] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(user)
 
   const setLike = useLikeStore((state) => state.setLike);
   const isLiked = useLikeStore((state) =>

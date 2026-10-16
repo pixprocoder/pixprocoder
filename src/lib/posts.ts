@@ -159,7 +159,7 @@ export async function getComments(payload: {
     where: { slug },
     include: {
       author: {
-        select: { email: true, username: true },
+        select: { username: true, avatar: true },
       },
     },
     orderBy: { createdAt: sortBy },

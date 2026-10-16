@@ -39,6 +39,8 @@ const AuthProviders = ({ children }: any) => {
           const result = await syncFirebaseUserAction({
             uid: currentUser.uid,
             email: currentUser.email,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
           });
           setRole(result.role);
         } catch (error) {
