@@ -1,11 +1,12 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
-const url = process.env.DIRECT_URL || process.env.DATABASE_URL;
-
-if (!url) {
-  throw new Error("Set DIRECT_URL or DATABASE_URL");
-}
+// generate (Vercel postinstall) does not need a live DB.
+// migrate/dev locally uses DIRECT_URL from .env, then DATABASE_URL.
+const url =
+  process.env.DIRECT_URL ||
+  process.env.DATABASE_URL ||
+  "postgresql://unused:unused@localhost:5432/unused";
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

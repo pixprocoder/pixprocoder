@@ -12,7 +12,11 @@
     "dev": "next dev --turbo",
     "build": "bun next build",
     "sync:posts": "bun run src/scripts/sync-posts.ts",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "bunx prisma generate",
+    "db:generate": "bunx prisma generate",
+    "db:push": "bunx prisma db push",
+    "db:migrate": "bunx prisma migrate dev && bunx prisma generate"
   },
   "dependencies": {
     "@firebase/analytics": "^0.10.11",
