@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/dropdown-menu';
-import { useToast } from '@/src/components/ui/use-toast';
+import { toast } from 'sonner';
 import { cn } from '@/src/lib/utils';
 import {
   Bookmark,
@@ -91,7 +91,6 @@ export function ArticleReactions({
   showComments = true,
   shareSide = 'bottom',
 }: ArticleReactionsProps) {
-  const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [shareUrl, setShareUrl] = useState(`https://www.pixprocoder.com/blog/${slug}`);
 
@@ -144,10 +143,10 @@ export function ArticleReactions({
         input.remove();
       }
       setCopied(true);
-      toast({ description: 'Link copied.' });
+      toast.success('Link copied');
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast({ description: 'Could not copy the link.' });
+      toast.error('Could not copy the link');
     }
   };
 

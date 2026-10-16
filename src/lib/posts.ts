@@ -1,3 +1,7 @@
+import {
+  MAX_REPLIES_PER_THREAD,
+  ROOT_COMMENT_PAGE_SIZE,
+} from '@/src/lib/comment-limits';
 import { prisma } from '@/src/lib/db/prisma';
 
 export async function togglePostLike(payload: {
@@ -49,6 +53,88 @@ export async function getPostLikeCount(slug: string, userId?: string | null) {
   if (userId) {
     const userLike = await prisma.like.findUnique({
       where: { userId_slug: { userId, slug } },
+    });
+    isLiked = !!userLike;
+  }
+
+  return { result: { likeCount, isLiked } };
+}
+
+export async function toggleCommentLike(payload: {
+  commentId: string;
+  userId: string;
+  isLiked: boolean;
+}) {
+  const { commentId, userId, isLiked } = payload;
+
+  if (!commentId?.trim()) throw new Error('Comment id is required');
+  if (!userId?.trim()) throw new Error('UserId is required');
+  if (typeof isLiked !== 'boolean') {
+    throw new Error('isLiked must be a boolean value');
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const comment = await tx.comment.findUnique({
+      where: { id: commentId },
+      select: { id: true, parentId: true },
+    });
+    if (!comment) throw new Error('Comment not found');
+    if (comment.parentId) {
+      throw new Error('Only parent comments can be liked');
+    }
+
+    const existingLike = await tx.commentLike.findUnique({
+      where: { userId_commentId: { userId, commentId } },
+    });
+
+    if (isLiked) {
+      if (!existingLike) {
+        await tx.commentLike.create({ data: { userId, commentId } });
+      }
+      const count = await tx.commentLike.count({ where: { commentId } });
+      return {
+        message: existingLike
+          ? 'Comment already liked'
+          : 'Comment liked successfully',
+        isLiked: true,
+        count,
+      };
+    }
+
+    if (existingLike) {
+      await tx.commentLike.delete({
+        where: { userId_commentId: { userId, commentId } },
+      });
+    }
+    const count = await tx.commentLike.count({ where: { commentId } });
+    return {
+      message: existingLike
+        ? 'Comment unliked successfully'
+        : 'Comment already unliked',
+      isLiked: false,
+      count,
+    };
+  });
+}
+
+export async function getCommentLikeCount(
+  commentId: string,
+  userId?: string | null,
+) {
+  if (!commentId?.trim()) throw new Error('Comment id is required');
+
+  const comment = await prisma.comment.findUnique({
+    where: { id: commentId },
+    select: { id: true, parentId: true },
+  });
+  if (!comment) throw new Error('Comment not found');
+
+  const likeCount = await prisma.commentLike.count({ where: { commentId } });
+
+  let isLiked = false;
+  if (userId) {
+    const userLike = await prisma.commentLike.findUnique({
+      where: { userId_commentId: { userId, commentId } },
     });
     isLiked = !!userLike;
   }
@@ -134,43 +220,134 @@ export async function getViews(slug: string) {
   return { views: post?.views ?? 0 };
 }
 
+const commentAuthorSelect = {
+  username: true,
+  avatar: true,
+} as const;
+
+async function resolveThreadRoot(slug: string, parentId?: string | null) {
+  if (!parentId) return null;
+  const parent = await prisma.comment.findUnique({
+    where: { id: parentId },
+    select: { id: true, slug: true, parentId: true },
+  });
+  if (!parent || parent.slug !== slug) {
+    throw new Error('Reply target not found');
+  }
+  return parent.parentId ?? parent.id;
+}
+
 export async function createComment(payload: {
   content: string;
   authorId: string;
   slug: string;
+  parentId?: string | null;
 }) {
-  const { content, authorId, slug } = payload;
+  const { content, authorId, slug, parentId } = payload;
+  const rootId = await resolveThreadRoot(slug, parentId);
+  if (rootId) {
+    const replyCount = await prisma.comment.count({
+      where: { parentId: rootId },
+    });
+    if (replyCount >= MAX_REPLIES_PER_THREAD) {
+      throw new Error(
+        `This thread already has ${MAX_REPLIES_PER_THREAD} replies`,
+      );
+    }
+  }
   return prisma.comment.create({
-    data: { content, slug, authorId },
+    data: { content, slug, authorId, parentId: rootId },
   });
 }
+
+type CommentRow = {
+  id: string;
+  content: string;
+  slug: string;
+  authorId: string;
+  parentId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  author: { username: string | null; avatar: string | null } | null;
+  replies: CommentRow[];
+};
 
 export async function getComments(payload: {
   slug: string;
   sortBy?: string;
-  page: number;
-  limit: number;
-  skip: number;
+  page?: number;
+  limit?: number;
+  userId?: string | null;
 }) {
-  const { slug, page, limit, skip } = payload;
+  const { slug } = payload;
   const sortBy = payload.sortBy === 'asc' ? 'asc' : 'desc';
+  const page = Math.max(1, payload.page ?? 1);
+  const limit = Math.max(1, payload.limit ?? ROOT_COMMENT_PAGE_SIZE);
 
-  const result = await prisma.comment.findMany({
+  const rows = await prisma.comment.findMany({
     where: { slug },
-    include: {
-      author: {
-        select: { email: true, username: true },
-      },
-    },
-    orderBy: { createdAt: sortBy },
-    take: limit,
-    skip,
+    include: { author: { select: commentAuthorSelect } },
+    orderBy: { createdAt: 'asc' },
   });
 
-  const total = await prisma.comment.count({ where: { slug } });
+  const nodes = new Map<string, CommentRow>();
+  for (const row of rows) {
+    nodes.set(row.id, { ...row, replies: [] });
+  }
+
+  const roots: CommentRow[] = [];
+  for (const row of rows) {
+    const node = nodes.get(row.id)!;
+    if (!row.parentId) {
+      roots.push(node);
+      continue;
+    }
+    const parent = nodes.get(row.parentId);
+    const root = parent?.parentId
+      ? nodes.get(parent.parentId) ?? parent
+      : parent;
+    if (root) {
+      if (root.replies.length < MAX_REPLIES_PER_THREAD) {
+        root.replies.push(node);
+      }
+    } else {
+      roots.push(node);
+    }
+  }
+
+  roots.sort((a, b) => {
+    const delta = a.createdAt.getTime() - b.createdAt.getTime();
+    return sortBy === 'asc' ? delta : -delta;
+  });
+
+  const total = roots.length;
+  const skip = (page - 1) * limit;
+  const paged = roots.slice(skip, skip + limit);
+  const ids = paged.map((comment) => comment.id);
+
+  const likeRows =
+    ids.length === 0
+      ? []
+      : await prisma.commentLike.findMany({
+          where: { commentId: { in: ids } },
+          select: { commentId: true, userId: true },
+        });
+
+  const countById: Record<string, number> = {};
+  const likedIds = new Set<string>();
+  for (const row of likeRows) {
+    countById[row.commentId] = (countById[row.commentId] ?? 0) + 1;
+    if (payload.userId && row.userId === payload.userId) {
+      likedIds.add(row.commentId);
+    }
+  }
 
   return {
-    result,
+    result: paged.map((comment) => ({
+      ...comment,
+      likeCount: countById[comment.id] ?? 0,
+      isLiked: likedIds.has(comment.id),
+    })),
     meta: {
       total,
       page,

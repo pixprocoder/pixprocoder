@@ -5,7 +5,7 @@ import { Reveal } from '@/src/components/motion/Reveal';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
-import { useToast } from '@/src/components/ui/use-toast';
+import { toast } from 'sonner';
 import { contactInfo } from '@/src/constants';
 import { cn } from '@/src/lib/utils';
 import { Turnstile } from '@marsidev/react-turnstile';
@@ -64,7 +64,6 @@ type ContactFormValues = {
 };
 
 export default function ContactPage() {
-  const { toast } = useToast();
   const around = useAround(TIME_ZONE);
   const [isPending, setIsPending] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -77,9 +76,7 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormValues) => {
     if (!turnstileToken) {
-      toast({
-        variant: 'destructive',
-        title: 'Verification needed',
+      toast.warning('Verification needed', {
         description: 'Complete the check below, then send again.',
       });
       return;
@@ -90,16 +87,13 @@ export default function ContactPage() {
     setIsPending(false);
 
     if (result.success) {
-      toast({
-        title: 'Message sent',
+      toast.success('Message sent', {
         description: "I'll get back to you soon.",
       });
       reset();
       setTurnstileToken(null);
     } else {
-      toast({
-        variant: 'destructive',
-        title: 'Could not send',
+      toast.error('Could not send', {
         description: result.error || 'Try again in a moment.',
       });
     }

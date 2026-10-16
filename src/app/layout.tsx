@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import React from 'react';
 import PageViewTracker from '../components/PageViewTracker';
-import { Toaster } from '../components/ui/toaster';
+import { Toaster } from '../components/ui/sonner';
 import AdSenseAutoAds from '../components/AdSenseAutoAds';
 import AuthProviders from '../providers/AuthProviders';
 import TanStackQueryProvider from '../providers/TanStackQueryProvider';

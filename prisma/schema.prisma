@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  uid       String     @unique
-  username  String?
-  email     String     @unique
-  password  String?
-  avatar    String?
-  posts     Post[]
-  comments  Comment[]
-  likes     Like[]
-  bookmarks Bookmark[]
-  role      Role       @default(USER)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id           String        @id @default(cuid())
+  uid          String        @unique
+  username     String?       @unique
+  email        String        @unique
+  password     String?
+  avatar       String?
+  posts        Post[]
+  comments     Comment[]
+  likes        Like[]
+  commentLikes CommentLike[]
+  bookmarks    Bookmark[]
+  role         Role          @default(USER)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@map("users")
 }
@@ -41,17 +42,18 @@ model Post {
 }
 
 model Comment {
-  id        String    @id @default(cuid())
+  id        String        @id @default(cuid())
   content   String
   slug      String
-  post      Post      @relation(fields: [slug], references: [slug], onDelete: Cascade)
+  post      Post          @relation(fields: [slug], references: [slug], onDelete: Cascade)
   authorId  String
-  author    User      @relation(fields: [authorId], references: [uid], onDelete: Cascade)
+  author    User          @relation(fields: [authorId], references: [uid], onDelete: Cascade)
   parentId  String?
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
-  replies   Comment[] @relation("CommentReplies")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: SetNull)
+  replies   Comment[]     @relation("CommentReplies")
+  likes     CommentLike[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@index([slug])
   @@index([authorId])
@@ -70,6 +72,19 @@ model Like {
   @@unique([userId, slug])
   @@index([slug])
   @@map("likes")
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [uid], onDelete: Cascade)
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, commentId])
+  @@index([commentId])
+  @@map("comment_likes")
 }
 
 model Bookmark {

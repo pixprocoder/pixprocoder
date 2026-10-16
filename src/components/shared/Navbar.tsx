@@ -5,14 +5,15 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/src/components/ui/sheet';
+import { currentPath, loginHref } from '@/src/lib/auth-redirect';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { Bookmark, LogOut, Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useContext, useState } from 'react';
 import { navLinks } from '../../constants';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -24,10 +25,17 @@ import {
   DropdownMenuSeparator,
 } from '../ui/dropdown-menu';
 
-const Navbar = () => {
+const NavbarInner = () => {
   const { user, logOut } = useContext(AuthContext);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const signInHref = loginHref(
+    currentPath(
+      pathname,
+      searchParams.toString() ? `?${searchParams.toString()}` : '',
+    ),
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const { scrollY } = useScroll();
@@ -147,7 +155,7 @@ const Navbar = () => {
               </DropdownMenu>
             ) : (
               <Button asChild size="sm" className="h-9 rounded-xl px-4 text-sm">
-                <Link href="/login">Sign in</Link>
+                <Link href={signInHref}>Sign in</Link>
               </Button>
             )}
 
@@ -222,5 +230,11 @@ const Navbar = () => {
     </>
   );
 };
+
+const Navbar = () => (
+  <Suspense>
+    <NavbarInner />
+  </Suspense>
+);
 
 export default Navbar;

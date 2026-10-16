@@ -2,13 +2,17 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
+import {
+  CommentListSkeleton,
+  CommentThread,
+  type CommentNode,
+} from '@/src/components/blog/CommentThread';
 import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { useToast } from '@/src/components/ui/use-toast';
 import {
   useComments,
   useIncrementPostView,
@@ -18,6 +22,8 @@ import {
   useTogglePostBookmark,
   useTogglePostLike,
 } from '@/src/hooks/api/use-posts';
+import { loginHref } from '@/src/lib/auth-redirect';
+import { ROOT_COMMENT_PAGE_SIZE } from '@/src/lib/comment-limits';
 import {
   blogListHref,
   formatTagLabel,
@@ -26,11 +32,13 @@ import {
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useLikeStore } from '@/src/store/like-store';
 import { BlogPost } from '@/src/types';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 function readLikePayload(response: any): {
   likeCount: number;
@@ -55,7 +63,7 @@ export default function SingleBlogPageClient({
   blogPost: BlogPost;
 }) {
   const { user } = useContext(AuthContext);
-  const { toast } = useToast();
+  const router = useRouter();
   const [sortBy, setSortBy] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -128,7 +136,8 @@ export default function SingleBlogPageClient({
     sortBy,
     slug: blogPost.slug,
     page: currentPage,
-    limit: 8,
+    limit: ROOT_COMMENT_PAGE_SIZE,
+    userId: user?.uid || null,
   });
 
   const commentCount = comments?.meta?.total || 0;
@@ -136,7 +145,12 @@ export default function SingleBlogPageClient({
 
   const handleLike = async () => {
     if (!user?.uid) {
-      toast({ description: 'Log in to like this post.' });
+      toast.info('Log in to like this post', {
+        action: {
+          label: 'Sign in',
+          onClick: () => router.push(loginHref(`/blog/${blogPost.slug}`)),
+        },
+      });
       return;
     }
 
@@ -176,17 +190,18 @@ export default function SingleBlogPageClient({
         slug: blogPost.slug,
         isLiked: previousLiked,
       });
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Could not update like.',
-      });
+      toast.error('Could not update like');
     }
   };
 
   const handleBookmark = async () => {
     if (!user?.uid) {
-      toast({ description: 'Log in to save this post.' });
+      toast.info('Log in to save this post', {
+        action: {
+          label: 'Sign in',
+          onClick: () => router.push(loginHref(`/blog/${blogPost.slug}`)),
+        },
+      });
       return;
     }
 
@@ -205,11 +220,7 @@ export default function SingleBlogPageClient({
     } catch (error) {
       console.error('Bookmark error:', error);
       setSaved(previous);
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Could not update saved post.',
-      });
+      toast.error('Could not update saved post');
     }
   };
 
@@ -350,7 +361,8 @@ export default function SingleBlogPageClient({
                 Comments
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {commentCount} {commentCount === 1 ? 'response' : 'responses'}
+                {commentCount}{' '}
+                {commentCount === 1 ? 'comment' : 'comments'}
               </p>
             </div>
             {commentCount > 1 && (
@@ -368,47 +380,23 @@ export default function SingleBlogPageClient({
             )}
           </div>
 
-          <CommentBox id={blogPost.slug} />
+          <CommentBox slug={blogPost.slug} />
 
           <div className="mt-8 space-y-4">
-            {commentLoading && (
-              <p className="text-sm text-muted-foreground">Loading comments…</p>
-            )}
+            {commentLoading && <CommentListSkeleton />}
             {!commentLoading && commentList.length === 0 && (
               <p className="text-sm text-muted-foreground">
                 No comments yet. Start the conversation.
               </p>
             )}
-            {commentList.map((comment: any) => (
-              <div
-                key={comment.id}
-                className="rounded-2xl border border-border bg-card p-4 sm:p-5"
-              >
-                <div className="flex gap-3">
-                  <Avatar className="size-9 shrink-0 border border-border">
-                    <AvatarImage src={comment?.author?.avatar || '/user.png'} alt="" />
-                    <AvatarFallback className="text-xs">
-                      {comment?.author?.username?.[0] || 'G'}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 grow">
-                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                      <p className="text-sm font-medium text-foreground">
-                        {comment?.author?.username || 'Guest'}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(comment.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      {comment.content}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+            {!commentLoading &&
+              commentList.map((comment: CommentNode) => (
+                <CommentThread
+                  key={comment.id}
+                  comment={comment}
+                  slug={blogPost.slug}
+                />
+              ))}
           </div>
 
           {comments?.meta?.totalPages > 1 && (
