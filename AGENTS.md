@@ -25,7 +25,7 @@ Personal site for Sam Kobir (`pixprocoder.com`). Single Next.js app: pages + `/a
 | `bun run db:migrate` | `bunx prisma migrate dev && bunx prisma generate` |
 | `bun run sync:posts` | Sync MDX slugs into the `posts` table |
 
-`postinstall` runs `bunx prisma generate`. Prisma 7 does **not** generate after migrate, so `db:migrate` runs both.
+`postinstall` runs `bunx prisma generate` (never `migrate dev` — that needs a local `.env` + `DIRECT_URL` and fails on Vercel). Prisma 7 does **not** generate after migrate, so `db:migrate` runs both. `prisma.config.ts` falls back to a dummy URL so generate works when env is not injected during install.
 
 ## Architecture
 
