@@ -2,6 +2,7 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
+import { CommentThread, type CommentNode } from '@/src/components/blog/CommentThread';
 import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
 import {
   Avatar,
@@ -26,7 +27,7 @@ import {
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useLikeStore } from '@/src/store/like-store';
 import { BlogPost } from '@/src/types';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -59,7 +60,6 @@ export default function SingleBlogPageClient({
   const { user } = useContext(AuthContext);
   const router = useRouter();
   const [sortBy, setSortBy] = useState('desc');
-  const [currentPage, setCurrentPage] = useState(1);
 
   const setLike = useLikeStore((state) => state.setLike);
   const isLiked = useLikeStore((state) =>
@@ -129,8 +129,6 @@ export default function SingleBlogPageClient({
   const { data: comments, isLoading: commentLoading } = useComments({
     sortBy,
     slug: blogPost.slug,
-    page: currentPage,
-    limit: 8,
   });
 
   const commentCount = comments?.meta?.total || 0;
@@ -362,7 +360,6 @@ export default function SingleBlogPageClient({
                 value={sortBy}
                 onChange={(e) => {
                   setSortBy(e.target.value);
-                  setCurrentPage(1);
                 }}
                 className="h-10 rounded-xl border border-border bg-background px-3 text-sm text-muted-foreground"
               >
@@ -372,7 +369,7 @@ export default function SingleBlogPageClient({
             )}
           </div>
 
-          <CommentBox id={blogPost.slug} />
+          <CommentBox slug={blogPost.slug} />
 
           <div className="mt-8 space-y-4">
             {commentLoading && (
@@ -383,65 +380,14 @@ export default function SingleBlogPageClient({
                 No comments yet. Start the conversation.
               </p>
             )}
-            {commentList.map((comment: any) => (
-              <div
+            {commentList.map((comment: CommentNode) => (
+              <CommentThread
                 key={comment.id}
-                className="rounded-2xl border border-border bg-card p-4 sm:p-5"
-              >
-                <div className="flex gap-3">
-                  <Avatar className="size-9 shrink-0 border border-border">
-                    <AvatarImage src={comment?.author?.avatar || '/user.png'} alt="" />
-                    <AvatarFallback className="text-xs">
-                      {comment?.author?.username?.[0] || 'G'}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 grow">
-                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                      <p className="text-sm font-medium text-foreground">
-                        {comment?.author?.username || 'Guest'}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(comment.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </p>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-foreground">
-                      {comment.content}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                comment={comment}
+                slug={blogPost.slug}
+              />
             ))}
           </div>
-
-          {comments?.meta?.totalPages > 1 && (
-            <div className="mt-8 flex items-center justify-center gap-3 text-sm">
-              <button
-                type="button"
-                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-                disabled={currentPage === 1}
-                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
-              >
-                Previous
-              </button>
-              <span className="text-muted-foreground">
-                {currentPage} / {comments.meta.totalPages}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentPage((page) =>
-                    Math.min(comments.meta.totalPages, page + 1),
-                  )
-                }
-                disabled={currentPage >= comments.meta.totalPages}
-                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
-              >
-                Next
-              </button>
-            </div>
-          )}
         </section>
       </div>
 

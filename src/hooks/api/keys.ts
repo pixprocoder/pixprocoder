@@ -7,7 +7,7 @@ export const postKeys = {
   bookmarkList: (userId?: string | null) =>
     [...postKeys.all, 'bookmarks', userId ?? null] as const,
   views: (slug: string) => [...postKeys.all, 'views', slug] as const,
-  comments: (slug: string, sortBy: string, page: number, limit: number) =>
-    [...postKeys.all, 'comments', slug, sortBy, page, limit] as const,
+  comments: (slug: string, sortBy: string) =>
+    [...postKeys.all, 'comments', slug, sortBy] as const,
   commentsRoot: (slug: string) => [...postKeys.all, 'comments', slug] as const,
 };

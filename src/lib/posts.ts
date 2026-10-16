@@ -134,48 +134,93 @@ export async function getViews(slug: string) {
   return { views: post?.views ?? 0 };
 }
 
+const commentAuthorSelect = {
+  username: true,
+  avatar: true,
+} as const;
+
+async function resolveThreadRoot(slug: string, parentId?: string | null) {
+  if (!parentId) return null;
+  const parent = await prisma.comment.findUnique({
+    where: { id: parentId },
+    select: { id: true, slug: true, parentId: true },
+  });
+  if (!parent || parent.slug !== slug) {
+    throw new Error('Reply target not found');
+  }
+  return parent.parentId ?? parent.id;
+}
+
 export async function createComment(payload: {
   content: string;
   authorId: string;
   slug: string;
+  parentId?: string | null;
 }) {
-  const { content, authorId, slug } = payload;
+  const { content, authorId, slug, parentId } = payload;
+  const rootId = await resolveThreadRoot(slug, parentId);
   return prisma.comment.create({
-    data: { content, slug, authorId },
+    data: { content, slug, authorId, parentId: rootId },
   });
 }
 
-export async function getComments(payload: {
+type CommentRow = {
+  id: string;
+  content: string;
   slug: string;
-  sortBy?: string;
-  page: number;
-  limit: number;
-  skip: number;
-}) {
-  const { slug, page, limit, skip } = payload;
+  authorId: string;
+  parentId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  author: { username: string | null; avatar: string | null } | null;
+  replies: CommentRow[];
+};
+
+export async function getComments(payload: { slug: string; sortBy?: string }) {
+  const { slug } = payload;
   const sortBy = payload.sortBy === 'asc' ? 'asc' : 'desc';
 
-  const result = await prisma.comment.findMany({
+  const rows = await prisma.comment.findMany({
     where: { slug },
-    include: {
-      author: {
-        select: { username: true, avatar: true },
-      },
-    },
-    orderBy: { createdAt: sortBy },
-    take: limit,
-    skip,
+    include: { author: { select: commentAuthorSelect } },
+    orderBy: { createdAt: 'asc' },
   });
 
-  const total = await prisma.comment.count({ where: { slug } });
+  const nodes = new Map<string, CommentRow>();
+  for (const row of rows) {
+    nodes.set(row.id, { ...row, replies: [] });
+  }
+
+  const roots: CommentRow[] = [];
+  for (const row of rows) {
+    const node = nodes.get(row.id)!;
+    if (!row.parentId) {
+      roots.push(node);
+      continue;
+    }
+    const parent = nodes.get(row.parentId);
+    const root = parent?.parentId
+      ? nodes.get(parent.parentId) ?? parent
+      : parent;
+    if (root) {
+      root.replies.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  roots.sort((a, b) => {
+    const delta = a.createdAt.getTime() - b.createdAt.getTime();
+    return sortBy === 'asc' ? delta : -delta;
+  });
 
   return {
-    result,
+    result: roots,
     meta: {
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit) || 1,
+      total: rows.length,
+      page: 1,
+      limit: rows.length,
+      totalPages: 1,
     },
   };
 }

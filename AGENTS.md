@@ -61,7 +61,7 @@ Personal site for Sam Kobir (`pixprocoder.com`). Single Next.js app: pages + `/a
 
 - **Auth:** Firebase Google + GitHub. `user.uid` is the app user key. Login syncs via `syncFirebaseUser` → `users.uid`.
 - **Posts:** MDX on disk. Postgres `posts` table is slug + `views` + engagement relations only. After a new MDX file, `bun run sync:posts` (secret: `POST_SYNC_SECRET` or `NEXT_PUBLIC_POST_SYNC_SECRET`).
-- **Engagement:** likes, bookmarks, comments, views in Neon. Unique like/bookmark `(userId, slug)` where `userId` is Firebase uid. Comments: `authorId` = uid, `parentId` → `Comment.id` (`onDelete: SetNull`) for future replies. Views increment with post upsert (`src/lib/posts.ts`).
+- **Engagement:** likes, bookmarks, comments, views in Neon. Unique like/bookmark `(userId, slug)` where `userId` is Firebase uid. Comments: `authorId` = uid. One-level threads: `parentId` always the **root** comment; GET returns roots with `replies[]`. Views increment with post upsert (`src/lib/posts.ts`).
 - **Likes UI:** Zustand optimistic cache; Mongo/Postgres rows are source of truth.
 - **Prisma is Node-only.** Never import `src/lib/db/prisma.ts` from `'use client'` files.
 
@@ -88,7 +88,7 @@ Do not use `channel_binding=require`. Do not duplicate `DATABASE_URL` across `.e
 
 `.env` and `.env.local` are gitignored. `.env.example` is tracked. Prisma CLI loads `.env`; Next.js loads `.env` then `.env.local`. Restart `bun run dev` after changing `DATABASE_URL`.
 
-Schema is Postgres-valid but still Mongo-shaped: copied PKs are ObjectId hex; new rows use `cuid()`; likes/bookmarks/comments join User by **uid** and Post by **slug**. `User.password` and optional `Post.userId` are leftovers. Tighten FKs in a later migration after replies UI, not in the same pass as features.
+Schema is Postgres-valid but still Mongo-shaped: copied PKs are ObjectId hex; new rows use `cuid()`; likes/bookmarks/comments join User by **uid** and Post by **slug**. `User.password` and optional `Post.userId` are leftovers. Tighten FKs in a later migration, not in the same pass as features.
 
 ## Environment variables
 
@@ -111,7 +111,7 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 
 ## Still open
 
-- Comment **reply UI** (schema already has `parentId`)
+- Comment char / thread limits (not shipped)
 - Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
 - Related posts
 - Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present

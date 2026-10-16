@@ -89,19 +89,12 @@ export function useIncrementPostView() {
   });
 }
 
-export function useComments(params: {
-  slug: string;
-  sortBy: string;
-  page: number;
-  limit: number;
-}) {
-  const { slug, sortBy, page, limit } = params;
+export function useComments(params: { slug: string; sortBy: string }) {
+  const { slug, sortBy } = params;
   return useQuery({
-    queryKey: postKeys.comments(slug, sortBy, page, limit),
+    queryKey: postKeys.comments(slug, sortBy),
     queryFn: () =>
-      apiGet(
-        `/posts/comments/${slug}?sortBy=${sortBy}&page=${page}&limit=${limit}`,
-      ),
+      apiGet(`/posts/comments/${encodeURIComponent(slug)}?sortBy=${sortBy}`),
     enabled: Boolean(slug),
   });
 }
@@ -114,8 +107,8 @@ export function usePostComment() {
       data,
     }: {
       slug: string;
-      data: { content: string; authorId: string };
-    }) => apiPost(`/posts/comments/${slug}`, data),
+      data: { content: string; authorId: string; parentId?: string | null };
+    }) => apiPost(`/posts/comments/${encodeURIComponent(slug)}`, data),
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({
         queryKey: postKeys.commentsRoot(vars.slug),
