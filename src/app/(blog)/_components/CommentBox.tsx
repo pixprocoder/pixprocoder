@@ -2,29 +2,33 @@
 
 import { Button } from '@/src/components/ui/button';
 import { Textarea } from '@/src/components/ui/textarea';
-import { useToast } from '@/src/components/ui/use-toast';
+import { loginHref } from '@/src/lib/auth-redirect';
 import { usePostComment } from '@/src/hooks/api/use-posts';
 import { AuthContext } from '@/src/providers/AuthProviders';
+import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
+import { toast } from 'sonner';
 
 function CommentBox({ id }: { id: string }) {
   const { user } = useContext(AuthContext);
-  const { toast } = useToast();
+  const router = useRouter();
   const [comment, setComment] = useState('');
   const { mutateAsync: postComment, isPending: isLoading } = usePostComment();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user?.email) {
-      toast({
-        title: 'Log in required',
+      toast.info('Log in required', {
         description: 'You need to be signed in to comment.',
+        action: {
+          label: 'Sign in',
+          onClick: () => router.push(loginHref(`/blog/${id}`)),
+        },
       });
       return;
     }
     if (comment.trim() === '') {
-      toast({
-        title: 'Comment is empty',
+      toast.warning('Comment is empty', {
         description: 'Write something before posting.',
       });
       return;
@@ -38,14 +42,12 @@ function CommentBox({ id }: { id: string }) {
           authorId: user?.uid,
         },
       });
-      toast({
-        title: 'Posted',
+      toast.success('Posted', {
         description: 'Your comment is live.',
       });
       setComment('');
     } catch {
-      toast({
-        title: 'Error',
+      toast.error('Could not post', {
         description: 'Could not add that comment.',
       });
     }

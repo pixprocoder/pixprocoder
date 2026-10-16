@@ -105,6 +105,16 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 - Contact: Turnstile + `src/lib/mail.ts`.
 - Motion: `src/components/motion/Reveal.tsx`.
 - New APIs belong in this Next app under `src/app/api/v1`.
+- Toasts: **Sonner** (`toast.success` / `error` / `warning` / `info`). `<Toaster />` from `src/components/ui/sonner.tsx`. Auto-close 4s, `richColors`.
+- Auth return path: `?next=` via `src/lib/auth-redirect.ts`. Navbar Sign in and login-required actions pass the current page. After Google/GitHub, `router.replace` that path (relative `/…` only).
+- Daily work log: `docs/log/YYYY-MM-DD.md` — short feature/fix bullets only.
+
+## Still open
+
+- Comment **reply UI** (schema already has `parentId`)
+- Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
+- Related posts
+- Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present
 
 ## Recent work (2026)
 
@@ -112,11 +122,5 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 2. **Restyle** — terminal/CLI look → premium dark theme (TweakCN tokens, local fonts, Framer Motion). Homepage, blog listing/article, gallery, about, contact, FAQ, privacy/terms.
 3. **Engagement** — views (upsert Post), likes, comments, bookmarks, `/saved`.
 4. **Prisma 7 + Neon** — left Prisma 6 + Mongo because Prisma 7 has no Mongo. Rewrote schema for PostgreSQL, `prisma.config.ts`, Neon adapter. Empty tables via `migrate dev`, copied Atlas → Neon (71 users, 8 posts, 12 likes, 2 bookmarks, 40 comments). Local and prod `DATABASE_URL` are Neon pooler. Mongo driver, copy script, and `MONGO_DATABASE_URL` removed. Atlas cluster is unused by this app (drop only if `pixprocoder-backend` is retired too).
+5. **Auth + toasts** — login/signup restyled; return to `?next=` after Google/GitHub. Sonner toasts with auto-close and success/error/warning/info. Daily log in `docs/log/`.
 
-## Still open
-
-- Comment **reply UI** (schema already has `parentId`)
-- Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
-- Auth page restyle
-- Related posts
-- Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present

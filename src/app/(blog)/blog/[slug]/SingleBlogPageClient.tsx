@@ -8,7 +8,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { useToast } from '@/src/components/ui/use-toast';
+import { loginHref } from '@/src/lib/auth-redirect';
 import {
   useComments,
   useIncrementPostView,
@@ -30,7 +30,9 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 function readLikePayload(response: any): {
   likeCount: number;
@@ -55,9 +57,10 @@ export default function SingleBlogPageClient({
   blogPost: BlogPost;
 }) {
   const { user } = useContext(AuthContext);
-  const { toast } = useToast();
+  const router = useRouter();
   const [sortBy, setSortBy] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
+  console.log(user)
 
   const setLike = useLikeStore((state) => state.setLike);
   const isLiked = useLikeStore((state) =>
@@ -136,7 +139,12 @@ export default function SingleBlogPageClient({
 
   const handleLike = async () => {
     if (!user?.uid) {
-      toast({ description: 'Log in to like this post.' });
+      toast.info('Log in to like this post', {
+        action: {
+          label: 'Sign in',
+          onClick: () => router.push(loginHref(`/blog/${blogPost.slug}`)),
+        },
+      });
       return;
     }
 
@@ -176,17 +184,18 @@ export default function SingleBlogPageClient({
         slug: blogPost.slug,
         isLiked: previousLiked,
       });
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Could not update like.',
-      });
+      toast.error('Could not update like');
     }
   };
 
   const handleBookmark = async () => {
     if (!user?.uid) {
-      toast({ description: 'Log in to save this post.' });
+      toast.info('Log in to save this post', {
+        action: {
+          label: 'Sign in',
+          onClick: () => router.push(loginHref(`/blog/${blogPost.slug}`)),
+        },
+      });
       return;
     }
 
@@ -205,11 +214,7 @@ export default function SingleBlogPageClient({
     } catch (error) {
       console.error('Bookmark error:', error);
       setSaved(previous);
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Could not update saved post.',
-      });
+      toast.error('Could not update saved post');
     }
   };
 

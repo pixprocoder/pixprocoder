@@ -3,6 +3,7 @@
 import { PostCard } from '@/src/components/blog/PostCard';
 import { Button } from '@/src/components/ui/button';
 import { useBookmarkList } from '@/src/hooks/api/use-posts';
+import { loginHref } from '@/src/lib/auth-redirect';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { BlogPostMeta } from '@/src/types';
 import Link from 'next/link';
@@ -44,7 +45,7 @@ export default function SavedList({ posts, engagement }: SavedListProps) {
           Saves sync across devices when you are logged in.
         </p>
         <Button asChild className="mt-6 h-11 rounded-xl px-6">
-          <Link href="/login">Sign in</Link>
+          <Link href={loginHref('/saved')}>Sign in</Link>
         </Button>
       </div>
     );
