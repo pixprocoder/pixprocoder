@@ -2,7 +2,11 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
-import { CommentThread, type CommentNode } from '@/src/components/blog/CommentThread';
+import {
+  CommentListSkeleton,
+  CommentThread,
+  type CommentNode,
+} from '@/src/components/blog/CommentThread';
 import { BlogContentRenderer } from '@/src/components/BlogContentRenderer';
 import {
   Avatar,
@@ -19,6 +23,7 @@ import {
   useTogglePostLike,
 } from '@/src/hooks/api/use-posts';
 import { loginHref } from '@/src/lib/auth-redirect';
+import { ROOT_COMMENT_PAGE_SIZE } from '@/src/lib/comment-limits';
 import {
   blogListHref,
   formatTagLabel,
@@ -60,6 +65,7 @@ export default function SingleBlogPageClient({
   const { user } = useContext(AuthContext);
   const router = useRouter();
   const [sortBy, setSortBy] = useState('desc');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const setLike = useLikeStore((state) => state.setLike);
   const isLiked = useLikeStore((state) =>
@@ -129,6 +135,9 @@ export default function SingleBlogPageClient({
   const { data: comments, isLoading: commentLoading } = useComments({
     sortBy,
     slug: blogPost.slug,
+    page: currentPage,
+    limit: ROOT_COMMENT_PAGE_SIZE,
+    userId: user?.uid || null,
   });
 
   const commentCount = comments?.meta?.total || 0;
@@ -352,7 +361,8 @@ export default function SingleBlogPageClient({
                 Comments
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                {commentCount} {commentCount === 1 ? 'response' : 'responses'}
+                {commentCount}{' '}
+                {commentCount === 1 ? 'comment' : 'comments'}
               </p>
             </div>
             {commentCount > 1 && (
@@ -360,6 +370,7 @@ export default function SingleBlogPageClient({
                 value={sortBy}
                 onChange={(e) => {
                   setSortBy(e.target.value);
+                  setCurrentPage(1);
                 }}
                 className="h-10 rounded-xl border border-border bg-background px-3 text-sm text-muted-foreground"
               >
@@ -372,22 +383,49 @@ export default function SingleBlogPageClient({
           <CommentBox slug={blogPost.slug} />
 
           <div className="mt-8 space-y-4">
-            {commentLoading && (
-              <p className="text-sm text-muted-foreground">Loading comments…</p>
-            )}
+            {commentLoading && <CommentListSkeleton />}
             {!commentLoading && commentList.length === 0 && (
               <p className="text-sm text-muted-foreground">
                 No comments yet. Start the conversation.
               </p>
             )}
-            {commentList.map((comment: CommentNode) => (
-              <CommentThread
-                key={comment.id}
-                comment={comment}
-                slug={blogPost.slug}
-              />
-            ))}
+            {!commentLoading &&
+              commentList.map((comment: CommentNode) => (
+                <CommentThread
+                  key={comment.id}
+                  comment={comment}
+                  slug={blogPost.slug}
+                />
+              ))}
           </div>
+
+          {comments?.meta?.totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-3 text-sm">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                disabled={currentPage === 1}
+                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
+              >
+                Previous
+              </button>
+              <span className="text-muted-foreground">
+                {currentPage} / {comments.meta.totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentPage((page) =>
+                    Math.min(comments.meta.totalPages, page + 1),
+                  )
+                }
+                disabled={currentPage >= comments.meta.totalPages}
+                className="rounded-xl border border-border px-3 py-2 text-muted-foreground disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </section>
       </div>
 

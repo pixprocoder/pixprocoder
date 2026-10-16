@@ -1,12 +1,28 @@
 import { prisma, Role } from '@/src/lib/db/prisma';
+import {
+  isUniqueHandle,
+  slugifyUsername,
+  uniqueUsername,
+} from '@/src/lib/username';
 
-function profileFields(displayName?: string | null, photoURL?: string | null) {
-  const data: { username?: string; avatar?: string } = {};
-  const name = displayName?.trim();
-  const photo = photoURL?.trim();
-  if (name) data.username = name;
-  if (photo) data.avatar = photo;
-  return data;
+async function resolveUsername(
+  current: string | null | undefined,
+  displayName: string | null | undefined,
+  uid: string,
+) {
+  if (isUniqueHandle(current) && displayName?.trim()) {
+    const desired = slugifyUsername(displayName);
+    if (current === desired || current.startsWith(`${desired}_`)) {
+      return current;
+    }
+  } else if (isUniqueHandle(current) && !displayName?.trim()) {
+    return current;
+  }
+
+  return uniqueUsername(displayName, {
+    excludeUid: uid,
+    fallback: uid.slice(-4),
+  });
 }
 
 export async function syncFirebaseUser(payload: {
@@ -21,32 +37,53 @@ export async function syncFirebaseUser(payload: {
     throw new Error('uid and email are required');
   }
 
-  const profile = profileFields(displayName, photoURL);
+  const photo = photoURL?.trim() || undefined;
 
   const byUid = await prisma.user.findUnique({ where: { uid } });
   if (byUid) {
+    const username = await resolveUsername(byUid.username, displayName, uid);
     const user = await prisma.user.update({
       where: { uid },
-      data: { email, ...profile, updatedAt: new Date() },
+      data: {
+        email,
+        username,
+        ...(photo ? { avatar: photo } : {}),
+        updatedAt: new Date(),
+      },
     });
     return { role: user.role };
   }
 
   const byEmail = await prisma.user.findUnique({ where: { email } });
   if (byEmail) {
+    const username = await resolveUsername(
+      byEmail.username,
+      displayName,
+      byEmail.uid,
+    );
     const user = await prisma.user.update({
       where: { email },
-      data: { uid, ...profile, updatedAt: new Date() },
+      data: {
+        uid,
+        username,
+        ...(photo ? { avatar: photo } : {}),
+        updatedAt: new Date(),
+      },
     });
     return { role: user.role };
   }
+
+  const username = await uniqueUsername(displayName, {
+    fallback: uid.slice(-4),
+  });
 
   const user = await prisma.user.create({
     data: {
       uid,
       email,
+      username,
+      ...(photo ? { avatar: photo } : {}),
       role: Role.USER,
-      ...profile,
     },
   });
 

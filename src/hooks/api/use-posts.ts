@@ -89,13 +89,42 @@ export function useIncrementPostView() {
   });
 }
 
-export function useComments(params: { slug: string; sortBy: string }) {
-  const { slug, sortBy } = params;
+export function useComments(params: {
+  slug: string;
+  sortBy: string;
+  page: number;
+  limit: number;
+  userId?: string | null;
+}) {
+  const { slug, sortBy, page, limit, userId } = params;
   return useQuery({
-    queryKey: postKeys.comments(slug, sortBy),
-    queryFn: () =>
-      apiGet(`/posts/comments/${encodeURIComponent(slug)}?sortBy=${sortBy}`),
+    queryKey: postKeys.comments(slug, sortBy, page, limit, userId),
+    queryFn: () => {
+      const uid = userId ? `&userId=${encodeURIComponent(userId)}` : '';
+      return apiGet(
+        `/posts/comments/${encodeURIComponent(slug)}?sortBy=${sortBy}&page=${page}&limit=${limit}${uid}`,
+      );
+    },
     enabled: Boolean(slug),
+  });
+}
+
+export function useToggleCommentLike() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      commentId,
+      data,
+    }: {
+      commentId: string;
+      slug: string;
+      data: { userId: string; isLiked: boolean };
+    }) => apiPost(`/posts/comments/like/${commentId}`, data),
+    onSuccess: (_data, vars) => {
+      queryClient.invalidateQueries({
+        queryKey: postKeys.commentsRoot(vars.slug),
+      });
+    },
   });
 }
 

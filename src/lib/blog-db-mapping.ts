@@ -78,6 +78,8 @@ export const useCommentsForMdxPost = (postId: string) => {
   return useComments({
     slug: postId,
     sortBy: 'desc',
+    page: 1,
+    limit: 10,
   });
 };
 
