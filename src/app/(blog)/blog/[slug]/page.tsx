@@ -1,4 +1,6 @@
-import { getBlogPostBySlug } from '@/src/lib/blog-helpers';
+import { getAllBlogPostsMeta, getBlogPostBySlug } from '@/src/lib/blog-helpers';
+import { getRelatedPosts } from '@/src/lib/blog-listing';
+import { getPostEngagement } from '@/src/lib/posts';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import SingleBlogPageClient from './SingleBlogPageClient';
@@ -69,5 +71,19 @@ export default async function SingleBlogPage({ params }: SingleBlogPageProps) {
     notFound();
   }
 
-  return <SingleBlogPageClient blogPost={blogPost} />;
+  const relatedPosts = getRelatedPosts(await getAllBlogPostsMeta(), {
+    slug: blogPost.slug,
+    tags: blogPost.meta.tags,
+  });
+  const relatedEngagement = await getPostEngagement(
+    relatedPosts.map((post) => post.slug),
+  );
+
+  return (
+    <SingleBlogPageClient
+      blogPost={blogPost}
+      relatedPosts={relatedPosts.map((post) => post.meta)}
+      relatedEngagement={relatedEngagement}
+    />
+  );
 }

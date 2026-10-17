@@ -1,6 +1,7 @@
 'use client';
 
 import { Reveal, staggerContainer, staggerItem } from '@/src/components/motion/Reveal';
+import { SupportCta } from '@/src/components/SupportCta';
 import { Button } from '@/src/components/ui/button';
 import { contactInfo } from '@/src/constants';
 import { motion } from 'framer-motion';
@@ -112,7 +113,7 @@ export default function AboutPage() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Button asChild className="h-11 w-full rounded-xl px-6 sm:w-auto">
                 <a href={RESUME_HREF} download>
                   <Download className="mr-2 size-4" />
@@ -129,6 +130,7 @@ export default function AboutPage() {
                   <FiArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
+              <SupportCta variant="button" className="w-full sm:w-auto" />
             </div>
           </Reveal>
 

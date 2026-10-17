@@ -1,4 +1,5 @@
 import {
+  MAX_COMMENT_LENGTH,
   MAX_REPLIES_PER_THREAD,
   ROOT_COMMENT_PAGE_SIZE,
 } from '@/src/lib/comment-limits';
@@ -243,7 +244,16 @@ export async function createComment(payload: {
   slug: string;
   parentId?: string | null;
 }) {
-  const { content, authorId, slug, parentId } = payload;
+  const { authorId, slug, parentId } = payload;
+  const content = payload.content?.trim() ?? '';
+  if (!content) throw new Error('Comment is empty');
+  if (content.length > MAX_COMMENT_LENGTH) {
+    throw new Error(
+      `Comments can be at most ${MAX_COMMENT_LENGTH} characters`,
+    );
+  }
+  if (!authorId?.trim()) throw new Error('UserId is required');
+
   const rootId = await resolveThreadRoot(slug, parentId);
   if (rootId) {
     const replyCount = await prisma.comment.count({

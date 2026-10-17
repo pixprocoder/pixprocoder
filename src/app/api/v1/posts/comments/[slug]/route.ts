@@ -1,5 +1,6 @@
 import { apiJson } from '@/src/lib/api-response';
 import { ROOT_COMMENT_PAGE_SIZE } from '@/src/lib/comment-limits';
+import { authJson, requireFirebaseUid } from '@/src/lib/firebase-token';
 import { createComment, getComments } from '@/src/lib/posts';
 
 type Ctx = { params: Promise<{ slug: string }> };
@@ -32,10 +33,11 @@ export async function GET(req: Request, { params }: Ctx) {
 export async function POST(req: Request, { params }: Ctx) {
   const { slug } = await params;
   try {
+    const uid = await requireFirebaseUid(req);
     const body = await req.json();
     const data = await createComment({
       content: body.content,
-      authorId: body.authorId,
+      authorId: uid,
       slug,
       parentId: body.parentId ?? null,
     });
@@ -44,10 +46,17 @@ export async function POST(req: Request, { params }: Ctx) {
       data,
     });
   } catch (error: any) {
+    const unauthorized = authJson(error);
+    if (unauthorized) return unauthorized;
     const message = error?.message || 'Could not add that comment.';
-    const full = typeof message === 'string' && message.includes('10 replies');
+    const bad =
+      typeof message === 'string' &&
+      (message.includes('10 replies') ||
+        message.includes('empty') ||
+        message.includes('at most') ||
+        message.includes('not found'));
     return apiJson({
-      statusCode: full ? 400 : 500,
+      statusCode: bad ? 400 : 500,
       success: false,
       message,
       data: error,

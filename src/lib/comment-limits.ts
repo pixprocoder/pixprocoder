@@ -1,5 +1,6 @@
 export const ROOT_COMMENT_PAGE_SIZE = 10;
 export const MAX_REPLIES_PER_THREAD = 10;
+export const MAX_COMMENT_LENGTH = 2000;
 
 export function mentionPrefix(handle: string): string {
   return `@${handle}. `;
