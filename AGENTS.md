@@ -118,7 +118,6 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 
 - Comment rate limit / Turnstile on CommentBox (not shipped). Reply likes not requested.
 - Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
-- Unused shadcn primitives still in `src/components/ui/` (checkbox, tabs, switch, separator, alert, card, table, pagination) if you want a deeper UI cleanup
 - Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present
 - Drop Atlas only if `pixprocoder-backend` is retired too
 
