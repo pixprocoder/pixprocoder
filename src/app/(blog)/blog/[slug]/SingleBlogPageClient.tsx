@@ -2,6 +2,7 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
+import { SupportCta } from '@/src/components/SupportCta';
 import { RelatedPosts } from '@/src/components/blog/RelatedPosts';
 import {
   CommentListSkeleton,
@@ -358,6 +359,8 @@ export default function SingleBlogPageClient({
         <div className="mt-8 hidden rounded-2xl border border-border px-4 py-3 sm:block">
           <ArticleReactions {...reactions} />
         </div>
+
+        <SupportCta className="mt-8" />
 
         <RelatedPosts posts={relatedPosts} engagement={relatedEngagement} />
 

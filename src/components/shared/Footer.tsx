@@ -1,9 +1,10 @@
 'use client';
 
-import { contactInfo, navLinks } from '@/src/constants';
+import { BUY_ME_A_COFFEE_URL, contactInfo, navLinks } from '@/src/constants';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { Coffee } from 'lucide-react';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
 import { Button } from '../ui/button';
@@ -31,6 +32,11 @@ const socials = [
     label: 'Email',
     href: `mailto:${contactInfo.email}`,
     icon: FiMail,
+  },
+  {
+    label: 'Buy me a coffee',
+    href: BUY_ME_A_COFFEE_URL,
+    icon: Coffee,
   },
 ];
 

@@ -18,6 +18,8 @@ export const contactInfo = {
   email: 'hello@sam.pixprocoder.com',
 };
 
+export const BUY_ME_A_COFFEE_URL = 'https://www.buymeacoffee.com/pixprocoder';
+
 // Navigation links
 export const navLinks = [
   { to: '/', key: 'Home' },

@@ -108,6 +108,7 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 - Blog listing: `tags[0]` is the category (`src/lib/blog-listing.ts`). `BLOG_PAGE_SIZE` is 9.
 - Article: `ArticleReactions` order is views, like, comments, save, share. Share uses Radix dropdown + real `<a>` links (not `window.open`). `ActionButton` must forward refs/props. Related posts: up to 3 after reactions (`getRelatedPosts` — same primary tag, then tag overlap, then newest). Compact horizontal snap carousel (`RelatedPosts`), not a grid.
 - Contact: Turnstile + `src/lib/mail.ts`.
+- Support: `BUY_ME_A_COFFEE_URL` in `src/constants`. `SupportCta` on article (after reactions), About (outline next to resume/contact), footer Connect. Native button, opens BMC in a new tab. Do not use the yellow BMC image widget.
 - Motion: `src/components/motion/Reveal.tsx`.
 - New APIs belong in this Next app under `src/app/api/v1`.
 - Toasts: **Sonner** (`toast.success` / `error` / `warning` / `info`). `<Toaster />` from `src/components/ui/sonner.tsx`. Auto-close 4s, `richColors`.
