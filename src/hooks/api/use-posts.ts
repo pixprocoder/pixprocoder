@@ -1,8 +1,15 @@
 'use client';
 
+import { auth } from '@/src/firebase/firebase.init';
 import { apiGet, apiPost } from '@/src/lib/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { postKeys } from './keys';
+
+async function authToken() {
+  const token = await auth.currentUser?.getIdToken();
+  if (!token) throw new Error('Sign in required');
+  return token;
+}
 
 export function usePostLikes(slug: string, userId?: string | null) {
   return useQuery({
@@ -24,7 +31,8 @@ export function useTogglePostLike() {
     }: {
       postId: string;
       data: { userId: string; isLiked: boolean };
-    }) => apiPost(`/posts/like/${postId}`, data),
+    }) =>
+      authToken().then((token) => apiPost(`/posts/like/${postId}`, data, token)),
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({
         queryKey: [...postKeys.all, 'likes', vars.postId],
@@ -119,7 +127,10 @@ export function useToggleCommentLike() {
       commentId: string;
       slug: string;
       data: { userId: string; isLiked: boolean };
-    }) => apiPost(`/posts/comments/like/${commentId}`, data),
+    }) =>
+      authToken().then((token) =>
+        apiPost(`/posts/comments/like/${commentId}`, data, token),
+      ),
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({
         queryKey: postKeys.commentsRoot(vars.slug),
@@ -136,8 +147,11 @@ export function usePostComment() {
       data,
     }: {
       slug: string;
-      data: { content: string; authorId: string; parentId?: string | null };
-    }) => apiPost(`/posts/comments/${encodeURIComponent(slug)}`, data),
+      data: { content: string; parentId?: string | null };
+    }) =>
+      authToken().then((token) =>
+        apiPost(`/posts/comments/${encodeURIComponent(slug)}`, data, token),
+      ),
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({
         queryKey: postKeys.commentsRoot(vars.slug),

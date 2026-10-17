@@ -1,4 +1,5 @@
 import { apiJson } from '@/src/lib/api-response';
+import { authJson, requireFirebaseUid } from '@/src/lib/firebase-token';
 import { getPostLikeCount, togglePostLike } from '@/src/lib/posts';
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -16,10 +17,11 @@ export async function GET(req: Request, { params }: Ctx) {
 export async function POST(req: Request, { params }: Ctx) {
   const { id: slug } = await params;
   try {
+    const uid = await requireFirebaseUid(req);
     const body = await req.json().catch(() => ({}));
     const data = await togglePostLike({
       slug,
-      userId: body.userId,
+      userId: uid,
       isLiked: body.isLiked,
     });
     return apiJson({
@@ -27,6 +29,8 @@ export async function POST(req: Request, { params }: Ctx) {
       data,
     });
   } catch (error: any) {
+    const unauthorized = authJson(error);
+    if (unauthorized) return unauthorized;
     return apiJson({
       statusCode: 500,
       success: false,

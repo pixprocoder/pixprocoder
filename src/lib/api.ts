@@ -20,9 +20,14 @@ export function apiGet<T = any>(path: string) {
   return request<T>(path);
 }
 
-export function apiPost<T = any>(path: string, body?: unknown) {
+export function apiPost<T = any>(
+  path: string,
+  body?: unknown,
+  token?: string | null,
+) {
   return request<T>(path, {
     method: 'POST',
     body: body === undefined ? undefined : JSON.stringify(body),
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   });
 }

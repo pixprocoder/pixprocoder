@@ -62,7 +62,8 @@ Personal site for Sam Kobir (`pixprocoder.com`). Single Next.js app: pages + `/a
 - **Auth:** Firebase Google + GitHub. `user.uid` is the app user key. Login syncs via `syncFirebaseUser` → `users.uid`. `username` is a unique single-word handle from display name (`sam_kobir`, regex `^[a-z0-9]+(?:_[a-z0-9]+)*$`).
 - **Posts:** MDX on disk. Postgres `posts` table is slug + `views` + engagement relations only. After a new MDX file, `bun run sync:posts` (secret: `POST_SYNC_SECRET` or `NEXT_PUBLIC_POST_SYNC_SECRET`).
 - **Engagement:** likes, bookmarks, comments, views in Neon. Unique like/bookmark `(userId, slug)` where `userId` is Firebase uid. Comments: `authorId` = uid. Views increment with post upsert (`src/lib/posts.ts`).
-- **Comments (shipped):** one-level threads only. `parentId` always the **root**. Main list paginated 10 (`ROOT_COMMENT_PAGE_SIZE`). Max 10 replies per root (`MAX_REPLIES_PER_THREAD`). GET `/api/v1/posts/comments/[slug]` returns roots with `replies[]`, plus `likeCount`/`isLiked` on roots (`?userId=`). Reply prefix `@handle. ` (`mentionPrefix` in `src/lib/comment-limits.ts`). Parent byline has no `@`; nested names and `@handle` in bodies are `text-primary`. Unique handle `username` (`^[a-z0-9]+(?:_[a-z0-9]+)*$`).
+- **Comments (shipped):** one-level threads only. `parentId` always the **root**. Main list paginated 10 (`ROOT_COMMENT_PAGE_SIZE`). Max 10 replies per root (`MAX_REPLIES_PER_THREAD`). Max comment length **2000** (`MAX_COMMENT_LENGTH`). GET `/api/v1/posts/comments/[slug]` returns roots with `replies[]`, plus `likeCount`/`isLiked` on roots (`?userId=`). Reply prefix `@handle. ` (`mentionPrefix` in `src/lib/comment-limits.ts`). Parent byline has no `@`; nested names and `@handle` in bodies are `text-primary`. Unique handle `username` (`^[a-z0-9]+(?:_[a-z0-9]+)*$`).
+- **Write auth:** POST comment, post like, and comment like require `Authorization: Bearer <Firebase ID token>`. Server verifies with Google JWKS (`src/lib/firebase-token.ts`, `jose`) and uses `token.sub` as uid. Body `userId` / `authorId` are ignored. No Firebase Admin / service account. Bookmarks and views stay as they were.
 - **Comment likes:** parent comments only (`CommentLike` / `comment_likes`, unique `(userId, commentId)`). Replies cannot be liked (API 400). GET/POST `/api/v1/posts/comments/like/[id]` same shape as post likes (`isLiked` + `count`). Heart + count on the parent card and in the thread modal. Optimistic UI in `CommentThread`.
 - **Comment skeletons:** `CommentListSkeleton` in `CommentThread.tsx` — three cards matching avatar/name/lines/like/reply. Shimmer is `.skeleton-shimmer` in `globals.css` (do not use shadcn `Skeleton` here: `bg-muted` matches `bg-card` in dark). Do not edit `src/components/ui/skeleton.tsx`.
 - **Likes UI (posts):** Zustand optimistic cache; Neon rows are source of truth.
@@ -115,7 +116,7 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 
 ## Still open
 
-- Comment char / thread limits (not shipped). Reply likes not requested.
+- Comment rate limit / Turnstile on CommentBox (not shipped). Reply likes not requested.
 - Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
 - Related posts
 - Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present

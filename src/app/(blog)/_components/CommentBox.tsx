@@ -4,7 +4,7 @@ import { Button } from '@/src/components/ui/button';
 import { Textarea } from '@/src/components/ui/textarea';
 import { usePostComment } from '@/src/hooks/api/use-posts';
 import { loginHref } from '@/src/lib/auth-redirect';
-import { mentionPrefix } from '@/src/lib/comment-limits';
+import { MAX_COMMENT_LENGTH, mentionPrefix } from '@/src/lib/comment-limits';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useRouter } from 'next/navigation';
 import { useContext, useLayoutEffect, useRef, useState } from 'react';
@@ -41,6 +41,9 @@ function CommentBox({
   const [comment, setComment] = useState(initial);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { mutateAsync: postComment, isPending: isLoading } = usePostComment();
+  const trimmedLength = comment.trim().length;
+  const tooLong = trimmedLength > MAX_COMMENT_LENGTH;
+  const empty = trimmedLength === 0;
 
   useLayoutEffect(() => {
     if (!autoFocus) return;
@@ -67,9 +70,15 @@ function CommentBox({
       });
       return;
     }
-    if (comment.trim() === '') {
+    if (empty) {
       toast.warning('Comment is empty', {
         description: 'Write something before posting.',
+      });
+      return;
+    }
+    if (tooLong) {
+      toast.warning('Comment is too long', {
+        description: `Shorten it to ${MAX_COMMENT_LENGTH} characters or fewer.`,
       });
       return;
     }
@@ -79,7 +88,6 @@ function CommentBox({
         slug,
         data: {
           content: comment.trim(),
-          authorId: user.uid,
           parentId: parentId ?? null,
         },
       });
@@ -117,20 +125,33 @@ function CommentBox({
           (user ? 'Write a comment…' : 'Log in to join the conversation')
         }
       />
-      <div className="flex justify-end gap-2">
-        {onCancel && (
+      <div className="flex items-center justify-between gap-3">
+        <p
+          className={`text-xs tabular-nums ${
+            tooLong ? 'text-destructive' : 'text-muted-foreground'
+          }`}
+        >
+          {comment.length}/{MAX_COMMENT_LENGTH}
+        </p>
+        <div className="flex gap-2">
+          {onCancel && (
+            <Button
+              type="button"
+              variant="ghost"
+              className="rounded-xl"
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+          )}
           <Button
-            type="button"
-            variant="ghost"
             className="rounded-xl"
-            onClick={onCancel}
+            type="submit"
+            disabled={isLoading || empty || tooLong}
           >
-            Cancel
+            {isLoading ? 'Posting…' : parentId ? 'Reply' : 'Post comment'}
           </Button>
-        )}
-        <Button className="rounded-xl" type="submit" disabled={isLoading}>
-          {isLoading ? 'Posting…' : parentId ? 'Reply' : 'Post comment'}
-        </Button>
+        </div>
       </div>
     </form>
   );

@@ -1,4 +1,5 @@
 import { apiJson } from '@/src/lib/api-response';
+import { authJson, requireFirebaseUid } from '@/src/lib/firebase-token';
 import { getCommentLikeCount, toggleCommentLike } from '@/src/lib/posts';
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -25,10 +26,11 @@ export async function GET(req: Request, { params }: Ctx) {
 export async function POST(req: Request, { params }: Ctx) {
   const { id: commentId } = await params;
   try {
+    const uid = await requireFirebaseUid(req);
     const body = await req.json().catch(() => ({}));
     const data = await toggleCommentLike({
       commentId,
-      userId: body.userId,
+      userId: uid,
       isLiked: body.isLiked,
     });
     return apiJson({
@@ -36,6 +38,8 @@ export async function POST(req: Request, { params }: Ctx) {
       data,
     });
   } catch (error: any) {
+    const unauthorized = authJson(error);
+    if (unauthorized) return unauthorized;
     const message = error?.message || 'Could not update comment like.';
     const notFound = message === 'Comment not found';
     const badRequest =
