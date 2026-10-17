@@ -106,7 +106,7 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 ## Key conventions
 
 - Blog listing: `tags[0]` is the category (`src/lib/blog-listing.ts`). `BLOG_PAGE_SIZE` is 9.
-- Article: `ArticleReactions` order is views, like, comments, save, share. Share uses Radix dropdown + real `<a>` links (not `window.open`). `ActionButton` must forward refs/props.
+- Article: `ArticleReactions` order is views, like, comments, save, share. Share uses Radix dropdown + real `<a>` links (not `window.open`). `ActionButton` must forward refs/props. Related posts: up to 3 after reactions (`getRelatedPosts` — same primary tag, then tag overlap, then newest). Compact horizontal snap carousel (`RelatedPosts`), not a grid.
 - Contact: Turnstile + `src/lib/mail.ts`.
 - Motion: `src/components/motion/Reveal.tsx`.
 - New APIs belong in this Next app under `src/app/api/v1`.
@@ -118,7 +118,6 @@ Vercel production: set **only** pooled `DATABASE_URL`. Do not put Mongo URLs bac
 
 - Comment rate limit / Turnstile on CommentBox (not shipped). Reply likes not requested.
 - Optional schema cleanup: uid/slug FKs → `User.id` / `Post.id`, drop `password` / unused `Post.userId`
-- Related posts
 - Leftover Vercel env (`JWT_ACCESS_TOKEN`, Stripe) if still present
 - Drop Atlas only if `pixprocoder-backend` is retired too
 

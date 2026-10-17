@@ -2,6 +2,7 @@
 
 import CommentBox from '@/src/app/(blog)/_components/CommentBox';
 import { ArticleReactions } from '@/src/components/blog/ArticleReactions';
+import { RelatedPosts } from '@/src/components/blog/RelatedPosts';
 import {
   CommentListSkeleton,
   CommentThread,
@@ -31,7 +32,7 @@ import {
 } from '@/src/lib/blog-listing';
 import { AuthContext } from '@/src/providers/AuthProviders';
 import { useLikeStore } from '@/src/store/like-store';
-import { BlogPost } from '@/src/types';
+import { BlogPost, BlogPostMeta } from '@/src/types';
 import { format } from 'date-fns';
 import { ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
@@ -59,8 +60,12 @@ function readLikePayload(response: any): {
 
 export default function SingleBlogPageClient({
   blogPost,
+  relatedPosts = [],
+  relatedEngagement,
 }: {
   blogPost: BlogPost;
+  relatedPosts?: BlogPostMeta[];
+  relatedEngagement?: Record<string, { likes: number; views: number }>;
 }) {
   const { user } = useContext(AuthContext);
   const router = useRouter();
@@ -353,6 +358,8 @@ export default function SingleBlogPageClient({
         <div className="mt-8 hidden rounded-2xl border border-border px-4 py-3 sm:block">
           <ArticleReactions {...reactions} />
         </div>
+
+        <RelatedPosts posts={relatedPosts} engagement={relatedEngagement} />
 
         <section id="comments" className="mt-16 scroll-mt-24">
           <div className="mb-6 flex items-end justify-between gap-4">

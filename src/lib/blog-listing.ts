@@ -2,6 +2,7 @@ import { BlogPostMeta } from '@/src/types';
 
 /** 3×3 grid. Controls show after this many posts in the current list (all or filtered). */
 export const BLOG_PAGE_SIZE = 9;
+export const RELATED_POST_COUNT = 3;
 
 export type BlogListPost = {
   slug: string;
@@ -64,6 +65,38 @@ export function paginatePosts(posts: BlogListPost[], page: number) {
     currentPage,
     pageSize: BLOG_PAGE_SIZE,
   };
+}
+
+export function getRelatedPosts(
+  posts: BlogListPost[],
+  current: { slug: string; tags?: string[] },
+  limit = RELATED_POST_COUNT,
+): BlogListPost[] {
+  const others = posts.filter((post) => post.slug !== current.slug);
+  if (others.length === 0) return [];
+
+  const primary = getPrimaryTag(current.tags);
+  const currentTags = new Set(
+    (current.tags ?? []).map(normalizeTag).filter(Boolean),
+  );
+
+  return others
+    .map((post) => {
+      const tags = (post.meta.tags ?? []).map(normalizeTag);
+      const samePrimary =
+        primary && getPrimaryTag(post.meta.tags) === primary ? 2 : 0;
+      const overlap = tags.filter((tag) => currentTags.has(tag)).length;
+      return { post, score: samePrimary + overlap };
+    })
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return (
+        new Date(b.post.meta.date).getTime() -
+        new Date(a.post.meta.date).getTime()
+      );
+    })
+    .slice(0, limit)
+    .map((item) => item.post);
 }
 
 export function blogListHref({
