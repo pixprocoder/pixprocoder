@@ -328,7 +328,7 @@ export default function SingleBlogPageClient({
           </figure>
         )}
 
-        <div className="article-body">
+        <div className="article-body mx-auto max-w-[42rem]">
           <BlogContentRenderer code={blogPost.content} />
         </div>
 
