@@ -1,0 +1,138 @@
+---
+title: "Understanding Horizontal And Vertical Scaling"
+slug: "understanding-horizontal-and-vertical-scaling-2026-07-07"
+date: "2026-07-07"
+author: "Sam Kobir"
+authorId: "sam-kobir"
+authorProfile: "/profile.jpg"
+excerpt: "A server is just a computer you rent. When it runs out of room you either buy a bigger box or buy more boxes. That is vertical vs horizontal scaling — and which one you actually need."
+tags: ["server", "scaling", "devops", "cloud"]
+thumbnail: "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+published: true
+---
+
+## A server is just a computer
+
+If I leave `bun run dev` running on my laptop and you hit the site, my laptop is the server. Same idea in production. We do not leave a PC on in the living room. We rent a machine from AWS, Google, Azure, Hetzner, whoever — they keep it on 24/7, we put the app on it.
+
+What we rent is a **box with limits**: CPU, RAM, disk, network. A small VPS might be 1 CPU and 1 GB of RAM. That is plenty for this blog. It is not plenty for a shop on Black Friday.
+
+When the box is full, requests queue, pages time out, the database starts swapping. People call that "we need to scale." Half the time they mean "we need to stop doing something stupid first."
+
+## Fix the easy stuff before you buy hardware
+
+Scaling is the expensive answer. Cheap answers first:
+
+- **Indexes** on the columns you actually filter and join. One missing index can make a table look like it needs a bigger server.
+- **Cache** what does not change every request. A blog post body is a good example. A like count that you recompute from scratch on every page view is a bad one at high traffic, fine at mine.
+- **Do less work** in the request. Do not load every comment for a slug just to show ten. I have made that mistake on this site.
+
+If the app is still slow after that, then the box is the problem. Now you pick a direction.
+
+## Two directions
+
+**Vertical** — same machine, more power. 1 CPU → 8 CPU. 1 GB RAM → 16 GB. You scale *up*.
+
+**Horizontal** — more machines, same size (or smaller). 1 app server → 3 app servers behind a load balancer. You scale *out*.
+
+That is the whole idea. The rest is tradeoffs.
+
+```text
+Vertical                         Horizontal
+
+  ┌─────────────┐                  ┌──────────┐
+  │  fat server │                  │   load   │
+  │  8 CPU/32GB │                  │ balancer │
+  └─────────────┘                  └────┬─────┘
+                                        │
+                                 ┌──────┼──────┐
+                                 ▼      ▼      ▼
+                               app    app    app
+```
+
+## Vertical scaling
+
+This is what most of us do without naming it. DigitalOcean droplet too small? Resize it. AWS `t3.small` dying? Move to `t3.xlarge`. Neon compute too weak? Slide the slider.
+
+**Why it feels good**
+
+- Your code does not change. One process, one database connection string, sessions can live in memory. No load balancer.
+- Ops is simple. One box to SSH into, one box to back up.
+- For a long time it is cheaper than running three copies of everything.
+
+**Where it dies**
+
+- There is a ceiling. You cannot buy an infinite CPU. The next size is expensive, and at some point the vendor does not sell a bigger one.
+- Resize often means a restart. A few minutes of downtime, or at least a blip.
+- One box is one failure. Disk dies, region blips, the whole site is gone.
+- A single Postgres primary still has one writer, even on a huge machine. Vertical helps reads and RAM. It does not magically give you two writers.
+
+I would vertically scale a side project, a company site, this blog, a staging environment, almost anything with one developer. I would not bet a product with real traffic spikes on "we will just keep clicking bigger."
+
+## Horizontal scaling
+
+Now you run **copies**. A load balancer (Nginx, Caddy, AWS ALB, Cloudflare) takes the request and sends it to whichever app instance is free.
+
+```text
+internet → load balancer → app-1
+                         → app-2
+                         → app-3
+                              ↓
+                         database
+```
+
+**Why people want this**
+
+- Need more capacity? Add a machine. Traffic dropped? Remove one. That is how you follow a spike without paying for a monster 24/7.
+- One instance can die and the others keep serving.
+- You can put instances in more than one zone so a single datacenter hiccup is not the whole outage.
+
+**What it actually costs you**
+
+The app has to be **stateless**. If login sessions live in the memory of app-1, the next request might hit app-2 and the user looks logged out. Sessions go in a cookie, Redis, or the database.
+
+File uploads cannot sit on the local disk of one instance. They go to S3, R2, something shared.
+
+You now have more moving parts: health checks, deploys to N boxes, more connections into Postgres. Postgres will still be one primary unless you add replicas, and replicas are read-only. Horizontal scaling the **app** is easy. Horizontal scaling the **database** is the part that eats weekends.
+
+A personal blog does not need this. A checkout API on a sale day might.
+
+## The database is usually the real wall
+
+People say "scale the backend" and they mean the Node process. The Node process is rarely the bottleneck. The database is.
+
+Vertical for Postgres: more RAM so the working set fits in memory, faster disk, more CPU for sorts. That is the first move. Neon, RDS, whatever — bigger compute.
+
+Horizontal for Postgres looks like:
+
+- **Read replicas** for heavy reads (blog listing, dashboards).
+- **Not** "three primaries." You get one writer unless you pick a special system (and then you get a new class of bugs).
+
+This site uses Neon with a pooler. The pooler is not horizontal scaling of the database. It is "do not open 80 connections from Next.js." Different problem, still worth doing.
+
+## Which one should you pick
+
+A rule I actually use:
+
+1. Measure. CPU 100%? RAM swapping? Or is it one slow query? If it is a query, do not buy hardware.
+2. If the box is genuinely small and the app is still a single process — **scale up**. It will take an afternoon.
+3. If you already have a large box, or you need to survive an instance dying, or traffic is spiky — **scale out the app**. Put a load balancer in front. Keep the database as one primary until you have a reason not to.
+4. Do not start with Kubernetes because a blog post said Netflix does. Netflix is not your traffic.
+
+| | Vertical | Horizontal |
+|---|---|---|
+| What you add | Bigger machine | More machines |
+| Code changes | Almost none | Stateless app, shared storage |
+| Limit | Hardware ceiling | Your ability to operate the fleet |
+| Failure | One box = whole site | One box can die |
+| Fits | Side projects, early products | Spiky traffic, higher uptime |
+
+## A small honest example
+
+This blog: Next.js on Vercel, Postgres on Neon. Vercel already runs many instances of the app for me. That is horizontal, I did not set it up. Neon is one database that can grow compute (vertical) and sleep when nobody visits.
+
+If this post hit the front page of somewhere, I would not rewrite the architecture. I would watch the slow queries, add a cache for the listing, and only then turn Neon compute up. Buying more boxes for a problem that is "I load every comment into Node" is how you spend money and stay slow.
+
+## Short version
+
+Vertical is a bigger computer. Horizontal is more computers. Start vertical. Scale the app out when one computer is not enough or too risky. Treat the database as a separate decision. And index the damn column before you open the AWS pricing page.
