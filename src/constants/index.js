@@ -15,7 +15,7 @@ import typescript from '../assets/tech/typescript.png';
 export const contactInfo = {
   phone: '+40 773 937 317',
   whatsapp: '+40 773 937 317',
-  email: 'hello@sam.pixprocoder.com',
+  email: 'hi@pixprocoder.com',
 };
 
 export const BUY_ME_A_COFFEE_URL = 'https://www.buymeacoffee.com/pixprocoder';
