@@ -11,7 +11,11 @@ import { ibmPlexMono, openSans, sourceSerif } from './fonts';
 import './globals.css';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
-const ADSENSE_PUBLISHER_ID = process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'ca-pub-4097711579904962';
+const ADSENSE_PUBLISHER_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID || 'ca-pub-4097711579904962';
+const CF_BEACON_TOKEN =
+  process.env.NEXT_PUBLIC_CLOUDFLARE_BEACON_TOKEN ||
+  'b52c34d8925945858664c7457734f982';
 
 export const metadata: Metadata = {
   title: 'pixprocoder',
@@ -69,6 +73,14 @@ export default function RootLayout({
             <Toaster />
           </AuthProviders>
         </TanStackQueryProvider>
+        {CF_BEACON_TOKEN && (
+          <Script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            strategy="afterInteractive"
+            data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}
+          />
+        )}
       </body>
     </html>
   );
